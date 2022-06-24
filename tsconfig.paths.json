@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "packages/*": ["packages/*"],
+      "styles": ["packages/styles/*"]
+    }
+  }
+}
