@@ -1,3 +1,4 @@
+import 'spinkit/spinkit.css';
 import loadable, {
   DefaultComponent,
   LoadableComponent,

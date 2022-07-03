@@ -27,6 +27,15 @@ declare module 'styled-components' {
     // @ts-expect-error: Override Theme
     theme: DefaultTheme;
   }
+
+  export type GetStyledComponentProps<T> = T extends StyledComponent<
+    any,
+    any,
+    infer P,
+    any
+  >
+    ? P
+    : never;
 }
 
 export type Theme = DefaultTheme;

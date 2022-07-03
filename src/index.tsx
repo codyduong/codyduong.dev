@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'packages/styles/globals.css';
-import 'spinkit/spinkit.css';
-import App from './App';
+import 'packages/style/globals.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import App from 'packages/mono-app';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
