@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    'yb',
+    'codyduong',
     // "plugin:mdx/recommended"
   ],
   // MDX is disabled, it is currently broken...

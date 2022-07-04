@@ -8,4 +8,6 @@ background-color: #002b36;
 }
 div {
   transition: all 0.5s ease-in-out;
+  transition: height 0s ease-in-out;
+  transition: width  0s ease-in-out;
 }

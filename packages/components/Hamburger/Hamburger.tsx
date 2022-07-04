@@ -9,8 +9,11 @@ import styled, {
 import { breakpoints } from 'packages/style';
 import { animated, AnimatedComponent, useSpring } from 'react-spring';
 import { LinkHeader } from 'packages/components/Link/Link';
+import { Button } from 'packages/components/styled/Form';
+import _any from 'packages/types/any';
+import { useOutsideClick, useOutsideTouch } from 'packages/hooks';
 
-const HamburgerIconWrapper = styled.div`
+const HamburgerIconWrapper = styled(Button)`
   width: 40px;
   height: 40px;
   display: flex;
@@ -20,12 +23,12 @@ const HamburgerIconWrapper = styled.div`
   &:hover {
     background-color: ${(props) => props.theme.bg};
     cursor: pointer;
-    opacity: 0.5;
   }
 `;
 
 const HamburgerIconBottom = styled(HamburgerIconWrapper)`
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const HamburgerList = styled(animated.div)`
@@ -34,14 +37,13 @@ export const HamburgerList = styled(animated.div)`
   position: absolute;
   overflow: hidden;
   background-color: ${(props) => props.theme.bgDark};
-  transition: none;
+  transition: max-height none;
   @media only screen and (min-width: ${breakpoints.md}) {
     display: none;
   }
 `;
 
 export const HamburgerListInner = styled.div`
-  padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,8 +51,14 @@ export const HamburgerListInner = styled.div`
 `;
 
 const LinkHeaderModified = styled(LinkHeader)`
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  &:hover {
+    transition: background-color 0.5s ease-in-out;
+    background-color: ${(props) => props.theme.bg};
+  }
 `;
 
 type HamburgerPropsBase = GetStyledComponentProps<typeof HamburgerList>;
@@ -96,7 +104,7 @@ const Hamburger = <
   const hliRef = useRef<HTMLDivElement>(null);
   const [hamburgerDisplay, setHamburgerDisplay] = useState(false);
   const [hamburgerShow, setHamburgerShow] = useState(false);
-  const [tid, setTid] = useState<NodeJS.Timeout | number>(0);
+  const [debounce, setDebounce] = useState(false);
 
   /**
    * reactSpring value param callback is inconsistent without a second dummy key.
@@ -110,18 +118,21 @@ const Hamburger = <
 
   useEffect(() => {
     (async (): Promise<void> => {
-      console.log(hliRef.current?.clientHeight);
       hamAnimate.start({
         from: { maxHeight: '0px' },
         to: { maxHeight: `${hliRef.current?.clientHeight ?? 512}px` },
+        onStart: () => {
+          setDebounce(true);
+        },
         onRest: ({ value }) => {
-          if (value.maxHeight === '0px') {
-            !hamburgerShow &&
-              setTid(
-                setTimeout(() => {
-                  !hamburgerShow && setHamburgerDisplay(false);
-                }, 500)
-              );
+          if (value.maxHeight === '0px' && !hamburgerShow) {
+            setDebounce(true);
+            setTimeout(() => {
+              setDebounce(false);
+              !hamburgerShow && setHamburgerDisplay(false);
+            }, 50);
+          } else {
+            setDebounce(false);
           }
         },
         config: {
@@ -132,10 +143,19 @@ const Hamburger = <
     })();
   }, [hamburgerShow]);
 
+  useOutsideClick(hlRef, () => {
+    setHamburgerShow(false);
+  });
+
+  useOutsideTouch(hlRef, () => {
+    setHamburgerShow(false);
+  });
+
   const switchHamburgerVisibility = (): void => {
-    clearTimeout(tid);
-    !hamburgerShow && setHamburgerDisplay(true);
-    setHamburgerShow(!hamburgerShow);
+    if (!debounce) {
+      !hamburgerShow && setHamburgerDisplay(true);
+      setHamburgerShow(!hamburgerShow);
+    }
   };
 
   return (
@@ -148,17 +168,21 @@ const Hamburger = <
         <MenuIcon />
       </HamburgerIconWrapper>
       {hamburgerDisplay && (
-        <HL ref={hlRef} style={hamStyle} {...(rest as any)}>
-          <HLI ref={hliRef} {...(rest as any)}>
+        <HL ref={hlRef} style={hamStyle} aria-hidden={true} {...(rest as _any)}>
+          <HLI ref={hliRef} {...(rest as _any)}>
             {options.map(({ label, to }) => (
-              <LinkHeaderModified id={`${label}-${to}`} to={to}>
+              <LinkHeaderModified
+                id={`hamburger-navigation-${label}`}
+                key={`hamburger-navigation-${label}`}
+                to={to}
+                onClick={() => switchHamburgerVisibility()}
+              >
                 {label}
               </LinkHeaderModified>
             ))}
             <HamburgerIconBottom
-              onClick={(): void => {
-                switchHamburgerVisibility();
-              }}
+              aria-hidden
+              onClick={() => switchHamburgerVisibility()}
             >
               <CloseIcon />
             </HamburgerIconBottom>

@@ -1,4 +1,4 @@
-import '../packages/styles/globals.css'
+import '../packages/style/globals.css'
 import './storybook.css'
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
@@ -12,6 +12,7 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  layout: 'fullscreen',
 }
 
 export const decorators = [

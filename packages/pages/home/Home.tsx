@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import About from 'packages/pages/home/About';
+import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 
 const CenterDiv = styled.div`
@@ -11,10 +12,8 @@ const CenterDiv = styled.div`
 export default function Home(): JSX.Element {
   return (
     <>
-      <CenterDiv>Cody</CenterDiv>
-      <CenterDiv>Cody</CenterDiv>
-      <CenterDiv>Cody</CenterDiv>
-      <CenterDiv>Cody</CenterDiv>
+      <About />
+      <section>test</section>
     </>
   );
 }

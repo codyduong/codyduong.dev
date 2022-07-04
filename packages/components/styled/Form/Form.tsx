@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-export const Form = styled.form``;
-export const Label = styled.label``;
-export const Input = styled.input``;
-export const FormButton = styled.button``;
+// export const Form = styled.form``;
+// export const Label = styled.label``;
+// export const Input = styled.input``;
+// export const FormButton = styled.button``;
 export const Select = styled.select`
   //Disable default appearance
   background-color: rgba(0, 0, 0, 0);

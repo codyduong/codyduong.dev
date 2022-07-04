@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { useThemeBase } from 'packages/themed';
 import SpinkitLoadable from 'packages/components/SpinkitLoadable';
@@ -20,7 +20,6 @@ function App(): JSX.Element {
   const { crumbs, popCrumb, setCrumbs, pushCrumb } =
     createCrumbsProviderValue();
   const stateStore = createStateStoreProviderValue();
-  const location = useLocation();
 
   return (
     <ThemeProvider theme={theme}>

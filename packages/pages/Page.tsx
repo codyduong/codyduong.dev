@@ -11,8 +11,7 @@ const PageDiv = styled.div`
   color: ${(props) => props.theme.contentPrimary};
 `;
 
-const PageContent = styled.div`
-  display: flex;
+const PageContent = styled.main`
   flex-direction: column;
   flex: 1;
   margin: 1rem 1rem;

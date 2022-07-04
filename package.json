@@ -8,10 +8,13 @@
     "test": "jest",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "ci": "yarn install --frozen-lockfile",
+    "lint": "yarn eslint",
+    "lint:changed": "./scripts/lint.sh"
   },
   "dependencies": {
-    "@craco/craco": "^6.4.3",
+    "@craco/craco": "^7.0.0-alpha",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@loadable/component": "^5.15.2",
@@ -65,38 +68,16 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
-    "eslint-config-yb": "https://github.com/codyduong/yb-eslint-config.git#semver:v1.2.0",
+    "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.1",
     "eslint-plugin-mdx": "^2.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
     "react-app-alias": "^2.2.0",
+    "storybook-addon-react-router-v6": "^0.1.10",
+    "storybook-preset-craco": "https://github.com/artisanofcode/storybook-preset-craco.git",
     "tsconfig-paths": "^4.0.0",
     "webpack": "5"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      },
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
   },
   "browserslist": {
     "production": [

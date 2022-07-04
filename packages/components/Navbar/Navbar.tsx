@@ -1,12 +1,12 @@
 import Hamburger, {
   HamburgerList,
 } from 'packages/components/Hamburger/Hamburger';
-import { LinkHeader } from 'packages/components/Link/Link';
+import { LinkBase, LinkHeader } from 'packages/components/Link/Link';
 import { breakpoints } from 'packages/style';
 import { useRef } from 'react';
 import styled from 'styled-components';
 
-const Header = styled.div`
+const Header = styled.header`
   display: flexbox;
   justify-content: center;
   align-items: center;
@@ -43,7 +43,9 @@ const HeaderItemGroupCenter = styled(HeaderItemGroup)`
   }
 `;
 
-const LinkGroupWrapper = styled.div`
+const HeaderIcon = styled(LinkBase)``;
+
+const LinkGroupWrapper = styled.nav`
   display: flex;
 `;
 
@@ -54,7 +56,7 @@ const HeaderItemGroupRight = styled(HeaderItemGroup)`
       display: block;
     }
   }
-  div:nth-child(2) {
+  button {
     @media only screen and (min-width: ${breakpoints.md}) {
       display: none;
     }
@@ -69,13 +71,38 @@ const Links = [
 
 const LinkGroup = (): JSX.Element => {
   return (
-    <LinkGroupWrapper>
+    <LinkGroupWrapper aria-hidden>
       {Links.map(({ to, label }) => (
-        <LinkHeader id={`${label}-${to}`} to={to}>
+        <LinkHeader id={`nav-to-${label}`} key={label} to={to}>
           {label}
         </LinkHeader>
       ))}
     </LinkGroupWrapper>
+  );
+};
+
+const LinkGroupWrapperAccessible = styled(LinkGroupWrapper)`
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+`;
+
+const LinkGroupAccessible = (): JSX.Element => {
+  return (
+    <LinkGroupWrapperAccessible>
+      {Links.map(({ to, label }) => (
+        <LinkHeader
+          id={`nav-to-${label}-accessible`}
+          key={label}
+          to={to}
+          tabIndex={-1}
+          aria-label={label}
+          aria-description={`Navigation to ${label} page`}
+        >
+          {label}
+        </LinkHeader>
+      ))}
+    </LinkGroupWrapperAccessible>
   );
 };
 
@@ -92,10 +119,11 @@ export default function Navbar(): JSX.Element {
 
   return (
     <Header className="navbar" ref={ref}>
-      <HeaderItemGroup>ICON</HeaderItemGroup>
+      <HeaderIcon to="/">ICON</HeaderIcon>
       <HeaderItemGroupCenter></HeaderItemGroupCenter>
       <HeaderItemGroupRight>
         <LinkGroup />
+        <LinkGroupAccessible />
         <Hamburger
           hamburgerList={hamburgerList}
           headerref={ref}

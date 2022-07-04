@@ -366,7 +366,7 @@ interface SelectGridItemProps
   options: DropdownOption[];
   onClick?: React.ChangeEventHandler<HTMLSelectElement>;
   itemStyle?: React.CSSProperties;
-  ItemJSX?: (ItemJSXRequiredProps) => JSX.Element;
+  ItemJSX?: (props: ItemJSXRequiredProps) => JSX.Element;
   displayType?: 'Grid' | 'Flex';
 }
 

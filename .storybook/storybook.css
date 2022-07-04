@@ -1,4 +1,7 @@
 html,
+body {
+  background-color: #EEEEEE;
+}
 .sb-show-main {
   display: flex;
   flex: 1;
