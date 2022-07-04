@@ -37,6 +37,8 @@ export const HamburgerList = styled(animated.div)`
   position: absolute;
   overflow: hidden;
   background-color: ${(props) => props.theme.bgDark};
+  z-index: 1000;
+
   transition: max-height none;
   @media only screen and (min-width: ${breakpoints.md}) {
     display: none;

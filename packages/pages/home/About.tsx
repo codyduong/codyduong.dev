@@ -1,6 +1,8 @@
+import getScrollPosition from 'packages/hooks/getScrollPosition';
 import { breakpoints } from 'packages/style';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 const AboutRoles = styled.div`
   display: inline-flex;
@@ -12,7 +14,7 @@ const AboutDiv = styled.div`
   padding-bottom: 200px;
 `;
 
-const AboutSection = styled.section`
+export const AboutSection = styled.section`
   flex-direction: column;
   display: flex;
   padding-top: 20px;
@@ -112,7 +114,30 @@ function ScrollingRoles(): JSX.Element {
   );
 }
 
+const AboutDownArrowWrapper = styled.div`
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+`;
+
+const AboutDownArrow = styled.div`
+  position: absolute;
+  bottom: 32px;
+  background-color: ${(props) => props.theme.bgDark};
+  color: ${(props) => props.theme.contentEmphasized};
+  aspect-ratio: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default function About(): JSX.Element {
+  const scrollPosition = getScrollPosition();
+  console.log(scrollPosition);
+
   return (
     <AboutSection>
       <AboutDiv>
@@ -123,6 +148,11 @@ export default function About(): JSX.Element {
           <ScrollTextAccessible>{ROLES.join(', ')}</ScrollTextAccessible>
         </AboutRoles>
       </AboutDiv>
+      <AboutDownArrowWrapper aria-hidden>
+        <AboutDownArrow>
+          <KeyboardDoubleArrowDownIcon fontSize={'large'} />
+        </AboutDownArrow>
+      </AboutDownArrowWrapper>
     </AboutSection>
   );
 }
