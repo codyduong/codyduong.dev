@@ -11,7 +11,7 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  min-height: 32px;
+  min-height: 48px;
   padding: 1rem 1.5rem;
   background-color: ${(props) => props.theme.bgDark};
   justify-content: space-between;
@@ -49,11 +49,22 @@ const LinkGroupWrapper = styled.nav`
   display: flex;
 `;
 
+const LinkGroupWrapperAccessible = styled(LinkGroupWrapper)`
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+`;
+
 const HeaderItemGroupRight = styled(HeaderItemGroup)`
   ${LinkGroupWrapper}:nth-child(1) {
     display: none;
     @media only screen and (min-width: ${breakpoints.md}) {
       display: block;
+    }
+  }
+  ${LinkGroupWrapperAccessible}:nth-child(2) {
+    @media only screen and (min-width: ${breakpoints.md}) {
+      display: none;
     }
   }
   button {
@@ -65,8 +76,8 @@ const HeaderItemGroupRight = styled(HeaderItemGroup)`
 
 const Links = [
   { label: 'Home', to: '/' },
-  { label: 'Portfolio', to: '/Portfolio' },
-  { label: 'Contact', to: '/Contact' },
+  { label: 'Portfolio', to: '/portfolio' },
+  { label: 'Contact', to: '/contact' },
 ];
 
 const LinkGroup = (): JSX.Element => {
@@ -81,12 +92,7 @@ const LinkGroup = (): JSX.Element => {
   );
 };
 
-const LinkGroupWrapperAccessible = styled(LinkGroupWrapper)`
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-`;
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LinkGroupAccessible = (): JSX.Element => {
   return (
     <LinkGroupWrapperAccessible>
@@ -95,9 +101,7 @@ const LinkGroupAccessible = (): JSX.Element => {
           id={`nav-to-${label}-accessible`}
           key={label}
           to={to}
-          tabIndex={-1}
           aria-label={label}
-          aria-description={`Navigation to ${label} page`}
         >
           {label}
         </LinkHeader>

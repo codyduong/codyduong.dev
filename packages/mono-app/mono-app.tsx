@@ -11,6 +11,7 @@ import {
   StateStoreProvider,
 } from 'packages/state-store/StateStore';
 import Page from 'packages/pages/Page';
+import Links from 'packages/pages/links/Links';
 
 const Home = SpinkitLoadable(import('packages/pages/home/Home'));
 const NotFound = SpinkitLoadable(import('packages/pages/404/NotFound'));
@@ -29,6 +30,7 @@ function App(): JSX.Element {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/links/" element={<Links />} />
             </Routes>
           </Page>
         </CrumbsProvider>

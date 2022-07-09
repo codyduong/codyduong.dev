@@ -163,6 +163,8 @@ const Hamburger = <
   return (
     <>
       <HamburgerIconWrapper
+        aria-hidden
+        tabIndex={-1}
         onClick={(): void => {
           switchHamburgerVisibility();
         }}
@@ -170,7 +172,7 @@ const Hamburger = <
         <MenuIcon />
       </HamburgerIconWrapper>
       {hamburgerDisplay && (
-        <HL ref={hlRef} style={hamStyle} aria-hidden={true} {...(rest as _any)}>
+        <HL ref={hlRef} style={hamStyle} aria-hidden {...(rest as _any)}>
           <HLI ref={hliRef} {...(rest as _any)}>
             {options.map(({ label, to }) => (
               <LinkHeaderModified

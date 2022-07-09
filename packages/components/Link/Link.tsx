@@ -8,4 +8,5 @@ export const LinkBase = styled(Link)`
 
 export const LinkHeader = styled(LinkBase)`
   margin: 0px 15px;
+  font-size: 20px;
 `;
