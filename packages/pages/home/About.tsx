@@ -45,6 +45,14 @@ export const AboutSection = styled.section`
   @media only screen and (min-width: ${breakpoints.md}) {
     padding-left: 0px;
   }
+
+  background: linear-gradient(
+    180deg,
+    ${(props) => props.theme.secondary.d100} 0%,
+    ${(props) => props.theme.secondary.base} 10%,
+    ${(props) => props.theme.secondary.base} 90%,
+    ${(props) => props.theme.secondary.l100} 100%
+  );
 `;
 
 const AboutTitle = styled.h1`
@@ -57,15 +65,12 @@ const AboutTitle = styled.h1`
   @media only screen and (min-width: ${breakpoints.xs}) {
     font-size: 3rem;
     margin-bottom: 1.5rem;
-    text-align: left;
+    text-align: center;
   }
 
   @media only screen and (min-width: ${breakpoints.md}) {
     font-size: 4rem;
-  }
-
-  @media only screen and (min-width: ${breakpoints.lg}) {
-    font-size: 5rem;
+    text-align: left;
   }
 `;
 
@@ -226,7 +231,7 @@ export default function About(): JSX.Element {
       <AboutDiv>
         <AboutTitle>Cody Duong</AboutTitle>
         <AboutRoles>
-          <p>Hi, I'm a </p>
+          <p>Hi, I&apos;m a </p>
           <ScrollingRoles />
           <ScrollTextAccessible>{ROLES.join(', ')}</ScrollTextAccessible>
         </AboutRoles>

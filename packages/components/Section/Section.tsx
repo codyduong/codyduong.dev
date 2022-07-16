@@ -1,7 +1,6 @@
 import SubSection, {
   SubSectionProps,
 } from 'packages/components/Section/SubSection';
-import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 
 export const SectionStub = styled.section<{

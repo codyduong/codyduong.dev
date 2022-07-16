@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "craco start",
+    "dev": "craco start",
+    "start": "yarn dev",
     "build": "craco build",
+    "serve": "serve -s build -l 3001",
     "test": "jest",
     "eject": "exit 1 && react-scripts eject",
     "storybook": "start-storybook -p 6006",
@@ -78,10 +80,12 @@
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
     "react-app-alias": "^2.2.0",
+    "serve": "^14.0.1",
     "storybook-addon-react-router-v6": "^0.1.10",
     "storybook-preset-craco": "https://github.com/artisanofcode/storybook-preset-craco.git",
     "tsconfig-paths": "^4.0.0",
-    "webpack": "5"
+    "webpack": "5",
+    "webpack-cli": "^4.10.0"
   },
   "browserslist": {
     "production": [

@@ -17,7 +17,7 @@ export const parameters = {
 
 export const decorators = [
   (Story) => (
-    <ThemeProvider theme={themes.SOLARIZED_DARK}>
+    <ThemeProvider theme={themes.DEFAULT}>
       <Story />
     </ThemeProvider>
   ),

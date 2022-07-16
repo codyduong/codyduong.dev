@@ -1,9 +1,13 @@
 module.exports = {
-  extends: ['codyduong'],
+  extends: [
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'codyduong',
+  ],
   overrides: [
     {
       files: ['*.mdx'],
-      extends: ['plugin:mdx/recommended', 'plugin:react/recommended'],
+      extends: ['plugin:mdx/recommended'],
       settings: {
         'mdx/code-blocks': true,
       },

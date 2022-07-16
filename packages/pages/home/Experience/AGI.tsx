@@ -1,6 +1,5 @@
-import Section from 'packages/components/Section/Section';
-import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
+import { breakpoints } from 'packages/style';
 import AGI from './agi.svg';
 
 const AGI_COLORS = {
@@ -113,25 +112,23 @@ const JobTime = styled.p`
   color: ${(props) => props.theme.secondary.l200};
 `;
 
-export default function Experience(): JSX.Element {
+export default function ExperienceAGI(): JSX.Element {
   return (
-    <Section title={'Experience'} subtitle={'All the work I pretend to do'}>
-      <AGIDiv>
-        <AGIDivHeader>
-          <AGILogo />
-          <JobWrapper>
-            <JobTitle>Fullstack Software Engineer</JobTitle>
-            <JobTime>July 2021 - Present</JobTime>
-          </JobWrapper>
-        </AGIDivHeader>
-        <AGIDivBody>
-          <span>CI/CD Pipeline Improvements</span>
-          <span>CI/CD Pipeline Improvements</span>
-          <span>CI/CD Pipeline Improvements</span>
-          <span>CI/CD Pipeline Improvements</span>
-          <span>More</span>
-        </AGIDivBody>
-      </AGIDiv>
-    </Section>
+    <AGIDiv>
+      <AGIDivHeader>
+        <AGILogo />
+        <JobWrapper>
+          <JobTitle>Fullstack Software Engineer</JobTitle>
+          <JobTime>July 2021 - Present</JobTime>
+        </JobWrapper>
+      </AGIDivHeader>
+      <AGIDivBody>
+        <span>CI/CD Pipeline Improvements</span>
+        <span>CI/CD Pipeline Improvements</span>
+        <span>CI/CD Pipeline Improvements</span>
+        <span>CI/CD Pipeline Improvements</span>
+        <span>More</span>
+      </AGIDivBody>
+    </AGIDiv>
   );
 }
