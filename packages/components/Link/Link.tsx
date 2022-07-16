@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const LinkBase = styled(Link)`
-  color: ${(props) => props.theme.contentEmphasized};
+  color: ${(props) => props.theme.content.l200};
   text-decoration: none;
 `;
 

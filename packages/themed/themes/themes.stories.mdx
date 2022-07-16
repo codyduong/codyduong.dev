@@ -1,19 +1,32 @@
-import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs";
-import themes from './index';
+import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs"
+import themes from "./index"
 
 <Meta title="Design System/Themes" />
 
 # Themes
 
-<ColorPalette>
+<br></br>
+
+<div>
   {Object.entries(themes).map(([themeName, theme]) => {
-    return (
-      <ColorItem 
-        title={themeName}
-        subtitle={""}
-        colors={theme}
-      />
+    // eslint-disable-next-line prettier/prettier
+    return (<div key={themeName}>
+        <h3>{themeName}</h3>
+        <br></br>
+        <ColorPalette>
+          {Object.entries(theme).map(([colorName, color]) => {
+            return (
+              <ColorItem
+                key={colorName}
+                title={colorName}
+                subtitle={""}
+                colors={color}
+              />
+            )
+          })}
+        </ColorPalette>
+        <br></br>
+      </div>
     )
   })}
-</ColorPalette>
-
+</div>

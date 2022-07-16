@@ -13,8 +13,9 @@ const Header = styled.header`
   flex-direction: row;
   min-height: 48px;
   padding: 1rem 1.5rem;
-  background-color: ${(props) => props.theme.bgDark};
+  background-color: ${(props) => props.theme.secondary.d200};
   justify-content: space-between;
+  z-index: 1000;
 
   @media only screen and (min-width: ${breakpoints.md}) {
     padding: 1rem 2.5rem;
@@ -75,16 +76,16 @@ const HeaderItemGroupRight = styled(HeaderItemGroup)`
 `;
 
 const Links = [
-  { label: 'Home', to: '/' },
-  { label: 'Portfolio', to: '/portfolio' },
-  { label: 'Contact', to: '/contact' },
+  { label: 'Home', value: '/' },
+  { label: 'Portfolio', value: '/portfolio' },
+  { label: 'Contact', value: '/contact' },
 ];
 
 const LinkGroup = (): JSX.Element => {
   return (
-    <LinkGroupWrapper aria-hidden>
-      {Links.map(({ to, label }) => (
-        <LinkHeader id={`nav-to-${label}`} key={label} to={to}>
+    <LinkGroupWrapper>
+      {Links.map(({ value, label }) => (
+        <LinkHeader id={`nav-to-${label}`} key={label} to={value}>
           {label}
         </LinkHeader>
       ))}
@@ -96,11 +97,11 @@ const LinkGroup = (): JSX.Element => {
 const LinkGroupAccessible = (): JSX.Element => {
   return (
     <LinkGroupWrapperAccessible>
-      {Links.map(({ to, label }) => (
+      {Links.map(({ value, label }) => (
         <LinkHeader
           id={`nav-to-${label}-accessible`}
           key={label}
-          to={to}
+          to={value}
           aria-label={label}
         >
           {label}
@@ -110,12 +111,24 @@ const LinkGroupAccessible = (): JSX.Element => {
   );
 };
 
+const HamburgerListBottomFiller = styled.div`
+  height: 100vh;
+  background-color: ${(props) => props.theme.secondary.d200};
+`;
+
+const HamburgerItems = [
+  ...Links,
+  { label: 'closeIcon', value: null },
+  { label: 'spacer', value: HamburgerListBottomFiller },
+];
+
 const hamburgerList = styled(HamburgerList)<{
   headerref: React.RefObject<HTMLDivElement>;
 }>`
   top: ${({ headerref }) =>
     headerref?.current ? `${headerref.current.clientHeight}px` : '72px'};
   right: 0;
+  bottom: 0;
 `;
 
 export default function Navbar(): JSX.Element {
@@ -131,7 +144,7 @@ export default function Navbar(): JSX.Element {
         <Hamburger
           hamburgerList={hamburgerList}
           headerref={ref}
-          options={Links}
+          options={HamburgerItems}
         />
       </HeaderItemGroupRight>
     </Header>

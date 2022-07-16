@@ -6,7 +6,7 @@ export function useThemeBase(): [
   Theme,
   React.Dispatch<React.SetStateAction<Theme>>
 ] {
-  const [theme, setTheme] = useState<Theme>(themes.SOLARIZED_DARK);
+  const [theme, setTheme] = useState<Theme>(themes.DEFAULT);
 
   const setThemeOverride = (value: Theme | ((value: Theme) => Theme)): void => {
     setTheme(value);

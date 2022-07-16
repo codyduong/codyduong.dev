@@ -8,15 +8,15 @@ const PageDiv = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  background-color: ${(props) => props.theme.bg};
-  color: ${(props) => props.theme.contentPrimary};
+  background-color: ${(props) => props.theme.secondary.base};
+  color: ${(props) => props.theme.content.base};
 `;
 
 const PageContent = styled.main`
   flex-direction: column;
   flex: 1;
-  margin: 1rem 1rem;
-
+  overflow-x: hidden;
+  /* 
   @media only screen and (min-width: ${breakpoints.md}) {
     padding: 1rem 2.5rem;
   }
@@ -27,7 +27,7 @@ const PageContent = styled.main`
 
   @media only screen and (min-width: ${breakpoints.xxl}) {
     padding: 1rem 7.5rem;
-  }
+  } */
 `;
 
 interface PageProps {

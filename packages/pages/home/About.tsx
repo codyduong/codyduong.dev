@@ -24,6 +24,7 @@ const AboutRoles = styled.div`
 
 const AboutDiv = styled.div`
   margin-bottom: 200px;
+  z-index: 100;
 `;
 
 export const AboutSection = styled.section`
@@ -35,6 +36,11 @@ export const AboutSection = styled.section`
   padding-top: 20px;
   min-height: calc(100vh - 72px - 1rem);
   gap: 10px;
+  transition: 1s min-height ease-in-out;
+
+  @media only screen and (min-height: ${breakpoints.md}) {
+    min-height: calc(80vh - 72px - 1rem);
+  }
 
   @media only screen and (min-width: ${breakpoints.md}) {
     padding-left: 0px;
@@ -42,18 +48,24 @@ export const AboutSection = styled.section`
 `;
 
 const AboutTitle = styled.h1`
-  color: ${(props) => props.theme.contentEmphasized};
+  color: ${(props) => props.theme.content.l200};
   text-align: center;
   margin-bottom: 3rem;
   transition: all 0.5s ease-in-out;
+  font-size: 2.75rem;
 
   @media only screen and (min-width: ${breakpoints.xs}) {
+    font-size: 3rem;
     margin-bottom: 1.5rem;
     text-align: left;
   }
 
   @media only screen and (min-width: ${breakpoints.md}) {
-    font-size: 2rem;
+    font-size: 4rem;
+  }
+
+  @media only screen and (min-width: ${breakpoints.lg}) {
+    font-size: 5rem;
   }
 `;
 
@@ -100,11 +112,12 @@ const ScrollingWrapper = styled.div`
 `;
 
 const ScrollingText = styled.p<{ index: number }>`
-  color: ${(props) => props.theme.contentEmphasized};
+  color: ${(props) => props.theme.primary.l200};
   animation: 1s fadeIn;
   animation-delay: ${({ index }) => `${index * 2.5 + 1}s`};
   animation-fill-mode: forwards;
   opacity: 0;
+  cursor: default;
 
   @keyframes fadeIn {
     0% {
@@ -112,6 +125,7 @@ const ScrollingText = styled.p<{ index: number }>`
     }
     100% {
       opacity: 1;
+      cursor: text;
     }
   }
 `;
@@ -144,7 +158,7 @@ const AboutDownArrowWrapper = styled.div`
   align-items: center;
   position: absolute;
   bottom: 32px;
-  animation: bounce 2.5s ease-in-out;
+  animation: bounce 2.5s cubic-bezier(0.47, 0, 0.745, 0.715);
   animation-delay: 5s;
   animation-iteration-count: infinite;
 
@@ -174,8 +188,8 @@ const AboutDownArrowWrapper = styled.div`
 `;
 
 const AboutDownArrow = styled.div`
-  background-color: ${(props) => props.theme.bgDark};
-  color: ${(props) => props.theme.contentEmphasized};
+  background-color: ${(props) => props.theme.primary.base};
+  color: ${(props) => props.theme.content.l200};
   aspect-ratio: 1;
   width: 48px;
   height: 48px;
@@ -201,7 +215,7 @@ const AboutDownArrow = styled.div`
 
 const AboutDownText = styled.p`
   text-align: center;
-  color: ${(props) => props.theme.contentEmphasized};
+  color: ${(props) => props.theme.content.base};
 `;
 
 export default function About(): JSX.Element {
@@ -217,12 +231,12 @@ export default function About(): JSX.Element {
           <ScrollTextAccessible>{ROLES.join(', ')}</ScrollTextAccessible>
         </AboutRoles>
       </AboutDiv>
-      <AboutDownArrowWrapper aria-hidden>
+      {/* <AboutDownArrowWrapper aria-hidden>
         <AboutDownText>Scroll</AboutDownText>
         <AboutDownArrow>
           <KeyboardDoubleArrowDownIcon />
         </AboutDownArrow>
-      </AboutDownArrowWrapper>
+      </AboutDownArrowWrapper> */}
     </AboutSection>
   );
 }

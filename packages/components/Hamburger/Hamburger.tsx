@@ -21,7 +21,7 @@ const HamburgerIconWrapper = styled(Button)`
   justify-content: center;
   border-radius: 10px;
   &:hover {
-    background-color: ${(props) => props.theme.bg};
+    background-color: ${(props) => props.theme.secondary.base};
     cursor: pointer;
   }
 `;
@@ -36,7 +36,7 @@ export const HamburgerList = styled(animated.div)`
   max-height: 0px;
   position: absolute;
   overflow: hidden;
-  background-color: ${(props) => props.theme.bgDark};
+  background-color: ${(props) => props.theme.secondary.d200};
   z-index: 1000;
 
   transition: max-height none;
@@ -59,9 +59,50 @@ const LinkHeaderModified = styled(LinkHeader)`
   padding-bottom: 15px;
   &:hover {
     transition: background-color 0.5s ease-in-out;
-    background-color: ${(props) => props.theme.bg};
+    background-color: ${(props) => props.theme.secondary.base};
   }
 `;
+
+interface HamburgerOption {
+  label: string;
+  value: string | (() => JSX.Element) | null;
+}
+
+function OptionMapper(
+  options: HamburgerOption[],
+  switchHamburgerVisibility: () => void
+): React.ReactNode {
+  return options.map(({ label, value: V }) => {
+    if (label === 'closeIcon' || V === 'closeIcon') {
+      return (
+        <HamburgerIconBottom
+          key={'closeIcon'}
+          aria-hidden
+          onClick={() => switchHamburgerVisibility()}
+        >
+          <CloseIcon />
+        </HamburgerIconBottom>
+      );
+    } else if (typeof V === 'string') {
+      return (
+        <LinkHeaderModified
+          id={`hamburger-navigation-${label}`}
+          key={`hamburger-navigation-${label}`}
+          to={V}
+          onClick={() => switchHamburgerVisibility()}
+        >
+          {label}
+        </LinkHeaderModified>
+      );
+    } else if (
+      typeof V === 'function' ||
+      (typeof V === 'object' && V !== null)
+    ) {
+      return <V key={label} />;
+    }
+    return null;
+  });
+}
 
 type HamburgerPropsBase = GetStyledComponentProps<typeof HamburgerList>;
 
@@ -81,7 +122,8 @@ type HamburgerProps<
     HamburgerListProps,
     never
   >;
-  options: { label: string; to: string }[];
+  options: HamburgerOption[];
+  fullHeight?: boolean;
 } & HamburgerListProps;
 
 const Hamburger = <
@@ -122,7 +164,7 @@ const Hamburger = <
     (async (): Promise<void> => {
       hamAnimate.start({
         from: { maxHeight: '0px' },
-        to: { maxHeight: `${hliRef.current?.clientHeight ?? 512}px` },
+        to: { maxHeight: `${hliRef.current?.clientHeight ?? 220}px` },
         onStart: () => {
           setDebounce(true);
         },
@@ -174,22 +216,7 @@ const Hamburger = <
       {hamburgerDisplay && (
         <HL ref={hlRef} style={hamStyle} aria-hidden {...(rest as _any)}>
           <HLI ref={hliRef} {...(rest as _any)}>
-            {options.map(({ label, to }) => (
-              <LinkHeaderModified
-                id={`hamburger-navigation-${label}`}
-                key={`hamburger-navigation-${label}`}
-                to={to}
-                onClick={() => switchHamburgerVisibility()}
-              >
-                {label}
-              </LinkHeaderModified>
-            ))}
-            <HamburgerIconBottom
-              aria-hidden
-              onClick={() => switchHamburgerVisibility()}
-            >
-              <CloseIcon />
-            </HamburgerIconBottom>
+            {OptionMapper(options, switchHamburgerVisibility)}
           </HLI>
         </HL>
       )}
