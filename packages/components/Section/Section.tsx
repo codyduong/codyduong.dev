@@ -13,7 +13,7 @@ export const SectionStub = styled.section<{
   min-height: '100vh';
   overflow: visible;
   background-color: ${(props) =>
-    props.sectionColor ?? props.theme.secondary.l100};
+    props.sectionColor ?? props.theme.color.surface[100]};
 `;
 
 const SectionChildWrapper = styled.div<{
@@ -21,7 +21,7 @@ const SectionChildWrapper = styled.div<{
 }>`
   width: 100vw;
   background-color: ${(props) =>
-    props.sectionColor ?? props.theme.secondary.l100};
+    props.sectionColor ?? props.theme.color.surface[100]};
 `;
 
 type SectionFullProps = SubSectionProps & {

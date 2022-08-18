@@ -8,8 +8,8 @@ const PageDiv = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  background-color: ${(props) => props.theme.secondary.base};
-  color: ${(props) => props.theme.content.base};
+  background-color: ${(props) => props.theme.color.surface[400]};
+  color: ${(props) => props.theme.color.surface[400]};
 `;
 
 const PageContent = styled.main`

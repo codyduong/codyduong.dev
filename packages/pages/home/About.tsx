@@ -46,13 +46,7 @@ export const AboutSection = styled.section`
     padding-left: 0px;
   }
 
-  background: linear-gradient(
-    180deg,
-    ${(props) => props.theme.secondary.d100} 0%,
-    ${(props) => props.theme.secondary.base} 10%,
-    ${(props) => props.theme.secondary.base} 90%,
-    ${(props) => props.theme.secondary.l100} 100%
-  );
+  background-color: ${(props) => props.theme.color.surface[100]};
 `;
 
 const AboutTitle = styled.h1`
@@ -229,7 +223,7 @@ export default function About(): JSX.Element {
   return (
     <AboutSection>
       <AboutDiv>
-        <AboutTitle>Cody Duong</AboutTitle>
+        <AboutTitle>Hello</AboutTitle>
         <AboutRoles>
           <p>Hi, I&apos;m a </p>
           <ScrollingRoles />

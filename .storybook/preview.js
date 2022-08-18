@@ -1,5 +1,7 @@
 import '../packages/style/globals.css'
 import './storybook.css'
+import '../packages/style/globals.css'
+import '@fontsource/overpass'
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import themes from '../packages/themed/themes';

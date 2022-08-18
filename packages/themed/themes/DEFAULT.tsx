@@ -1,3 +1,5 @@
+import type { Theme } from '../Themes';
+
 // export const DEFAULTold = {
 //   bgDark: '#111111',
 //   bg: '#222222',
@@ -16,9 +18,98 @@
 //   blue: '#268bd2',
 //   cyan: '#2aa198',
 //   green: '#859900',
-// } as const;
+// } as const,
 
-export const DEFAULT = {
+export const DEFAULT: Theme = {
+  color: {
+    text: {
+      100: '#ffffff',
+      200: '#bababa',
+      300: '#808080',
+      400: '#404040',
+      500: '#1b1b1b',
+      600: '#0a0a0a',
+    },
+    surface: {
+      100: '#ffffff',
+      200: '#cecece',
+      300: '#b0b0b0',
+      400: '#252525',
+      500: '#050505',
+    },
+    base: {
+      100: '',
+      200: '',
+      300: '',
+      400: '',
+      500: '',
+    },
+    bottom: {
+      100: '',
+      200: '',
+      300: '',
+      400: '',
+      500: '',
+    },
+    info: {
+      l400: '',
+      l300: '',
+      l200: '',
+      l100: '',
+      base: '',
+      d100: '',
+      d200: '',
+      d300: '',
+      d400: '',
+    },
+    warning: {
+      l400: '',
+      l300: '',
+      l200: '',
+      l100: '',
+      base: '',
+      d100: '',
+      d200: '',
+      d300: '',
+      d400: '',
+    },
+    destructive: {
+      l400: '',
+      l300: '',
+      l200: '',
+      l100: '',
+      base: '',
+      d100: '',
+      d200: '',
+      d300: '',
+      d400: '',
+    },
+    productive: {
+      l400: '#a3eea9',
+      l300: '#7ad882',
+      l200: '#57cc61',
+      l100: '#40be4b',
+      base: '#30ad3a',
+      d100: '#25a130',
+      d200: '#1c9426',
+      d300: '#0c5e13',
+      d400: '#06470c',
+    },
+  },
+  spacing: {
+    rem: {
+      100: '0.5rem',
+      200: '1rem',
+      300: '1.5rem',
+      400: '2rem',
+      500: '2.5rem',
+      600: '3rem',
+      700: '3.5rem',
+      800: '4rem',
+    },
+  },
+
+  /** @deprecated below this line */
   content: {
     l400: '#ffffff',
     l300: '#f8f8f8',

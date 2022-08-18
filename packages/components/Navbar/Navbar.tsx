@@ -1,10 +1,12 @@
 import Hamburger, {
   HamburgerList,
 } from 'packages/components/Hamburger/Hamburger';
-import { LinkBase, LinkHeader } from 'packages/components/Link/Link';
+import { LinkHeader } from 'packages/components/Link/Link';
 import { breakpoints } from 'packages/style';
 import { useRef } from 'react';
+import { H1 } from 'packages/components/Typography';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Header = styled.header`
   display: flexbox;
@@ -13,7 +15,7 @@ const Header = styled.header`
   flex-direction: row;
   min-height: 48px;
   padding: 1rem 1.5rem;
-  background-color: ${(props) => props.theme.secondary.d200};
+  background-color: ${(props) => props.theme.color.surface[400]};
   justify-content: space-between;
   z-index: 1000;
 
@@ -44,7 +46,9 @@ const HeaderItemGroupCenter = styled(HeaderItemGroup)`
   }
 `;
 
-const HeaderIcon = styled(LinkBase)``;
+const H1Light = styled(H1)`
+  color: ${(props) => props.theme.color.text[100]};
+`;
 
 const LinkGroupWrapper = styled.nav`
   display: flex;
@@ -113,7 +117,7 @@ const LinkGroupAccessible = (): JSX.Element => {
 
 const HamburgerListBottomFiller = styled.div`
   height: 100vh;
-  background-color: ${(props) => props.theme.secondary.d200};
+  background-color: ${(props) => props.theme.color.surface[200]};
 `;
 
 const HamburgerItems = [
@@ -131,12 +135,16 @@ const hamburgerList = styled(HamburgerList)<{
   bottom: 0;
 `;
 
+/** @deprecated */
 export default function Navbar(): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
     <Header className="navbar" ref={ref}>
-      <HeaderIcon to="/">ICON</HeaderIcon>
+      {/* <HeaderIcon to="/">CD</HeaderIcon> */}
+      <Link to="/">
+        <H1Light>CD</H1Light>
+      </Link>
       <HeaderItemGroupCenter></HeaderItemGroupCenter>
       <HeaderItemGroupRight>
         <LinkGroup />

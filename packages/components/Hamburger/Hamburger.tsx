@@ -21,7 +21,7 @@ const HamburgerIconWrapper = styled(Button)`
   justify-content: center;
   border-radius: 10px;
   &:hover {
-    background-color: ${(props) => props.theme.secondary.base};
+    background-color: ${(props) => props.theme.color.surface[300]};
     cursor: pointer;
   }
 `;
@@ -31,12 +31,13 @@ const HamburgerIconBottom = styled(HamburgerIconWrapper)`
   margin-bottom: 10px;
 `;
 
+/** @deprecated */
 export const HamburgerList = styled(animated.div)`
   width: 100vw;
   max-height: 0px;
   position: absolute;
   overflow: hidden;
-  background-color: ${(props) => props.theme.secondary.d200};
+  background-color: ${(props) => props.theme.color.surface[400]};
   z-index: 1000;
 
   transition: max-height none;
@@ -45,6 +46,7 @@ export const HamburgerList = styled(animated.div)`
   }
 `;
 
+/** @deprecated */
 export const HamburgerListInner = styled.div`
   display: flex;
   flex-direction: column;
@@ -52,6 +54,7 @@ export const HamburgerListInner = styled.div`
   align-items: center;
 `;
 
+/** @deprecated */
 const LinkHeaderModified = styled(LinkHeader)`
   width: 100%;
   text-align: center;
@@ -59,7 +62,7 @@ const LinkHeaderModified = styled(LinkHeader)`
   padding-bottom: 15px;
   &:hover {
     transition: background-color 0.5s ease-in-out;
-    background-color: ${(props) => props.theme.secondary.base};
+    background-color: ${(props) => props.theme.color.surface[400]};
   }
 `;
 
@@ -126,6 +129,7 @@ type HamburgerProps<
   fullHeight?: boolean;
 } & HamburgerListProps;
 
+/** @deprecated */
 const Hamburger = <
   HamburgerList extends StyledComponent<
     AnimatedComponent<'div'>,

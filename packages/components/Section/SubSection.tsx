@@ -6,7 +6,7 @@ const SubSectionDiv = styled.div<{
 }>`
   width: 100vw;
   background-color: ${(props) =>
-    props.sectionColor ?? props.theme.secondary.l100};
+    props.sectionColor ?? props.theme.color.surface[100]};
   display: flex;
   flex-direction: column;
   justify-content: center;
