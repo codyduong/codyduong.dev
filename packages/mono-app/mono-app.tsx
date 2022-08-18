@@ -5,11 +5,11 @@ import SpinkitLoadable from 'packages/components/SpinkitLoadable';
 import {
   createCrumbsProviderValue,
   CrumbsProvider,
-} from 'packages/crumbs/CrumbProvider';
+} from 'packages/context/CrumbProvider';
 import {
   createStateStoreProviderValue,
   StateStoreProvider,
-} from 'packages/state-store/StateStore';
+} from 'packages/context/StateStore';
 import Page from 'packages/pages/Page';
 import Links from 'packages/pages/links/Links';
 
