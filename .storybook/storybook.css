@@ -1,12 +1,10 @@
+@import "../packages/style/globals.css";
 html,
 body {
   background-color: #EEEEEE;
 }
-.sb-show-main {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+.sb-show-main.sb-main-fullscreen {
+  margin: 64px;
 }
 .sbdocs-content {
   max-width: 1920px;

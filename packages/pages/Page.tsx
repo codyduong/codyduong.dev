@@ -1,4 +1,3 @@
-import Navbar from 'packages/components/Navbar/Navbar';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 
@@ -37,7 +36,7 @@ interface PageProps {
 export default function Page(props: PageProps): JSX.Element {
   return (
     <PageDiv>
-      <Navbar />
+      {/* <Navbar /> */}
       <PageContent>{props.children}</PageContent>
     </PageDiv>
   );

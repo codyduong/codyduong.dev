@@ -1,4 +1,3 @@
-import { LinkBase } from 'packages/components/Link/Link';
 import styled, { useTheme } from 'styled-components';
 import breakpoints from 'packages/style/breakpoints';
 
@@ -33,7 +32,7 @@ const LinksWrapper = styled.div`
 `;
 
 const LinksLink = styled.a`
-  color: ${(props) => props.theme.contentEmphasized};
+  color: ${(props) => props.theme.color.info[300]};
   text-decoration: none;
   text-align: center;
   display: flex;
@@ -83,7 +82,7 @@ const GenerateLinks = (): React.ReactNode => {
   return LINKS.map((L) => {
     return (
       <LinksLink key={L.label} href={L.to} target={'_blank'}>
-        <L.icon fill={theme.contentEmphasized} />
+        <L.icon fill={theme.color.productive[300]} />
         <p>{L.label}</p>
       </LinksLink>
     );

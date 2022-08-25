@@ -1,192 +1,111 @@
+import React from 'react';
 import { CSSProperties, DefaultTheme } from 'styled-components';
 
 export type ColorValue = NonNullable<CSSProperties['color']>;
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    color: {
-      text: {
-        100: '#ffffff';
-        200: '#bababa';
-        300: '#808080';
-        400: '#404040';
-        500: '#1b1b1b';
-        600: '#0a0a0a';
+    readonly color: {
+      readonly text: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
+        readonly 600: string;
       };
-      surface: {
-        100: '#ffffff';
-        200: '#cecece';
-        300: '#b0b0b0';
-        400: '#252525';
-        500: '#050505';
+      readonly surface: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
-      surface: {
-        100: '';
-        200: '';
-        300: '';
-        400: '';
-        500: '';
+      readonly surface: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
-      base: {
-        100: '';
-        200: '';
-        300: '';
-        400: '';
-        500: '';
+      readonly base: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
-      bottom: {
-        100: '';
-        200: '';
-        300: '';
-        400: '';
-        500: '';
+      readonly bottom: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
-      info: {
-        l400: '';
-        l300: '';
-        l200: '';
-        l100: '';
-        base: '';
-        d100: '';
-        d200: '';
-        d300: '';
-        d400: '';
+      readonly info: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
-      warning: {
-        l400: '';
-        l300: '';
-        l200: '';
-        l100: '';
-        base: '';
-        d100: '';
-        d200: '';
-        d300: '';
-        d400: '';
+      readonly warning: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
-      destructive: {
-        l400: '';
-        l300: '';
-        l200: '';
-        l100: '';
-        base: '';
-        d100: '';
-        d200: '';
-        d300: '';
-        d400: '';
+      readonly destructive: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
-      productive: {
-        l400: '#a3eea9';
-        l300: '#7ad882';
-        l200: '#57cc61';
-        l100: '#40be4b';
-        base: '#30ad3a';
-        d100: '#25a130';
-        d200: '#1c9426';
-        d300: '#0c5e13';
-        d400: '#06470c';
+      readonly productive: {
+        readonly 100: string;
+        readonly 200: string;
+        readonly 300: string;
+        readonly 400: string;
+        readonly 500: string;
       };
     };
-    spacing: {
-      rem: {
-        100: '0.5rem';
-        200: '1rem';
-        300: '1.5rem';
-        400: '2rem';
-        500: '2.5rem';
-        600: '3rem';
-        700: '3.5rem';
-        800: '4rem';
+    readonly spacing: {
+      readonly rem: ((n: number) => `${number}rem`) & {
+        readonly 12.5: `${number}rem`;
+        readonly 25: `${number}rem`;
+        readonly 50: `${number}rem`;
+        readonly 100: `${number}rem`;
+        readonly 125: `${number}rem`;
+        readonly 150: `${number}rem`;
+        readonly 200: `${number}rem`;
+        readonly 250: `${number}rem`;
+        readonly 300: `${number}rem`;
+        readonly 350: `${number}rem`;
+        readonly 400: `${number}rem`;
+        readonly 450: `${number}rem`;
+        readonly 500: `${number}rem`;
+        readonly 800: `${number}rem`;
+        readonly 1000: `${number}rem`;
       };
-    };
-
-    /** @deprecated */
-    content: {
-      l400: string;
-      l300: string;
-      /** text emphasized */
-      l200: string;
-      l100: string;
-      /** text */
-      base: string;
-      d100: string;
-      /** text secondary */
-      d200: string;
-      d300: string;
-      d400: string;
-    };
-    /** @deprecated */
-    primary: {
-      l400: string;
-      l300: string;
-      l200: string;
-      l100: string;
-      /** foreground */
-      base: string;
-      d100: string;
-      d200: string;
-      d300: string;
-      d400: string;
-    };
-    /** @deprecated */
-    secondary: {
-      l400: string;
-      l300: string;
-      l200: string;
-      l100: string;
-      /** background */
-      base: string;
-      d100: string;
-      d200: string;
-      d300: string;
-      d400: string;
-    };
-    /** @deprecated */
-    info: {
-      l400: string;
-      l300: string;
-      l200: string;
-      l100: string;
-      base: string;
-      d100: string;
-      d200: string;
-      d300: string;
-      d400: string;
-    };
-    /** @deprecated */
-    warning: {
-      l400: string;
-      l300: string;
-      l200: string;
-      l100: string;
-      base: string;
-      d100: string;
-      d200: string;
-      d300: string;
-      d400: string;
-    };
-    /** @deprecated */
-    destructive: {
-      l400: string;
-      l300: string;
-      l200: string;
-      l100: string;
-      base: string;
-      d100: string;
-      d200: string;
-      d300: string;
-      d400: string;
-    };
-    /** @deprecated */
-    productive: {
-      l400: string;
-      l300: string;
-      l200: string;
-      l100: string;
-      base: string;
-      d100: string;
-      d200: string;
-      d300: string;
-      d400: string;
+      readonly px: ((n: number) => `${number}px`) & {
+        readonly 12.5: `${number}px`;
+        readonly 25: `${number}px`;
+        readonly 50: `${number}px`;
+        readonly 100: `${number}px`;
+        readonly 100: `${number}px`;
+        readonly 150: `${number}px`;
+        readonly 200: `${number}px`;
+        readonly 250: `${number}px`;
+        readonly 300: `${number}px`;
+        readonly 350: `${number}px`;
+        readonly 400: `${number}px`;
+        readonly 450: `${number}px`;
+        readonly 500: `${number}px`;
+        readonly 800: `${number}px`;
+        readonly 1000: `${number}px`;
+      };
     };
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -206,3 +125,7 @@ declare module 'styled-components' {
 }
 
 export type Theme = DefaultTheme;
+
+declare module '@storybook/addon-docs' {
+  export const ColorPalette: React.FC<{ children: React.ReactNode }>;
+}
