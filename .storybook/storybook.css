@@ -1,7 +1,7 @@
 @import "../packages/style/globals.css";
 html,
 body {
-  background-color: #EEEEEE;
+  background-color: #FFFFFF;
 }
 .sb-show-main.sb-main-fullscreen {
   margin: 64px;

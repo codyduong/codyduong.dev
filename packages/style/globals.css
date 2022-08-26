@@ -15,3 +15,7 @@ div {
 a {
   text-decoration: none;
 }
+button {
+  all: unset;
+  cursor: pointer;
+}

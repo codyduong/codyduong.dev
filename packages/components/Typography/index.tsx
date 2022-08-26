@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const HeadingBaseCSS = css`
+const HeadingCss = css`
   font-family: 'Overpass';
   font-style: italic;
   font-weight: 800;
@@ -8,7 +8,7 @@ export const HeadingBaseCSS = css`
   color: ${(props) => props.theme.color.text[500]};
 `;
 const H1css = css`
-  ${HeadingBaseCSS}
+  ${HeadingCss}
   font-size: ${(props) => props.theme.spacing.rem[200]};
 `;
 export const H1 = Object.assign(
@@ -20,7 +20,7 @@ export const H1 = Object.assign(
   }
 );
 export const H2css = css`
-  ${HeadingBaseCSS}
+  ${HeadingCss}
   font-size: ${(props) => props.theme.spacing.rem[150]};
 `;
 export const H2 = Object.assign(
@@ -32,7 +32,7 @@ export const H2 = Object.assign(
   }
 );
 export const H3css = css`
-  ${HeadingBaseCSS}
+  ${HeadingCss}
   font-size: ${(props) => props.theme.spacing.rem(137.5)};
 `;
 export const H3 = Object.assign(
@@ -44,7 +44,7 @@ export const H3 = Object.assign(
   }
 );
 export const H4css = css`
-  ${HeadingBaseCSS}
+  ${HeadingCss}
   font-size: ${(props) => props.theme.spacing.rem[125]};
 `;
 export const H4 = Object.assign(
@@ -56,7 +56,7 @@ export const H4 = Object.assign(
   }
 );
 export const H5css = css`
-  ${HeadingBaseCSS}
+  ${HeadingCss}
   font-size: ${(props) => props.theme.spacing.rem(112.5)};
 `;
 export const H5 = Object.assign(
@@ -68,7 +68,7 @@ export const H5 = Object.assign(
   }
 );
 export const H6css = css`
-  ${HeadingBaseCSS}
+  ${HeadingCss}
   font-size: ${(props) => props.theme.spacing.rem[100]};
 `;
 export const H6 = Object.assign(
@@ -86,4 +86,104 @@ export const Heading = {
   H4,
   H5,
   H6,
+  css: HeadingCss,
+} as const;
+
+const PCss = css`
+  font-family: 'Overpass';
+  font-weight: 500;
+  font-style: normal;
+  ${(props) => props.theme.color.text[400]};
+`;
+const ItalicCss = css`
+  font-style: italic;
+  font-weight: 300;
+`;
+const BoldCss = css`
+  font-weight: 900;
+  color: ${(props) => props.theme.color.text[500]};
+`;
+
+const P2css = css`
+  ${PCss}
+  font-size: calc(${(props) => props.theme.spacing.rem[150]});
+`;
+const P3css = css`
+  ${PCss}
+  font-size: calc(${(props) => props.theme.spacing.rem[100]});
+`;
+
+export const Paragraph = {
+  P2: Object.assign(
+    styled.p`
+      ${P2css}
+    `,
+    {
+      css: P2css,
+      italic: Object.assign(
+        styled.p`
+          ${P2css}
+          ${ItalicCss}
+        `,
+        {
+          css: css`
+            ${P2css}
+            ${ItalicCss}
+          `,
+        }
+      ),
+      bold: Object.assign(
+        styled.p`
+          ${P2css}
+          ${BoldCss}
+        `,
+        {
+          css: css`
+            ${P2css}
+            ${BoldCss}
+          `,
+        }
+      ),
+    }
+  ),
+  P3: Object.assign(
+    styled.p`
+      ${P3css}
+    `,
+    {
+      css: P3css,
+      italic: Object.assign(
+        styled.p`
+          ${P3css}
+          ${ItalicCss}
+        `,
+        {
+          css: css`
+            ${P3css}
+            ${ItalicCss}
+          `,
+        }
+      ),
+      bold: Object.assign(
+        styled.p`
+          ${P3css}
+          ${BoldCss}
+        `,
+        {
+          css: css`
+            ${P3css}
+            ${BoldCss}
+          `,
+        }
+      ),
+    }
+  ),
+  css: Object.assign(PCss, {
+    italic: ItalicCss,
+    bold: BoldCss,
+  }),
+} as const;
+export const Typography = {
+  Heading,
+  Paragraph,
 } as const;

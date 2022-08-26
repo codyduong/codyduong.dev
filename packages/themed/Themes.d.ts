@@ -94,7 +94,7 @@ declare module 'styled-components' {
         readonly 25: `${number}px`;
         readonly 50: `${number}px`;
         readonly 100: `${number}px`;
-        readonly 100: `${number}px`;
+        readonly 125: `${number}px`;
         readonly 150: `${number}px`;
         readonly 200: `${number}px`;
         readonly 250: `${number}px`;
