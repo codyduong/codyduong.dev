@@ -37,6 +37,7 @@
     "@types/react-dom": "^18.0.5",
     "@types/styled-components": "^5.1.25",
     "@types/three": "^0.141.0",
+    "classnames": "^2.3.1",
     "geojson-vt": "^3.2.1",
     "node-sass": "^7.0.1",
     "react": "^18.2.0",
