@@ -44,7 +44,7 @@ const HamburgerButton = styled(Button)`
   display: flex;
   height: ${(props) => props.theme.spacing.rem[200]};
   padding: ${(props) =>
-    `${props.theme.spacing.rem[25]} ${props.theme.spacing.rem[50]}`};
+    `${props.theme.spacing.rem[12.5]} ${props.theme.spacing.rem[50]}`};
   border-radius: ${(props) => props.theme.spacing.rem[25]};
   flex-direction: row;
   align-items: center;
@@ -58,7 +58,7 @@ const HamburgerButton = styled(Button)`
     pointer-events: none;
     user-select: none;
   }
-  padding-right: calc(24px + ${({ theme }) => theme.spacing.rem[50]});
+  padding-right: calc(24px + ${({ theme }) => theme.spacing.rem[100]});
   && > svg {
     position: absolute;
     right: 0;
@@ -66,6 +66,7 @@ const HamburgerButton = styled(Button)`
     transition: all 225ms ease-in-out 0s;
     opacity: 1;
     transform-origin: center left;
+    margin-right: 0.5rem;
 
     &.hamburger-icon-open {
       @keyframes svg-translate {
