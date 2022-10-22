@@ -5,11 +5,11 @@ import styled from 'styled-components';
 const PageDiv = styled.div`
   width: 100vw;
   max-width: 100%;
-  height: auto;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: ${(props) => props.theme.color.surface[400]};
-  color: ${(props) => props.theme.color.surface[400]};
+  background-color: ${(props) => props.theme.color.surface[100]};
+  color: ${(props) => props.theme.color.text[400]};
 `;
 
 const PageContent = styled.main`

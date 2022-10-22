@@ -22,8 +22,12 @@ function App(): JSX.Element {
         <Page>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/links" element={<Links />} />
+            <Route path="/works" element={null} />
+            <Route path="/articles" element={null} />
+            <Route path="/contact" element={null} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Page>
       </StateStoreProvider>

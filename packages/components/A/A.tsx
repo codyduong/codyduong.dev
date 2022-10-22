@@ -1,8 +1,7 @@
-import { Link as L } from 'react-router-dom';
 import { commoncss } from 'packages/style';
 import styled from 'styled-components';
 
-export const Link = styled(L)`
+export const A = styled.a`
   text-decoration: none;
   user-select: none;
   :hover {

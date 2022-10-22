@@ -25,13 +25,14 @@ const Header = styled.header`
   height: ${(props) => props.theme.spacing.rem[300]};
   background-color: ${(props) => props.theme.color.surface[400]};
   box-sizing: border-box;
+  z-index: 1000;
 
   &.navbar-open {
     background-color: ${(props) => props.theme.color.surface[500]};
   }
 `;
 
-const Name = styled(A)`
+const Name = styled(A.Link)`
   ${Typography.Paragraph.P2.bold.css}
   color: ${(props) => props.theme.color.text[100]};
   text-align: center;
@@ -173,7 +174,14 @@ const Navbar = (): JSX.Element => {
             utils.focusLastDescendant(refHeader.current);
         }}
       />
-      <Name to="/">codyduong</Name>
+      <Name
+        to="/"
+        onClick={() => {
+          setOpen(false);
+        }}
+      >
+        codyduong
+      </Name>
       <HamburgerButton
         id="nav-hamburger-button"
         onClick={() => {
@@ -201,7 +209,7 @@ const Navbar = (): JSX.Element => {
           style={{ display: animationState == 1 && !open ? 'none' : undefined }}
         />
       </HamburgerButton>
-      <NavbarMenu open={open} />
+      <NavbarMenu open={open} setOpen={setOpen} />
       <TrapFocus
         tabIndex={open ? 0 : -1}
         onFocus={() => {

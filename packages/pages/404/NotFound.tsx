@@ -1,10 +1,20 @@
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { Paragraph } from 'packages/components/Typography';
+
+const Section = styled.section`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+`;
 
 export default function NotFound(): JSX.Element {
   return (
-    <div>
-      <p>There is nothing here</p>
-      <Link to={'./'}>link</Link>
-    </div>
+    <Section>
+      <Paragraph.P2>This page was not found</Paragraph.P2>
+      {/* <Link to={'./'}></Link> */}
+    </Section>
   );
 }

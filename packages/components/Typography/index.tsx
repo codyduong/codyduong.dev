@@ -93,7 +93,7 @@ const PCss = css`
   font-family: 'Overpass';
   font-weight: 500;
   font-style: normal;
-  color: ${(props) => props.theme.color.text[400]};
+  /* color: ${(props) => props.theme.color.text[400]}; */
 `;
 const ItalicCss = css`
   font-style: italic;
