@@ -81,7 +81,7 @@ const LINKS = [
 const GenerateLinks = (): React.ReactNode => {
   return LINKS.map((L) => {
     return (
-      <LinksLink key={L.label} href={L.to} target={'_blank'}>
+      <LinksLink key={`${L.label} ${L.to}`} href={L.to} target={'_blank'}>
         <L.icon aria-hidden />
         <p>{L.label}</p>
       </LinksLink>

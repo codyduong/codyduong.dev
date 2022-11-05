@@ -8,8 +8,9 @@ import {
 } from 'packages/context/StateStore';
 import Page from 'packages/pages/Page';
 import Links from 'packages/pages/links/Links';
+import Construction3D from 'packages/components/3D/Construction3D';
 
-const Home = SpinkitLoadable(import('packages/pages/home/'));
+const Home = SpinkitLoadable(import('packages/pages/Home'));
 const NotFound = SpinkitLoadable(import('packages/pages/404/NotFound'));
 
 function App(): JSX.Element {
@@ -24,9 +25,9 @@ function App(): JSX.Element {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/links" element={<Links />} />
-            <Route path="/works" element={null} />
-            <Route path="/articles" element={null} />
-            <Route path="/contact" element={null} />
+            <Route path="/works" element={<Construction3D />} />
+            <Route path="/articles" element={<Construction3D />} />
+            <Route path="/contact" element={<Construction3D />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Page>

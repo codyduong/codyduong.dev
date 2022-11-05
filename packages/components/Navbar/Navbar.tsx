@@ -8,6 +8,7 @@ import { useRef, useState, useEffect } from 'react';
 import classnames from 'classnames';
 import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
+import { useLocation } from 'react-router-dom';
 
 const TrapFocus = styled.div`
   position: absolute;
@@ -164,6 +165,17 @@ const Navbar = (): JSX.Element => {
     };
   }, []);
 
+  const location = useLocation();
+  const currentlyAt = [
+    'home',
+    'works',
+    'articles',
+    'contact',
+    'links',
+  ].includes(location.pathname.slice(1))
+    ? location.pathname.slice(1)
+    : 'home';
+
   return (
     <Header className={navClassname} ref={refHeader}>
       <TrapFocus
@@ -191,11 +203,13 @@ const Navbar = (): JSX.Element => {
         aria-haspopup
         aria-controls="nav-hamburger-list"
       >
-        <label htmlFor="nav-hamburger">home</label>
+        <label htmlFor="nav-hamburger">{currentlyAt}</label>
         <MenuIcon
           className={hamburgerClassname('close')}
           aria-labelledby="nav-hamburger-button"
-          style={{ display: animationState == 0 && open ? 'none' : undefined }}
+          style={{
+            display: animationState == 0 && open ? 'none' : undefined,
+          }}
           onAnimationEnd={() => {
             animationState === 1 ? setAnimationState(0) : setAnimationState(1);
           }}
@@ -206,7 +220,9 @@ const Navbar = (): JSX.Element => {
           onAnimationEnd={() => {
             animationState === 1 ? setAnimationState(0) : setAnimationState(1);
           }}
-          style={{ display: animationState == 1 && !open ? 'none' : undefined }}
+          style={{
+            display: animationState == 1 && !open ? 'none' : undefined,
+          }}
         />
       </HamburgerButton>
       <NavbarMenu open={open} setOpen={setOpen} />
