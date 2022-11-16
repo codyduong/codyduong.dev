@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    working-directory: frontend/web
+
 jobs:
   install:
     runs-on: ubuntu-latest
