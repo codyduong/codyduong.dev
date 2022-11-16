@@ -1,6 +1,12 @@
 # IGNORED_FILES=`cat .prettierignore | tr '\n' '|'`
 # IGNORED_FILES=`cat .eslintrc | tr '\n' '|'`
 
+# github CI doesn't track remote by default
+if [[ ! -z "$CI" ]]; then
+  git remote add upstream "git://github.com/${GITHUB_REPOSITORY}.git"
+  git fetch
+fi
+
 echo $(git diff --name-only $(git merge-base origin/master HEAD) --diff-filter=ACMRTUXB |
 # grep -E "\.(js|jsx|ts|tsx)$" | tr '\n' ' ' | sed -E "s@${IGNORED_FILES}@@g" | xargs) > filestolint.txt
 grep -E "\.(js|jsx|ts|tsx)$" | tr '\n' ' ' | xargs) > filestolint.txt
