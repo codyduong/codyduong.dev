@@ -1,23 +1,23 @@
-name: lint
+name: frontend-lint
 
 on:
   workflow_dispatch:
   push:
     branches: [ master ]
     paths:
-      - '**.ts'
-      - '.github/workflows/lint.yml'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'tsconfig.json'
-      - '.prettierrc'
-      - 'eslintrc.js'
+      - 'frontend/web/**.ts'
+      - 'frontend/web/**.tsx'
+      - 'frontend/web/.github/workflows/lint.yml'
+      - 'frontend/web/package.json'
+      - 'frontend/web/package-lock.json'
+      - 'frontend/web/tsconfig.json'
+      - 'frontend/web/.prettierrc'
+      - 'frontend/web/eslintrc.js'
   pull_request:
     branches: [ master ]
 
 jobs:
-  build:
-
+  lint:
     runs-on: ubuntu-latest
 
     strategy:
@@ -27,9 +27,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
+        cache-dependency-path: 'frontend/web/yarn.lock'
     - run: yarn ci
     - run: yarn lint:changed

@@ -1,0 +1,170 @@
+{
+  "name": "@codyduongweb/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "craco start",
+    "start": "yarn dev",
+    "build": "craco build",
+    "serve": "serve -s build -l 3001",
+    "test": "jest",
+    "eject": "exit 1 && react-scripts eject",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "ci": "yarn install --frozen-lockfile",
+    "lint": "yarn eslint",
+    "lint:changed": "./scripts/lint.sh",
+    "postinstall": "./scripts/post-install.sh",
+    "graphql": "yarn graphql codegen -r dotenv/config --project suretrack"
+  },
+  "dependencies": {
+    "@craco/craco": "^7.0.0-alpha",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@fontsource/overpass": "^4.5.8",
+    "@loadable/component": "^5.15.2",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.6",
+    "@react-three/a11y": "^3.0.0",
+    "@react-three/cannon": "^6.5.0",
+    "@react-three/drei": "^9.14.3",
+    "@react-three/fiber": "^8.0.27",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@theatre/core": "0.5",
+    "@theatre/r3f": "0.5",
+    "@theatre/studio": "0.5",
+    "@types/jest": "^28.1.2",
+    "@types/loadable__component": "^5.13.4",
+    "@types/node": "^16.11.41",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@types/styled-components": "^5.1.25",
+    "@types/three": "^0.141.0",
+    "classnames": "^2.3.1",
+    "geojson-vt": "^3.2.1",
+    "node-sass": "^7.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "6",
+    "react-scripts": "5.0.1",
+    "react-spring": "^9.4.5",
+    "spinkit": "^2.0.1",
+    "styled-components": "^5.3.5",
+    "three": "^0.141.0",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/preset-typescript": "^7.17.12",
+    "@storybook/addon-actions": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-interactions": "^6.5.9",
+    "@storybook/addon-links": "^6.5.9",
+    "@storybook/builder-webpack4": "^6.5.9",
+    "@storybook/builder-webpack5": "^6.5.9",
+    "@storybook/manager-webpack4": "^6.5.9",
+    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/mdx2-csf": "^0.0.3",
+    "@storybook/node-logger": "^6.5.9",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.9",
+    "@storybook/testing-library": "^0.0.13",
+    "@svgr/webpack": "^5.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "babel-loader": "^8.2.5",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.18.0",
+    "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.1",
+    "eslint-mdx": "^1.17.0",
+    "eslint-plugin-mdx": "^1.17.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.30.1",
+    "prettier": "^2.7.1",
+    "prop-types": "^15.8.1",
+    "react-app-alias": "^2.2.0",
+    "serve": "^14.0.1",
+    "storybook-addon-react-router-v6": "^0.1.10",
+    "storybook-preset-craco": "https://github.com/artisanofcode/storybook-preset-craco.git",
+    "tsconfig-paths": "^4.0.0",
+    "webpack": "5",
+    "webpack-cli": "^4.10.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/packages"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "packages/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/config/jest/setupTests.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
+      "<rootDir>/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "modulePaths": [],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "resetMocks": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  }
+}
