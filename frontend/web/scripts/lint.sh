@@ -2,7 +2,7 @@
 # IGNORED_FILES=`cat .eslintrc | tr '\n' '|'`
 
 # github CI doesn't track remote by default
-if [[ ! -z "$CI" ]]; then
+if [ ! -z "$CI" ]; then
   git remote add upstream "git://github.com/${GITHUB_REPOSITORY}.git"
   git fetch
 fi
