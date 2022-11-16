@@ -1,20 +1,12 @@
-name: frontend-lint
+name: frontend/web/lint
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master ]
-    paths:
-      - 'frontend/web/**.ts'
-      - 'frontend/web/**.tsx'
-      - 'frontend/web/.github/workflows/lint.yml'
-      - 'frontend/web/package.json'
-      - 'frontend/web/package-lock.json'
-      - 'frontend/web/tsconfig.json'
-      - 'frontend/web/.prettierrc'
-      - 'frontend/web/eslintrc.js'
-  pull_request:
-    branches: [ master ]
+  workflow_run:
+    workflows:
+      - "frontend/web/install"
+    types:
+      - "completed"
 
 defaults:
   run:
