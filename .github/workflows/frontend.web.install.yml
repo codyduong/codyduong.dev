@@ -27,6 +27,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'frontend-web-yarn'
+        cache: 'frontendWebYarn'
         cache-dependency-path: 'yarn.lock'
     - run: yarn ci
