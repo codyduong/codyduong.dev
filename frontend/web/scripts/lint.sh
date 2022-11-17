@@ -1,12 +1,6 @@
 WORKSPACE_LOCATION="frontend/web"
 IGNORED_FILES=`cat .prettierignore | sed -E "s@\*\*@[^[:space:]]*@g"  | tr '\n' '|'`
 
-# Github CI doesn't track upstream
-if [ ! -z "$CI" ]; then
-  git remote add upstream "git://github.com/${GITHUB_REPOSITORY}.git"
-  git fetch
-fi
-
 COMMON_POINT="$(git merge-base origin/master HEAD)"
 
 echo $(git diff --name-only $COMMON_POINT --diff-filter=ACMRTUXB |
