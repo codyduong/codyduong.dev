@@ -52,6 +52,7 @@ const Plane = (props: any): JSX.Element => {
       rotation={[-1.57079632679, 0, 0]}
     >
       <planeGeometry />
+      {/* eslint-disable-next-line react/no-unknown-property */}
       <meshPhongMaterial transparent color="white" opacity={0} />
     </e.mesh>
   );
@@ -119,7 +120,6 @@ const Construction3D = (props: Construction3DProps): JSX.Element => {
   const coneMaterial = useLoader(MTLLoader, '3d/cone/materials.mtl');
   const cone = useLoader(OBJLoader, '3d/cone/model.obj', (loader) => {
     coneMaterial.preload();
-    // @ts-expect-error: todo fix interface
     loader.setMaterials(coneMaterial);
   });
   const coneCollisions = useMemo(
