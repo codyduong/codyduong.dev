@@ -41,6 +41,7 @@ const Home3D = (): JSX.Element => {
     >
       <SheetProvider sheet={demoSheet}>
         <ambientLight />
+        {/* @ts-expect-error: todo */}
         <e.pointLight theatreKey="pointLight1" position={[10, 10, 10]} />
         {/* <e.mesh theatreKey="Cube">
           <boxGeometry args={[1, 1, 1]} />

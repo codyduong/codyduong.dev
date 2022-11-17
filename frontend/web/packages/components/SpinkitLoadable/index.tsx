@@ -1,4 +1,4 @@
-import 'spinkit/spinkit.css';
+// document && require('spinkit/spinkit.css');
 import loadable, {
   DefaultComponent,
   LoadableComponent,

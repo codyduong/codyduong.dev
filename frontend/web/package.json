@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "craco start",
     "start": "yarn dev",
+    "dev:ssr": "cross-env SSR=1 cra-universal start",
+    "start:ssr": "yarn build && yarn dev:ssr",
     "build": "craco build",
     "serve": "serve -s build -l 3001",
     "test": "jest",
@@ -15,9 +17,10 @@
     "lint": "yarn eslint",
     "lint:changed": "./scripts/lint.sh",
     "postinstall": "./scripts/post-install.sh",
-    "graphql": "yarn graphql codegen -r dotenv/config --project suretrack"
+    "graphql": "echo 'todo' && exit 1 && yarn graphql codegen -r dotenv/config --project codyduongweb"
   },
   "dependencies": {
+    "@cra-express/core": "^5.0.2",
     "@craco/craco": "^7.0.0-alpha",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -60,6 +63,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@babel/preset-typescript": "^7.17.12",
+    "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/server": "^5.15.2",
+    "@loadable/webpack-plugin": "^5.15.2",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
@@ -78,13 +84,15 @@
     "@typescript-eslint/parser": "^5.28.0",
     "babel-loader": "^8.2.5",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "cra-universal": "^5.0.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
-    "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.1",
+    "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",
     "eslint-mdx": "^1.17.0",
     "eslint-plugin-mdx": "^1.17.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
+    "firebase-tools": "^11.16.1",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
     "react-app-alias": "^2.2.0",

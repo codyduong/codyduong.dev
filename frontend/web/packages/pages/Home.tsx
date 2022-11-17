@@ -9,7 +9,7 @@ const Section = styled.section`
 const Home = (): JSX.Element => {
   return (
     <>
-      <Construction3D />
+      {/* <Construction3D /> */}
       {/* <Section>
         <Home3D /> 
       </Section> */}

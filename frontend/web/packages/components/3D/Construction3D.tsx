@@ -120,6 +120,7 @@ const Construction3D = (props: Construction3DProps): JSX.Element => {
   const coneMaterial = useLoader(MTLLoader, '3d/cone/materials.mtl');
   const cone = useLoader(OBJLoader, '3d/cone/model.obj', (loader) => {
     coneMaterial.preload();
+    // @ts-expect-error: todo
     loader.setMaterials(coneMaterial);
   });
   const coneCollisions = useMemo(

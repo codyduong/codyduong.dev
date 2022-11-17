@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const {
   getLoader,
   getLoaders,
   addAfterLoaders,
   removeLoaders,
+  addAfterLoader,
 } = require('@craco/craco');
 const { CracoAliasPlugin } = require('react-app-alias');
+const LoadablePlugin = require('@loadable/webpack-plugin');
+const path = require('path');
 
 // eslint-disable-next-line no-useless-escape, prettier/prettier
 const SVGRegex = '/\.svg$/';
@@ -41,7 +45,7 @@ const defaultSVGLoader2 = {
 module.exports = {
   // https://github.com/facebook/create-react-app/blob/main/packages/react-scripts/config/webpack.config.js
   webpack: {
-    configure: function (webpackConfig) {
+    configure: function (webpackConfig, { paths, env }) {
       const svgr = {
         test: /\.svg$/i,
         issuer: /\.[jt]sx?$/,
@@ -50,11 +54,15 @@ module.exports = {
       };
 
       console.log(addAfterLoaders(webpackConfig, isSvgLoader, svgr));
-      console.log(removeLoaders(webpackConfig, isSvgLoader, svgr));
+      console.log(removeLoaders(webpackConfig, isSvgLoader));
+      // webpackConfig.plugins.push(new LoadablePlugin());
 
       return webpackConfig;
     },
   },
+  // babel: {
+  //   plugins: ['@loadable/babel-plugin'],
+  // },
   plugins: [
     {
       plugin: CracoAliasPlugin,
