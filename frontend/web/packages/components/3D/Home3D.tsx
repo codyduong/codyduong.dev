@@ -31,7 +31,6 @@ const Home3D = (): JSX.Element => {
   const discMaterial = useLoader(MTLLoader, '3d/cd/cd.mtl');
   const disc = useLoader(OBJLoader, '3d/cd/cd.obj', (loader) => {
     discMaterial.preload();
-    // @ts-expect-error: todo fix interface
     loader.setMaterials(discMaterial);
   });
 
