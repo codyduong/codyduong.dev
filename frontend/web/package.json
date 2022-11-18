@@ -80,7 +80,7 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
-    "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.1",
+    "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",
     "eslint-mdx": "^1.17.0",
     "eslint-plugin-mdx": "^1.17.0",
     "eslint-plugin-prettier": "^4.2.1",

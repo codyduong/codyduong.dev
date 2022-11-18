@@ -23,9 +23,37 @@ export function toConvexProps(
 }
 
 export const DebugDev = (props: Parameters<typeof Debug>[0]): JSX.Element => {
-  return process.env.NODE_ENV === 'development' ? (
+  console.log(process.env.THREED_DEBUG);
+  return process.env.THREED_DEBUG == 'true' ? (
     <Debug {...props} />
   ) : (
     <>{props.children}</>
   );
+};
+
+import { getProject } from '@theatre/core';
+import { SheetProvider } from '@theatre/r3f';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const studio = require('@theatre/studio');
+
+if (process.env.THREED_DEBUG == 'true') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const extension = require('@theatre/r3f/dist/extension');
+  studio.initialize();
+  studio.extend(extension);
+}
+
+interface TheatreProps {
+  children: React.ReactNode;
+  projectName?: string;
+  sheetName: string;
+}
+
+export const Theatre = ({
+  children,
+  projectName = 'codyduongweb',
+  sheetName,
+}: TheatreProps): JSX.Element => {
+  const demoSheet = getProject(projectName).sheet(sheetName);
+  return <SheetProvider sheet={demoSheet}>{children}</SheetProvider>;
 };

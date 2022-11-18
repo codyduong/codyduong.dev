@@ -1,11 +1,7 @@
 import * as THREE from 'three';
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
-import { getProject } from '@theatre/core';
-
-import studio from '@theatre/studio';
-import extension from '@theatre/r3f/dist/extension';
-import { editable as e, SheetProvider } from '@theatre/r3f';
+import { editable as e } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
@@ -18,13 +14,7 @@ import {
 import { DebugDev, toConvexProps } from 'packages/components/3D/util';
 import { Typography } from 'packages/components/Typography';
 import styled from 'styled-components';
-
-// if (process.env.NODE_ENV === 'development') {
-//   studio.initialize();
-//   studio.extend(extension);
-// }
-
-const demoSheet = getProject('codyduongweb').sheet('underConstruction');
+import { Theatre } from './util';
 
 const Plane = (props: any): JSX.Element => {
   const [rotation, position]: [
@@ -143,25 +133,26 @@ const Construction3D = (props: Construction3DProps): JSX.Element => {
   return (
     <>
       <CanvasSection>
-        <Canvas
-          camera={{ position: [-5, 2, -5] }}
-          gl={{ preserveDrawingBuffer: true }}
-        >
-          <SheetProvider sheet={demoSheet}>
-            <ambientLight />
-            <e.pointLight
-              theatreKey="pointLight1"
-              intensity={10}
-              position={[-1, 10, 2.5]}
-            />
-            <OrbitControls
-              enablePan={false}
-              enableZoom={false}
-              enabled={false}
-              // minPolarAngle={Math.PI / 2.2}
-              // maxPolarAngle={Math.PI / 2.2}
-            />
-            {/* <e.mesh
+        <Suspense>
+          <Canvas
+            camera={{ position: [-5, 2, -5] }}
+            gl={{ preserveDrawingBuffer: true }}
+          >
+            <Theatre sheetName={'underConstruction'}>
+              <ambientLight />
+              <e.pointLight
+                theatreKey="pointLight1"
+                intensity={10}
+                position={[-1, 10, 2.5]}
+              />
+              <OrbitControls
+                enablePan={false}
+                enableZoom={false}
+                enabled={false}
+                // minPolarAngle={Math.PI / 2.2}
+                // maxPolarAngle={Math.PI / 2.2}
+              />
+              {/* <e.mesh
           theatreKey="floor"
           position={[0, -0.5, 0]}
           rotation={[-1.57079632679, 0, 0]}
@@ -169,60 +160,37 @@ const Construction3D = (props: Construction3DProps): JSX.Element => {
           <circleGeometry args={[50, 32]} />
           <meshStandardMaterial color={'white'} />
         </e.mesh> */}
-            <Physics size={10} allowSleep>
-              {/* <DebugDev color="black" scale={1.1}>
-                <Plane />
-                <Cone
-                  cone={cone}
-                  coneCollisions={coneCollisions}
-                  primitiveProps={{
-                    rotation: [0.36, 0.12, 0.24],
-                  }}
-                />
-                <Cone
-                  cone={cone.clone()}
-                  coneCollisions={coneCollisions}
-                  primitiveProps={{
-                    position: [0, 7, 1],
-                    rotation: [0.9, 3, 0.75],
-                  }}
-                />
-                <Cone
-                  cone={cone.clone()}
-                  coneCollisions={coneCollisions}
-                  primitiveProps={{
-                    position: [1, 7, 0],
-                    rotation: [0.4, 0.7, 1.8],
-                  }}
-                />
-              </DebugDev> */}
-              <Plane />
-              <Cone
-                cone={cone}
-                coneCollisions={coneCollisions}
-                primitiveProps={{
-                  rotation: [0.36, 0.12, 0.24],
-                }}
-              />
-              <Cone
-                cone={cone2}
-                coneCollisions={coneCollisions}
-                primitiveProps={{
-                  position: [0.15, 7, 1],
-                  rotation: [0.9, 3, 0.75],
-                }}
-              />
-              <Cone
-                cone={cone3}
-                coneCollisions={coneCollisions}
-                primitiveProps={{
-                  position: [1, 7, 0],
-                  rotation: [0.4, 0.7, 1.8],
-                }}
-              />
-            </Physics>
-          </SheetProvider>
-        </Canvas>
+              <Physics size={10} allowSleep>
+                <DebugDev color="black" scale={1.1}>
+                  <Plane />
+                  <Cone
+                    cone={cone}
+                    coneCollisions={coneCollisions}
+                    primitiveProps={{
+                      rotation: [0.36, 0.12, 0.24],
+                    }}
+                  />
+                  <Cone
+                    cone={cone2}
+                    coneCollisions={coneCollisions}
+                    primitiveProps={{
+                      position: [0.15, 7, 1],
+                      rotation: [0.9, 3, 0.75],
+                    }}
+                  />
+                  <Cone
+                    cone={cone3}
+                    coneCollisions={coneCollisions}
+                    primitiveProps={{
+                      position: [1, 7, 0],
+                      rotation: [0.4, 0.7, 1.8],
+                    }}
+                  />
+                </DebugDev>
+              </Physics>
+            </Theatre>
+          </Canvas>
+        </Suspense>
       </CanvasSection>
       <UnderConstructionSection>
         <Typography.Heading.H2>

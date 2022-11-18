@@ -8418,9 +8418,9 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-"eslint-config-codyduong@https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.1":
-  version "1.0.0"
-  resolved "https://github.com/codyduong/eslint-config-codyduong.git#8d0d5b658b52ecd293411287e0247c331fccc9a0"
+"eslint-config-codyduong@https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2":
+  version "1.0.2"
+  resolved "https://github.com/codyduong/eslint-config-codyduong.git#f52fd77371ba29c98722b7a70d0b71987d10e452"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^5.21.0"
     "@typescript-eslint/parser" "^5.21.0"

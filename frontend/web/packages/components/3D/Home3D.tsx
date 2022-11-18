@@ -1,21 +1,11 @@
 import * as THREE from 'three';
 import { useEffect } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
-import { getProject } from '@theatre/core';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-
-import studio from '@theatre/studio';
-import extension from '@theatre/r3f/dist/extension';
 import { editable as e, SheetProvider } from '@theatre/r3f';
 import { OrbitControls, useTexture } from '@react-three/drei';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-
-if (process.env.NODE_ENV === 'development') {
-  studio.initialize();
-  studio.extend(extension);
-}
-
-const demoSheet = getProject('codyduongweb').sheet('home3D');
+import { Theatre } from './util';
 
 const Home3D = (): JSX.Element => {
   useEffect(() => {
@@ -39,7 +29,7 @@ const Home3D = (): JSX.Element => {
       camera={{ position: [5, 5, -5] }}
       gl={{ preserveDrawingBuffer: true }}
     >
-      <SheetProvider sheet={demoSheet}>
+      <Theatre sheetName="home3D">
         <ambientLight />
         <e.pointLight theatreKey="pointLight1" position={[10, 10, 10]} />
         {/* <e.mesh theatreKey="Cube">
@@ -64,7 +54,7 @@ const Home3D = (): JSX.Element => {
           // minPolarAngle={Math.PI / 2.2}
           // maxPolarAngle={Math.PI / 2.2}
         />
-      </SheetProvider>
+      </Theatre>
     </Canvas>
   );
 };
