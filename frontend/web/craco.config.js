@@ -49,8 +49,14 @@ module.exports = {
         use: ['@svgr/webpack'],
       };
 
-      console.log(addAfterLoaders(webpackConfig, isSvgLoader, svgr));
-      console.log(removeLoaders(webpackConfig, isSvgLoader, svgr));
+      const { isAdded } = addAfterLoaders(webpackConfig, isSvgLoader, svgr);
+      const { hasRemovedAny } = removeLoaders(webpackConfig, isSvgLoader, svgr);
+
+      if (isAdded && hasRemovedAny) {
+        console.log('Successfully configured custom svg loader');
+      } else {
+        console.warn('There was an error loading custom svg loader');
+      }
 
       return webpackConfig;
     },

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "craco start",
-    "start": "yarn dev",
-    "build": "craco build",
+    "start:tsc": "tsc -b -w --preserveWatchOutput",
+    "start": "concurrently \"yarn start:tsc\" \"razzle start\"",
+    "build": "tsc -b && razzle build --noninteractive",
     "serve": "serve -s build -l 3001",
     "test": "jest",
     "eject": "exit 1 && react-scripts eject",
@@ -14,8 +14,7 @@
     "ci": "yarn install --frozen-lockfile",
     "lint": "yarn eslint",
     "lint:changed": "./scripts/lint.sh",
-    "postinstall": "./scripts/post-install.sh",
-    "graphql": "yarn graphql codegen -r dotenv/config --project suretrack"
+    "postinstall": "./scripts/post-install.sh"
   },
   "dependencies": {
     "@craco/craco": "^7.0.0-alpha",
@@ -23,6 +22,7 @@
     "@emotion/styled": "^11.9.3",
     "@fontsource/overpass": "^4.5.8",
     "@loadable/component": "^5.15.2",
+    "@loadable/server": "^5.15.2",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.6",
     "@react-three/a11y": "^3.0.0",
@@ -43,11 +43,13 @@
     "@types/styled-components": "^5.1.25",
     "@types/three": "^0.141.0",
     "classnames": "^2.3.1",
+    "concurrently": "^7.6.0",
     "geojson-vt": "^3.2.1",
     "node-sass": "^7.0.1",
+    "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "6",
+    "react-router-dom": "^6",
     "react-scripts": "5.0.1",
     "react-spring": "^9.4.5",
     "spinkit": "^2.0.1",
@@ -59,14 +61,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@babel/preset-typescript": "^7.17.12",
+    "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/webpack-plugin": "^5.15.2",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
     "@storybook/addon-links": "^6.5.9",
-    "@storybook/builder-webpack4": "^6.5.9",
     "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack4": "^6.5.9",
     "@storybook/manager-webpack5": "^6.5.9",
     "@storybook/mdx2-csf": "^0.0.3",
     "@storybook/node-logger": "^6.5.9",
@@ -74,10 +77,11 @@
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
     "@svgr/webpack": "^5.5.0",
+    "@types/loadable__server": "^5.12.6",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
     "babel-loader": "^8.2.5",
-    "babel-plugin-named-exports-order": "^0.0.2",
+    "babel-preset-razzle": "^4.2.18",
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",
@@ -85,15 +89,21 @@
     "eslint-plugin-mdx": "^1.17.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
+    "html-webpack-plugin": "5.2.0",
+    "mini-css-extract-plugin": "2.7.0",
+    "postcss": "8.4.19",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
+    "razzle": "^4.2.18",
+    "razzle-dev-utils": "^4.2.18",
     "react-app-alias": "^2.2.0",
     "serve": "^14.0.1",
     "storybook-addon-react-router-v6": "^0.1.10",
     "storybook-preset-craco": "https://github.com/artisanofcode/storybook-preset-craco.git",
     "tsconfig-paths": "^4.0.0",
     "webpack": "5",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "3.11.0"
   },
   "browserslist": {
     "production": [
@@ -162,9 +172,7 @@
     ],
     "resetMocks": true
   },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
+  "resolutions": {
+    "autoprefixer": "^10.4.13"
   }
 }

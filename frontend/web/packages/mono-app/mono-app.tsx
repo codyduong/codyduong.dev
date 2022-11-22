@@ -1,13 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { useThemeBase } from 'packages/themed';
-import SpinkitLoadable from 'packages/components/SpinkitLoadable';
+import loadable from 'packages/components/SpinkitLoadable';
 import Page from 'packages/pages/Page';
-import Links from 'packages/pages/links/Links';
-import Construction3D from 'packages/components/3D/Construction3D';
 
-const Home = SpinkitLoadable(import('packages/pages/Home'));
-const NotFound = SpinkitLoadable(import('packages/pages/404/NotFound'));
+const Home = loadable(() => import('packages/pages/Home'));
+const NotFound = loadable(() => import('packages/pages/404/NotFound'));
+const Construction3D = loadable(
+  () => import('packages/components/3D/Construction3D'),
+  { ssr: false }
+);
+const Links = loadable(() => import('packages/pages/links/Links'));
 
 function App(): JSX.Element {
   const [theme] = useThemeBase();

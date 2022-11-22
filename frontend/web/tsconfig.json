@@ -20,7 +20,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": "src",
+    "paths": {
+      "packages/*": ["../packages/*"],
+    },
   },
   "include": [
     "src",

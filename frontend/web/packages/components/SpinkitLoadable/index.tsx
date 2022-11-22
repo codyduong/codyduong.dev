@@ -1,7 +1,8 @@
 import 'spinkit/spinkit.css';
-import loadable, {
+import baseLoadable, {
   DefaultComponent,
   LoadableComponent,
+  OptionsWithoutResolver,
 } from '@loadable/component';
 
 export function Spinner(): JSX.Element {
@@ -23,10 +24,12 @@ export function Spinner(): JSX.Element {
   );
 }
 
-export default function SpinkitLoadable<Props>(
-  imported: Promise<DefaultComponent<Props>>
+export default function loadable<Props>(
+  importFunc: () => Promise<DefaultComponent<Props>>,
+  options?: OptionsWithoutResolver<Props>
 ): LoadableComponent<Props> {
-  return loadable(() => imported, {
+  return baseLoadable(importFunc, {
     fallback: <Spinner />,
+    ...options,
   });
 }

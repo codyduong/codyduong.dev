@@ -33,14 +33,15 @@ export const DebugDev = (props: Parameters<typeof Debug>[0]): JSX.Element => {
 
 import { getProject } from '@theatre/core';
 import { SheetProvider } from '@theatre/r3f';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const studio = require('@theatre/studio');
+import studio from '@theatre/studio';
+studio.initialize();
+studio.ui.hide();
 
 if (process.env.THREED_DEBUG == 'true') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const extension = require('@theatre/r3f/dist/extension');
-  studio.initialize();
   studio.extend(extension);
+  studio.ui.restore();
 }
 
 interface TheatreProps {
