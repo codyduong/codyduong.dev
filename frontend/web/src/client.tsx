@@ -10,11 +10,11 @@ import App from 'packages/mono-app';
 loadableReady(() => {
   hydrateRoot(
     document.getElementById('root')!,
-    <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+    // </React.StrictMode>
   );
 });
 

@@ -1,8 +1,8 @@
-import * as THREE from 'three';
+import { THREE } from './core';
 import { useEffect } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { editable as e, SheetProvider } from '@theatre/r3f';
+import { editable as e } from '@theatre/r3f';
 import { OrbitControls, useTexture } from '@react-three/drei';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { Theatre } from './util';
@@ -30,7 +30,7 @@ const Home3D = (): JSX.Element => {
       camera={{ position: [5, 5, -5] }}
       gl={{ preserveDrawingBuffer: true }}
     >
-      <Theatre sheetName="home3D">
+      <Theatre sheetArgs={['home3D']}>
         <ambientLight />
         {/* @ts-expect-error: TODO */}
         <e.pointLight theatreKey="pointLight1" position={[10, 10, 10]} />

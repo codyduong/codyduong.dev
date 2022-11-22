@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { THREE } from './core';
 import { Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
 import { editable as e } from '@theatre/r3f';
@@ -14,7 +14,7 @@ import {
 import { DebugDev, toConvexProps } from 'packages/components/3D/util';
 import { Theatre } from './util';
 
-const Plane = (props: any): JSX.Element => {
+const Plane = (props: any): JSX.Element | null => {
   const [rotation, position]: [
     [number, number, number],
     [number, number, number]
@@ -112,7 +112,7 @@ const Construction3DClient = (): JSX.Element => {
         camera={{ position: [-5, 2, -5] }}
         gl={{ preserveDrawingBuffer: true }}
       >
-        <Theatre sheetName={'underConstruction'}>
+        <Theatre sheetArgs={['underConstruction']}>
           <ambientLight />
           {/* @ts-expect-error: TODO */}
           <e.pointLight

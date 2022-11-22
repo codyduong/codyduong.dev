@@ -2,6 +2,8 @@
 import type { BufferGeometry } from 'three';
 import { Geometry } from 'three-stdlib';
 import { Debug } from '@react-three/cannon';
+import type { getProject } from '@theatre/core';
+import { useTheatre } from 'packages/components/3D/TheatreContext';
 
 export function toConvexProps(
   bufferGeometry: BufferGeometry,
@@ -30,30 +32,22 @@ export const DebugDev = (props: Parameters<typeof Debug>[0]): JSX.Element => {
   );
 };
 
-import { getProject } from '@theatre/core';
-import { SheetProvider } from '@theatre/r3f';
-import studio from '@theatre/studio';
-studio.initialize();
-studio.ui.hide();
-
-if (process.env.THREED_DEBUG == 'true') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const extension = require('@theatre/r3f/dist/extension');
-  studio.extend(extension);
-  studio.ui.restore();
-}
-
 interface TheatreProps {
   children: React.ReactNode;
-  projectName?: string;
-  sheetName: string;
+  getProjectArgs?: Parameters<typeof getProject>;
+  sheetArgs: Parameters<ReturnType<typeof getProject>['sheet']>;
 }
 
 export const Theatre = ({
   children,
-  projectName = 'codyduongweb',
-  sheetName,
-}: TheatreProps): JSX.Element => {
-  const demoSheet = getProject(projectName).sheet(sheetName);
+  getProjectArgs = ['codyduongweb'],
+  sheetArgs,
+}: TheatreProps): JSX.Element | null => {
+  const { getProject, SheetProvider } = useTheatre();
+
+  const demoSheet = getProject('codyduongweb')?.sheet('dickball');
+  if (!demoSheet) {
+    return null;
+  }
   return <SheetProvider sheet={demoSheet}>{children}</SheetProvider>;
 };
