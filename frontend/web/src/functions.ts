@@ -5,4 +5,5 @@ import server from './server';
 admin.initializeApp();
 
 const web = functions.https.onRequest(server);
-export default web;
+
+exports.web = web;
