@@ -1,3 +1,9 @@
+/**
+ * Craco is exclusively used for storybook ever since SSR was implemented with razzle
+ *
+ * It does mean storybook-webpack vs app-webpack can get out of sync, w/e TODO LOL
+ */
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 const {
   getLoader,
@@ -49,8 +55,14 @@ module.exports = {
         use: ['@svgr/webpack'],
       };
 
-      console.log(addAfterLoaders(webpackConfig, isSvgLoader, svgr));
-      console.log(removeLoaders(webpackConfig, isSvgLoader, svgr));
+      const { isAdded } = addAfterLoaders(webpackConfig, isSvgLoader, svgr);
+      const { hasRemovedAny } = removeLoaders(webpackConfig, isSvgLoader, svgr);
+
+      if (isAdded && hasRemovedAny) {
+        console.log('Successfully configured custom svg loader');
+      } else {
+        console.warn('There was an error loading custom svg loader');
+      }
 
       return webpackConfig;
     },

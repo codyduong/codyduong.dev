@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Theme } from './Themes';
-import themes from './themes';
+import themes from './themes/';
 
 export function useThemeBase(): [
   Theme,

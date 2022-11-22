@@ -21,6 +21,7 @@ const Home3D = (): JSX.Element => {
   const discMaterial = useLoader(MTLLoader, '3d/cd/cd.mtl');
   const disc = useLoader(OBJLoader, '3d/cd/cd.obj', (loader) => {
     discMaterial.preload();
+    // @ts-expect-error: TODO
     loader.setMaterials(discMaterial);
   });
 
@@ -31,6 +32,7 @@ const Home3D = (): JSX.Element => {
     >
       <Theatre sheetName="home3D">
         <ambientLight />
+        {/* @ts-expect-error: TODO */}
         <e.pointLight theatreKey="pointLight1" position={[10, 10, 10]} />
         {/* <e.mesh theatreKey="Cube">
           <boxGeometry args={[1, 1, 1]} />
