@@ -21,7 +21,7 @@
     "lint": "yarn eslint",
     "lint:changed": "./scripts/lint.sh",
     "postinstall": "./scripts/post-install.sh",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
