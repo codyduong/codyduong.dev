@@ -1,3 +1,9 @@
+/**
+ * Craco is exclusively used for storybook ever since SSR was implemented with razzle
+ *
+ * It does mean storybook-webpack vs app-webpack can get out of sync, w/e TODO LOL
+ */
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 const {
   getLoader,
