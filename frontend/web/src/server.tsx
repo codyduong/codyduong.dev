@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -23,6 +24,24 @@ const syncLoadAssets = () => {
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 };
 syncLoadAssets();
+
+// @ts-ignore
+const cssLinksFromAssets = (assets, entrypoint) => {
+  return assets[entrypoint] ? assets[entrypoint].css ?
+  // @ts-ignore
+  assets[entrypoint].css.map(asset=>
+    `<link rel="stylesheet" href="${asset}">`
+  ).join('') : '' : '';
+};
+
+// @ts-ignore
+const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
+  return assets[entrypoint] ? assets[entrypoint].js ?
+  // @ts-ignore
+  assets[entrypoint].js.map(asset=>
+    `<script src="${asset}"${extra}></script>`
+  ).join('') : '' : '';
+};
 
 export const renderApp = (req: express.Request, res: express.Response) => {
   const context = {};
@@ -67,18 +86,19 @@ export const renderApp = (req: express.Request, res: express.Response) => {
         <html lang="">
         <head>
           <meta charset="utf-8" />
-          <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#000000" />
           <meta
             name="description"
             content="Cody Duong - personal website"
           />
+          ${cssLinksFromAssets(assets, 'client')}
           ${linkTags}
           ${styleTags}
         </head>
         <body>
           <div id="root">${markup}</div>
+          ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
           ${scriptTags}
         </body>
       </html>`;

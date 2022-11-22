@@ -23,7 +23,6 @@ export function toConvexProps(
 }
 
 export const DebugDev = (props: Parameters<typeof Debug>[0]): JSX.Element => {
-  console.log(process.env.THREED_DEBUG);
   return process.env.THREED_DEBUG == 'true' ? (
     <Debug {...props} />
   ) : (
