@@ -5,6 +5,12 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrite": [
+      {
+        "source": "**/**",
+        "functions": "server"
+      }
     ]
   },
   "functions": [
