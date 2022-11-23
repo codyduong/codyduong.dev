@@ -8,16 +8,6 @@ import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { Theatre } from './util';
 
 const Home3D = (): JSX.Element => {
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      const studioRoot = document.getElementById('theatrejs-studio-root');
-      if (studioRoot) {
-        // @ts-expect-error: w/e
-        studioRoot.style.zIndex = 1100;
-      }
-    }
-  }, []);
-
   const discMaterial = useLoader(MTLLoader, '3d/cd/cd.mtl');
   const disc = useLoader(OBJLoader, '3d/cd/cd.obj', (loader) => {
     discMaterial.preload();

@@ -57,7 +57,9 @@ function locateLoader(rules, loaderName) {
 }
 
 module.exports = {
-  modifyWebpackConfig({ webpackConfig, webpackObject, env, options }) {
+  modifyWebpackConfig(opts) {
+    const { webpackConfig, webpackObject, env } = opts;
+
     const svgr = [
       {
         test: /\.svg$/i,
@@ -85,11 +87,24 @@ module.exports = {
     webpackConfig.module.rules[fileLoaderInfo[0].ruleIndex] = fileLoaderRule;
 
     webpackConfig.plugins.push(
+      new webpack.EnvironmentPlugin([
+        'NODE_ENV',
+        'THREED_DEBUG',
+        'PORT',
+        'RAZZLE_ASSETS_MANIFEST',
+        'RAZZLE_PUBLIC_DIR',
+      ])
+    );
+
+    webpackConfig.plugins.push(
       new webpack.ProvidePlugin({ process: 'process/browser' })
     );
 
     // https://github.com/jaredpalmer/razzle/discussions/1864#discussioncomment-2807427
     if (env.target === 'node') {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      // require('./config/firebase/firebasePlugin').modifyWebpackConfig(opts);
+
       webpackConfig.plugins.push(
         new webpackObject.ContextReplacementPlugin(
           // we want to replace context
@@ -108,20 +123,12 @@ module.exports = {
       const filename = path.resolve(__dirname, 'build');
 
       webpackConfig.plugins.push(
-        new webpackObject.ProvidePlugin({
-          process: 'process/browser',
-        })
-      );
-
-      webpackConfig.plugins.push(
         new LoadablePlugin({
           outputAsset: false,
           writeToDisk: { filename },
         })
       );
     }
-
-    // console.log(webpackConfig.plugins);
 
     return webpackConfig;
   },

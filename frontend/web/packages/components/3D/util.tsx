@@ -45,7 +45,7 @@ export const Theatre = ({
 }: TheatreProps): JSX.Element | null => {
   const { getProject, SheetProvider } = useTheatre();
 
-  const demoSheet = getProject('codyduongweb')?.sheet('dickball');
+  const demoSheet = getProject(...getProjectArgs)?.sheet(...sheetArgs);
   if (!demoSheet) {
     return null;
   }
