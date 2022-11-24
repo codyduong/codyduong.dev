@@ -1,20 +1,15 @@
 import { THREE } from './core';
 import { Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
-import { editable as e } from '@theatre/r3f';
+import type { editable } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import {
-  Physics,
-  usePlane,
-  useCompoundBody,
-  useBox,
-} from '@react-three/cannon';
+import { Physics, usePlane, useCompoundBody } from '@react-three/cannon';
 import { DebugDev, toConvexProps } from 'packages/components/3D/util';
 import { Theatre } from './util';
 
-const Plane = (props: any): JSX.Element | null => {
+const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
   const [rotation, position]: [
     [number, number, number],
     [number, number, number]
@@ -112,58 +107,63 @@ const Construction3DClient = (): JSX.Element => {
         camera={{ position: [-5, 2, -5] }}
         gl={{ preserveDrawingBuffer: true }}
       >
-        <Theatre sheetArgs={['underConstruction']}>
-          <ambientLight />
-          {/* @ts-expect-error: TODO */}
-          <e.pointLight
-            theatreKey="pointLight1"
-            intensity={10}
-            position={[-1, 10, 2.5]}
-          />
-          <OrbitControls
-            enablePan={false}
-            enableZoom={false}
-            enabled={false}
-            // minPolarAngle={Math.PI / 2.2}
-            // maxPolarAngle={Math.PI / 2.2}
-          />
-          {/* <e.mesh
-          theatreKey="floor"
-          position={[0, -0.5, 0]}
-          rotation={[-1.57079632679, 0, 0]}
-        >
-          <circleGeometry args={[50, 32]} />
-          <meshStandardMaterial color={'white'} />
-        </e.mesh> */}
-          <Physics size={10} allowSleep>
-            <DebugDev color="black" scale={1.1}>
-              <Plane />
-              <Cone
-                cone={cone}
-                coneCollisions={coneCollisions}
-                primitiveProps={{
-                  rotation: [0.36, 0.12, 0.24],
-                }}
+        <Theatre
+          sheetArgs={['underConstruction']}
+          render={(e) => (
+            <>
+              <ambientLight />
+              {/* @ts-expect-error: TODO */}
+              <e.pointLight
+                theatreKey="pointLight1"
+                intensity={10}
+                position={[-1, 10, 2.5]}
               />
-              <Cone
-                cone={cone2}
-                coneCollisions={coneCollisions}
-                primitiveProps={{
-                  position: [0.15, 7, 1],
-                  rotation: [0.9, 3, 0.75],
-                }}
+              <OrbitControls
+                enablePan={false}
+                enableZoom={false}
+                enabled={false}
+                // minPolarAngle={Math.PI / 2.2}
+                // maxPolarAngle={Math.PI / 2.2}
               />
-              <Cone
-                cone={cone3}
-                coneCollisions={coneCollisions}
-                primitiveProps={{
-                  position: [1, 7, 0],
-                  rotation: [0.4, 0.7, 1.8],
-                }}
-              />
-            </DebugDev>
-          </Physics>
-        </Theatre>
+              {/* <e.mesh
+                theatreKey="floor"
+                position={[0, -0.5, 0]}
+                rotation={[-1.57079632679, 0, 0]}
+              >
+                <circleGeometry args={[50, 32]} />
+                <meshStandardMaterial color={'white'} />
+              </e.mesh> */}
+              <Physics size={10} allowSleep>
+                <DebugDev color="black" scale={1.1}>
+                  <Plane e={e} />
+                  <Cone
+                    cone={cone}
+                    coneCollisions={coneCollisions}
+                    primitiveProps={{
+                      rotation: [0.36, 0.12, 0.24],
+                    }}
+                  />
+                  <Cone
+                    cone={cone2}
+                    coneCollisions={coneCollisions}
+                    primitiveProps={{
+                      position: [0.15, 7, 1],
+                      rotation: [0.9, 3, 0.75],
+                    }}
+                  />
+                  <Cone
+                    cone={cone3}
+                    coneCollisions={coneCollisions}
+                    primitiveProps={{
+                      position: [1, 7, 0],
+                      rotation: [0.4, 0.7, 1.8],
+                    }}
+                  />
+                </DebugDev>
+              </Physics>
+            </>
+          )}
+        />
       </Canvas>
     </Suspense>
   );

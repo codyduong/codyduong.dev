@@ -4,6 +4,7 @@ import { Geometry } from 'three-stdlib';
 import { Debug } from '@react-three/cannon';
 import type { getProject } from '@theatre/core';
 import { useTheatre } from 'packages/components/3D/TheatreContext';
+import { editable } from '@theatre/r3f';
 
 export function toConvexProps(
   bufferGeometry: BufferGeometry,
@@ -33,15 +34,15 @@ export const DebugDev = (props: Parameters<typeof Debug>[0]): JSX.Element => {
 };
 
 interface TheatreProps {
-  children: React.ReactNode;
   getProjectArgs?: Parameters<typeof getProject>;
   sheetArgs: Parameters<ReturnType<typeof getProject>['sheet']>;
+  render: (e: typeof editable) => React.ReactNode;
 }
 
 export const Theatre = ({
-  children,
   getProjectArgs = ['codyduongweb'],
   sheetArgs,
+  render,
 }: TheatreProps): JSX.Element | null => {
   const { getProject, SheetProvider } = useTheatre();
 
@@ -49,5 +50,5 @@ export const Theatre = ({
   if (!demoSheet) {
     return null;
   }
-  return <SheetProvider sheet={demoSheet}>{children}</SheetProvider>;
+  return <SheetProvider sheet={demoSheet}>{render(editable)}</SheetProvider>;
 };

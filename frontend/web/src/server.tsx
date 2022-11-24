@@ -158,8 +158,9 @@ const server = express()
     }
   });
 
-import {https} from 'firebase-functions';
+// console.log(server)
+// import {https} from 'firebase-functions';
+// const web = https.onRequest(server);
+// export default web;
 
-const web = https.onRequest(server);
-
-export default web;
+export default server;
