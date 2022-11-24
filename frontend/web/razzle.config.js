@@ -87,14 +87,15 @@ module.exports = {
     webpackConfig.module.rules[fileLoaderInfo[0].ruleIndex] = fileLoaderRule;
 
     webpackConfig.plugins.push(
-      new webpack.EnvironmentPlugin([
-        'NODE_ENV',
-        'THREED_DEBUG',
-        'PORT',
-        'RAZZLE_ASSETS_MANIFEST',
-        'RAZZLE_PUBLIC_DIR',
-      ])
+      new webpack.EnvironmentPlugin(['NODE_ENV', 'THREED_DEBUG', 'PORT'])
     );
+
+    // webpackConfig.plugins.push(
+    //   new webpack.EnvironmentPlugin([
+    //     'RAZZLE_ASSETS_MANIFEST',
+    //     'RAZZLE_PUBLIC_DIR',
+    //   ])
+    // );
 
     webpackConfig.plugins.push(
       new webpack.ProvidePlugin({ process: 'process/browser' })

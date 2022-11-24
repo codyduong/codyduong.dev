@@ -1,10 +1,15 @@
 // https://github.com/pmndrs/react-three-fiber/discussions/949
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as THREE from 'three';
 import type { BufferGeometry } from 'three';
 import { Geometry } from 'three-stdlib';
-import { Debug } from '@react-three/cannon';
+import type { Debug } from '@react-three/cannon';
 import type { getProject } from '@theatre/core';
 import { useTheatre } from 'packages/components/3D/TheatreContext';
 import { editable } from '@theatre/r3f';
+import React, { useEffect } from 'react';
+import studio from '@theatre/studio';
 
 export function toConvexProps(
   bufferGeometry: BufferGeometry,
@@ -25,13 +30,22 @@ export function toConvexProps(
   ];
 }
 
-export const DebugDev = (props: Parameters<typeof Debug>[0]): JSX.Element => {
-  return process.env.THREED_DEBUG == 'true' ? (
-    <Debug {...props} />
+export function RenderOnThreeDev<
+  Props extends [{ children?: React.ReactNode }, unknown?] = Parameters<
+    typeof Debug
+  >
+>({
+  DebugComponent,
+  ...rest
+}: Props[0] & {
+  DebugComponent: (...args: Props) => JSX.Element;
+}): JSX.Element {
+  return process?.env.THREED_DEBUG === 'true' ? (
+    <DebugComponent {...rest} />
   ) : (
-    <>{props.children}</>
+    <>{rest.children}</>
   );
-};
+}
 
 interface TheatreProps {
   getProjectArgs?: Parameters<typeof getProject>;
@@ -45,6 +59,15 @@ export const Theatre = ({
   render,
 }: TheatreProps): JSX.Element | null => {
   const { getProject, SheetProvider } = useTheatre();
+
+  useEffect(() => {
+    if (studio.ui.isHidden) {
+      const theatrejsRoot = document.getElementById('theatrejs-studio-root');
+      if (theatrejsRoot) {
+        theatrejsRoot.ariaHidden = 'true';
+      }
+    }
+  }, [studio.ui]);
 
   const demoSheet = getProject(...getProjectArgs)?.sheet(...sheetArgs);
   if (!demoSheet) {

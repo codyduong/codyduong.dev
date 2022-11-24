@@ -1,13 +1,14 @@
-import { THREE } from './core';
+import * as THREE from 'three';
+import('./core');
+import { Theatre } from './util';
 import { Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { Physics, usePlane, useCompoundBody } from '@react-three/cannon';
-import { DebugDev, toConvexProps } from 'packages/components/3D/util';
-import { Theatre } from './util';
+import { Physics, usePlane, useCompoundBody, Debug } from '@react-three/cannon';
+import { RenderOnThreeDev, toConvexProps } from 'packages/components/3D/util';
 
 const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
   const [rotation, position]: [
@@ -134,7 +135,11 @@ const Construction3DClient = (): JSX.Element => {
                 <meshStandardMaterial color={'white'} />
               </e.mesh> */}
               <Physics size={10} allowSleep>
-                <DebugDev color="black" scale={1.1}>
+                <RenderOnThreeDev
+                  DebugComponent={Debug}
+                  color="black"
+                  scale={1.1}
+                >
                   <Plane e={e} />
                   <Cone
                     cone={cone}
@@ -159,7 +164,7 @@ const Construction3DClient = (): JSX.Element => {
                       rotation: [0.4, 0.7, 1.8],
                     }}
                   />
-                </DebugDev>
+                </RenderOnThreeDev>
               </Physics>
             </>
           )}
