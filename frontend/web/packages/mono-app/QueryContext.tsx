@@ -1,8 +1,8 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 
-type QueryType = Record<string, any>;
+type QueryType = InstanceType<typeof URLSearchParams>;
 
-const defaultValue = {};
+const defaultValue = new URLSearchParams('');
 
 const QueryContext = createContext<QueryType>(defaultValue);
 
@@ -13,8 +13,6 @@ export const QueryProvider = ({
   children: React.ReactNode;
   query: QueryType;
 }): JSX.Element => {
-  console.log(query);
-
   return (
     <QueryContext.Provider value={query ?? defaultValue}>
       {children}

@@ -86,9 +86,7 @@ module.exports = {
     fileLoaderRule['oneOf'] = [...svgr, { use: oldUse }];
     webpackConfig.module.rules[fileLoaderInfo[0].ruleIndex] = fileLoaderRule;
 
-    webpackConfig.plugins.push(
-      new webpack.EnvironmentPlugin(['NODE_ENV', 'THREED_DEBUG', 'PORT'])
-    );
+    webpackConfig.plugins.push(new webpack.EnvironmentPlugin(['NODE_ENV']));
 
     // webpackConfig.plugins.push(
     //   new webpack.EnvironmentPlugin([

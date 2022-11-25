@@ -1,16 +1,14 @@
-import { THREE } from './core';
+import { Theatre } from './core';
 import { useEffect } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls, useTexture } from '@react-three/drei';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { Theatre } from './util';
 
 const Home3D = (): JSX.Element => {
   const discMaterial = useLoader(MTLLoader, '3d/cd/cd.mtl');
   const disc = useLoader(OBJLoader, '3d/cd/cd.obj', (loader) => {
     discMaterial.preload();
-    // @ts-expect-error: TODO
     loader.setMaterials(discMaterial);
   });
 

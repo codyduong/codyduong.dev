@@ -1,55 +1,44 @@
-// https://github.com/pmndrs/react-three-fiber/discussions/949
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as THREE from 'three';
-import type { BufferGeometry } from 'three';
-import { Geometry } from 'three-stdlib';
-import type { Debug } from '@react-three/cannon';
 import type { getProject } from '@theatre/core';
 import { useTheatre } from 'packages/components/3D/TheatreContext';
 import { editable } from '@theatre/r3f';
 import React, { useEffect } from 'react';
-import studio from '@theatre/studio';
-import { useLocation, useParams } from 'react-router-dom';
 import { useQuery } from 'packages/mono-app/QueryContext';
+import { Debug } from '@react-three/cannon';
 
-export function toConvexProps(
-  bufferGeometry: BufferGeometry,
-  offset: [number, number, number] = [0, 0, 0]
-): any {
-  const geo = new Geometry().fromBufferGeometry(bufferGeometry);
-  // Merge duplicate vertices resulting from glTF export.
-  // Cannon assumes contiguous, closed meshes to work
-  geo.mergeVertices();
-  return [
-    geo.vertices.map((v) => [
-      v.x + offset[0],
-      v.y + offset[1],
-      v.z + offset[2],
-    ]),
-    geo.faces.map((f) => [f.a, f.b, f.c]),
-    [],
-  ];
+import studio from '@theatre/studio';
+studio.initialize();
+studio.ui.hide();
+
+function showStudioOnQuery(): void {
+  if (useQuery().has('theatrejs')) {
+    console.log('show');
+    studio.ui.restore();
+  } else {
+    studio.ui.hide();
+  }
+}
+
+export function RunOnThreeDev<T extends () => R, R>(toRun: T): R | null {
+  return useQuery().has('3D_DEBUG') ? toRun() : null;
 }
 
 export function RenderOnThreeDev<
-  Props extends [{ children?: React.ReactNode }, unknown?] = Parameters<
-    typeof Debug
-  >
+  Props extends [{ children?: React.ReactNode }, unknown?]
 >({
   DebugComponent,
-  predicate = () => {
-    return !!useParams()?.debug;
-  },
   ...rest
 }: Props[0] & {
   DebugComponent: (...args: Props) => JSX.Element;
-  predicate?: () => boolean;
 }): JSX.Element {
-  const query = useQuery();
-  console.log(query);
+  return useQuery().get('3D_DEBUG') ? (
+    <DebugComponent {...rest} />
+  ) : (
+    <>{rest.children}</>
+  );
+}
 
-  return predicate() ? <DebugComponent {...rest} /> : <>{rest.children}</>;
+export function PhysicsDebug(props: Parameters<typeof Debug>[0]): JSX.Element {
+  return <RenderOnThreeDev DebugComponent={Debug} {...props} />;
 }
 
 interface TheatreProps {
@@ -73,6 +62,8 @@ export const Theatre = ({
       }
     }
   }, [studio.ui]);
+
+  showStudioOnQuery();
 
   const demoSheet = getProject(...getProjectArgs)?.sheet(...sheetArgs);
   if (!demoSheet) {

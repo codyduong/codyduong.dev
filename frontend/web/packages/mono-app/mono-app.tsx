@@ -24,16 +24,23 @@ interface AppProps {
   query: Record<string, any> | null;
 }
 
-function App({ query: q }: AppProps): JSX.Element {
+function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
   const [theme] = useThemeBase();
-  const query = useBrowserQuery();
+  const serverQuery = new URLSearchParams('');
+  const browserQuery = useBrowserQuery();
 
-  console.log(q, query);
+  if (serverQueryUnformatted) {
+    for (const [key, value] of Object.entries(serverQueryUnformatted)) {
+      serverQuery.append(key, value);
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
-      <TheatreProvider>
-        <QueryProvider query={q ?? query}>
+      <QueryProvider
+        query={serverQuery.keys.length > 0 ? serverQuery : browserQuery}
+      >
+        <TheatreProvider>
           <Page>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -45,8 +52,8 @@ function App({ query: q }: AppProps): JSX.Element {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Page>
-        </QueryProvider>
-      </TheatreProvider>
+        </TheatreProvider>
+      </QueryProvider>
     </ThemeProvider>
   );
 }

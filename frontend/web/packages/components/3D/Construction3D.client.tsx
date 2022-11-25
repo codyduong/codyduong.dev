@@ -1,14 +1,18 @@
 import * as THREE from 'three';
-import('./core');
-import { Theatre } from './util';
+import { Theatre, PhysicsDebug } from './core';
+import { toConvexPolyhedronShapes } from './util';
 import { Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { Physics, usePlane, useCompoundBody, Debug } from '@react-three/cannon';
-import { RenderOnThreeDev, toConvexProps } from 'packages/components/3D/util';
+import {
+  Physics,
+  usePlane,
+  useCompoundBody,
+  CompoundBodyProps,
+} from '@react-three/cannon';
 
 const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
   const [rotation, position]: [
@@ -44,23 +48,16 @@ const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
 
 interface ConeProps {
   cone: THREE.Group;
-  coneCollisions: readonly [cone: any, cylinder: any];
+  shapes: CompoundBodyProps['shapes'];
   primitiveProps?: Omit<PrimitiveProps, 'object'>;
 }
 
-const Cone = ({
-  cone,
-  coneCollisions,
-  primitiveProps,
-}: ConeProps): JSX.Element => {
+const Cone = ({ cone, shapes, primitiveProps }: ConeProps): JSX.Element => {
   const [ref] = useCompoundBody(() => ({
     ...{
-      shapes: [
-        { type: 'ConvexPolyhedron', args: coneCollisions[0] },
-        { type: 'ConvexPolyhedron', args: coneCollisions[1] },
-      ],
+      shapes: shapes,
+      linearDamping: 0.2,
       mass: 5,
-      position: [0, 8, 0],
     },
     ...primitiveProps,
   }));
@@ -81,22 +78,20 @@ const Construction3DClient = (): JSX.Element => {
   const coneMaterial = useLoader(MTLLoader, '/3d/cone/materials.mtl');
   const cone = useLoader(OBJLoader, '/3d/cone/model.obj', (loader) => {
     coneMaterial.preload();
-    // @ts-expect-error: TODO
     loader.setMaterials(coneMaterial);
   });
-  const coneCollisions = useMemo(
+  const coneShapes = useMemo(
     () =>
-      [
-        // https://stackoverflow.com/a/21630178/17954209
-        toConvexProps(
-          new THREE.CylinderGeometry(0.1, 0.33, 1.2, 12, 1),
-          [0, 0.3, 0]
-        ),
-        toConvexProps(
-          new THREE.CylinderGeometry(0.53, 0.53, 0.1, 12, 1),
-          [0, -0.3, 0]
-        ),
-      ] as const,
+      toConvexPolyhedronShapes(
+        [
+          new THREE.CylinderGeometry(0.1, 0.34, 1.2, 12, 1),
+          { position: [0, 0.4, 0] },
+        ],
+        [
+          new THREE.CylinderGeometry(0.6, 0.6, 0.1, 12, 1),
+          { position: [0, -0.32, 0] },
+        ]
+      ),
     []
   );
   const cone2 = useMemo(() => cone.clone(), []);
@@ -121,10 +116,10 @@ const Construction3DClient = (): JSX.Element => {
               />
               <OrbitControls
                 enablePan={false}
-                enableZoom={false}
-                enabled={false}
+                enableZoom={true}
+                enabled={true}
                 // minPolarAngle={Math.PI / 2.2}
-                // maxPolarAngle={Math.PI / 2.2}
+                maxPolarAngle={Math.PI / 2.2}
               />
               {/* <e.mesh
                 theatreKey="floor"
@@ -135,36 +130,33 @@ const Construction3DClient = (): JSX.Element => {
                 <meshStandardMaterial color={'white'} />
               </e.mesh> */}
               <Physics size={10} allowSleep>
-                <RenderOnThreeDev
-                  DebugComponent={Debug}
-                  color="black"
-                  scale={1.1}
-                >
+                <PhysicsDebug color="black">
                   <Plane e={e} />
                   <Cone
                     cone={cone}
-                    coneCollisions={coneCollisions}
+                    shapes={coneShapes}
                     primitiveProps={{
-                      rotation: [0.36, 0.12, 0.24],
+                      position: [-0.24, 8, -0.24],
+                      rotation: [-0.24, 0.12, -0.24],
                     }}
                   />
                   <Cone
                     cone={cone2}
-                    coneCollisions={coneCollisions}
+                    shapes={coneShapes}
                     primitiveProps={{
-                      position: [0.15, 7, 1],
+                      position: [0.15, 7.2, 1.2],
                       rotation: [0.9, 3, 0.75],
                     }}
                   />
                   <Cone
                     cone={cone3}
-                    coneCollisions={coneCollisions}
+                    shapes={coneShapes}
                     primitiveProps={{
                       position: [1, 7, 0],
                       rotation: [0.4, 0.7, 1.8],
                     }}
                   />
-                </RenderOnThreeDev>
+                </PhysicsDebug>
               </Physics>
             </>
           )}
