@@ -23,6 +23,7 @@ const UnderConstructionSection = styled.section`
 
 const Construction3DClient = loadable(() => import('./Construction3D.client'), {
   ssr: false,
+  fallback: undefined,
 });
 
 export default function Construction3DServer(): JSX.Element {

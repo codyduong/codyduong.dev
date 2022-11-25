@@ -11,7 +11,6 @@ studio.ui.hide();
 
 function showStudioOnQuery(): void {
   if (useQuery().has('theatrejs')) {
-    console.log('show');
     studio.ui.restore();
   } else {
     studio.ui.hide();

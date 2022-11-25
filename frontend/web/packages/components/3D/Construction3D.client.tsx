@@ -84,12 +84,12 @@ const Construction3DClient = (): JSX.Element => {
     () =>
       toConvexPolyhedronShapes(
         [
-          new THREE.CylinderGeometry(0.1, 0.34, 1.2, 12, 1),
-          { position: [0, 0.4, 0] },
+          new THREE.CylinderGeometry(0.095, 0.36, 1.28, 12, 1),
+          { position: [0, 0.36, 0], rotation: [0, Math.PI / 6, 0] },
         ],
         [
           new THREE.CylinderGeometry(0.6, 0.6, 0.1, 12, 1),
-          { position: [0, -0.32, 0] },
+          { position: [0, -0.325, 0] },
         ]
       ),
     []
