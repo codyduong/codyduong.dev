@@ -140,19 +140,19 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       aria-expanded={open}
     >
       <PaddedContainer>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/home">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/home/">
           home
         </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/works">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/works/">
           works
         </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/articles">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/articles/">
           articles
         </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/contact/">
           contact
         </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/links">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
           links
         </StyledLinkComponent>
       </PaddedContainer>
