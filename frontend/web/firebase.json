@@ -6,10 +6,10 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrite": [
+    "rewrites": [
       {
-        "source": "**/**",
-        "functions": "server"
+        "source": "**",
+        "function": "app"
       }
     ]
   },

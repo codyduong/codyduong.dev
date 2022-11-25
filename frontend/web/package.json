@@ -2,7 +2,7 @@
   "name": "codyduongweb",
   "version": "0.1.0",
   "private": true,
-  "main": "build/server.js",
+  "main": "build/functions.js",
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start": "concurrently \"yarn start:tsc\" \"razzle start\"",

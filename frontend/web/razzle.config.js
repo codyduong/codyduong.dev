@@ -4,6 +4,7 @@
 const path = require('path');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const webpack = require('webpack');
+const fs = require('fs');
 
 /* https://gist.github.com/fivethreeo/1b37aa5bfd99eb3ecdfb7aa6039cab40 */
 function locateLoader(rules, loaderName) {
@@ -117,6 +118,18 @@ module.exports = {
         ) // __webpack_require__(...)(mod)
         // we set `mod = 'ejs'`
       );
+
+      /** Configure functions.tsx for output as well */
+      const appDirectory = fs.realpathSync(
+        path.join(process.cwd(), process.env.RAZZLE_APP_PATH || '')
+      );
+      const resolveApp = (relativePath) =>
+        path.resolve(appDirectory, relativePath);
+
+      webpackConfig.entry = {
+        ...webpackConfig.entry,
+        functions: resolveApp('src/functions'),
+      };
     }
     if (env.target === 'web') {
       const filename = path.resolve(__dirname, 'build');
