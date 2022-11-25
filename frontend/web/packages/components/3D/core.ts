@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+export * as THREE from 'three';
 
 import studio from '@theatre/studio';
 studio.initialize();

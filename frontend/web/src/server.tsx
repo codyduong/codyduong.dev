@@ -104,7 +104,7 @@ export const renderApp = (req: express.Request, res: express.Response) => {
       <StaticRouter context={context} location={req.url}>
         {/* @ts-expect-error: todo */}
         <ChunkExtractorManager extractor={extractor}>
-          <App />
+          <App query={req.query} />
         </ChunkExtractorManager>
       </StaticRouter>
     )

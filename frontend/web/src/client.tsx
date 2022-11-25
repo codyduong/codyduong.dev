@@ -1,4 +1,3 @@
-import React from 'react';
 import 'packages/style/globals.css';
 import '@fontsource/overpass';
 import { BrowserRouter } from 'react-router-dom';
@@ -12,7 +11,7 @@ loadableReady(() => {
     document.getElementById('root')!,
     // <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <App query={null} />
     </BrowserRouter>
     // </React.StrictMode>
   );

@@ -10,6 +10,8 @@ import { useTheatre } from 'packages/components/3D/TheatreContext';
 import { editable } from '@theatre/r3f';
 import React, { useEffect } from 'react';
 import studio from '@theatre/studio';
+import { useLocation, useParams } from 'react-router-dom';
+import { useQuery } from 'packages/mono-app/QueryContext';
 
 export function toConvexProps(
   bufferGeometry: BufferGeometry,
@@ -36,15 +38,18 @@ export function RenderOnThreeDev<
   >
 >({
   DebugComponent,
+  predicate = () => {
+    return !!useParams()?.debug;
+  },
   ...rest
 }: Props[0] & {
   DebugComponent: (...args: Props) => JSX.Element;
+  predicate?: () => boolean;
 }): JSX.Element {
-  return process?.env.THREED_DEBUG === 'true' ? (
-    <DebugComponent {...rest} />
-  ) : (
-    <>{rest.children}</>
-  );
+  const query = useQuery();
+  console.log(query);
+
+  return predicate() ? <DebugComponent {...rest} /> : <>{rest.children}</>;
 }
 
 interface TheatreProps {
