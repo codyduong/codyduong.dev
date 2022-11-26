@@ -1,4 +1,4 @@
 {
   "presets": ["razzle/babel"],
-  "plugins": ["@loadable/babel-plugin", "@babel/plugin-transform-react-jsx"]
+  "plugins": ["@loadable/babel-plugin", "@babel/plugin-transform-react-jsx", "babel-plugin-styled-components"]
 }

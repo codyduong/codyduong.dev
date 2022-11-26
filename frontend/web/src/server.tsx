@@ -43,6 +43,45 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
   ).join('') : '' : '';
 };
 
+/**
+ * This is just copied manually from packages/style/globals.css
+ */
+const globalStyle = `
+<style>
+html,
+body {
+  background-color: #ffffff;
+  padding: 0;
+  margin: 0;
+  font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 16px;
+}
+header {
+  transition: all 225ms ease-in-out;
+}
+div {
+  transition: all 0.5s ease-in-out;
+  transition: height 0s ease-in-out;
+  transition: width  0s ease-in-out;
+}
+a {
+  all: unset;
+  text-decoration: none;
+}
+a:focus {
+  outline: #00A4FF 1px auto;
+}
+button {
+  all: unset;
+  cursor: pointer;
+}
+button:focus {
+  outline: #00A4FF 1px auto;
+}
+</style>  
+`;
+
 export const renderApp = (req: express.Request, res: express.Response) => {
   const context = {};
 
@@ -65,7 +104,7 @@ export const renderApp = (req: express.Request, res: express.Response) => {
       <StaticRouter context={context} location={req.url}>
         {/* @ts-expect-error: todo */}
         <ChunkExtractorManager extractor={extractor}>
-          <App />
+          <App query={req.query} />
         </ChunkExtractorManager>
       </StaticRouter>
     )
@@ -92,13 +131,13 @@ export const renderApp = (req: express.Request, res: express.Response) => {
             name="description"
             content="Cody Duong - personal website"
           />
+          ${globalStyle}
           ${cssLinksFromAssets(assets, 'client')}
           ${linkTags}
           ${styleTags}
         </head>
         <body>
           <div id="root">${markup}</div>
-          ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
           ${scriptTags}
         </body>
       </html>`;

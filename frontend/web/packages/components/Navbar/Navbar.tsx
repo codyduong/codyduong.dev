@@ -166,14 +166,18 @@ const Navbar = (): JSX.Element => {
   }, []);
 
   const location = useLocation();
+  const pathnameFormatted = location.pathname.slice(
+    1,
+    location.pathname.length - 1
+  );
   const currentlyAt = [
     'home',
     'works',
     'articles',
     'contact',
     'links',
-  ].includes(location.pathname.slice(1))
-    ? location.pathname.slice(1)
+  ].includes(pathnameFormatted)
+    ? pathnameFormatted
     : 'home';
 
   return (

@@ -1,13 +1,29 @@
 {
   "hosting": {
-    "public": "build",
+    "public": "build/public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "app"
+      }
     ]
   },
-  "emulators": {
-    "singleProjectMode": true
-  }
+  "functions": [
+    {
+      "source": ".",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "runtime": "nodejs16"
+    }
+  ]
 }

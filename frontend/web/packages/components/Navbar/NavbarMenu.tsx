@@ -35,6 +35,10 @@ const PaddedContainer = styled.div`
   gap: 8px; */
 `;
 
+const StyledUL = styled.ul`
+  padding: 0;
+`;
+
 const StyledLink = styled(A.Link)`
   display: flex;
   flex-direction: column;
@@ -87,11 +91,12 @@ const LinkDivider = styled.div`
 `;
 
 type StyledLinkComponentProps = Parameters<typeof StyledLink>[0] & {
+  open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
-  const { to, children, className, setOpen, ...rest } = props;
+  const { to, children, className, open, setOpen, ...rest } = props;
   const location = useLocation().pathname;
 
   const cn = classnames(className, 'navbar-link', {
@@ -99,17 +104,20 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
   });
 
   return (
-    <StyledLink
-      to={to}
-      className={cn}
-      {...rest}
-      onClick={() => {
-        setOpen(false);
-      }}
-    >
-      {children}
-      <LinkDivider aria-hidden />
-    </StyledLink>
+    <StyledUL>
+      <StyledLink
+        to={to}
+        className={cn}
+        {...rest}
+        onClick={() => {
+          setOpen(false);
+        }}
+        tabIndex={open ? undefined : -1}
+      >
+        {children}
+        <LinkDivider aria-hidden />
+      </StyledLink>
+    </StyledUL>
   );
 };
 
@@ -129,21 +137,22 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       id="nav-hamburger-list"
       role="menu"
       aria-labelledby="nav-hamburger-button"
+      aria-expanded={open}
     >
       <PaddedContainer>
-        <StyledLinkComponent setOpen={setOpen} to="/home">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/home/">
           home
         </StyledLinkComponent>
-        <StyledLinkComponent setOpen={setOpen} to="/works">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/works/">
           works
         </StyledLinkComponent>
-        <StyledLinkComponent setOpen={setOpen} to="/articles">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/articles/">
           articles
         </StyledLinkComponent>
-        <StyledLinkComponent setOpen={setOpen} to="/contact">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/contact/">
           contact
         </StyledLinkComponent>
-        <StyledLinkComponent setOpen={setOpen} to="/links">
+        <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
           links
         </StyledLinkComponent>
       </PaddedContainer>

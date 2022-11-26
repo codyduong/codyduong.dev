@@ -1,4 +1,3 @@
-import React from 'react';
 import 'packages/style/globals.css';
 import '@fontsource/overpass';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,11 +9,11 @@ import App from 'packages/mono-app';
 loadableReady(() => {
   hydrateRoot(
     document.getElementById('root')!,
-    <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <BrowserRouter>
+      <App query={null} />
+    </BrowserRouter>
+    // </React.StrictMode>
   );
 });
 

@@ -4,6 +4,7 @@
 const path = require('path');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const webpack = require('webpack');
+const fs = require('fs');
 
 /* https://gist.github.com/fivethreeo/1b37aa5bfd99eb3ecdfb7aa6039cab40 */
 function locateLoader(rules, loaderName) {
@@ -57,7 +58,9 @@ function locateLoader(rules, loaderName) {
 }
 
 module.exports = {
-  modifyWebpackConfig({ webpackConfig, webpackObject, env, options }) {
+  modifyWebpackConfig(opts) {
+    const { webpackConfig, webpackObject, env } = opts;
+
     const svgr = [
       {
         test: /\.svg$/i,
@@ -84,12 +87,24 @@ module.exports = {
     fileLoaderRule['oneOf'] = [...svgr, { use: oldUse }];
     webpackConfig.module.rules[fileLoaderInfo[0].ruleIndex] = fileLoaderRule;
 
+    webpackConfig.plugins.push(new webpack.EnvironmentPlugin(['NODE_ENV']));
+
+    // webpackConfig.plugins.push(
+    //   new webpack.EnvironmentPlugin([
+    //     'RAZZLE_ASSETS_MANIFEST',
+    //     'RAZZLE_PUBLIC_DIR',
+    //   ])
+    // );
+
     webpackConfig.plugins.push(
       new webpack.ProvidePlugin({ process: 'process/browser' })
     );
 
     // https://github.com/jaredpalmer/razzle/discussions/1864#discussioncomment-2807427
     if (env.target === 'node') {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      // require('./config/firebase/firebasePlugin').modifyWebpackConfig(opts);
+
       webpackConfig.plugins.push(
         new webpackObject.ContextReplacementPlugin(
           // we want to replace context
@@ -103,15 +118,21 @@ module.exports = {
         ) // __webpack_require__(...)(mod)
         // we set `mod = 'ejs'`
       );
+
+      /** Configure functions.tsx for output as well */
+      const appDirectory = fs.realpathSync(
+        path.join(process.cwd(), process.env.RAZZLE_APP_PATH || '')
+      );
+      const resolveApp = (relativePath) =>
+        path.resolve(appDirectory, relativePath);
+
+      webpackConfig.entry = {
+        ...webpackConfig.entry,
+        functions: resolveApp('src/functions'),
+      };
     }
     if (env.target === 'web') {
       const filename = path.resolve(__dirname, 'build');
-
-      webpackConfig.plugins.push(
-        new webpackObject.ProvidePlugin({
-          process: 'process/browser',
-        })
-      );
 
       webpackConfig.plugins.push(
         new LoadablePlugin({
@@ -120,8 +141,6 @@ module.exports = {
         })
       );
     }
-
-    // console.log(webpackConfig.plugins);
 
     return webpackConfig;
   },

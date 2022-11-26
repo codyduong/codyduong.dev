@@ -1,0 +1,1 @@
+cp build/public/404/index.html build/public/404.html
