@@ -99,10 +99,10 @@ type StyledLinkComponentProps = Parameters<typeof StyledLink>[0] & {
 
 const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
   const { to, children, className, open, setOpen, ...rest } = props;
-  const location = useLocation().pathname;
+  const location = useLocation().pathname.split('/');
 
   const cn = classnames(className, 'navbar-link', {
-    ['navbar-link-open']: location == to,
+    ['navbar-link-open']: location[1] == to.slice(1, to.length - 1),
   });
 
   return (
