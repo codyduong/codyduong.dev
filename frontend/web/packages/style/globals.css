@@ -29,3 +29,13 @@ button {
 button:focus {
   outline: #00A4FF 1px auto;
 }
+svg {
+  transition: all 0.225s ease-in-out;
+}
+ul {
+  all: unset
+}
+li {
+  all: unset;
+  transition: all 0.5s ease-in-out;
+}

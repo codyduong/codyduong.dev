@@ -76,6 +76,8 @@ declare module 'styled-components' {
         readonly 12.5: `${number}rem`;
         readonly 25: `${number}rem`;
         readonly 50: `${number}rem`;
+        readonly 75: `${number}rem`;
+        readonly 87.5: `${number}rem`;
         readonly 100: `${number}rem`;
         readonly 125: `${number}rem`;
         readonly 150: `${number}rem`;
@@ -93,6 +95,8 @@ declare module 'styled-components' {
         readonly 12.5: `${number}px`;
         readonly 25: `${number}px`;
         readonly 50: `${number}px`;
+        readonly 75: `${number}px`;
+        readonly 87.5: `${number}px`;
         readonly 100: `${number}px`;
         readonly 125: `${number}px`;
         readonly 150: `${number}px`;

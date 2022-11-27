@@ -4,9 +4,11 @@ import { Paragraph } from 'packages/components/Typography';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import A from 'packages/components/A';
+import color from 'color';
 
 const NavbarMenuComponent = styled.menu`
   display: flex;
+  flex-direction: column;
   position: absolute;
   width: 100%;
   height: 0vh;
@@ -25,14 +27,17 @@ const NavbarMenuComponent = styled.menu`
   }
 `;
 
-const PaddedContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: ${(props) =>
-    `${props.theme.spacing.rem[100]} ${props.theme.spacing.rem[200]}`};
-  /* display: flex;
-  flex-flow: column nowrap;
-  gap: 8px; */
+const MenuItem = styled.li`
+  margin: 0 ${({ theme }) => theme.spacing.rem[200]};
+  padding: 0;
+
+  &:hover {
+    box-shadow: inset 100vw 0 5rem 0
+      ${({ theme }) =>
+        color(theme.color.surface[500])
+          .mix(color(theme.color.surface[400]), 0.2)
+          .string()};
+  }
 `;
 
 const StyledUL = styled.ul`
@@ -64,13 +69,14 @@ const StyledLink = styled(A.Link)`
   color: ${(props) => props.theme.color.text[300]};
 
   &:hover {
+    transition-delay: 50ms;
     color: ${(props) => props.theme.color.base[100]};
   }
 
   &.navbar-link-open {
     color: ${(props) => props.theme.color.text[100]};
     &:hover {
-      color: ${(props) => props.theme.color.base[300]};
+      color: ${(props) => props.theme.color.base[200]};
     }
   }
 `;
@@ -97,14 +103,14 @@ type StyledLinkComponentProps = Parameters<typeof StyledLink>[0] & {
 
 const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
   const { to, children, className, open, setOpen, ...rest } = props;
-  const location = useLocation().pathname;
+  const location = useLocation().pathname.split('/');
 
   const cn = classnames(className, 'navbar-link', {
-    ['navbar-link-open']: location == to,
+    ['navbar-link-open']: location[1] == to.slice(1, to.length - 1),
   });
 
   return (
-    <StyledUL>
+    <MenuItem role="menuitem">
       <StyledLink
         to={to}
         className={cn}
@@ -117,9 +123,13 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
         {children}
         <LinkDivider aria-hidden />
       </StyledLink>
-    </StyledUL>
+    </MenuItem>
   );
 };
+
+const TopPaddingDiv = styled.div`
+  min-height: 2px;
+`;
 
 interface HamburgerProps {
   open: boolean;
@@ -139,23 +149,24 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       aria-labelledby="nav-hamburger-button"
       aria-expanded={open}
     >
-      <PaddedContainer>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/home/">
-          home
-        </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/works/">
-          works
-        </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/articles/">
-          articles
-        </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/contact/">
-          contact
-        </StyledLinkComponent>
-        <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
-          links
-        </StyledLinkComponent>
-      </PaddedContainer>
+      <TopPaddingDiv aria-hidden>
+        <LinkDivider />
+      </TopPaddingDiv>
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/home/">
+        home
+      </StyledLinkComponent>
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/work/">
+        work
+      </StyledLinkComponent>
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/articles/">
+        articles
+      </StyledLinkComponent>
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/contact/">
+        contact
+      </StyledLinkComponent>
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
+        links
+      </StyledLinkComponent>
     </NavbarMenuComponent>
   );
 };

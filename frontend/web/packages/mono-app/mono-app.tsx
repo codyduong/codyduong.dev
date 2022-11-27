@@ -13,6 +13,7 @@ const Construction3D = loadable(
   () => import('packages/components/3D/Construction3D')
 );
 const Links = loadable(() => import('packages/pages/links/Links'));
+const Work = loadable(() => import('packages/pages/work'));
 
 const useBrowserQuery = (): InstanceType<typeof URLSearchParams> => {
   const { search } = useLocation();
@@ -44,11 +45,11 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
           <Page>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/links" element={<Links />} />
-              <Route path="/works" element={<Construction3D />} />
-              <Route path="/articles" element={<Construction3D />} />
-              <Route path="/contact" element={<Construction3D />} />
+              <Route path="/home/" element={<Home />} />
+              <Route path="/links/" element={<Links />} />
+              <Route path="/work/*" element={<Work />} />
+              <Route path="/articles/" element={<Construction3D />} />
+              <Route path="/contact/" element={<Construction3D />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Page>

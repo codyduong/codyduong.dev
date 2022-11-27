@@ -13,6 +13,10 @@ import {
   useCompoundBody,
   CompoundBodyProps,
 } from '@react-three/cannon';
+<<<<<<< Updated upstream
+=======
+import { A11yAnnouncer, A11ySection } from '@react-three/a11y';
+>>>>>>> Stashed changes
 
 const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
   const [rotation, position]: [
