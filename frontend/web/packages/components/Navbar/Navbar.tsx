@@ -92,10 +92,11 @@ const HamburgerButton = styled(Button)`
         }
       }
       &.hamburger-icon-opened {
-        animation: svg-translate 225ms ease-in-out forwards;
+        animation: svg-translate 225ms ease-in-out;
       }
       &.hamburger-icon-closed {
-        animation: svg-translate-reverse 225ms ease-in-out forwards;
+        animation: svg-translate-reverse 225ms ease-in-out;
+        display: none;
       }
     }
     &.hamburger-icon-close {
@@ -120,14 +121,12 @@ const HamburgerButton = styled(Button)`
         }
       }
       &.hamburger-icon-opened {
-        animation: svg-scale 225ms ease-in-out forwards;
+        animation: svg-scale 225ms ease-in-out;
+        display: none;
       }
       &.hamburger-icon-closed {
-        animation: svg-scale-reverse 225ms ease-in-out forwards;
+        animation: svg-scale-reverse 225ms ease-in-out;
       }
-    }
-    &.hamburger-icon-display-hidden {
-      display: none;
     }
     &.hamburger-prevent-animate {
       animation-duration: 0s !important;
@@ -137,7 +136,6 @@ const HamburgerButton = styled(Button)`
 
 const Navbar = (): JSX.Element => {
   const [open, setOpen] = useState(false);
-  const [animationState, setAnimationState] = useState<0 | 1>(1);
   const [initial, setInitial] = useState(true);
 
   const refHeader = useRef<HTMLDivElement>(null);
@@ -204,22 +202,10 @@ const Navbar = (): JSX.Element => {
         <MenuIcon
           className={hamburgerClassname('close')}
           aria-labelledby="nav-hamburger-button"
-          style={{
-            display: animationState == 0 && open ? 'none' : undefined,
-          }}
-          onAnimationEnd={() => {
-            animationState === 1 ? setAnimationState(0) : setAnimationState(1);
-          }}
         />
         <MenuOpenIcon
           className={hamburgerClassname('open')}
           aria-labelledby="nav-hamburger-button"
-          onAnimationEnd={() => {
-            animationState === 1 ? setAnimationState(0) : setAnimationState(1);
-          }}
-          style={{
-            display: animationState == 1 && !open ? 'none' : undefined,
-          }}
         />
       </HamburgerButton>
       <NavbarMenu open={open} setOpen={setOpen} />

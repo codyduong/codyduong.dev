@@ -75,6 +75,7 @@ interface WorkProps {
   onMouseEnter?: React.MouseEventHandler<HTMLAnchorElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLAnchorElement>;
   disabled?: boolean;
+  classname?: string;
   textClassname?: string;
   workplaceTitle: string;
   position: string;
@@ -87,12 +88,13 @@ const Workplace = ({
   onMouseEnter,
   onMouseLeave,
   disabled,
+  classname,
   textClassname: tC,
   workplaceTitle,
   position,
   dateString,
 }: WorkProps): JSX.Element => {
-  const liClassnames = classNames({
+  const liClassnames = classNames(`list-${classname}`, {
     ['disabled']: disabled,
   });
   const linkClassnames = classNames('work-link', {
@@ -147,13 +149,15 @@ const Work = (): JSX.Element => {
                     prevstate == 'agi' ? null : prevstate
                   )
                 }
+                classname={'AGI'}
                 dateString={'June 2021 - Present'}
-                workplaceTitle={'AGI Suretrack/Digital'}
+                workplaceTitle={'AGI SureTrack/Digital'}
                 position={'Software Engineering Intern'}
                 textClassname={agiTextClassname}
               />
               <Workplace
                 to={'/work/other/'}
+                classname={'Other'}
                 dateString={'Always Ongoing'}
                 workplaceTitle={'Other Projects'}
                 position={'Enthusiast'}

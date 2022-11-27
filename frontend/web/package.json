@@ -10,7 +10,7 @@
     "build:lite": "tsc -b && razzle build --noninteractive",
     "export:no_build": "razzle export && scripts/cp404.sh",
     "export": "yarn build:lite && yarn export:no_build",
-    "build": "yarn export",
+    "build": "yarn build:lite",
     "start:prod": "cross-env NODE_ENV=production node build/server.js",
     "serve": "yarn start:prod",
     "test": "razzle test --env=jsdom",
