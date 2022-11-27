@@ -13,10 +13,7 @@ import {
   useCompoundBody,
   CompoundBodyProps,
 } from '@react-three/cannon';
-<<<<<<< Updated upstream
-=======
 import { A11yAnnouncer, A11ySection } from '@react-three/a11y';
->>>>>>> Stashed changes
 
 const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
   const [rotation, position]: [
@@ -102,30 +99,35 @@ const Construction3DClient = (): JSX.Element => {
   const cone3 = useMemo(() => cone.clone(), []);
 
   return (
-    <Suspense>
-      <Canvas
-        camera={{ position: [-5, 2, -5] }}
-        gl={{ preserveDrawingBuffer: true }}
-      >
-        <Theatre
-          sheetArgs={['underConstruction']}
-          render={(e) => (
-            <>
-              <ambientLight />
-              {/* @ts-expect-error: TODO */}
-              <e.pointLight
-                theatreKey="pointLight1"
-                intensity={10}
-                position={[-1, 10, 2.5]}
-              />
-              <OrbitControls
-                enablePan={false}
-                enableZoom={true}
-                enabled={true}
-                // minPolarAngle={Math.PI / 2.2}
-                maxPolarAngle={Math.PI / 2.2}
-              />
-              {/* <e.mesh
+    <>
+      <Suspense>
+        <Canvas
+          camera={{ position: [-5, 2, -5] }}
+          gl={{ preserveDrawingBuffer: true }}
+        >
+          <A11ySection
+            label="Page Under Construction"
+            description="A physics simulation of three traffic cones falling from the top of the screen"
+          >
+            <Theatre
+              sheetArgs={['underConstruction']}
+              render={(e) => (
+                <>
+                  <ambientLight />
+                  {/* @ts-expect-error: TODO */}
+                  <e.pointLight
+                    theatreKey="pointLight1"
+                    intensity={10}
+                    position={[-1, 10, 2.5]}
+                  />
+                  <OrbitControls
+                    enablePan={false}
+                    enableZoom={true}
+                    enabled={true}
+                    // minPolarAngle={Math.PI / 2.2}
+                    maxPolarAngle={Math.PI / 2.2}
+                  />
+                  {/* <e.mesh
                 theatreKey="floor"
                 position={[0, -0.5, 0]}
                 rotation={[-1.57079632679, 0, 0]}
@@ -133,40 +135,43 @@ const Construction3DClient = (): JSX.Element => {
                 <circleGeometry args={[50, 32]} />
                 <meshStandardMaterial color={'white'} />
               </e.mesh> */}
-              <Physics size={10} allowSleep>
-                <PhysicsDebug color="black">
-                  <Plane e={e} />
-                  <Cone
-                    cone={cone}
-                    shapes={coneShapes}
-                    primitiveProps={{
-                      position: [-0.24, 8, -0.24],
-                      rotation: [-0.24, 0.12, -0.24],
-                    }}
-                  />
-                  <Cone
-                    cone={cone2}
-                    shapes={coneShapes}
-                    primitiveProps={{
-                      position: [0.15, 7.2, 1.2],
-                      rotation: [0.9, 3, 0.75],
-                    }}
-                  />
-                  <Cone
-                    cone={cone3}
-                    shapes={coneShapes}
-                    primitiveProps={{
-                      position: [1, 7, 0],
-                      rotation: [0.4, 0.7, 1.8],
-                    }}
-                  />
-                </PhysicsDebug>
-              </Physics>
-            </>
-          )}
-        />
-      </Canvas>
-    </Suspense>
+                  <Physics size={10} allowSleep>
+                    <PhysicsDebug color="black">
+                      <Plane e={e} />
+                      <Cone
+                        cone={cone}
+                        shapes={coneShapes}
+                        primitiveProps={{
+                          position: [-0.24, 8, -0.24],
+                          rotation: [-0.24, 0.12, -0.24],
+                        }}
+                      />
+                      <Cone
+                        cone={cone2}
+                        shapes={coneShapes}
+                        primitiveProps={{
+                          position: [0.15, 7.2, 1.2],
+                          rotation: [0.9, 3, 0.75],
+                        }}
+                      />
+                      <Cone
+                        cone={cone3}
+                        shapes={coneShapes}
+                        primitiveProps={{
+                          position: [1, 7, 0],
+                          rotation: [0.4, 0.7, 1.8],
+                        }}
+                      />
+                    </PhysicsDebug>
+                  </Physics>
+                </>
+              )}
+            />
+          </A11ySection>
+        </Canvas>
+      </Suspense>
+      <A11yAnnouncer />
+    </>
   );
 };
 
