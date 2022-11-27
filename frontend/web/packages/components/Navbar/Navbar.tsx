@@ -170,13 +170,9 @@ const Navbar = (): JSX.Element => {
     1,
     location.pathname.length - 1
   );
-  const currentlyAt = [
-    'home',
-    'works',
-    'articles',
-    'contact',
-    'links',
-  ].includes(pathnameFormatted)
+  const currentlyAt = ['home', 'work', 'articles', 'contact', 'links'].includes(
+    pathnameFormatted
+  )
     ? pathnameFormatted
     : 'home';
 

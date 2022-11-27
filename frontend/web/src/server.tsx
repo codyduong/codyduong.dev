@@ -79,7 +79,14 @@ button {
 button:focus {
   outline: #00A4FF 1px auto;
 }
-</style>  
+svg {
+  transition: all 0.225s ease-in-out;
+}
+li {
+  all: unset;
+  transition: all 0.5s ease-in-out;
+}
+</style>
 `;
 
 export const renderApp = (req: express.Request, res: express.Response) => {

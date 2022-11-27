@@ -6,6 +6,10 @@ const HeadingCss = css`
   font-weight: 800;
   margin: 0 0;
   color: ${(props) => props.theme.color.text[500]};
+
+  &.light {
+    color: ${(props) => props.theme.color.text[100]};
+  }
 `;
 const H1css = css`
   ${HeadingCss}
@@ -94,6 +98,10 @@ const PCss = css`
   font-weight: 500;
   font-style: normal;
   /* color: ${(props) => props.theme.color.text[400]}; */
+
+  &.light {
+    color: ${(props) => props.theme.color.text[200]};
+  }
 `;
 const ItalicCss = css`
   font-style: italic;
@@ -102,6 +110,10 @@ const ItalicCss = css`
 const BoldCss = css`
   font-weight: 900;
   color: ${(props) => props.theme.color.text[500]};
+
+  &.light {
+    color: ${(props) => props.theme.color.text[100]};
+  }
 `;
 
 const P2css = css`
@@ -112,78 +124,97 @@ const P3css = css`
   ${PCss}
   font-size: calc(${(props) => props.theme.spacing.rem[100]});
 `;
+const P4css = css`
+  ${PCss}
+  font-size: calc(${(props) => props.theme.spacing.rem[87.5]});
+`;
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const calculateP = (pn: ReturnType<typeof css>) => {
+  return Object.assign(
+    styled.p`
+      ${pn}
+    `,
+    {
+      css: pn,
+      italic: Object.assign(
+        styled.p`
+          ${pn}
+          ${ItalicCss}
+        `,
+        {
+          css: css`
+            ${pn}
+            ${ItalicCss}
+          `,
+        }
+      ),
+      bold: Object.assign(
+        styled.p`
+          ${pn}
+          ${BoldCss}
+        `,
+        {
+          css: css`
+            ${pn}
+            ${BoldCss}
+          `,
+        }
+      ),
+    }
+  );
+};
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const calculateSpan = (pn: ReturnType<typeof css>) => {
+  return Object.assign(
+    styled.span`
+      ${pn}
+    `,
+    {
+      css: pn,
+      italic: Object.assign(
+        styled.span`
+          ${pn}
+          ${ItalicCss}
+        `,
+        {
+          css: css`
+            ${pn}
+            ${ItalicCss}
+          `,
+        }
+      ),
+      bold: Object.assign(
+        styled.span`
+          ${pn}
+          ${BoldCss}
+        `,
+        {
+          css: css`
+            ${pn}
+            ${BoldCss}
+          `,
+        }
+      ),
+    }
+  );
+};
 
 export const Paragraph = {
-  P2: Object.assign(
-    styled.p`
-      ${P2css}
-    `,
-    {
-      css: P2css,
-      italic: Object.assign(
-        styled.p`
-          ${P2css}
-          ${ItalicCss}
-        `,
-        {
-          css: css`
-            ${P2css}
-            ${ItalicCss}
-          `,
-        }
-      ),
-      bold: Object.assign(
-        styled.p`
-          ${P2css}
-          ${BoldCss}
-        `,
-        {
-          css: css`
-            ${P2css}
-            ${BoldCss}
-          `,
-        }
-      ),
-    }
-  ),
-  P3: Object.assign(
-    styled.p`
-      ${P3css}
-    `,
-    {
-      css: P3css,
-      italic: Object.assign(
-        styled.p`
-          ${P3css}
-          ${ItalicCss}
-        `,
-        {
-          css: css`
-            ${P3css}
-            ${ItalicCss}
-          `,
-        }
-      ),
-      bold: Object.assign(
-        styled.p`
-          ${P3css}
-          ${BoldCss}
-        `,
-        {
-          css: css`
-            ${P3css}
-            ${BoldCss}
-          `,
-        }
-      ),
-    }
-  ),
-  css: Object.assign(PCss, {
-    italic: ItalicCss,
-    bold: BoldCss,
-  }),
+  P2: calculateP(P2css),
+  P3: calculateP(P3css),
+  P4: calculateP(P4css),
 } as const;
+export const Span = {
+  Span2: calculateSpan(P2css),
+  Span3: calculateSpan(P3css),
+  Span4: calculateSpan(P4css),
+};
 export const Typography = {
   Heading,
   Paragraph,
+  ...Paragraph,
+  Span,
+  ...Span,
 } as const;
