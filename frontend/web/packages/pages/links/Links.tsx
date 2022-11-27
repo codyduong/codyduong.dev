@@ -48,6 +48,12 @@ const LinksLink = styled(A)`
   p {
     padding-right: 1rem;
   }
+
+  &:hover {
+    svg {
+      fill: ${(props) => props.hoverColor};
+    }
+  }
 `;
 
 const LINKS = [
@@ -55,16 +61,19 @@ const LINKS = [
     label: 'codyduong',
     to: 'https://github.com/codyduong',
     icon: GitHubIcon,
+    hoverColor: '#333333',
   },
   {
     label: 'cody-duong',
     to: 'https://www.linkedin.com/in/cody-duong/',
     icon: LinkedInIcon,
+    hoverColor: '#0072b1',
   },
   {
     label: 'cody-duong',
     to: 'https://stackoverflow.com/users/17954209/cody-duong',
     icon: StackOverflow,
+    hoverColor: '#f48024',
   },
   // {
   //   label: 'GitHub4',
@@ -81,7 +90,12 @@ const LINKS = [
 const GenerateLinks = (): React.ReactNode => {
   return LINKS.map((L) => {
     return (
-      <LinksLink key={`${L.label} ${L.to}`} href={L.to} target={'_blank'}>
+      <LinksLink
+        key={`${L.label} ${L.to}`}
+        href={L.to}
+        target={'_blank'}
+        hoverColor={L.hoverColor}
+      >
         <L.icon aria-hidden />
         <p>{L.label}</p>
       </LinksLink>
@@ -92,7 +106,7 @@ const GenerateLinks = (): React.ReactNode => {
 export default function Links(): JSX.Element {
   return (
     <LinksSection>
-      <LinksHeader>Socials</LinksHeader>
+      <LinksHeader>Links</LinksHeader>
       <LinksWrapper>{GenerateLinks()}</LinksWrapper>
     </LinksSection>
   );

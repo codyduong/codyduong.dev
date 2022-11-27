@@ -22,7 +22,7 @@
     "incremental": true,
     "baseUrl": "src",
     "paths": {
-      "packages/*": ["../packages/*"],
+      "packages/*": ["../packages/*"]
     },
   },
   "include": [

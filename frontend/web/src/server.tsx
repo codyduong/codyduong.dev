@@ -79,7 +79,7 @@ button {
 button:focus {
   outline: #00A4FF 1px auto;
 }
-</style>  
+</style>
 `;
 
 export const renderApp = (req: express.Request, res: express.Response) => {
