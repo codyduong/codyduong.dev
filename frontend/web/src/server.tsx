@@ -121,7 +121,7 @@ export const renderApp = (req: express.Request, res: express.Response) => {
   const html =
     // prettier-ignore
     `<!doctype html>
-      <html lang="">
+      <html lang="en">
       <head>
         <meta charset="utf-8" />
         <link rel="icon" href="/favicon.ico" />
