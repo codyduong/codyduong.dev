@@ -9,13 +9,20 @@ import { useMemo, useEffect } from 'react';
 import generateTitleTag from 'titleGenerator';
 import Redirect from 'packages/http/Redirect';
 
-const Home = loadable(() => import('packages/pages/Home'));
+const Home = loadable(
+  () => import(/* webpackPrefetch: true */ 'packages/pages/Home')
+);
 const NotFound = loadable(() => import('packages/pages/404/NotFound'));
 const Construction3D = loadable(
-  () => import('packages/components/3D/Construction3D')
+  () =>
+    import(/* webpackPrefetch: true */ 'packages/components/3D/Construction3D')
 );
-const Links = loadable(() => import('packages/pages/links/Links'));
-const Work = loadable(() => import('packages/pages/work'));
+const Links = loadable(
+  () => import(/* webpackPrefetch: true */ 'packages/pages/links/Links')
+);
+const Work = loadable(
+  () => import(/* webpackPrefetch: true */ 'packages/pages/work')
+);
 
 const useBrowserQuery = (): InstanceType<typeof URLSearchParams> => {
   const { search } = useLocation();

@@ -6,6 +6,7 @@
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start": "concurrently \"yarn start:tsc\" \"razzle start\"",
+    "start:firebase": "concurrently \"yarn start:tsc\" \"firebase emulators:start\"",
     "dev:3d": "cross-env THREED_DEBUG=true yarn start",
     "build:lite": "tsc -b && razzle build --noninteractive",
     "export:no_build": "razzle export && scripts/cp404.sh",

@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
 
 /**
  * styled-components and loadable: https://github.com/jaredpalmer/razzle/discussions/1783
@@ -15,15 +14,20 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
-import { ServerStyleSheet } from "styled-components";
+import { ServerStyleSheet } from 'styled-components';
+import fs from 'fs';
 
 import App from 'packages/mono-app';
 import path from 'path';
 import generateTitleTag from 'titleGenerator';
-import { HttpContextDefaultValue, HttpContextProvider } from 'packages/http/HttpContext';
+import {
+  HttpContextDefaultValue,
+  HttpContextProvider,
+} from 'packages/http/HttpContext';
 
 let assets: unknown;
 
+/* eslint-disable prettier/prettier */
 const syncLoadAssets = () => {
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 };
@@ -47,50 +51,33 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
   ).join('') : '' : '';
 };
 
-/**
- * This is just copied manually from packages/style/globals.css
- */
-const globalStyle = `
-<style>
-html,
-body {
-  background-color: #ffffff;
-  padding: 0;
-  margin: 0;
-  font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  font-size: 16px;
-}
-header {
-  transition: all 225ms ease-in-out;
-}
-div {
-  transition: all 0.5s ease-in-out;
-  transition: height 0s ease-in-out;
-  transition: width  0s ease-in-out;
-}
-a {
-  all: unset;
-  text-decoration: none;
-}
-a:focus {
-  outline: #00A4FF 1px auto;
-}
-button {
-  all: unset;
-  cursor: pointer;
-}
-button:focus {
-  outline: #00A4FF 1px auto;
-}
-</style>
-`;
+/* eslint-enable prettier/prettier */
+
+const getFont = (
+  loadablePath: `${string}loadable-stats.json`
+): `static/media/overpass-latin-400-normal.${number}.woff` | string => {
+  const parsedStats =
+    JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, loadablePath), {
+        encoding: 'utf-8',
+      })
+    ) ?? {};
+
+  for (const asset of parsedStats['assets'] ?? []) {
+    const assetName: string = asset['name'] ?? '';
+    if (assetName.includes('overpass-latin-400-normal')) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return assetName as any;
+    }
+  }
+  return '';
+};
 
 export const renderApp = (req: express.Request, res: express.Response) => {
   const context = Object.assign({}, HttpContextDefaultValue);
 
   if (context.redirect) {
-    const toReturn = {html: undefined, context};
+    const toReturn = { html: undefined, context };
 
     return toReturn;
   }
@@ -125,6 +112,8 @@ export const renderApp = (req: express.Request, res: express.Response) => {
       <head>
         <meta charset="utf-8" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/globals.css" />
+        <link rel="preload" href="/${getFont('../build/loadable-stats.json')}" as="font" type="font/woff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta
@@ -134,7 +123,6 @@ export const renderApp = (req: express.Request, res: express.Response) => {
         <title>
           ${generateTitleTag(req.url)}
         </title>
-        ${globalStyle}
         ${cssLinksFromAssets(assets, 'client')}
         ${linkTags}
         ${styleTags}
@@ -146,13 +134,15 @@ export const renderApp = (req: express.Request, res: express.Response) => {
     </html>`;
 
   return { html, context };
-  
 };
 
 const server = express()
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
+  .set('Cache-Control', 'public, max-age=604800')
   .get('/*', (req: express.Request, res: express.Response) => {
+    res.set('Cache-Control', '0');
+
     if (req.url.includes('404')) {
       res.status(404);
     }

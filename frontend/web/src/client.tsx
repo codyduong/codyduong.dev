@@ -1,4 +1,3 @@
-import 'packages/style/globals.css';
 import '@fontsource/overpass';
 import { BrowserRouter } from 'react-router-dom';
 import { hydrateRoot } from 'react-dom/client';

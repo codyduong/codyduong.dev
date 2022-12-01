@@ -21,10 +21,13 @@ const UnderConstructionSection = styled.section`
   padding: ${(props) => props.theme.spacing.rem[300]};
 `;
 
-const Construction3DClient = loadable(() => import('./Construction3D.client'), {
-  ssr: false,
-  fallback: undefined,
-});
+const Construction3DClient = loadable(
+  () => import(/* webpackPrefetch: true */ './Construction3D.client'),
+  {
+    ssr: false,
+    fallback: undefined,
+  }
+);
 
 export default function Construction3DServer(): JSX.Element {
   return (
