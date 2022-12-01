@@ -15,6 +15,8 @@ const PATH_TO_TITLE = {
  */
 const FULL_PATHS_OVERRIDE = {
   '/work/agi/': 'AGI',
+  '/': 'Home',
+  '': 'Home',
 };
 
 const generateTitleTag = (path: string): string => {
