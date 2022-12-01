@@ -4,9 +4,9 @@ import { Link, Route, Routes } from 'react-router-dom';
 import loadable from 'packages/components/SpinkitLoadable';
 import classNames from 'classnames';
 import { useState } from 'react';
+import Redirect from 'packages/http/Redirect';
 
 const AGI = loadable(() => import('./agi/index'));
-const NotFound = loadable(() => import('packages/pages/404/NotFound'));
 
 const Section = styled.section`
   display: flex;
@@ -168,7 +168,7 @@ const Work = (): JSX.Element => {
           </Section>
         }
       />
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Redirect to={'/404/'} />} />
     </Routes>
   );
 };

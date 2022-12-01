@@ -5,7 +5,9 @@ import loadable from 'packages/components/SpinkitLoadable';
 import Page from 'packages/pages/Page';
 import { TheatreProvider } from 'packages/components/3D/TheatreContext';
 import { QueryProvider } from 'packages/mono-app/QueryContext';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
+import generateTitleTag from 'titleGenerator';
+import Redirect from 'packages/http/Redirect';
 
 const Home = loadable(() => import('packages/pages/Home'));
 const NotFound = loadable(() => import('packages/pages/404/NotFound'));
@@ -36,6 +38,14 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
     }
   }
 
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (document) {
+      document.title = generateTitleTag(pathname);
+    }
+  }, [pathname]);
+
   return (
     <ThemeProvider theme={theme}>
       <QueryProvider
@@ -50,7 +60,8 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
               <Route path="/work/*" element={<Work />} />
               <Route path="/articles/" element={<Construction3D />} />
               <Route path="/contact/" element={<Construction3D />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="/404/" element={<NotFound />} />
+              <Route path="*" element={<Redirect to={'/404/'} />} />
             </Routes>
           </Page>
         </TheatreProvider>

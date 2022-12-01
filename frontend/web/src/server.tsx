@@ -7,6 +7,8 @@
 
 /**
  * styled-components and loadable: https://github.com/jaredpalmer/razzle/discussions/1783
+ * react-router-dom-v6 redirect: https://github.com/remix-run/react-router/issues/7267#issuecomment-714518241
+ * handling redirects in react-router v6: https://gist.github.com/htdangkhoa/5b3407c749b6fb8cf05cfb591ec3ef07#handling-redirects-in-react-router-v6
  */
 import express from 'express';
 import React from 'react';
@@ -17,6 +19,8 @@ import { ServerStyleSheet } from "styled-components";
 
 import App from 'packages/mono-app';
 import path from 'path';
+import generateTitleTag from 'titleGenerator';
+import { HttpContextDefaultValue, HttpContextProvider } from 'packages/http/HttpContext';
 
 let assets: unknown;
 
@@ -83,7 +87,13 @@ button:focus {
 `;
 
 export const renderApp = (req: express.Request, res: express.Response) => {
-  const context = {};
+  const context = Object.assign({}, HttpContextDefaultValue);
+
+  if (context.redirect) {
+    const toReturn = {html: undefined, context};
+
+    return toReturn;
+  }
 
   const extractor = new ChunkExtractor({
     statsFile: path.resolve(__dirname, '../build/loadable-stats.json'),
@@ -91,22 +101,16 @@ export const renderApp = (req: express.Request, res: express.Response) => {
   });
   const sheet = new ServerStyleSheet();
 
-  // const markup = renderToString(
-  //   // @ts-expect-error: todo
-  //   <StaticRouter context={context} location={req.url}>
-  //     <App />
-  //   </StaticRouter>
-  // );
-
   const markup = renderToString(
     sheet.collectStyles(
-      // @ts-expect-error: todo
-      <StaticRouter context={context} location={req.url}>
-        {/* @ts-expect-error: todo */}
-        <ChunkExtractorManager extractor={extractor}>
-          <App query={req.query} />
-        </ChunkExtractorManager>
-      </StaticRouter>
+      <HttpContextProvider context={context}>
+        <StaticRouter location={req.url}>
+          {/* @ts-expect-error: todo */}
+          <ChunkExtractorManager extractor={extractor}>
+            <App query={req.query} />
+          </ChunkExtractorManager>
+        </StaticRouter>
+      </HttpContextProvider>
     )
   );
 
@@ -114,45 +118,49 @@ export const renderApp = (req: express.Request, res: express.Response) => {
   const linkTags = extractor.getLinkTags();
   const styleTags = sheet.getStyleTags();
 
-  // @ts-expect-error: todo
-  if (context.url) {
-    // @ts-expect-error: todo
-    return { redirect: context.url };
-  } else {
-    const html =
-      // prettier-ignore
-      `<!doctype html>
-        <html lang="">
-        <head>
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="theme-color" content="#000000" />
-          <meta
-            name="description"
-            content="Cody Duong - personal website"
-          />
-          ${globalStyle}
-          ${cssLinksFromAssets(assets, 'client')}
-          ${linkTags}
-          ${styleTags}
-        </head>
-        <body>
-          <div id="root">${markup}</div>
-          ${scriptTags}
-        </body>
-      </html>`;
+  const html =
+    // prettier-ignore
+    `<!doctype html>
+      <html lang="">
+      <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta
+          name="description"
+          content="Cody Duong's personal website"
+        />
+        <title>
+          ${generateTitleTag(req.url)}
+        </title>
+        ${globalStyle}
+        ${cssLinksFromAssets(assets, 'client')}
+        ${linkTags}
+        ${styleTags}
+      </head>
+      <body>
+        <div id="root">${markup}</div>
+        ${scriptTags}
+      </body>
+    </html>`;
 
-    return { html, context };
-  }
+  return { html, context };
+  
 };
 
 const server = express()
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
   .get('/*', (req: express.Request, res: express.Response) => {
-    const { html = '', redirect = false } = renderApp(req, res);
-    if (redirect) {
-      res.redirect(redirect);
+    if (req.url.includes('404')) {
+      res.status(404);
+    }
+
+    const { html = '', context } = renderApp(req, res);
+    if (context.redirect) {
+      // Somewhere a `<Redirect>` was rendered
+      res.redirect(301, context.redirect);
     } else {
       res.send(html);
     }
