@@ -107,13 +107,13 @@ export const renderApp = (req: express.Request, res: express.Response) => {
 
   const html =
     // prettier-ignore
+    // <link rel="preload" href="/${getFont('../build/loadable-stats.json')}" as="font" type="font/woff" />
     `<!doctype html>
       <html lang="en">
       <head>
         <meta charset="utf-8" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/globals.css" />
-        <link rel="preload" href="/${getFont('../build/loadable-stats.json')}" as="font" type="font/woff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta
