@@ -127,14 +127,6 @@ const Construction3DClient = (): JSX.Element => {
                     // minPolarAngle={Math.PI / 2.2}
                     maxPolarAngle={Math.PI / 2.2}
                   />
-                  {/* <e.mesh
-                theatreKey="floor"
-                position={[0, -0.5, 0]}
-                rotation={[-1.57079632679, 0, 0]}
-              >
-                <circleGeometry args={[50, 32]} />
-                <meshStandardMaterial color={'white'} />
-              </e.mesh> */}
                   <Physics size={10} allowSleep>
                     <PhysicsDebug color="black">
                       <Plane e={e} />
