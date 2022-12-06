@@ -28,10 +28,10 @@ const generateTitleTag = (path: string): string => {
 
     // if we are in a valid descendant, ie. /work/workplace/
     if (splitPath[1]) {
-      suffix = splitPath.at(-1) ?? '';
+      suffix = splitPath[splitPath.length - 1] ?? '';
     }
   } else {
-    suffix = splitPath.at(-1) ?? '';
+    suffix = splitPath[splitPath.length - 1] ?? '';
   }
   if (path in FULL_PATHS_OVERRIDE) {
     suffix = FULL_PATHS_OVERRIDE[path as keyof typeof FULL_PATHS_OVERRIDE];
