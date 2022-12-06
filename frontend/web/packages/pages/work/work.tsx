@@ -77,9 +77,9 @@ interface WorkProps {
   disabled?: boolean;
   classname?: string;
   textClassname?: string;
-  workplaceTitle: string;
-  position: string;
-  dateString: string;
+  workplaceTitle: string | React.ReactNode;
+  position: string | React.ReactNode;
+  dateString: string | React.ReactNode;
 }
 
 const Workplace = ({
@@ -152,7 +152,11 @@ const Work = (): JSX.Element => {
                 classname={'AGI'}
                 dateString={'June 2021 - Present'}
                 workplaceTitle={'AGI SureTrack/Digital'}
-                position={'Software Engineering Intern'}
+                position={
+                  <>
+                    Fullstack <abbr title="Software Engineer">SE</abbr> Intern
+                  </>
+                }
                 textClassname={agiTextClassname}
               />
               <Workplace

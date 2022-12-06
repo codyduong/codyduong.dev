@@ -18,6 +18,7 @@ div {
 a {
   all: unset;
   text-decoration: none;
+  cursor: pointer;
 }
 a:focus {
   outline: #00A4FF 1px auto;

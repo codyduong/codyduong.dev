@@ -213,6 +213,7 @@ export const Span = {
 };
 export const Typography = {
   Heading,
+  ...Heading,
   Paragraph,
   ...Paragraph,
   Span,

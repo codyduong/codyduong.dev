@@ -75,7 +75,19 @@ const Cone = ({ cone, shapes, primitiveProps }: ConeProps): JSX.Element => {
   );
 };
 
-const Construction3DClient = (): JSX.Element => {
+interface Construction3DClientProps {
+  zoom?: number;
+  enablePan?: boolean;
+  enableZoom?: boolean;
+  enabled?: boolean;
+}
+
+const Construction3DClient = ({
+  zoom,
+  enablePan = false,
+  enableZoom = false,
+  enabled = false,
+}: Construction3DClientProps): JSX.Element => {
   const coneMaterial = useLoader(MTLLoader, '/3d/cone/materials.mtl');
   const cone = useLoader(OBJLoader, '/3d/cone/model.obj', (loader) => {
     coneMaterial.preload();
@@ -102,7 +114,7 @@ const Construction3DClient = (): JSX.Element => {
     <>
       <Suspense>
         <Canvas
-          camera={{ position: [-5, 2, -5] }}
+          camera={{ position: [-5, 2, -5], zoom: zoom }}
           gl={{ preserveDrawingBuffer: true }}
         >
           <A11ySection
@@ -121,9 +133,9 @@ const Construction3DClient = (): JSX.Element => {
                     position={[-1, 10, 2.5]}
                   />
                   <OrbitControls
-                    enablePan={false}
-                    enableZoom={true}
-                    enabled={true}
+                    enablePan={enablePan}
+                    enableZoom={enableZoom}
+                    enabled={enabled}
                     // minPolarAngle={Math.PI / 2.2}
                     maxPolarAngle={Math.PI / 2.2}
                   />
