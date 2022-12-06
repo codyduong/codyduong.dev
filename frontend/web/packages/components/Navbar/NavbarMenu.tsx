@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import A from 'packages/components/A';
 import color from 'color';
+import CloseIcon from '@mui/icons-material/Close';
 
 const NavbarMenuComponent = styled.menu`
   display: flex;
@@ -130,6 +131,30 @@ const TopPaddingDiv = styled.div`
   min-height: 2px;
 `;
 
+const CloseItemLi = styled.li`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`;
+
+const CloseIconWrapper = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background: ${({ theme }) => theme.color.text[600]};
+  border: 1px solid ${({ theme }) => theme.color.text[400]};
+  border-radius: 12px;
+  margin: ${({ theme }) => theme.spacing.rem[100]} 0;
+  color: ${({ theme }) => theme.color.text[100]};
+
+  & > svg {
+    fill: currentColor;
+  }
+`;
+
 interface HamburgerProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -166,6 +191,11 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
         links
       </StyledLinkComponent>
+      <CloseItemLi>
+        <CloseIconWrapper onClick={() => setOpen(false)}>
+          <CloseIcon role="img" aria-label="Close Navigation Menu" />
+        </CloseIconWrapper>
+      </CloseItemLi>
     </NavbarMenuComponent>
   );
 };

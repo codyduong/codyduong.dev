@@ -194,7 +194,7 @@ const Navbar = (): JSX.Element => {
         onClick={() => {
           setOpen(!open);
         }}
-        aria-label="Navigation Menu"
+        aria-label={`${open ? 'Close' : 'Open'} Navigation Menu`}
         aria-haspopup
         aria-controls="nav-hamburger-list"
       >
