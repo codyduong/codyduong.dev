@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import classNames from 'classnames';
 import { Paragraph } from 'packages/components/Typography';
 import { useLocation } from 'react-router-dom';
@@ -105,7 +104,7 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
   const { to, children, className, open, setOpen, ...rest } = props;
   const location = useLocation().pathname.split('/');
 
-  const cn = classnames(className, 'navbar-link', {
+  const cn = classNames(className, 'navbar-link', {
     ['navbar-link-open']: location[1] == to.slice(1, to.length - 1),
   });
 
