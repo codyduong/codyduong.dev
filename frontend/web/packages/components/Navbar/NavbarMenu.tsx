@@ -153,6 +153,15 @@ const CloseIconWrapper = styled.button`
   & > svg {
     fill: currentColor;
   }
+
+  &:hover {
+    transition-delay: 50ms;
+    color: ${(props) => props.theme.color.base[100]};
+    background-color: ${({ theme }) =>
+      color(theme.color.surface[500])
+        .mix(color(theme.color.surface[400]), 0.2)
+        .string()};
+  }
 `;
 
 interface HamburgerProps {
