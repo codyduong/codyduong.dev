@@ -1,4 +1,36 @@
 {
-  "presets": ["razzle/babel"],
-  "plugins": ["@loadable/babel-plugin", "@babel/plugin-transform-react-jsx", "babel-plugin-styled-components"]
+  "env": {
+    "production": {
+      "presets": [
+        "razzle/babel"
+      ],
+      "plugins": [
+        [
+          "babel-plugin-styled-components",
+          {
+            "ssr": true,
+            "displayName": false
+          }
+        ],
+        "@loadable/babel-plugin",
+        "@babel/plugin-transform-react-jsx"
+      ]
+    },
+    "development": {
+      "presets": [
+        "razzle/babel"
+      ],
+      "plugins": [
+        [
+          "babel-plugin-styled-components",
+          {
+            "ssr": true,
+            "displayName": true
+          }
+        ],
+        "@loadable/babel-plugin",
+        "@babel/plugin-transform-react-jsx"
+      ]
+    }
+  }
 }

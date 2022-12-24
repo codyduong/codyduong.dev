@@ -88,22 +88,29 @@ export const renderApp = (req: express.Request, res: express.Response) => {
   });
   const sheet = new ServerStyleSheet();
 
-  const markup = renderToString(
-    sheet.collectStyles(
-      <HttpContextProvider context={context}>
-        <StaticRouter location={req.url}>
-          {/* @ts-expect-error: todo */}
-          <ChunkExtractorManager extractor={extractor}>
-            <App query={req.query} />
-          </ChunkExtractorManager>
-        </StaticRouter>
-      </HttpContextProvider>
-    )
-  );
+  let markup, styleTags;
+  try {
+    markup = renderToString(
+      sheet.collectStyles(
+        <HttpContextProvider context={context}>
+          <StaticRouter location={req.url}>
+            {/* @ts-expect-error: todo */}
+            <ChunkExtractorManager extractor={extractor}>
+              <App query={req.query} />
+            </ChunkExtractorManager>
+          </StaticRouter>
+        </HttpContextProvider>
+      )
+    );
+    styleTags = sheet.getStyleTags();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    sheet.seal();
+  }
 
   const scriptTags = extractor.getScriptTags();
   const linkTags = extractor.getLinkTags();
-  const styleTags = sheet.getStyleTags();
 
   const html =
     // prettier-ignore
@@ -139,7 +146,6 @@ export const renderApp = (req: express.Request, res: express.Response) => {
 const server = express()
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
-  .set('Cache-Control', 'public, max-age=604800')
   .get('/*', (req: express.Request, res: express.Response) => {
     res.set('Cache-Control', '0');
 
@@ -155,5 +161,9 @@ const server = express()
       res.send(html);
     }
   });
+
+if (process.env.NODE_ENV === 'production') {
+  server.set('Cache-Control', 'public, max-age=604800');
+}
 
 export default server;
