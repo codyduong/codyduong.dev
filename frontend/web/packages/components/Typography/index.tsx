@@ -219,3 +219,4 @@ export const Typography = {
   Span,
   ...Span,
 } as const;
+export default Typography;

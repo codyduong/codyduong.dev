@@ -21,6 +21,8 @@ export const Colors = (): JSX.Element => {
           return (
             <div key={themeName}>
               <H3>{themeName}</H3>
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
               <ColorPalette>
                 {Object.entries(theme.color).map(([colorName, color]) => {
                   return (

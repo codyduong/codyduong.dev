@@ -63,10 +63,11 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/home/" element={<Home />} />
-              <Route path="/links/" element={<Links />} />
+              <Route path="/links/" element={<Redirect to={'/contact/'} />} />
               <Route path="/work/*" element={<Work />} />
+              <Route path="/playground/" element={<Construction3D />} />
               <Route path="/articles/" element={<Construction3D />} />
-              <Route path="/contact/" element={<Construction3D />} />
+              <Route path="/contact/" element={<Links />} />
               <Route path="/404/" element={<NotFound />} />
               <Route path="*" element={<Redirect to={'/404/'} />} />
             </Routes>

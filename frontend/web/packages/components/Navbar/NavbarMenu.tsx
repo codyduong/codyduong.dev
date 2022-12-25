@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import A from 'packages/components/A';
 import color from 'color';
 import CloseIcon from '@mui/icons-material/Close';
+import { commoncss } from 'packages/style';
 
 const NavbarMenuComponent = styled.menu`
   display: flex;
@@ -28,8 +29,10 @@ const NavbarMenuComponent = styled.menu`
 `;
 
 const MenuItem = styled.li`
+  all: unset;
   margin: 0 ${({ theme }) => theme.spacing.rem[200]};
   padding: 0;
+  transition: all 0.5s ease-in-out;
 
   &:hover {
     box-shadow: inset 100vw 0 5rem 0
@@ -38,10 +41,6 @@ const MenuItem = styled.li`
           .mix(color(theme.color.surface[400]), 0.2)
           .string()};
   }
-`;
-
-const StyledUL = styled.ul`
-  padding: 0;
 `;
 
 const StyledLink = styled(A.Link)`
@@ -70,13 +69,16 @@ const StyledLink = styled(A.Link)`
 
   &:hover {
     transition-delay: 50ms;
-    color: ${(props) => props.theme.color.base[100]};
+    color: ${(props) =>
+      color(props.theme.color.base[100])
+        .mix(color(props.theme.color.base[200]), 0.5)
+        .string()};
   }
 
   &.navbar-link-open {
     color: ${(props) => props.theme.color.text[100]};
     &:hover {
-      color: ${(props) => props.theme.color.base[200]};
+      color: ${(props) => props.theme.color.base[300]};
     }
   }
 `;
@@ -132,6 +134,7 @@ const TopPaddingDiv = styled.div`
 `;
 
 const CloseItemLi = styled.li`
+  all: unset;
   display: flex;
   width: 100%;
   justify-content: center;
@@ -154,9 +157,14 @@ const CloseIconWrapper = styled.button`
     fill: currentColor;
   }
 
+  ${commoncss.focus}
+
   &:hover {
     transition-delay: 50ms;
-    color: ${(props) => props.theme.color.base[100]};
+    color: ${(props) =>
+      color(props.theme.color.base[100])
+        .mix(color(props.theme.color.base[200]), 0.5)
+        .string()};
     background-color: ${({ theme }) =>
       color(theme.color.surface[500])
         .mix(color(theme.color.surface[400]), 0.2)
@@ -191,17 +199,23 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       <StyledLinkComponent open={open} setOpen={setOpen} to="/work/">
         work
       </StyledLinkComponent>
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/playground/">
+        playground
+      </StyledLinkComponent>
       <StyledLinkComponent open={open} setOpen={setOpen} to="/articles/">
         articles
       </StyledLinkComponent>
       <StyledLinkComponent open={open} setOpen={setOpen} to="/contact/">
         contact
       </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
+      {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
         links
-      </StyledLinkComponent>
+      </StyledLinkComponent> */}
       <CloseItemLi>
-        <CloseIconWrapper onClick={() => setOpen(false)}>
+        <CloseIconWrapper
+          tabIndex={open ? undefined : -1}
+          onClick={() => setOpen(false)}
+        >
           <CloseIcon role="img" aria-label="Close Navigation Menu" />
         </CloseIconWrapper>
       </CloseItemLi>

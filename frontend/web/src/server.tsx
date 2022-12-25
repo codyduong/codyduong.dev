@@ -88,7 +88,8 @@ export const renderApp = (req: express.Request, res: express.Response) => {
   });
   const sheet = new ServerStyleSheet();
 
-  let markup, styleTags;
+  let markup = '';
+  let styleTags;
   try {
     markup = renderToString(
       sheet.collectStyles(

@@ -33,10 +33,10 @@ button:focus {
 svg {
   transition: all 0.225s ease-in-out;
 }
-ul {
-  all: unset
+/* ul {
+  all: unset;
 }
 li {
   all: unset;
   transition: all 0.5s ease-in-out;
-}
+} */

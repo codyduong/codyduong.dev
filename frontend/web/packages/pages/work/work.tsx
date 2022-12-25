@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Typography as T } from 'packages/components/Typography';
+import T from 'packages/components/Typography';
 import { Link, Route, Routes } from 'react-router-dom';
 import loadable from 'packages/components/SpinkitLoadable';
 import classNames from 'classnames';
@@ -43,6 +43,7 @@ const WorkplacePosition = styled(T.Span2.italic)`
 `;
 
 const Ul = styled.ul`
+  all: unset;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.rem[400]};
