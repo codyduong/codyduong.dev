@@ -118,7 +118,7 @@ const BoldCss = css`
 
 const P2css = css`
   ${PCss}
-  font-size: calc(${(props) => props.theme.spacing.rem[150]});
+  font-size: calc(${(props) => props.theme.spacing.rem[125]});
 `;
 const P3css = css`
   ${PCss}

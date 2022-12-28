@@ -99,7 +99,7 @@ const AGI = (): JSX.Element => {
           </Column>
         </TwoTier>
       </Positions>
-      <img src="/suretrack-1260x840.jpg" alt="Image of Suretrack Website" />
+      <img src="/suretrack-1260x840.jpg" alt="Suretrack Website" />
       <Section>
         <T.Heading.H2>overview</T.Heading.H2>
         <T.P3>

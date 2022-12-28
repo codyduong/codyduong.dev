@@ -6,6 +6,23 @@ import A from 'packages/components/A';
 import color from 'color';
 import CloseIcon from '@mui/icons-material/Close';
 import { commoncss } from 'packages/style';
+import Search from './NavbarSearch';
+import { useState } from 'react';
+
+const MenuItem = styled.li`
+  all: unset;
+  margin: 0 ${({ theme }) => theme.spacing.rem[200]};
+  padding: 0;
+  transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out;
+
+  &:hover {
+    box-shadow: inset 100vw 0 5rem 0
+      ${({ theme }) =>
+        color(theme.color.surface[500])
+          .mix(color(theme.color.surface[400]), 0.2)
+          .string()};
+  }
+`;
 
 const NavbarMenuComponent = styled.menu`
   display: flex;
@@ -16,30 +33,27 @@ const NavbarMenuComponent = styled.menu`
   overflow: hidden;
   z-index: 1000;
   top: ${(props) => props.theme.spacing.rem[300]};
-  left: 0;
+  right: 0;
   padding: 0;
   margin: 0;
 
   background-color: inherit;
-  transition: height 225ms ease-in-out 0s;
+  transition: height 500ms ease-in-out 0s, top 500ms ease-in-out 0s;
 
-  &.nav-hamburger-list-open {
+  &.open {
     height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
   }
-`;
 
-const MenuItem = styled.li`
-  all: unset;
-  margin: 0 ${({ theme }) => theme.spacing.rem[200]};
-  padding: 0;
-  transition: all 0.5s ease-in-out;
+  &.close {
+    & > ${MenuItem} {
+      box-shadow: inset 100vw 0 5rem 0
+        ${({ theme }) => theme.color.surface[400]};
+    }
+  }
 
-  &:hover {
-    box-shadow: inset 100vw 0 5rem 0
-      ${({ theme }) =>
-        color(theme.color.surface[500])
-          .mix(color(theme.color.surface[400]), 0.2)
-          .string()};
+  &.searching {
+    top: 0px;
+    height: calc(100vh - 0rem);
   }
 `;
 
@@ -85,7 +99,7 @@ const StyledLink = styled(A.Link)`
 
 const LinkDivider = styled.div`
   width: 100%;
-  height: 1px;
+  height: 0.05rem;
 
   /* inferna-color-text-400 */
   background: #404040;
@@ -108,7 +122,7 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
   const location = useLocation().pathname.split('/');
 
   const cn = classNames(className, 'navbar-link', {
-    ['navbar-link-open']: location[1] == to.slice(1, to.length - 1),
+    ['navbar-link-open']: (location[1] || 'home') == to.slice(1, to.length - 1),
   });
 
   return (
@@ -129,9 +143,9 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
   );
 };
 
-const TopPaddingDiv = styled.div`
-  min-height: 2px;
-`;
+// const TopPaddingDiv = styled.div`
+//   min-height: 2px;
+// `;
 
 const CloseItemLi = styled.li`
   all: unset;
@@ -147,7 +161,6 @@ const CloseIconWrapper = styled.button`
   align-items: center;
   width: 32px;
   height: 32px;
-  background: ${({ theme }) => theme.color.text[600]};
   border: 1px solid ${({ theme }) => theme.color.text[400]};
   border-radius: 12px;
   margin: ${({ theme }) => theme.spacing.rem[100]} 0;
@@ -178,8 +191,12 @@ interface HamburgerProps {
 }
 
 const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
+  const [searching, setSearching] = useState(false);
+
   const hamburgerClassname = classNames('nav-hamburger-list', {
-    ['nav-hamburger-list-open']: open,
+    ['close']: !open,
+    ['open']: open,
+    ['searching']: searching,
   });
 
   return (
@@ -190,33 +207,32 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       aria-labelledby="nav-hamburger-button"
       aria-expanded={open}
     >
-      <TopPaddingDiv aria-hidden>
-        <LinkDivider />
-      </TopPaddingDiv>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/home/">
+      <Search searching={searching} setSearching={setSearching} open={open} />
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/home">
         home
       </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/work/">
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
         work
       </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/playground/">
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
         playground
       </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/articles/">
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/articles">
         articles
       </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/contact/">
+      <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
         contact
       </StyledLinkComponent>
       {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
         links
       </StyledLinkComponent> */}
-      <CloseItemLi>
+      <CloseItemLi role="menuitem">
         <CloseIconWrapper
           tabIndex={open ? undefined : -1}
           onClick={() => setOpen(false)}
+          aria-label="Close Navigation Menu"
         >
-          <CloseIcon role="img" aria-label="Close Navigation Menu" />
+          <CloseIcon role="img" />
         </CloseIconWrapper>
       </CloseItemLi>
     </NavbarMenuComponent>

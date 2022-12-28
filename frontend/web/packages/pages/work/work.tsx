@@ -142,7 +142,7 @@ const Work = (): JSX.Element => {
           <Section className={workSectionClassnames}>
             <Ul>
               <Workplace
-                to={'/work/agi/'}
+                to={'/work/agi'}
                 onClick={() => setHovering(null)}
                 onMouseEnter={() => setHovering('agi')}
                 onMouseLeave={() =>
@@ -161,13 +161,12 @@ const Work = (): JSX.Element => {
                 textClassname={agiTextClassname}
               />
               <Workplace
-                to={'/work/other/'}
+                to={'/playground/'}
                 classname={'Other'}
                 dateString={'Always Ongoing'}
                 workplaceTitle={'Other Projects'}
                 position={'Enthusiast'}
                 textClassname={otherTextClassname}
-                disabled
               />
             </Ul>
           </Section>

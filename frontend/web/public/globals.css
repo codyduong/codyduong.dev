@@ -21,14 +21,14 @@ a {
   cursor: pointer;
 }
 a:focus {
-  outline: #00A4FF 1px auto;
+  outline: #1795da 1px auto;
 }
 button {
   all: unset;
   cursor: pointer;
 }
 button:focus {
-  outline: #00A4FF 1px auto;
+  outline: #1795da 1px auto;
 }
 svg {
   transition: all 0.225s ease-in-out;

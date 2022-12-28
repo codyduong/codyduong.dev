@@ -153,6 +153,12 @@ const server = express()
     if (req.url.includes('404')) {
       res.status(404);
     }
+    if (req.url.slice(-1) == '/') {
+      const redirectUrl = req.url.slice(0, -1);
+      if (redirectUrl != '') {
+        res.redirect(301, redirectUrl);
+      }
+    }
 
     const { html = '', context } = renderApp(req, res);
     if (context.redirect) {

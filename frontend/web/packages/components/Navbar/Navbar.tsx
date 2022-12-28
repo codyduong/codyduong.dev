@@ -19,18 +19,32 @@ const Header = styled.header`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: ${(props) =>
-    `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
   position: sticky;
   width: 100%;
   height: ${(props) => props.theme.spacing.rem[300]};
   background-color: ${(props) => props.theme.color.surface[400]};
   box-sizing: border-box;
   z-index: 1000;
+  transition: background-color 500ms;
 
   &.navbar-open {
     background-color: ${(props) => props.theme.color.surface[500]};
   }
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${(props) =>
+    `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
+  position: sticky;
+  width: 100%;
+  height: ${(props) => props.theme.spacing.rem[300]};
+
+  background-color: inherit;
+  box-sizing: border-box;
 `;
 
 const Name = styled(A.Link)`
@@ -165,58 +179,64 @@ const Navbar = (): JSX.Element => {
 
   const location = useLocation();
   const pathnameFormatted = location.pathname.split('/')[1];
-  const currentlyAt = ['home', 'work', 'articles', 'contact', 'links'].includes(
-    pathnameFormatted
-  )
+  const _currentlyAt = [
+    'home',
+    'work',
+    'articles',
+    'contact',
+    'links',
+  ].includes(pathnameFormatted)
     ? pathnameFormatted
     : 'home';
 
   return (
     <Header className={navClassname} ref={refHeader}>
-      <TrapFocus
-        tabIndex={open ? 0 : -1}
-        onFocus={() => {
-          open &&
-            refHeader.current &&
-            utils.focusLastDescendant(refHeader.current);
-        }}
-      />
-      <Name
-        to="/"
-        onClick={() => {
-          setOpen(false);
-        }}
-      >
-        codyduong
-      </Name>
-      <HamburgerButton
-        id="nav-hamburger-button"
-        onClick={() => {
-          setOpen(!open);
-        }}
-        aria-label={`${open ? 'Close' : 'Open'} Navigation Menu`}
-        aria-haspopup
-        aria-controls="nav-hamburger-list"
-      >
-        <label htmlFor="nav-hamburger">{currentlyAt}</label>
-        <MenuIcon
-          className={hamburgerClassname('close')}
-          aria-labelledby="nav-hamburger-button"
+      <Nav>
+        <TrapFocus
+          tabIndex={open ? 0 : -1}
+          onFocus={() => {
+            open &&
+              refHeader.current &&
+              utils.focusLastDescendant(refHeader.current);
+          }}
         />
-        <MenuOpenIcon
-          className={hamburgerClassname('open')}
-          aria-labelledby="nav-hamburger-button"
+        <Name
+          to="/"
+          onClick={() => {
+            setOpen(false);
+          }}
+        >
+          codyduong
+        </Name>
+        <HamburgerButton
+          id="nav-hamburger-button"
+          onClick={() => {
+            setOpen(!open);
+          }}
+          aria-label={`${open ? 'Close' : 'Open'} Navigation Menu`}
+          aria-haspopup="menu"
+          aria-controls="nav-hamburger-list"
+        >
+          {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
+          <MenuIcon
+            className={hamburgerClassname('close')}
+            aria-labelledby="nav-hamburger-button"
+          />
+          <MenuOpenIcon
+            className={hamburgerClassname('open')}
+            aria-labelledby="nav-hamburger-button"
+          />
+        </HamburgerButton>
+        <NavbarMenu open={open} setOpen={setOpen} />
+        <TrapFocus
+          tabIndex={open ? 0 : -1}
+          onFocus={() => {
+            open &&
+              refHeader.current &&
+              utils.focusFirstDescendant(refHeader.current);
+          }}
         />
-      </HamburgerButton>
-      <NavbarMenu open={open} setOpen={setOpen} />
-      <TrapFocus
-        tabIndex={open ? 0 : -1}
-        onFocus={() => {
-          open &&
-            refHeader.current &&
-            utils.focusFirstDescendant(refHeader.current);
-        }}
-      />
+      </Nav>
     </Header>
   );
 };

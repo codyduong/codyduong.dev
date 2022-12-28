@@ -64,9 +64,9 @@ const Home = (): JSX.Element => {
           </T.P2>
           <T.P3>
             Welcome to my personal website and{' '}
-            <Link.Styled to="/playground/">playground</Link.Styled>. This
-            website is <abbr title="Server-Side Rendering">SSR</abbr> enabled
-            and was built with React for clientside, Express for the server, and
+            <Link.Styled to="/playground">playground</Link.Styled>. This website
+            is <abbr title="Server-Side Rendering">SSR</abbr> enabled and was
+            built with React for clientside, Express for the server, and
             RazzleJS for configuration. Deployed via Google Hosting and Google
             Cloud Functions.
             {/* It also contains cool features like: */}
@@ -104,7 +104,7 @@ const Home = (): JSX.Element => {
           <T.Heading.H2>currently i am...</T.Heading.H2>
           <T.P3>
             A software engineering intern working at{' '}
-            <Link.Styled to="/work/agi/">AGI Digital</Link.Styled> on their Tier
+            <Link.Styled to="/work/agi">AGI Digital</Link.Styled> on their Tier
             3 Production Support Team as a Fullstack Engineer. I have been an
             intern at AGI Digital since 2021.
           </T.P3>
