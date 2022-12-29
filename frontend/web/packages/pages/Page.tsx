@@ -1,4 +1,5 @@
 import Navbar from 'packages/components/Navbar';
+import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 
@@ -32,13 +33,20 @@ const PageContent = styled.main`
 
 interface PageProps {
   children: React.ReactNode | null;
+  hasFooter?: boolean;
 }
 
-export default function Page(props: PageProps): JSX.Element {
+export default function Page({
+  children,
+  hasFooter = false,
+}: PageProps): JSX.Element {
   return (
     <PageDiv>
       <Navbar />
-      <PageContent>{props.children}</PageContent>
+      <PageContent>
+        {children}
+        {hasFooter && <Footer />}
+      </PageContent>
     </PageDiv>
   );
 }

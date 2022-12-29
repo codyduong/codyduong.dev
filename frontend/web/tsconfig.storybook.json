@@ -20,10 +20,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "packages/*": ["../packages/*"],
-      "src/*": ["*"]
+      "packages/*": ["./packages/*"]
     },
     "typeRoots": ["./src/types"]
   },

@@ -6,7 +6,7 @@ const Section = styled.section`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  height: 80vh;
+  height: 100vh;
 `;
 
 export default function NotFound(): JSX.Element {

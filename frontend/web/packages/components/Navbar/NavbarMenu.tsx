@@ -185,6 +185,11 @@ const CloseIconWrapper = styled.button`
   }
 `;
 
+const SearchConstructionText = styled(Paragraph.P2)`
+  text-align: center;
+  color: ${({ theme }) => theme.color.text[100]};
+`;
+
 interface HamburgerProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -192,6 +197,7 @@ interface HamburgerProps {
 
 const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
   const [searching, setSearching] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   const hamburgerClassname = classNames('nav-hamburger-list', {
     ['close']: !open,
@@ -207,22 +213,38 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       aria-labelledby="nav-hamburger-button"
       aria-expanded={open}
     >
-      <Search searching={searching} setSearching={setSearching} open={open} />
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/home">
-        home
-      </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
-        work
-      </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
-        playground
-      </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/articles">
-        articles
-      </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
-        contact
-      </StyledLinkComponent>
+      <Search
+        searching={searching}
+        setSearching={setSearching}
+        open={open}
+        value={searchValue}
+        setValue={setSearchValue}
+      />
+      {searchValue ? (
+        <MenuItem>
+          <SearchConstructionText>
+            Searching is not implemented yet... Come back later!
+          </SearchConstructionText>
+        </MenuItem>
+      ) : (
+        <>
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/home">
+            home
+          </StyledLinkComponent>
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
+            work
+          </StyledLinkComponent>
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
+            playground
+          </StyledLinkComponent>
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/articles">
+            articles
+          </StyledLinkComponent>
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
+            contact
+          </StyledLinkComponent>
+        </>
+      )}
       {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
         links
       </StyledLinkComponent> */}

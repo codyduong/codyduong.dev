@@ -2,7 +2,7 @@ import './storybook.css'
 import '@fontsource/overpass'
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import themes from '../packages/themed/themes';
+import themes from '../packages/themed/themes/index';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

@@ -49,6 +49,15 @@ const AllInLink = styled(A)`
     color: #06f395;
     text-decoration: none;
   }
+  &:focus ${AIwrapper} {
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+  }
+  &:focus ${AIc} {
+    color: #06f395;
+    text-decoration: none;
+  }
 `;
 
 const Home = (): JSX.Element => {

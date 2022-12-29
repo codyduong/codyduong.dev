@@ -70,7 +70,9 @@ module.exports = {
   plugins: [
     {
       plugin: CracoAliasPlugin,
-      options: {},
+      options: {
+        tsconfig: 'tsconfig.storybook.json',
+      },
     },
   ],
 };

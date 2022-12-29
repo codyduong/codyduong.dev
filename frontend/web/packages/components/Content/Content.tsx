@@ -10,7 +10,8 @@ const Content = styled.div<{ footerPadding?: boolean }>`
   box-sizing: border-box;
   padding: ${({ theme }) =>
     `${theme.spacing.px[200]} ${theme.spacing.px[150]}`};
-  margin-bottom: ${({ footerPadding }) => footerPadding && '50vh'};
+  /* margin-bottom: ${({ footerPadding }) => footerPadding && '5vw'}; */
+  min-height: calc(100vh - ${({ theme }) => theme.spacing.px[300]});
 
   @media only screen and (min-width: ${breakpoints.md}) {
     padding-top: ${({ theme }) => theme.spacing.px[400]};

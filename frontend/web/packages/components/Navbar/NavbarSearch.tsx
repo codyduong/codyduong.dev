@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import color from 'color';
 
@@ -88,15 +88,19 @@ const SearchInput = styled.input`
 interface SearchProps {
   searching: boolean;
   setSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
   open: boolean;
 }
 
 const Search = ({
   searching,
   setSearching,
+  value,
+  setValue,
   open,
 }: SearchProps): JSX.Element => {
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 

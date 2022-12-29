@@ -1,5 +1,4 @@
 import { COMMON_THEME } from 'packages/themed/themes/common';
-import type { Theme } from '../Themes';
 
 // export const DEFAULTold = {
 //   bgDark: '#111111',
@@ -35,6 +34,7 @@ export const DEFAULT = {
       100: '#ffffff',
       200: '#cecece',
       300: '#b0b0b0',
+      350: '#6b6b6b',
       400: '#252525',
       500: '#050505',
     },

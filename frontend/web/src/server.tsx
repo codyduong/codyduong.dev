@@ -19,11 +19,18 @@ import fs from 'fs';
 
 import App from 'packages/mono-app';
 import path from 'path';
-import generateTitleTag from 'titleGenerator';
+import generateTitleTag from './titleGenerator';
 import {
   HttpContextDefaultValue,
   HttpContextProvider,
 } from 'packages/http/HttpContext';
+import { getDataFromTree } from '@apollo/client/react/ssr';
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 
 let assets: unknown;
 
@@ -73,7 +80,10 @@ const getFont = (
   return '';
 };
 
-export const renderApp = (req: express.Request, res: express.Response) => {
+export const renderApp = async (
+  req: express.Request,
+  res: express.Response
+) => {
   const context = Object.assign({}, HttpContextDefaultValue);
 
   if (context.redirect) {
@@ -88,21 +98,43 @@ export const renderApp = (req: express.Request, res: express.Response) => {
   });
   const sheet = new ServerStyleSheet();
 
+  const client = new ApolloClient({
+    ssrMode: true,
+    link: createHttpLink({
+      uri:
+        process.env.NODE_ENV == 'production'
+          ? process.env.APOLLO_SERVER_PROD ?? 'TODO'
+          : process.env.APOLLO_SERVER_DEV ?? 'http://localhost:4000',
+      credentials: 'same-origin',
+      headers: {
+        cookie: req.header('Cookie'),
+      },
+    }),
+    cache: new InMemoryCache(),
+  });
+
+  const AppWithContexts = (
+    <HttpContextProvider context={context}>
+      <ApolloProvider client={client}>
+        <StaticRouter location={req.url}>
+          {/* @ts-expect-error: todo */}
+          <ChunkExtractorManager extractor={extractor}>
+            <App query={req.query} />
+          </ChunkExtractorManager>
+        </StaticRouter>
+      </ApolloProvider>
+    </HttpContextProvider>
+  );
+
+  // we don't want to use the parser from apollo since it mutilates from client
+  // TODO: log bug and create min repro for github issue
+  await getDataFromTree(AppWithContexts);
+  const state = client.extract();
+
   let markup = '';
   let styleTags;
   try {
-    markup = renderToString(
-      sheet.collectStyles(
-        <HttpContextProvider context={context}>
-          <StaticRouter location={req.url}>
-            {/* @ts-expect-error: todo */}
-            <ChunkExtractorManager extractor={extractor}>
-              <App query={req.query} />
-            </ChunkExtractorManager>
-          </StaticRouter>
-        </HttpContextProvider>
-      )
-    );
+    markup = renderToString(sheet.collectStyles(AppWithContexts));
     styleTags = sheet.getStyleTags();
   } catch (error) {
     console.log(error);
@@ -138,6 +170,9 @@ export const renderApp = (req: express.Request, res: express.Response) => {
       <body>
         <div id="root">${markup}</div>
         ${scriptTags}
+        ${renderToString(<script dangerouslySetInnerHTML={{
+          __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(/</g, '\\u003c')};`,
+        }} />)}
       </body>
     </html>`;
 
@@ -147,7 +182,7 @@ export const renderApp = (req: express.Request, res: express.Response) => {
 const server = express()
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
-  .get('/*', (req: express.Request, res: express.Response) => {
+  .get('/*', async (req: express.Request, res: express.Response) => {
     res.set('Cache-Control', '0');
 
     if (req.url.includes('404')) {
@@ -160,7 +195,7 @@ const server = express()
       }
     }
 
-    const { html = '', context } = renderApp(req, res);
+    const { html = '', context } = await renderApp(req, res);
     if (context.redirect) {
       // Somewhere a `<Redirect>` was rendered
       res.redirect(301, context.redirect);
