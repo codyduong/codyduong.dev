@@ -27,3 +27,4 @@ tsconfig.tsbuildinfo
 firebase-debug.log*
 ui-debug.log*
 .firebase
+stats.json
