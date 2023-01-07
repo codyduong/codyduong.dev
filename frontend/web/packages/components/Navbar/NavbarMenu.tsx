@@ -42,6 +42,11 @@ const NavbarMenuComponent = styled.menu`
 
   &.open {
     height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
+
+    &.searching {
+      top: 0px;
+      height: calc(100vh - 0rem);
+    }
   }
 
   &.close {
@@ -49,11 +54,6 @@ const NavbarMenuComponent = styled.menu`
       box-shadow: inset 100vw 0 5rem 0
         ${({ theme }) => theme.color.surface[400]};
     }
-  }
-
-  &.searching {
-    top: 0px;
-    height: calc(100vh - 0rem);
   }
 `;
 

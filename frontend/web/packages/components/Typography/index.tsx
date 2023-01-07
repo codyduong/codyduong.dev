@@ -1,4 +1,10 @@
-import styled, { css } from 'styled-components';
+import styled, {
+  css,
+  DefaultTheme,
+  FlattenInterpolation,
+  StyledComponentBase,
+  ThemeProps,
+} from 'styled-components';
 
 const HeadingCss = css`
   font-family: 'Overpass';
@@ -129,8 +135,20 @@ const P4css = css`
   font-size: calc(${(props) => props.theme.spacing.rem[87.5]});
 `;
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const calculateP = (pn: ReturnType<typeof css>) => {
+const calculateP = (
+  pn: ReturnType<typeof css>
+  // eslint-disable-next-line @typescript-eslint/ban-types
+): StyledComponentBase<'p', DefaultTheme, {}, never> & {
+  css: typeof pn;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  italic: StyledComponentBase<'p', DefaultTheme, {}, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  bold: StyledComponentBase<'p', DefaultTheme, {}, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+} => {
   return Object.assign(
     styled.p`
       ${pn}
@@ -166,7 +184,19 @@ const calculateP = (pn: ReturnType<typeof css>) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const calculateSpan = (pn: ReturnType<typeof css>) => {
+const calculateSpan = (
+  pn: ReturnType<typeof css>
+): StyledComponentBase<'span', DefaultTheme, {}, never> & {
+  css: typeof pn;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  italic: StyledComponentBase<'span', DefaultTheme, {}, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  bold: StyledComponentBase<'span', DefaultTheme, {}, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+} => {
   return Object.assign(
     styled.span`
       ${pn}

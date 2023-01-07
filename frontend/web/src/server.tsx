@@ -185,22 +185,26 @@ const server = express()
   .get('/*', async (req: express.Request, res: express.Response) => {
     res.set('Cache-Control', '0');
 
-    if (req.url.includes('404')) {
-      res.status(404);
-    }
-    if (req.url.slice(-1) == '/') {
-      const redirectUrl = req.url.slice(0, -1);
-      if (redirectUrl != '') {
-        res.redirect(301, redirectUrl);
+    try {
+      if (req.url.includes('404')) {
+        res.status(404);
       }
-    }
+      if (req.url.slice(-1) == '/') {
+        const redirectUrl = req.url.slice(0, -1);
+        if (redirectUrl != '') {
+          res.redirect(301, redirectUrl);
+        }
+      }
 
-    const { html = '', context } = await renderApp(req, res);
-    if (context.redirect) {
-      // Somewhere a `<Redirect>` was rendered
-      res.redirect(301, context.redirect);
-    } else {
-      res.send(html);
+      const { html = '', context } = await renderApp(req, res);
+      if (context.redirect) {
+        // Somewhere a `<Redirect>` was rendered
+        res.redirect(301, context.redirect);
+      } else {
+        res.send(html);
+      }
+    } catch (e) {
+      console.error(e);
     }
   });
 

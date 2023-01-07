@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import Modal, { MODAL_SIZES, ModalFlat } from './Modal';
+import Modal, { ModalFlat } from './Modal';
 import { ComponentStory, Meta } from '@storybook/react';
 // import { withDesign } from 'storybook-addon-designs';
 import Button from '../Button';
@@ -20,7 +20,9 @@ export default {
   },
 } as Meta;
 
-const ModalStoryWrapper = styled.div``;
+const ModalStoryWrapper = styled.div`
+  color: ${({ theme }) => theme.color.text[400]};
+`;
 
 const ModalContentItem = styled.div`
   border-radius: 8px;
@@ -38,15 +40,11 @@ const ModalContentItem = styled.div`
   border: 1px dashed #ffa600;
   border-radius: 8px;
 
+  ${T.Paragraph.P2.bold.css}
   color: #ffa600;
-  font-family: 'Univers';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 100%;
 `;
 
-const ModalContentItemFiller = () => (
+const ModalContentItemFiller = (): JSX.Element => (
   <ModalContentItem>CONTENT SLOT</ModalContentItem>
 );
 
@@ -123,7 +121,7 @@ const SliderGroup = styled.div`
   }
 `;
 
-export const ModalStory: ComponentStory<typeof Modal> = () => {
+export const Modals: ComponentStory<typeof Modal> = () => {
   const [open, setOpen] = useState<Record<number | string, boolean>>({});
 
   const setOpenName = (n: number | string, b?: boolean) => {
@@ -133,19 +131,20 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
     });
   };
 
-  const [modalSize, setModalSize] = useState<string>('SMALL');
+  const modalSizeOptions = [
+    { value: 'small', label: 'Small' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'large', label: 'Large' },
+  ] as const;
+
+  const [modalSize, setModalSize] =
+    useState<typeof modalSizeOptions[number]['value']>('small');
 
   const modalDisplayClassNames = classnames('modal-display', {
     ['modal-display-animate']: open['Animate Box Size'],
   });
   const [boxWidth, setBoxWidth] = useState(750);
   const refPortal1 = useRef<HTMLDivElement>(null);
-
-  const modalSizeOptions = [
-    { value: 'SMALL', label: 'SMALL' },
-    { value: 'MEDIUM', label: 'MEDIUM' },
-    { value: 'LARGE', label: 'LARGE' },
-  ];
 
   return (
     <ModalStoryWrapper>
@@ -166,7 +165,7 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
         </div>
         <div>
           <T.H4>Medium</T.H4>
-          <ModalFlat size="MEDIUM">
+          <ModalFlat size="medium">
             <Modal.Heading>Heading</Modal.Heading>
             <Modal.Content>
               <ModalContentItemFiller />
@@ -178,7 +177,7 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
         </div>
         <div>
           <T.H4>Large</T.H4>
-          <ModalFlat size="LARGE">
+          <ModalFlat size="large">
             <Modal.Heading>Heading</Modal.Heading>
             <Modal.Content>
               <ContentGrid>
@@ -208,7 +207,7 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
       <Modal
         open={open['persistence_modal']}
         onClose={() => setOpenName('persistence_modal', false)}
-        size={modalSize as MODAL_SIZES}
+        size={modalSize}
         persist={open['persistence']}
         foo={'It can take in props from the modal component if needed'}
       >
@@ -259,7 +258,7 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
       <Modal
         open={open[-100]}
         onClose={() => setOpenName(-100, false)}
-        size={modalSize as MODAL_SIZES}
+        size={modalSize}
       >
         {function t() {
           useEffect(() => {
@@ -282,8 +281,8 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
                 /> */}
               </Modal.Content>
               <Modal.Footer>
-                <Button>Cancel</Button>
-                <Button>Explode</Button>
+                <Button hierarchy="secondary">Cancel</Button>
+                <Button action="destructive">Explode</Button>
                 <Button>Submit</Button>
               </Modal.Footer>
             </>
@@ -293,7 +292,7 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
       <Modal
         open={open[-99]}
         onClose={() => setOpenName(-99, false)}
-        size={modalSize as MODAL_SIZES}
+        size={modalSize}
         heading="Footer w/ Button Props in Array"
         content={() => {
           useEffect(() => {
@@ -316,9 +315,9 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
           );
         }}
         footer={[
-          { text: 'cancel', hierarchy: 'SECONDARY', type: 'OUTLINE' },
-          { text: 'explode', hierarchy: 'DESTRUCTIVE' },
-          { text: 'LONGER BUTTON TEXT' },
+          { children: 'cancel', hierarchy: 'secondary' },
+          { children: 'explode', action: 'destructive' },
+          { children: 'LONGER BUTTON TEXT' },
         ]}
       />
       <T.H3>Responsive Visibility</T.H3>
@@ -399,7 +398,7 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
             onClose={() => setOpenName(1, false)}
             heading={'Medium'}
             portalTo={refPortal1.current}
-            size="MEDIUM"
+            size="medium"
           >
             <Modal.Content>
               <ModalContentItemFiller />
@@ -412,7 +411,7 @@ export const ModalStory: ComponentStory<typeof Modal> = () => {
             onClose={() => setOpenName(2, false)}
             heading={'Large'}
             portalTo={refPortal1.current}
-            size="LARGE"
+            size="large"
             nextText={'CREATE USER'}
           >
             <Modal.Content>

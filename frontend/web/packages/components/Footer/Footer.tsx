@@ -34,6 +34,7 @@ const LinkSVG = styled(A)<{ hovercolor: string }>`
     height: 24px;
     padding: 2px;
     fill: currentColor;
+    transform-origin: center left;
   }
 
   &:hover {

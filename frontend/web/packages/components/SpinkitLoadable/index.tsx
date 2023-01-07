@@ -4,23 +4,34 @@ import baseLoadable, {
   LoadableComponent,
   OptionsWithoutResolver,
 } from '@loadable/component';
+import styled from 'styled-components';
+
+const SpinnerWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export function Spinner(): JSX.Element {
   return (
-    <div className="sk-circle">
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-      <div className="sk-circle-dot"></div>
-    </div>
+    <SpinnerWrapper>
+      <div className="sk-circle">
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+        <div className="sk-circle-dot"></div>
+      </div>
+    </SpinnerWrapper>
   );
 }
 

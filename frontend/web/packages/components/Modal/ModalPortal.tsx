@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import * as ReactDOM from 'react-dom';
 import classnames from 'classnames';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useId } from 'react';
 import utils from '../utils';
+import { ModalContextProvider } from './ModalContext';
 
 const ModalRoot = styled.div<{
   root: boolean;
@@ -110,7 +111,6 @@ const ModalPortal = ({
     ['modal-bg-open']: persist ? open : showing,
     ['modal-bg-close']: !open,
   });
-  const dialogClassNames = classnames('modal-dialog');
 
   // selectively update focusElement
   const [focusElementState, setFocusElementState] = useState(focusElement);
@@ -239,61 +239,75 @@ const ModalPortal = ({
     }
   };
 
+  const ariaLabelledBy = useId();
+  const ariaDescribedBy = useId();
+
   return open || showing || persist
     ? ReactDOM.createPortal(
-        <ModalRoot
-          className={bgClassNames}
-          aria-hidden={!open}
-          ref={refBackground}
-          tabIndex={-1}
-          root={portalTo.id == 'root'}
-          style={{
-            transform: `translate(${scroll[0]}px,${scroll[1]}px)`,
-          }}
-          onTransitionEnd={(e) => {
-            handleTransitionEnd(e);
+        <ModalContextProvider
+          value={{
+            onExit: () => {
+              closeModal();
+            },
+            ariaLabelledBy,
+            ariaDescribedBy,
           }}
         >
-          <ModalRootShadow
-            onClick={closeModal}
-            aria-hidden
+          <ModalRoot
+            className={bgClassNames}
+            aria-hidden={!open}
+            ref={refBackground}
             tabIndex={-1}
-            className="modal-root-shadow"
-          />
-          {/**
-           * Following W3 Authoring on Dialogs/Modals, surround with two invisible, focusable nodes.
-           * Use those to trap a user within the modal.
-           */}
-          <div
-            tabIndex={trapFocus ? 0 : -1}
-            onFocus={() => {
-              open &&
-                refBackground.current &&
-                utils.focusLastDescendant(refBackground.current);
+            root={portalTo.id == 'root'}
+            style={{
+              transform: `translate(${scroll[0]}px,${scroll[1]}px)`,
             }}
-          />
-          <ModalContainerWrapper
-            style={style}
-            className={dialogClassNames}
-            role={role}
-            aria-modal
-            tabIndex={-1}
-            ref={refContainer}
+            onTransitionEnd={(e) => {
+              handleTransitionEnd(e);
+            }}
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
-            {children}
-          </ModalContainerWrapper>
-          <div
-            tabIndex={trapFocus ? 0 : -1}
-            onFocus={() => {
-              open &&
-                refBackground.current &&
-                utils.focusFirstDescendant(refBackground.current);
-            }}
-          />
-        </ModalRoot>,
+            <ModalRootShadow
+              onClick={closeModal}
+              aria-hidden
+              tabIndex={-1}
+              className="modal-root-shadow"
+            />
+            {/**
+             * Following W3 Authoring on Dialogs/Modals, surround with two invisible, focusable nodes.
+             * Use those to trap a user within the modal.
+             */}
+            <div
+              tabIndex={trapFocus ? 0 : -1}
+              onFocus={() => {
+                open &&
+                  refBackground.current &&
+                  utils.focusLastDescendant(refBackground.current);
+              }}
+            />
+            <ModalContainerWrapper
+              style={style}
+              className={'modal-wrapper'}
+              tabIndex={-1}
+              ref={refContainer}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              {children}
+            </ModalContainerWrapper>
+            <div
+              tabIndex={trapFocus ? 0 : -1}
+              onFocus={() => {
+                open &&
+                  refBackground.current &&
+                  utils.focusFirstDescendant(refBackground.current);
+              }}
+            />
+          </ModalRoot>
+        </ModalContextProvider>,
         portalTo
       )
     : null;

@@ -1,19 +1,13 @@
 import React from 'react';
 import ModalPortal from './ModalPortal';
-import styled, { css, useTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 import Button from '../Button';
 import T from '../Typography';
 import classnames from 'classnames';
 import breakpoints from 'packages/style/breakpoints';
-import ClearIcon from '@mui/icons-material/Clear';
-
-const ModalHeading = styled(T.H2)`
-  margin: ${({ theme }) =>
-    `${theme.spacing.px['050']} 0px ${theme.spacing.px['150']}`};
-  &.uppercase {
-    text-transform: uppercase;
-  }
-`;
+import { ButtonProps } from 'packages/components/Button/Button';
+import ModalHeading from './ModalHeading';
+import { useModal } from './ModalContext';
 
 const ModalFooter = styled.div<{ numberOfButtons?: number }>`
   display: flex;
@@ -31,7 +25,7 @@ const ModalFooter = styled.div<{ numberOfButtons?: number }>`
     display: flex;
     flex: 1 0
       ${({ numberOfButtons = 2, theme }) =>
-        `calc(100% / ${numberOfButtons} - ${theme.spacing.px[100]} * ${
+        `calc(100% / ${numberOfButtons} - ${theme.spacing.px[250]} * ${
           numberOfButtons - 1
         })`};
   }
@@ -87,10 +81,11 @@ const ModalContainer = styled(T.P2)`
   padding: ${({ theme }) => theme.spacing.px[150]};
   background: ${({ theme }) => theme.color.surface[100]};
   border: 1px solid ${({ theme }) => theme.color.surface[300]};
+  color: ${({ theme }) => theme.color.text[400]};
   box-shadow: 0px
     ${({ theme }) => `${theme.spacing.px[50]} ${theme.spacing.px[150]}`}
     rgba(35, 51, 45, 0.16);
-  border-radius: ${({ theme }) => theme.spacing.px[50]};
+  border-radius: ${({ theme }) => theme.spacing.px[25]};
   transition: width 500ms ease-in-out 0s, height 500ms ease-in-out 0s;
   max-height: 100%;
   overflow: visible;
@@ -101,24 +96,10 @@ const ModalContainer = styled(T.P2)`
   }
 
   &.modal-small {
-    @media (max-width: ${breakpoints.sm}) {
-      width: auto;
-      height: auto;
-      margin-left: ${({ theme }) => theme.spacing.px[150]};
-      margin-right: ${({ theme }) => theme.spacing.px[150]};
-      overflow: auto;
-    }
     width: min(calc(${({ theme }) => theme.spacing.px[1000]} * 2), 100%);
   }
 
   &.modal-medium {
-    @media (max-width: ${breakpoints.sm}) {
-      width: auto;
-      height: auto;
-      margin-left: ${({ theme }) => theme.spacing.px[150]};
-      margin-right: ${({ theme }) => theme.spacing.px[150]};
-      overflow: auto;
-    }
     width: min(
       calc(${({ theme }) => theme.spacing.px[1000]} * 2 + 100px),
       100%
@@ -126,18 +107,11 @@ const ModalContainer = styled(T.P2)`
   }
 
   &.modal-large {
-    @media (max-width: ${breakpoints.sm}) {
-      width: auto;
-      height: auto;
-      margin-left: ${({ theme }) => theme.spacing.px[150]};
-      margin-right: ${({ theme }) => theme.spacing.px[150]};
-      overflow: auto;
-    }
-    width: min(calc(${({ theme }) => theme.spacing.px[1000]} * 4), 100%);
+    width: min(calc(${({ theme }) => theme.spacing.px(4500)}), 100%);
     & > ${ModalFooter} {
       max-width: calc(
         ${({ theme }) =>
-          `${theme.spacing.px[750]}} * 2 + ${theme.spacing.px[150]}`}
+          `${theme.spacing.px(750)}} * 2 + ${theme.spacing.px[150]}`}
       );
       align-self: center;
       // When sufficient screen size is available, this allows the Next Button to grow according to content
@@ -150,18 +124,11 @@ const ModalContainer = styled(T.P2)`
   }
 
   &.modal-auto {
-    @media (max-width: ${breakpoints.sm}) {
-      width: auto;
-      height: auto;
-      margin-left: ${({ theme }) => theme.spacing.px[150]};
-      margin-right: ${({ theme }) => theme.spacing.px[150]};
-      overflow: auto;
-    }
     width: auto;
     & > ${ModalFooter} {
       max-width: calc(
         ${({ theme }) =>
-          `${theme.spacing.px[750]}} * 2 + ${theme.spacing.px[150]}`}
+          `${theme.spacing.px(750)}} * 2 + ${theme.spacing.px[150]}`}
       );
       align-self: center;
       // When sufficient screen size is available, this allows the Next Button to grow according to content
@@ -189,7 +156,7 @@ export const ModalContainerComponent = ({
   >,
   'ref'
 > & {
-  size: MODAL_SIZES | keyof typeof MODAL_SIZES;
+  size: typeof MODAL_SIZES[keyof typeof MODAL_SIZES];
 } & {
   ref?: Parameters<typeof ModalContainer>[0]['ref'];
 }): JSX.Element => {
@@ -203,53 +170,7 @@ export const ModalContainerComponent = ({
   return <ModalContainer className={cs} {...rest} as="div" />;
 };
 
-const ModalExit = styled.button<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >
->`
-  padding: 0;
-  border: none;
-  background: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  position: absolute;
-  top: ${({ theme }) => theme.spacing.px[50]};
-  right: ${({ theme }) => theme.spacing.px[50]};
-  width: ${({ theme }) => theme.spacing.px[150]};
-  height: ${({ theme }) => theme.spacing.px[150]};
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-export const ModalExitComponent = ({
-  className,
-  ...rest
-}: Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >,
-  'ref'
-> & {
-  ref?: Parameters<typeof ModalExit>[0]['ref'];
-}): JSX.Element => {
-  const cs = classnames(className, 'modal-exit');
-  const theme = useTheme();
-
-  return (
-    <ModalExit className={cs} aria-label="exit" {...rest}>
-      <ClearIcon fill={theme.color.text[400]} />
-    </ModalExit>
-  );
-};
-
-const ModalContentContainer = styled.div`
+const ModalContentStyled = styled.div`
   ${ModalScrollContent};
   display: flex;
   flex-flow: column nowrap;
@@ -263,6 +184,20 @@ const ModalContentContainer = styled.div`
     margin-bottom: 0px;
   }
 `;
+
+const ModalContent = (
+  props: Omit<
+    React.DetailedHTMLProps<
+      React.ButtonHTMLAttributes<HTMLDivElement>,
+      HTMLDivElement
+    >,
+    'ref'
+  >
+): JSX.Element => {
+  const { ariaDescribedBy } = useModal();
+
+  return <ModalContentStyled id={ariaDescribedBy} {...props} />;
+};
 
 function createButtonsFromArray(
   a: Array<Parameters<typeof Button>[0]>
@@ -295,14 +230,20 @@ export type ModalFlatProps<T extends Record<string, any>> = {
     | null
     | undefined
     | Array<Parameters<typeof Button>[0]>;
-  size?: MODAL_SIZES | keyof typeof MODAL_SIZES;
-
-  onExit?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  size?: typeof MODAL_SIZES[keyof typeof MODAL_SIZES];
 
   styles?: {
     root?: React.CSSProperties;
     content?: React.CSSProperties;
   };
+
+  containerProps?: Omit<
+    React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLDivElement>,
+      HTMLDivElement
+    >,
+    'ref'
+  >;
 } & (
   | {
       content?: never;
@@ -323,11 +264,9 @@ export const ModalFlat = <T extends Record<string, any>>({
   content,
   children,
   footer,
-
-  onExit,
-
   styles,
   size = MODAL_SIZES.SMALL,
+  containerProps,
   ...rest
 }: ModalFlatProps<T>): JSX.Element => {
   const contentMergedChildren =
@@ -336,15 +275,22 @@ export const ModalFlat = <T extends Record<string, any>>({
       <T.P2>{content}</T.P2>
     ) : (
       // @ts-expect-error: This will work fine
-      <ModalContentContainer>{jsxify(content, rest)}</ModalContentContainer>
+      <ModalContent>{jsxify(content, rest)}</ModalContent>
     ));
 
+  const { ariaLabelledBy, ariaDescribedBy } = useModal();
+
   return (
-    <ModalContainerComponent style={styles?.root} size={size} tabIndex={-1}>
-      {/**
-       * TODO on accessibility? should the exit button really be the first focusable element in dialog box.
-       */}
-      <ModalExitComponent onClick={onExit} />
+    <ModalContainerComponent
+      style={styles?.root}
+      size={size}
+      tabIndex={-1}
+      aria-modal
+      role="dialog"
+      aria-labelledby={ariaLabelledBy}
+      aria-describedby={ariaDescribedBy}
+      {...containerProps}
+    >
       {typeof heading === 'string' ? (
         <ModalHeading>{heading}</ModalHeading>
       ) : (
@@ -366,12 +312,12 @@ export const ModalFlat = <T extends Record<string, any>>({
   );
 };
 
-export enum MODAL_SIZES {
-  SMALL = 'SMALL',
-  MEDIUM = 'MEDIUM',
-  LARGE = 'LARGE',
-  AUTO = 'AUTO',
-}
+export const MODAL_SIZES = {
+  SMALL: 'small',
+  MEDIUM: 'medium',
+  LARGE: 'large',
+  AUTO: 'auto',
+} as const;
 
 type ModalPropsExternal = {
   open: boolean;
@@ -423,7 +369,7 @@ const Modal = <T extends Record<string, any> = Record<string, any>>({
       persist={persist}
     >
       {/* @ts-expect-error Inferred type exclusions don't work well with generics. This works fine */}
-      <ModalFlat onExit={closeModal} {...rest} />
+      <ModalFlat {...rest} />
     </ModalPortal>
   );
 };
@@ -448,12 +394,12 @@ const DefaultFooter = ({
   buttons = true,
 
   backButton = !!buttons,
-  backText = 'cancel',
+  backText = 'CANCEL',
   backButtonProps = {},
   onBack,
 
   nextButton = !!buttons,
-  nextText = 'save',
+  nextText = 'SAVE',
   nextButtonProps = {},
   onNext,
 
@@ -468,17 +414,18 @@ const DefaultFooter = ({
         ) : (
           <>
             {backButton && (
-              // @ts-expect-error: This ref is fine...
-              <Button text={backText} onClick={onBack} {...backButtonProps} />
+              <Button
+                onClick={onBack}
+                hierarchy="secondary"
+                {...backButtonProps}
+              >
+                {backText}
+              </Button>
             )}
             {nextButton && (
-              // @ts-expect-error: This ref is fine...
-              <Button
-                text={nextText}
-                onClick={onNext}
-                disabled={disabled}
-                {...nextButtonProps}
-              />
+              <Button onClick={onNext} disabled={disabled} {...nextButtonProps}>
+                {nextText}
+              </Button>
             )}
           </>
         ))}
@@ -486,10 +433,7 @@ const DefaultFooter = ({
   );
 };
 
-export type OptionalChildButtonProps = Omit<
-  JSX.IntrinsicElements['button'],
-  'onClick' | 'text'
-> & {
+export type OptionalChildButtonProps = Omit<ButtonProps, 'onClick' | 'text'> & {
   /** @deprecated Use onBack or onNext instead! */
   onClick?: never;
   /** @deprecated Use backText or nextText instead */
@@ -569,11 +513,7 @@ const DefaultModal = <T extends Record<string, any>>({
       portalTo={portalTo}
       persist={persist}
     >
-      <ModalFlat
-        onExit={closeModal}
-        {...rest}
-        footer={<DefaultFooter {...footerProps} />}
-      />
+      <ModalFlat {...rest} footer={<DefaultFooter {...footerProps} />} />
     </ModalPortal>
   );
 };
@@ -582,7 +522,7 @@ export default Object.assign(Modal, {
   Default: DefaultModal,
   Heading: ModalHeading,
   Header: ModalHeading,
-  Content: ModalContentContainer,
+  Content: ModalContent,
   Footer: Object.assign(ModalFooterComponent, {
     Default: DefaultFooter,
   }),
