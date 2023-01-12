@@ -3,6 +3,7 @@ import baseLoadable, {
   DefaultComponent,
   LoadableComponent,
   OptionsWithoutResolver,
+  OptionsWithResolver,
 } from '@loadable/component';
 import styled from 'styled-components';
 
@@ -35,12 +36,14 @@ export function Spinner(): JSX.Element {
   );
 }
 
-export default function loadable<Props>(
-  importFunc: () => Promise<DefaultComponent<Props>>,
-  options?: OptionsWithoutResolver<Props>
-): LoadableComponent<Props> {
+const loadable = ((
+  importFunc: (props: unknown) => Promise<DefaultComponent<unknown>>,
+  options: OptionsWithResolver<unknown, DefaultComponent<unknown>>
+) => {
   return baseLoadable(importFunc, {
     fallback: <Spinner />,
     ...options,
   });
-}
+}) as typeof baseLoadable;
+
+export default loadable;

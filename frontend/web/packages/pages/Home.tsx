@@ -66,7 +66,7 @@ const Home = (): JSX.Element => {
       {/* <Construction3D /> */}
       <SectionContainer>
         <Section>
-          <T.Heading.H1>hiya 👋</T.Heading.H1>
+          <T.Heading.H1>Hiya 👋</T.Heading.H1>
           <T.P2>
             I&apos;m Cody Duong, software engineer advocating accessibility and
             exploring the bleeding edge of technologies.
@@ -103,14 +103,16 @@ const Home = (): JSX.Element => {
           {/* <Home3D />  */}
         </Section>
         <MaxWidth>
-          <T.Heading.H2>about me</T.Heading.H2>
+          <T.Heading.H2>About me</T.Heading.H2>
           <T.P3>
             I&apos;ve been developing websites, native apps, and improving
             developer experiences since 2019. I am passionate about Typescript,
             and am an active answerer on StackOverflow. Excited to work on web
             accessibility on the newest technologies. Working on fun things.
           </T.P3>
-          <T.Heading.H2>currently i am...</T.Heading.H2>
+          <T.Heading.H2>
+            Currently I am<span aria-hidden>...</span>
+          </T.Heading.H2>
           <T.P3>
             A software engineering intern working at{' '}
             <Link.Styled to="/work/agi">AGI Digital</Link.Styled> on their Tier

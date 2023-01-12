@@ -31,6 +31,7 @@ import {
   createHttpLink,
   InMemoryCache,
 } from '@apollo/client';
+import fetch from 'cross-fetch';
 
 let assets: unknown;
 
@@ -109,6 +110,7 @@ export const renderApp = async (
       headers: {
         cookie: req.header('Cookie'),
       },
+      fetch,
     }),
     cache: new InMemoryCache(),
   });

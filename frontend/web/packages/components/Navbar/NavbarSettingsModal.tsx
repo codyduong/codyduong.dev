@@ -1,4 +1,10 @@
-import Modal from 'packages/components/Modal';
+import loadable from 'packages/components/SpinkitLoadable';
+import type { default as ModalType } from 'packages/components/Modal';
+
+const Modal = loadable(
+  () => import(/* webpackPrefetch: true */ 'packages/components/Modal'),
+  { ssr: false }
+) as unknown as typeof ModalType;
 
 interface NavbarSettingsModalProps {
   open: boolean;
