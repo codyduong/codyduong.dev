@@ -4,6 +4,11 @@ import { breakpoints } from 'packages/style';
 import styled, { useTheme } from 'styled-components';
 
 const FooterStyled = styled.footer`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
   background-color: ${({ theme }) => theme.color.surface[350]};
   display: flex;
   flex-flow: row wrap;

@@ -99,7 +99,7 @@ const StyledLink = styled(A.Link)`
 
 const LinkDivider = styled.div`
   width: 100%;
-  height: 0.05rem;
+  height: max(0.05rem, 1px);
 
   /* inferna-color-text-400 */
   background: #404040;

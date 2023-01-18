@@ -10,7 +10,7 @@ import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { commoncss } from 'packages/style';
-import NavbarSettingsModal from 'packages/components/Navbar/NavbarSettingsModal';
+import { NavbarSettingsModal } from 'packages/components/Navbar';
 
 const TrapFocus = styled.div`
   position: absolute;

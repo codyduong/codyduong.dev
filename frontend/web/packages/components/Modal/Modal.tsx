@@ -58,7 +58,7 @@ const ModalScrollContent = css`
     ${({ theme }) => `${theme.spacing.px[200]} - ${theme.spacing.px[50]}`}
   );
   scrollbar-gutter: hidden;
-  overflow-x: hidden;
+  overflow-x: overlay;
   overflow-y: overlay;
   box-sizing: content-box;
 
@@ -170,11 +170,11 @@ export const ModalContainerComponent = ({
   return <ModalContainer className={cs} {...rest} as="div" />;
 };
 
-const ModalContentStyled = styled.div`
+const ModalContentStyled = styled.div<{ gap: boolean }>`
   ${ModalScrollContent};
   display: flex;
   flex-flow: column nowrap;
-  gap: ${({ theme }) => theme.spacing.px[100]};
+  gap: ${({ gap, theme }) => (gap ? theme.spacing.px[100] : 0)};
   width: 100%;
 
   div:first-child {
@@ -185,18 +185,19 @@ const ModalContentStyled = styled.div`
   }
 `;
 
-const ModalContent = (
-  props: Omit<
-    React.DetailedHTMLProps<
-      React.ButtonHTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >,
-    'ref'
-  >
-): JSX.Element => {
+const ModalContent = ({
+  gap = false,
+  ...rest
+}: Omit<
+  React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >,
+  'ref'
+> & { gap?: boolean }): JSX.Element => {
   const { ariaDescribedBy } = useModal();
 
-  return <ModalContentStyled id={ariaDescribedBy} {...props} />;
+  return <ModalContentStyled id={ariaDescribedBy} gap={gap} {...rest} />;
 };
 
 function createButtonsFromArray(

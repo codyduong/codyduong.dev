@@ -1,20 +1,41 @@
-import loadable from 'packages/components/SpinkitLoadable';
-import type { default as ModalType } from 'packages/components/Modal';
+import Modal from 'packages/components/Modal';
+import Switch from 'packages/components/Switch';
+import { useState } from 'react';
+import styled from 'styled-components';
+import T from 'packages/components/Typography';
 
-const Modal = loadable(
-  () => import(/* webpackPrefetch: true */ 'packages/components/Modal'),
-  { ssr: false }
-) as unknown as typeof ModalType;
+const StyledH3 = styled.h3`
+  ${T.P3.bold.css}
+  margin: 0;
+`;
+
+const StyledSwitch = styled(Switch)`
+  margin-left: ${({ theme }) => `-${theme.spacing.px[50]}`};
+`;
+
+type NavbarSettingChecksKeys = 'disableMotion';
+
+type NavbarSettingsChecks = {
+  [K in NavbarSettingChecksKeys]?: boolean;
+};
 
 interface NavbarSettingsModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NavbarSettingsModal = ({
+export const NavbarSettingsModal = ({
   open,
   setOpen,
 }: NavbarSettingsModalProps): JSX.Element => {
+  const [checked, setCheckedObject] = useState<NavbarSettingsChecks>({});
+
+  const setChecked = (s: NavbarSettingChecksKeys) => {
+    return (b: boolean) => {
+      setCheckedObject((prev) => ({ ...prev, [s]: b }));
+    };
+  };
+
   return (
     <Modal
       open={open}
@@ -27,7 +48,14 @@ const NavbarSettingsModal = ({
       size="large"
     >
       <Modal.Header>Settings</Modal.Header>
-      <Modal.Content id="modal-settings-content"></Modal.Content>
+      <Modal.Content id="modal-settings-content">
+        <StyledH3>Accessibility Options</StyledH3>
+        <StyledSwitch
+          label="Disable motion animation"
+          checked={checked['disableMotion']}
+          setChecked={setChecked('disableMotion')}
+        />
+      </Modal.Content>
     </Modal>
   );
 };
