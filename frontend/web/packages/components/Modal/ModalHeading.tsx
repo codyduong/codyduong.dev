@@ -18,10 +18,13 @@ type ModalHeadingProps = Omit<
     HTMLHeadingElement
   >,
   'ref'
->;
+> & {
+  exitLabel?: string;
+};
 
 const ModalHeading = ({
   children,
+  exitLabel = 'Exit Modal',
   ...rest
 }: ModalHeadingProps): JSX.Element => {
   const { onExit, ariaLabelledBy } = useModal();
@@ -29,7 +32,7 @@ const ModalHeading = ({
   return (
     <ModalHeadingStyled id={ariaLabelledBy} {...rest}>
       {children}
-      <ModalExitComponent onClick={onExit} />
+      <ModalExitComponent onClick={onExit} aria-label={exitLabel} />
     </ModalHeadingStyled>
   );
 };

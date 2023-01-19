@@ -193,7 +193,7 @@ const ModalContent = ({
     React.ButtonHTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   >,
-  'ref'
+  'ref' | 'id'
 > & { gap?: boolean }): JSX.Element => {
   const { ariaDescribedBy } = useModal();
 

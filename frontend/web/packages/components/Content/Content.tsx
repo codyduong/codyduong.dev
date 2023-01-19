@@ -7,6 +7,7 @@ const Content = styled.div<{ footerPadding?: boolean }>`
   justify-content: flex-start;
   align-items: center;
   transition: all 750ms;
+  transition-property: padding;
   box-sizing: border-box;
   padding: ${({ theme }) =>
     `${theme.spacing.px[200]} ${theme.spacing.px[150]}`};

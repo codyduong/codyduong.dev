@@ -10,7 +10,8 @@ import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { commoncss } from 'packages/style';
-import { NavbarSettingsModal } from 'packages/components/Navbar';
+import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 const TrapFocus = styled.div`
   position: absolute;
@@ -184,6 +185,7 @@ const NavbarListItem = styled.li`
 const Navbar = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [settings, setSettings] = useState(false);
+  const [accessibility, setAccessibility] = useState(false);
   const [initial, setInitial] = useState(true);
 
   const refHeader = useRef<HTMLDivElement>(null);
@@ -243,9 +245,9 @@ const Navbar = (): JSX.Element => {
           codyduong
         </Name>
         <NavbarListRight>
-          <NavbarListItem>
+          {/* <NavbarListItem>
             <SettingsButton
-              id="nav-hamburger-button"
+              id="nav-settings-button"
               onClick={() => {
                 setSettings(!settings);
               }}
@@ -254,6 +256,21 @@ const Navbar = (): JSX.Element => {
               aria-controls="modal-settings"
             >
               <SettingsIcon />
+            </SettingsButton>
+          </NavbarListItem> */}
+          <NavbarListItem>
+            <SettingsButton
+              id="nav-accessibility-button"
+              onClick={() => {
+                setAccessibility(!accessibility);
+              }}
+              aria-label={`${
+                settings ? 'Close' : 'Open'
+              } Accessibility Options`}
+              aria-haspopup="dialog"
+              aria-controls="modal-accessibility-settings"
+            >
+              <VisibilityOutlinedIcon />
             </SettingsButton>
           </NavbarListItem>
           <NavbarListItem>
@@ -288,7 +305,10 @@ const Navbar = (): JSX.Element => {
           }}
         />
       </Nav>
-      <NavbarSettingsModal open={settings} setOpen={setSettings} />
+      <AccessibleSettingsModal
+        open={accessibility}
+        setOpen={setAccessibility}
+      />
     </Header>
   );
 };

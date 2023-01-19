@@ -115,6 +115,7 @@
     "razzle": "^4.2.18",
     "razzle-dev-utils": "^4.2.18",
     "react-app-alias": "^2.2.0",
+    "react-error-overlay": "6.0.11",
     "serve": "^14.0.1",
     "source-map-support": "^0.5.21",
     "storybook-addon-react-router-v6": "^0.1.10",
@@ -198,6 +199,7 @@
     "resetMocks": true
   },
   "resolutions": {
-    "autoprefixer": "^10.4.13"
+    "autoprefixer": "^10.4.13",
+    "react-error-overlay": "6.0.11"
   }
 }

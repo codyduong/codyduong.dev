@@ -77,6 +77,10 @@ const SearchButton = styled.button<{ order?: number }>`
   &.clearable {
     color: ${({ theme }) => theme.color.text[200]};
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const SearchInput = styled.input`

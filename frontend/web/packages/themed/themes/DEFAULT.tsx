@@ -39,6 +39,7 @@ export const DEFAULT = {
       500: '#050505',
     },
     base: {
+      50: '#ceeeff',
       100: '#8cd7ff',
       200: '#3aa8e4',
       300: '#1795da',

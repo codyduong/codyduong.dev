@@ -82,9 +82,6 @@ const ModalPortal = ({
   persist = false,
 }: ModalPortalProps): JSX.Element | null => {
   if (!portalTo) {
-    console.warn(
-      'No portal element found! If you are trying to test, there must be an element with id=`root`. Otherwise this Modal will not render correctly'
-    );
     return null;
   }
 
@@ -144,9 +141,8 @@ const ModalPortal = ({
         document.activeElement ?? document.getElementById('root')!
       );
       try {
-        refContainer.current?.focus();
-        // @ts-expect-error: child tab-index needs to be -1 for this to work
-        refContainer.current?.firstElementChild?.focus();
+        refContainer.current &&
+          utils.attemptFocusOrFirstDescendant(refContainer.current);
       } catch (e) {
         // continue
       }

@@ -73,11 +73,19 @@ const Home = (): JSX.Element => {
           </T.P2>
           <T.P3>
             Welcome to my personal website and{' '}
-            <Link.Styled to="/playground">playground</Link.Styled>. This website
-            is <abbr title="Server-Side Rendering">SSR</abbr> enabled and was
-            built with React for clientside, Express for the server, and
+            <Link.Styled to="/playground/">playground</Link.Styled>. This
+            website is <abbr title="Server-Side Rendering">SSR</abbr> enabled
+            and was built with React for clientside, Express for the server, and
             RazzleJS for configuration. Deployed via Google Hosting and Google
-            Cloud Functions.
+            Cloud Functions. Read more about{' '}
+            <Link.Styled to="/articles/0">
+              how this website was built
+            </Link.Styled>{' '}
+            at my <Link.Styled to="/articles/">blog</Link.Styled> or check out
+            the{' '}
+            <A.Styled href="https://github.com/codyduong/codyduong.dev">
+              repository
+            </A.Styled>
             {/* It also contains cool features like: */}
           </T.P3>
           {/* <ul>

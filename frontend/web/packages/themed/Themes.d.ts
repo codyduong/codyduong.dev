@@ -23,6 +23,7 @@ declare module 'styled-components' {
         readonly 500: string;
       };
       readonly base: {
+        readonly 50: string;
         readonly 100: string;
         readonly 200: string;
         readonly 300: string;
