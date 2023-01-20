@@ -86,7 +86,7 @@ const Home = (): JSX.Element => {
             <A.Styled href="https://github.com/codyduong/codyduong.dev">
               repository
             </A.Styled>
-            {/* It also contains cool features like: */}
+            .{/* It also contains cool features like: */}
           </T.P3>
           {/* <ul>
             <li>

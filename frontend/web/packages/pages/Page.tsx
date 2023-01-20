@@ -54,7 +54,7 @@ export default function Page({
   return (
     <PageDiv>
       <Navbar />
-      <PageContent ref={ref} id="main-content">
+      <PageContent ref={ref} id="main-content" tabIndex={-1}>
         {children}
         {hasFooter && <Footer />}
       </PageContent>

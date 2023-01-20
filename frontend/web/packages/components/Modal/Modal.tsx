@@ -177,11 +177,19 @@ const ModalContentStyled = styled.div<{ gap: boolean }>`
   gap: ${({ gap, theme }) => (gap ? theme.spacing.px[100] : 0)};
   width: 100%;
 
-  div:first-child {
+  & > div:first-child {
     margin-top: 0px;
+
+    & > *:first-child {
+      margin-bottom: 0px;
+    }
   }
-  div:last-child {
+  & > div:last-child {
     margin-bottom: 0px;
+
+    & > *:last-child {
+      margin-bottom: 0px;
+    }
   }
 `;
 

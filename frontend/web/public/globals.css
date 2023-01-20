@@ -10,11 +10,9 @@ body {
 header {
   transition: all 225ms ease-in-out;
 }
-div {
-  transition: all 0.5s ease-in-out;
-  transition: height 0s ease-in-out;
-  transition: width  0s ease-in-out;
-}
+/* div {
+  transition: all 0.5s ease-in-out, height 0s ease-in-out, width 0s ease-in-out;
+} */
 a {
   all: unset;
   text-decoration: none;

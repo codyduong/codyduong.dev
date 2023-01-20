@@ -1,3 +1,5 @@
+import { useAccessibility } from 'packages/mono-app/AccessibilityContext';
+import { commoncss } from 'packages/style';
 import styled, {
   css,
   DefaultTheme,
@@ -99,7 +101,11 @@ export const Heading = {
   css: HeadingCss,
 } as const;
 
-const PCss = css`
+interface PCommonProps {
+  wcagWidthLimited?: boolean;
+}
+
+const PCss = css<PCommonProps>`
   font-family: 'Overpass';
   font-weight: 500;
   font-style: normal;
@@ -108,6 +114,14 @@ const PCss = css`
   &.light {
     color: ${(props) => props.theme.color.text[200]};
   }
+
+  ${({ wcagWidthLimited }) => {
+    if (wcagWidthLimited === false) {
+      return;
+    }
+
+    return commoncss.wcagWidthLimited;
+  }}
 `;
 const ItalicCss = css`
   font-style: italic;
@@ -141,11 +155,11 @@ const calculateP = (
 ): StyledComponentBase<'p', DefaultTheme, {}, never> & {
   css: typeof pn;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  italic: StyledComponentBase<'p', DefaultTheme, {}, never> & {
+  italic: StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
     css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
   };
   // eslint-disable-next-line @typescript-eslint/ban-types
-  bold: StyledComponentBase<'p', DefaultTheme, {}, never> & {
+  bold: StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
     css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
   };
 } => {
@@ -186,6 +200,7 @@ const calculateP = (
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const calculateSpan = (
   pn: ReturnType<typeof css>
+  // eslint-disable-next-line @typescript-eslint/ban-types
 ): StyledComponentBase<'span', DefaultTheme, {}, never> & {
   css: typeof pn;
   // eslint-disable-next-line @typescript-eslint/ban-types

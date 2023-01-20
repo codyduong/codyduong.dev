@@ -47,17 +47,26 @@ const Bypass = (): JSX.Element | null => {
     return null;
   }
 
+  const focus = () => {
+    try {
+      mainContentElement.focus();
+      // eslint-disable-next-line no-empty
+    } catch {
+      utils.attemptFocusOrFirstDescendant(mainContentElement);
+    }
+  };
+
   return (
     <BypassDiv>
       <a
         role="link"
         tabIndex={0}
         onClick={() => {
-          utils.attemptFocusOrFirstDescendant(mainContentElement);
+          focus();
         }}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
-            utils.attemptFocusOrFirstDescendant(mainContentElement);
+            focus();
           }
         }}
       >
