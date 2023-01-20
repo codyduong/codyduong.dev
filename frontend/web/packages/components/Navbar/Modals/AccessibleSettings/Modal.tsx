@@ -1,16 +1,13 @@
 import Modal from 'packages/components/Modal';
-import Switch from 'packages/components/Switch';
 import { useState } from 'react';
 import styled from 'styled-components';
 import T from 'packages/components/Typography';
+import { StyledSwitch } from './common';
+import ParagraphWidthInput from './ParagraphWidthInput';
 
 const StyledH3 = styled.h3`
   ${T.P3.bold.css}
   margin: 0 0 ${({ theme }) => theme.spacing.px[25]};
-`;
-
-const StyledSwitch = styled(Switch)`
-  margin-left: ${({ theme }) => `-${theme.spacing.px[50]}`};
 `;
 
 type NavbarSettingChecksKeys = 'disableMotion' | 'paragraphWidth';
@@ -56,12 +53,12 @@ const NavbarAccessibleSettingsModal = ({
             <Modal.Content gap>
               <div>
                 <StyledH3>Visual Adjustments</StyledH3>
-                <StyledSwitch
-                  label="Limit Paragraph Width"
-                  checked={checked['paragraphWidth']}
-                  setChecked={setChecked('paragraphWidth')}
-                  aria-controls="paragraph-width"
-                />
+                <>
+                  <ParagraphWidthInput
+                    checked={checked['paragraphWidth']}
+                    setChecked={setChecked('paragraphWidth')}
+                  />
+                </>
                 {/**
                  * WCAG 1.4.8
                  * Foreground and background colors selection
