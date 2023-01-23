@@ -5,6 +5,7 @@ import AGISuretrack from './AGISureTrack.svg';
 // import loadable from 'packages/components/SpinkitLoadable';
 import Section from 'packages/components/Section';
 import Content from 'packages/components/Content';
+import { commoncss } from 'packages/style';
 
 // const Construction3DClient = loadable(
 //   () =>
@@ -37,7 +38,6 @@ const Positions = styled(Section)`
   margin-top: ${({ theme }) => `${theme.spacing.rem[200]}`};
   justify-content: flex-start;
   align-items: flex-start;
-  transition: all 750ms;
   gap: ${({ theme }) => `${theme.spacing.rem[200]}`};
 `;
 
@@ -80,41 +80,45 @@ const AGI = (): JSX.Element => {
           <Column>{/* <T.Heading.H2>suretrack</T.Heading.H2> */}</Column>
           <Column>
             <T.Span2>
-              june 2021 - august 2021
+              June 2021 - August 2021
               {/* <abbr>jun &apos;21</abbr> - <abbr>aug &apos;21</abbr> */}
             </T.Span2>
-            <T.Span3>role: software engineering intern</T.Span3>
-            <T.Span3>manager: david duncan</T.Span3>
+            <T.Span3>Location: Lenexa, Kansas @ AGI SureTrack</T.Span3>
+            <T.Span3>Role: Software Engineering Intern</T.Span3>
+            <T.Span3>Manager: David Duncan</T.Span3>
           </Column>
         </TwoTier>
         <TwoTier>
           <Column>{/* <T.Heading.H2>digital</T.Heading.H2> */}</Column>
           <Column>
             <T.Span2>
-              june 2022 - may 2023
+              June 2022 - May 2023
               {/* <abbr>jun &apos;22</abbr> - <abbr>may &apos;23</abbr> / present */}
             </T.Span2>
-            <T.Span3>role: software engineering intern</T.Span3>
-            <T.Span3>manager: kyle mayor</T.Span3>
+            <T.Span3>Location: Leawood, Kansas @ AGI Digital</T.Span3>
+            <T.Span3>Role: Software Engineering Intern</T.Span3>
+            <T.Span3>Manager: Kyle Mayor</T.Span3>
           </Column>
         </TwoTier>
       </Positions>
-      <img src="/suretrack-1260x840.jpg" alt="Suretrack Website" />
+      <img src="/suretrack-1260x840.jpg" alt="SureTrack Website" />
       <Section>
-        <T.Heading.H2>overview</T.Heading.H2>
+        <T.Heading.H2>Overview</T.Heading.H2>
         <T.P3>
-          AGI SureTrack is a hardware and software platform that includes
-          trusted solutions for bin monitoring, automated grain conditioning,
-          soil probes, and more.
+          AGI Digital, formerly AGI SureTrack, is a hardware and software
+          platform that includes trusted solutions for bin monitoring, automated
+          grain conditioning, soil probes, and more.
         </T.P3>
       </Section>
       <Section>
-        <T.Heading.H2>work</T.Heading.H2>
+        <T.Heading.H2>Work</T.Heading.H2>
         <T.P3>
-          As part of the Tier 3 Production Support Team, as well as for some
-          durations the Grower Delivery team I worked on general bug-fixing as
-          well as implementation of new design system components for all
-          developers.
+          I was a Fullstack Software Engineering Intern. As part of the Tier 3
+          Production Support team would work on general bug-fixing throughout
+          the entire platform. As part of the Grower Delivery team I worked on
+          implementation of new design system components for all developers with
+          emphasis on ease of migration and maintaining same design patterns and
+          backwards compatibility with components to be deprecated
         </T.P3>
         <T.P3>
           I have also been given wide latitude within AGI to explore projects
@@ -130,6 +134,7 @@ const AGI = (): JSX.Element => {
               <li>Keeping Typescript up-to-date with latest releases</li>
               <li>
                 Guidance to other engineers on recommended Typescript practices
+                via Knowledge Transfers
               </li>
             </ul>
           </li>
@@ -142,7 +147,6 @@ const AGI = (): JSX.Element => {
                 compatibility layer
               </li>
               <li>Following W3 Aria Recommendations on Dialog components</li>
-              Guidance to other engineers on recommended Typescript practices
             </ul>
           </li>
           <li>
@@ -159,17 +163,42 @@ const AGI = (): JSX.Element => {
             </ul>
           </li>
         </ul>
+        <T.P3>
+          At AGI Digital/SureTrack I worked with the following
+          technologies/frameworks:
+        </T.P3>
+        <ul>
+          <li>Typescript React w/ Typescript NodeJS (SureTrack Application)</li>
+          <li>
+            Javascript React w/ Python Django Backend (Data Engine Application)
+          </li>
+          <li>PHP (legacy backend)</li>
+          <li>GraphQL</li>
+          <li>MySQL 5/8</li>
+          <li>Redis</li>
+          <li>
+            Amazon Web Services (AWS)
+            <ul>
+              <li>S3</li>
+              <li>ECS</li>
+              <li>DynamoDB</li>
+              <li>RDS</li>
+              <li>SQS</li>
+            </ul>
+          </li>
+          <li>Docker-Compose / Docker</li>
+        </ul>
       </Section>
-      <Section>
-        <T.Heading.H2>under construction</T.Heading.H2>
+      {/* <Section>
+        <T.Heading.H2>Under Construction</T.Heading.H2>
         <T.P3>
           The rest of this page is still under construction, please come back at
           a later time.
         </T.P3>
-        {/* <ConstructionContainer>
+        <ConstructionContainer>
           <Construction3DClient zoom={4} />
-        </ConstructionContainer> */}
-      </Section>
+        </ConstructionContainer>
+      </Section> */}
     </Main>
   );
 };

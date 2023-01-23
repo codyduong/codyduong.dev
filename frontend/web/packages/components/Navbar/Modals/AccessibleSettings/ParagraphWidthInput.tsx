@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import Input from 'packages/components/Input';
 import { useAccessibility } from 'packages/mono-app/AccessibilityContext';
+import { commoncss } from 'packages/style';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { StyledSwitch } from './common';
 
 const StyledInput = styled(Input)`
@@ -24,7 +25,19 @@ const StyledInput = styled(Input)`
     overflow: hidden;
   }
 
-  transition-property: opacity, max-height;
+  && {
+    ${() =>
+      commoncss.animation({
+        enabled: css`
+          transition-property: opacity, max-height;
+        `,
+        disabled: css`
+          transition-property: none;
+          max-height: fit-content;
+          opacity: 1;
+        `,
+      })}
+  }
 `;
 
 interface ParagraphWidthInputProps {
@@ -37,7 +50,9 @@ const ParagraphWidthInput = ({
   setChecked,
 }: ParagraphWidthInputProps): JSX.Element => {
   const { paragraphWidth, setParagraphWidth } = useAccessibility();
-  const [value, setValue] = useState('80');
+  const [value, setValue] = useState(
+    typeof paragraphWidth === 'number' ? `${paragraphWidth}` : '80'
+  );
   const [focus, setFocus] = useState(false);
 
   const handleValue = (s: string): void => {
@@ -63,8 +78,6 @@ const ParagraphWidthInput = ({
       setParagraphWidth(undefined);
     }
   }, [value, checked, focus]);
-
-  console.log(paragraphWidth);
 
   const inputClassName = classNames({
     ['enabled']: checked,
@@ -95,12 +108,6 @@ const ParagraphWidthInput = ({
         onBlur={() => {
           setFocus(false);
         }}
-      />
-      <StyledSwitch
-        label="Limit Paragraph Width"
-        checked={checked}
-        setChecked={setChecked}
-        aria-controls="paragraph-width"
       />
     </>
   );

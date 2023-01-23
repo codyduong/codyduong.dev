@@ -51,7 +51,7 @@ const Ul = styled.ul`
 
 const liShared = css`
   display: block;
-  text-transform: lowercase;
+  /* text-transform: lowercase; */
 `;
 
 const Li = styled.li`

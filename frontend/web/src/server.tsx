@@ -104,7 +104,7 @@ export const renderApp = async (
     link: createHttpLink({
       uri:
         process.env.NODE_ENV == 'production'
-          ? process.env.APOLLO_SERVER_PROD ?? 'TODO'
+          ? process.env.APOLLO_SERVER_PROD ?? 'http://codyduong.dev/api'
           : process.env.APOLLO_SERVER_DEV ?? 'http://localhost:4000',
       credentials: 'same-origin',
       headers: {
@@ -148,6 +148,7 @@ export const renderApp = async (
   const linkTags = extractor.getLinkTags();
 
   const html =
+    // https://github.com/vercel/next.js/discussions/17676#discussioncomment-92299
     // prettier-ignore
     // <link rel="preload" href="/${getFont('../build/loadable-stats.json')}" as="font" type="font/woff" />
     `<!doctype html>

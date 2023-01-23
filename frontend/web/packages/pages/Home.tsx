@@ -1,18 +1,30 @@
 import _l from 'packages/components/SpinkitLoadable';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import T from 'packages/components/Typography';
 import Section from 'packages/components/Section';
 import Content from 'packages/components/Content';
 import A, { Link } from 'packages/components/A';
+import { commoncss } from 'packages/style';
+import { useAccessibility } from 'packages/mono-app/AccessibilityContext';
 
 const SectionContainer = styled.div``;
 
 const MaxWidth = styled(Section)`
-  max-width: 600px;
   align-self: start;
   & > h2 {
     margin-top: ${({ theme }) => theme.spacing.px[200]};
   }
+
+  ${() =>
+    commoncss.widthlimited({
+      enabled: (p) => css`
+        max-width: ${p ? `min(600px, ${p}ch)` : '600px'};
+      `,
+      disabled: () =>
+        css`
+          max-width: 600px;
+        `,
+    })}
 `;
 
 // const Construction3D = loadable(

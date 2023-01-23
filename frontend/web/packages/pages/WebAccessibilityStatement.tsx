@@ -5,10 +5,6 @@ import T from 'packages/components/Typography';
 import styled from 'styled-components';
 import { commoncss } from 'packages/style';
 
-const Blockquote = styled.blockquote`
-  ${commoncss.wcagWidthLimited}
-`;
-
 type WebAccessibilityStatementProps = Record<string, never>;
 
 const WebAccessibilityStatement = (
@@ -33,7 +29,7 @@ const WebAccessibilityStatement = (
           </A.Styled>
           .
         </T.P2>
-        <Blockquote cite="https://www.w3.org/TR/WCAG21/#abstract">
+        <blockquote cite="https://www.w3.org/TR/WCAG21/#abstract">
           Following these guidelines will make content more accessible to a
           wider range of people with disabilities, including accommodations for
           blindness and low vision, deafness and hearing loss, limited movement,
@@ -44,7 +40,7 @@ const WebAccessibilityStatement = (
           content on desktops, laptops, tablets, and mobile devices. Following
           these guidelines will also often make Web content more usable to users
           in general.
-        </Blockquote>
+        </blockquote>
         <T.P2>
           As well as utilizing standards outlined by World Wide Web Consortium (
           <abbr>W3C</abbr>){' '}

@@ -12,7 +12,7 @@ const Redirect = ({ to }: RedirectProps): null => {
 
   setRedirect(to);
   useEffect(() => {
-    navigate(to);
+    navigate(to, { replace: true });
   }, []);
 
   return null;

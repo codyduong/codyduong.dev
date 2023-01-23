@@ -1,4 +1,3 @@
-import { useAccessibility } from 'packages/mono-app/AccessibilityContext';
 import { commoncss } from 'packages/style';
 import styled, {
   css,
@@ -102,7 +101,7 @@ export const Heading = {
 } as const;
 
 interface PCommonProps {
-  wcagWidthLimited?: boolean;
+  widthlimited?: 'false' | boolean | undefined;
 }
 
 const PCss = css<PCommonProps>`
@@ -115,12 +114,24 @@ const PCss = css<PCommonProps>`
     color: ${(props) => props.theme.color.text[200]};
   }
 
-  ${({ wcagWidthLimited }) => {
-    if (wcagWidthLimited === false) {
+  ${() =>
+    commoncss.animation({
+      enabled: css`
+        transition: all 750ms ease-in-out;
+        transition-property: width, max-width;
+      `,
+    })}
+
+  ${({ widthlimited }) => {
+    if (
+      widthlimited === undefined ||
+      widthlimited === 'false' ||
+      widthlimited === false
+    ) {
       return;
     }
 
-    return commoncss.wcagWidthLimited;
+    return commoncss.widthlimitedflat;
   }}
 `;
 const ItalicCss = css`
@@ -152,7 +163,7 @@ const P4css = css`
 const calculateP = (
   pn: ReturnType<typeof css>
   // eslint-disable-next-line @typescript-eslint/ban-types
-): StyledComponentBase<'p', DefaultTheme, {}, never> & {
+): StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
   css: typeof pn;
   // eslint-disable-next-line @typescript-eslint/ban-types
   italic: StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
@@ -201,14 +212,14 @@ const calculateP = (
 const calculateSpan = (
   pn: ReturnType<typeof css>
   // eslint-disable-next-line @typescript-eslint/ban-types
-): StyledComponentBase<'span', DefaultTheme, {}, never> & {
+): StyledComponentBase<'span', DefaultTheme, PCommonProps, never> & {
   css: typeof pn;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  italic: StyledComponentBase<'span', DefaultTheme, {}, never> & {
+  italic: StyledComponentBase<'span', DefaultTheme, PCommonProps, never> & {
     css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
   };
   // eslint-disable-next-line @typescript-eslint/ban-types
-  bold: StyledComponentBase<'span', DefaultTheme, {}, never> & {
+  bold: StyledComponentBase<'span', DefaultTheme, PCommonProps, never> & {
     css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
   };
 } => {

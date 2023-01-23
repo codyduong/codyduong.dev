@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import T from 'packages/components/Typography';
 import classnames from 'classnames';
+import { commoncss } from 'packages/style';
 
 const SwitchWrapper = styled.button`
   display: inline-flex;
@@ -60,7 +61,17 @@ const SwitchCircle = styled.div`
     transform: translateX(100%);
   }
 
-  transition-property: transform, background-color;
+  && {
+    ${() =>
+      commoncss.animation({
+        enabled: css`
+          transition-property: transform, background-color;
+        `,
+        disabled: css`
+          transition-property: background-color;
+        `,
+      })}
+  }
 `;
 
 const SwitchState = styled(T.P4)`

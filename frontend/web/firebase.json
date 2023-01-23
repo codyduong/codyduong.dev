@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/api/**",
+        "function": "app"
+      },
+      {
         "source": "**",
         "function": "app"
       }
