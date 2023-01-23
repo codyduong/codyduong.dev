@@ -6,7 +6,7 @@
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start": "concurrently \"yarn start:tsc\" \"razzle start\"",
-    "start:firebase": "concurrently \"yarn start\" \"firebase emulators:start\"",
+    "start:firebase": "concurrently \"yarn start:tsc\" \"razzle start\" \"firebase emulators:start\"",
     "build:lite": "tsc -b && razzle build --noninteractive",
     "export:no_build": "echo deprecated; exit 1 && razzle export && scripts/cp404.sh",
     "export": "echo deprecated; exit 1 && yarn build:lite && yarn export:no_build",

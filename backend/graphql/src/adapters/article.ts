@@ -8,8 +8,9 @@ import {
 } from 'nexus';
 import { Context } from '../context';
 import { Adapter } from '../adapter';
+import { rules } from '../rules';
 
-export default {
+export default Adapter<'article'>({
   schema: [
     objectType({
       name: 'article',
@@ -154,4 +155,11 @@ export default {
       });
     },
   },
-} satisfies Adapter<'article'>;
+  permissions: {
+    Query: {},
+    Mutation: {
+      createArticle: rules.isAdmin,
+      deleteArticle: rules.isAdmin,
+    },
+  },
+});

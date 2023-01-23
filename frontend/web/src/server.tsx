@@ -99,13 +99,21 @@ export const renderApp = async (
   });
   const sheet = new ServerStyleSheet();
 
+  let graphqlLocation =
+    process.env.APOLLO_SERVER_DEV ?? 'http://localhost:3002';
+  if (process.env.NODE_ENV === 'production') {
+    graphqlLocation =
+      process.env.APOLLO_SERVER_PROD ?? 'http://codyduong.dev/api';
+  }
+  if (process.env.FUNCTIONS_EMULATOR == 'true') {
+    graphqlLocation =
+      process.env.APOLLO_SERVER_EMULATE ?? 'http://localhost:5000/api';
+  }
+
   const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
-      uri:
-        process.env.NODE_ENV == 'production'
-          ? process.env.APOLLO_SERVER_PROD ?? 'http://codyduong.dev/api'
-          : process.env.APOLLO_SERVER_DEV ?? 'http://localhost:4000',
+      uri: graphqlLocation,
       credentials: 'same-origin',
       headers: {
         cookie: req.header('Cookie'),

@@ -18,7 +18,9 @@ scalar DateTime
 
 type Mutation {
   createArticle(data: ArticleCreateInput!): article
+  createUser(email: String!, password: String!): UserAuthPayload
   deleteArticle(id: String!): article
+  loginUser(email: String!, password: String!): UserAuthPayload
 }
 
 type Query {
@@ -31,10 +33,21 @@ enum SortOrder {
   desc
 }
 
+type UserAuthPayload {
+  token: String
+  user: user
+}
+
 type article {
   content: String
   createdAt: DateTime!
   id: String!
   title: String!
   updatedAt: DateTime!
+}
+
+type user {
+  email: String!
+  id: String!
+  role: String
 }

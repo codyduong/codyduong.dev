@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "codyduongweb",
     "backend": "codyduongweb"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }

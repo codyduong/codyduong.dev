@@ -3,12 +3,21 @@ import { Adapter, SchemaType } from '../adapter';
 import g from 'glob';
 import { join } from 'path';
 import { promisify } from 'util';
+import { Context } from '../context';
+import { verify } from 'jsonwebtoken';
+import { shield } from 'graphql-shield';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const glob = promisify(g);
 
-const processAdapter = <TypeName extends string>(
+export const processAdapter = <TypeName extends string>(
   adapter: Adapter<TypeName>
-): SchemaType<TypeName>[] => {
+): {
+  schema: SchemaType<TypeName>[];
+  permissions: Parameters<typeof shield>[0];
+} => {
   const resolvers = [
     extendType({
       type: 'Query',
@@ -21,29 +30,81 @@ const processAdapter = <TypeName extends string>(
   ];
 
   if (Array.isArray(adapter.schema)) {
-    return [...adapter.schema, ...resolvers];
+    return {
+      schema: [...adapter.schema, ...resolvers],
+      permissions: adapter.permissions,
+    };
   } else {
-    return [adapter.schema, ...resolvers];
+    return {
+      schema: [adapter.schema, ...resolvers],
+      permissions: adapter.permissions,
+    };
   }
 };
 
-export const generateSchemaTypesFromAdapters = async (): Promise<
-  SchemaType<any>[]
-> => {
-  const schemaTypes: SchemaType<any>[] = [];
+const permissionsDebug =
+  process.env.NODE_ENV === 'development'
+    ? {
+        debug: true,
+      }
+    : undefined;
 
-  const files = await glob('src/adapters/**/*.ts', { nodir: true });
+export const generateSchemaTypesFromAdapters = async (): Promise<{
+  types: SchemaType<any>[];
+  permissions: ReturnType<typeof shield>;
+}> => {
+  const schemaTypes: SchemaType<any>[] = [];
+  let permissionsObject: Parameters<typeof shield>[0] = {};
+
+  const js = __filename.includes('.js') ? true : false;
+  const files = await glob(
+    `${js ? 'dist' : 'src'}/adapters/**/*${js ? '.js' : '.ts'}`,
+    { nodir: true }
+  );
   await Promise.all(
     files.map(async (file) => {
       try {
         const p = join(__dirname, '../..', file);
         const adapter = (await import(p)).default;
-        schemaTypes.push(...processAdapter(adapter));
+        const { schema, permissions: newPermissions } = processAdapter(adapter);
+        schemaTypes.push(...schema);
+        permissionsObject = { ...permissionsObject, ...newPermissions };
       } catch (e) {
         console.warn(e);
       }
     })
   );
 
-  return schemaTypes;
+  return {
+    types: schemaTypes,
+    permissions: shield(permissionsObject, permissionsDebug),
+  };
 };
+
+export type Token = {
+  id: string;
+};
+
+export const getIsAdmin = async (context: Context): Promise<boolean> => {
+  try {
+    const authHeader = context.req.get('Authorization');
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      const verifiedToken = verify(token, APP_SECRET) as Token;
+      const user = await context.prisma.user.findUnique({
+        where: {
+          id: verifiedToken.id,
+        },
+      });
+      if (!user) {
+        throw new Error(`No user found for token id: ${verifiedToken.id}`);
+      }
+      return user.role === 'admin';
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+  return false;
+};
+
+export const APP_SECRET = process.env['APP_SECRET']!;
