@@ -6,24 +6,25 @@
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start": "concurrently \"yarn start:tsc\" \"razzle start\"",
-    "dev:3d": "cross-env THREED_DEBUG=true yarn start",
+    "start:firebase": "concurrently \"yarn start\" \"firebase emulators:start\"",
     "build:lite": "tsc -b && razzle build --noninteractive",
-    "export:no_build": "razzle export && scripts/cp404.sh",
-    "export": "yarn build:lite && yarn export:no_build",
-    "build": "yarn build:lite",
+    "export:no_build": "echo deprecated; exit 1 && razzle export && scripts/cp404.sh",
+    "export": "echo deprecated; exit 1 && yarn build:lite && yarn export:no_build",
+    "build": "cross-env-shell NODE_ENV=production scripts/rm.sh && yarn build:lite",
     "start:prod": "cross-env NODE_ENV=production node build/server.js",
     "serve": "yarn start:prod",
     "test": "razzle test --env=jsdom",
     "eject": "exit 1 && react-scripts eject",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "cross-env TS_NODE_PROJECT=tsconfig.storybook.json start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "ci": "yarn install --frozen-lockfile",
     "lint": "yarn eslint",
     "lint:changed": "./scripts/lint.sh",
     "postinstall": "./scripts/post-install.sh",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "firebase deploy"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.3",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@fontsource/overpass": "^4.5.8",
@@ -48,10 +49,12 @@
     "classnames": "^2.3.1",
     "color": "^4.2.3",
     "concurrently": "^7.6.0",
+    "cross-fetch": "^3.1.5",
     "firebase-admin": "^11.3.0",
     "firebase-functions": "^4.1.0",
     "geojson-vt": "^3.2.1",
     "global": "^4.4.0",
+    "graphql": "^16.6.0",
     "node-sass": "^7.0.1",
     "process": "^0.11.10",
     "react": "^18.2.0",
@@ -63,26 +66,26 @@
     "styled-components": "^5.3.5",
     "three": "^0.146.0",
     "ts-node": "^10.8.1",
-    "typescript": "^4.7.4",
+    "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
+    "@babel/core": "^7.20.7",
     "@babel/plugin-transform-react-jsx": "^7.19.0",
-    "@babel/preset-typescript": "^7.17.12",
-    "@craco/craco": "^7.0.0-alpha",
+    "@babel/preset-typescript": "^7.18.6",
+    "@craco/craco": "^7.0.0-alpha.9",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "^5.15.2",
-    "@storybook/addon-actions": "^6.5.9",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/addon-interactions": "^6.5.9",
-    "@storybook/addon-links": "^6.5.9",
-    "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/addon-actions": "^6.5.15",
+    "@storybook/addon-essentials": "^6.5.15",
+    "@storybook/addon-interactions": "^6.5.15",
+    "@storybook/addon-links": "^6.5.15",
+    "@storybook/builder-webpack5": "^6.5.15",
+    "@storybook/manager-webpack5": "^6.5.15",
     "@storybook/mdx2-csf": "^0.0.3",
-    "@storybook/node-logger": "^6.5.9",
+    "@storybook/node-logger": "^6.5.15",
     "@storybook/preset-create-react-app": "^4.1.2",
-    "@storybook/react": "^6.5.9",
+    "@storybook/react": "^6.5.15",
     "@storybook/testing-library": "^0.0.13",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.4",
@@ -92,7 +95,7 @@
     "@types/loadable__server": "^5.12.6",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
-    "babel-loader": "^8.2.5",
+    "babel-loader": "^9.1.0",
     "babel-plugin-styled-components": "^2.0.7",
     "babel-preset-razzle": "^4.2.18",
     "copy-webpack-plugin": "^11.0.0",
@@ -112,6 +115,7 @@
     "razzle": "^4.2.18",
     "razzle-dev-utils": "^4.2.18",
     "react-app-alias": "^2.2.0",
+    "react-error-overlay": "6.0.11",
     "serve": "^14.0.1",
     "source-map-support": "^0.5.21",
     "storybook-addon-react-router-v6": "^0.1.10",
@@ -120,6 +124,12 @@
     "webpack": "5",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "3.11.0"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "quotes": true,
+    "endOfLine": "auto"
   },
   "browserslist": {
     "production": [
@@ -189,6 +199,7 @@
     "resetMocks": true
   },
   "resolutions": {
-    "autoprefixer": "^10.4.13"
+    "autoprefixer": "^10.4.13",
+    "react-error-overlay": "6.0.11"
   }
 }

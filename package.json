@@ -5,6 +5,6 @@
   "workspaces": [
     "frontend/inferna/",
     "frontend/web/",
-    "backend/*"
+    "backend/graphql/"
   ]
 }

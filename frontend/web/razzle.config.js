@@ -58,6 +58,10 @@ function locateLoader(rules, loaderName) {
 }
 
 module.exports = {
+  options: {
+    // https://github.com/jaredpalmer/razzle/pull/1273
+    enableReactRefresh: true,
+  },
   modifyWebpackConfig(opts) {
     const { webpackConfig, webpackObject, env } = opts;
 

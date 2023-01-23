@@ -1,12 +1,12 @@
 import styled, { css } from 'styled-components';
-import { Typography as T } from 'packages/components/Typography';
+import T from 'packages/components/Typography';
 import { Link, Route, Routes } from 'react-router-dom';
 import loadable from 'packages/components/SpinkitLoadable';
 import classNames from 'classnames';
 import { useState } from 'react';
+import Redirect from 'packages/http/Redirect';
 
 const AGI = loadable(() => import('./agi/index'));
-const NotFound = loadable(() => import('packages/pages/404/NotFound'));
 
 const Section = styled.section`
   display: flex;
@@ -43,6 +43,7 @@ const WorkplacePosition = styled(T.Span2.italic)`
 `;
 
 const Ul = styled.ul`
+  all: unset;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.rem[400]};
@@ -50,7 +51,7 @@ const Ul = styled.ul`
 
 const liShared = css`
   display: block;
-  text-transform: lowercase;
+  /* text-transform: lowercase; */
 `;
 
 const Li = styled.li`
@@ -77,9 +78,9 @@ interface WorkProps {
   disabled?: boolean;
   classname?: string;
   textClassname?: string;
-  workplaceTitle: string;
-  position: string;
-  dateString: string;
+  workplaceTitle: string | React.ReactNode;
+  position: string | React.ReactNode;
+  dateString: string | React.ReactNode;
 }
 
 const Workplace = ({
@@ -141,7 +142,7 @@ const Work = (): JSX.Element => {
           <Section className={workSectionClassnames}>
             <Ul>
               <Workplace
-                to={'/work/agi/'}
+                to={'/work/agi'}
                 onClick={() => setHovering(null)}
                 onMouseEnter={() => setHovering('agi')}
                 onMouseLeave={() =>
@@ -152,23 +153,26 @@ const Work = (): JSX.Element => {
                 classname={'AGI'}
                 dateString={'June 2021 - Present'}
                 workplaceTitle={'AGI SureTrack/Digital'}
-                position={'Software Engineering Intern'}
+                position={
+                  <>
+                    Fullstack <abbr title="Software Engineer">SE</abbr> Intern
+                  </>
+                }
                 textClassname={agiTextClassname}
               />
               <Workplace
-                to={'/work/other/'}
+                to={'/playground/'}
                 classname={'Other'}
                 dateString={'Always Ongoing'}
                 workplaceTitle={'Other Projects'}
                 position={'Enthusiast'}
                 textClassname={otherTextClassname}
-                disabled
               />
             </Ul>
           </Section>
         }
       />
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Redirect to={'/404/'} />} />
     </Routes>
   );
 };

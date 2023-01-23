@@ -1,4 +1,4 @@
-@import "../packages/style/globals.css";
+@import "../public/globals.css";
 html,
 body {
   background-color: #FFFFFF;

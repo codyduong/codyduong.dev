@@ -10,32 +10,37 @@ body {
 header {
   transition: all 225ms ease-in-out;
 }
-div {
-  transition: all 0.5s ease-in-out;
-  transition: height 0s ease-in-out;
-  transition: width  0s ease-in-out;
-}
+/* div {
+  transition: all 0.5s ease-in-out, height 0s ease-in-out, width 0s ease-in-out;
+} */
 a {
   all: unset;
   text-decoration: none;
+  cursor: pointer;
 }
 a:focus {
-  outline: #00A4FF 1px auto;
+  outline: #1795da 2px solid;
 }
 button {
   all: unset;
   cursor: pointer;
 }
 button:focus {
-  outline: #00A4FF 1px auto;
+  outline: #1795da 2px solid;
 }
 svg {
   transition: all 0.225s ease-in-out;
 }
-ul {
-  all: unset
+.modal-scroll-lock {
+  overflow: hidden
+}
+div.modal-scroll-lock {
+  overflow: hidden
+}
+/* ul {
+  all: unset;
 }
 li {
   all: unset;
   transition: all 0.5s ease-in-out;
-}
+} */

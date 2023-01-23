@@ -59,6 +59,14 @@ const utils = {
         return false;
     }
   },
+  attemptFocusOrFirstDescendant: function (element: Element): boolean {
+    const focusable = utils.isFocusable(element);
+    if (focusable) {
+      return utils.attemptFocus(element);
+    } else {
+      return utils.focusFirstDescendant(element);
+    }
+  },
 };
 
 export default utils;

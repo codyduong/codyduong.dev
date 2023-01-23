@@ -1,4 +1,11 @@
-import styled, { css } from 'styled-components';
+import { commoncss } from 'packages/style';
+import styled, {
+  css,
+  DefaultTheme,
+  FlattenInterpolation,
+  StyledComponentBase,
+  ThemeProps,
+} from 'styled-components';
 
 const HeadingCss = css`
   font-family: 'Overpass';
@@ -93,7 +100,11 @@ export const Heading = {
   css: HeadingCss,
 } as const;
 
-const PCss = css`
+interface PCommonProps {
+  widthlimited?: 'false' | boolean | undefined;
+}
+
+const PCss = css<PCommonProps>`
   font-family: 'Overpass';
   font-weight: 500;
   font-style: normal;
@@ -102,6 +113,26 @@ const PCss = css`
   &.light {
     color: ${(props) => props.theme.color.text[200]};
   }
+
+  ${() =>
+    commoncss.animation({
+      enabled: css`
+        transition: all 750ms ease-in-out;
+        transition-property: width, max-width;
+      `,
+    })}
+
+  ${({ widthlimited }) => {
+    if (
+      widthlimited === undefined ||
+      widthlimited === 'false' ||
+      widthlimited === false
+    ) {
+      return;
+    }
+
+    return commoncss.widthlimitedflat;
+  }}
 `;
 const ItalicCss = css`
   font-style: italic;
@@ -118,7 +149,7 @@ const BoldCss = css`
 
 const P2css = css`
   ${PCss}
-  font-size: calc(${(props) => props.theme.spacing.rem[150]});
+  font-size: calc(${(props) => props.theme.spacing.rem[125]});
 `;
 const P3css = css`
   ${PCss}
@@ -129,8 +160,20 @@ const P4css = css`
   font-size: calc(${(props) => props.theme.spacing.rem[87.5]});
 `;
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const calculateP = (pn: ReturnType<typeof css>) => {
+const calculateP = (
+  pn: ReturnType<typeof css>
+  // eslint-disable-next-line @typescript-eslint/ban-types
+): StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
+  css: typeof pn;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  italic: StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  bold: StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+} => {
   return Object.assign(
     styled.p`
       ${pn}
@@ -166,7 +209,20 @@ const calculateP = (pn: ReturnType<typeof css>) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const calculateSpan = (pn: ReturnType<typeof css>) => {
+const calculateSpan = (
+  pn: ReturnType<typeof css>
+  // eslint-disable-next-line @typescript-eslint/ban-types
+): StyledComponentBase<'span', DefaultTheme, PCommonProps, never> & {
+  css: typeof pn;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  italic: StyledComponentBase<'span', DefaultTheme, PCommonProps, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  bold: StyledComponentBase<'span', DefaultTheme, PCommonProps, never> & {
+    css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  };
+} => {
   return Object.assign(
     styled.span`
       ${pn}
@@ -213,8 +269,10 @@ export const Span = {
 };
 export const Typography = {
   Heading,
+  ...Heading,
   Paragraph,
   ...Paragraph,
   Span,
   ...Span,
 } as const;
+export default Typography;

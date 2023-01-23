@@ -1,5 +1,4 @@
 import { COMMON_THEME } from 'packages/themed/themes/common';
-import type { Theme } from '../Themes';
 
 // export const DEFAULTold = {
 //   bgDark: '#111111',
@@ -35,15 +34,17 @@ export const DEFAULT = {
       100: '#ffffff',
       200: '#cecece',
       300: '#b0b0b0',
+      350: '#6b6b6b',
       400: '#252525',
       500: '#050505',
     },
     base: {
+      50: '#ceeeff',
       100: '#8cd7ff',
-      200: '#53c3ff',
-      300: '#00A4FF',
-      400: '',
-      500: '',
+      200: '#3aa8e4',
+      300: '#1795da',
+      400: '#0872ac',
+      500: '#024468',
     },
     bottom: {
       100: '',
@@ -67,11 +68,11 @@ export const DEFAULT = {
       500: '',
     },
     destructive: {
-      100: '',
-      200: '',
-      300: '',
-      400: '',
-      500: '',
+      100: '#eea3a3',
+      200: '#cc5757',
+      300: '#c71b1b',
+      400: '#941c1c',
+      500: '#470606',
     },
     productive: {
       100: '#a3eea9',

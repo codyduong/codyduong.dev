@@ -18,17 +18,12 @@ declare module 'styled-components' {
         readonly 100: string;
         readonly 200: string;
         readonly 300: string;
-        readonly 400: string;
-        readonly 500: string;
-      };
-      readonly surface: {
-        readonly 100: string;
-        readonly 200: string;
-        readonly 300: string;
+        readonly 350: string;
         readonly 400: string;
         readonly 500: string;
       };
       readonly base: {
+        readonly 50: string;
         readonly 100: string;
         readonly 200: string;
         readonly 300: string;
