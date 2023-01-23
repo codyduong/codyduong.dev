@@ -14,25 +14,25 @@ defaults:
     working-directory: frontend/web
 
 jobs:
-  install:
-    runs-on: ubuntu-latest
+  # install:
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-        cache-dependency-path: 'frontend/web/yarn.lock'
-    - run: yarn ci
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Use Node.js ${{ matrix.node-version }}
+  #     uses: actions/setup-node@v3
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
+  #       cache: 'yarn'
+  #       cache-dependency-path: 'frontend/web/yarn.lock'
+  #   - run: yarn ci
 
   lint:
-    needs: install
+    # needs: install
     runs-on: ubuntu-latest
 
     strategy:

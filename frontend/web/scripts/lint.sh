@@ -3,7 +3,7 @@ IGNORED_FILES=`cat .prettierignore | sed -E "s@\*\*@[^[:space:]]*@g"  | tr '\n' 
 
 COMMON_POINT="$(git merge-base origin/master HEAD)"
 
-echo $(git diff --name-only $COMMON_POINT --diff-filter=ACMRTUXB |
+echo $(git diff --name-only $COMMON_POINT --diff-filter=ACMRTUXB | grep -E "${WORKSPACE_LOCATION}" |
 grep -E "\.(js|jsx|ts|tsx)$" | tr '\n' ' ' | sed -E "s@${WORKSPACE_LOCATION}/@@g" | sed -E "s@${IGNORED_FILES}@@g" | xargs) > filestolint.txt
 # grep -E "\.(js|jsx|ts|tsx)$" | tr '\n' ' ' | sed -E "s@frontend/web/@@g" | xargs) > filestolint.txt
 
