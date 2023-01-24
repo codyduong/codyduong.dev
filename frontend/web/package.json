@@ -20,8 +20,9 @@
     "ci": "yarn install --frozen-lockfile",
     "lint": "yarn eslint",
     "lint:changed": "./scripts/lint.sh",
-    "postinstall": "./scripts/post-install.sh",
-    "deploy": "firebase deploy"
+    "postinstall": "graphql-codegen & ./scripts/post-install.sh",
+    "deploy": "firebase deploy",
+    "generate": "graphql-codegen"
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
@@ -41,7 +42,7 @@
     "@theatre/studio": "0.5",
     "@types/jest": "^28.1.2",
     "@types/loadable__component": "^5.13.4",
-    "@types/node": "^16.11.41",
+    "@types/node": "^18.11.18",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@types/styled-components": "^5.1.25",
@@ -50,6 +51,7 @@
     "color": "^4.2.3",
     "concurrently": "^7.6.0",
     "cross-fetch": "^3.1.5",
+    "dotenv": "^16.0.3",
     "firebase-admin": "^11.3.0",
     "firebase-functions": "^4.1.0",
     "geojson-vt": "^3.2.1",
@@ -74,6 +76,11 @@
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@babel/preset-typescript": "^7.18.6",
     "@craco/craco": "^7.0.0-alpha.9",
+    "@graphql-codegen/cli": "^2.16.4",
+    "@graphql-codegen/typed-document-node": "^2.3.12",
+    "@graphql-codegen/typescript": "^2.8.7",
+    "@graphql-codegen/typescript-operations": "^2.5.12",
+    "@graphql-typed-document-node/core": "^3.1.1",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "^5.15.2",
     "@storybook/addon-actions": "^6.5.15",
@@ -95,6 +102,7 @@
     "@types/loadable__server": "^5.12.6",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
+    "add": "^2.0.6",
     "babel-loader": "^9.1.0",
     "babel-plugin-styled-components": "^2.0.7",
     "babel-preset-razzle": "^4.2.18",
@@ -114,6 +122,7 @@
     "prop-types": "^15.8.1",
     "razzle": "^4.2.18",
     "razzle-dev-utils": "^4.2.18",
+    "razzle-plugin-graphql": "^4.2.18",
     "react-app-alias": "^2.2.0",
     "react-error-overlay": "6.0.11",
     "serve": "^14.0.1",
@@ -123,7 +132,12 @@
     "tsconfig-paths": "^4.0.0",
     "webpack": "5",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "3.11.0"
+    "webpack-dev-server": "3.11.0",
+    "yarn": "^1.22.19"
+  },
+  "resolutions": {
+    "autoprefixer": "^10.4.13",
+    "react-error-overlay": "6.0.11"
   },
   "prettier": {
     "tabWidth": 2,
@@ -197,9 +211,5 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
-  },
-  "resolutions": {
-    "autoprefixer": "^10.4.13",
-    "react-error-overlay": "6.0.11"
   }
 }

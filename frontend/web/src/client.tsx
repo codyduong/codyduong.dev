@@ -12,24 +12,18 @@ import {
 } from '@apollo/client';
 import fetch from 'cross-fetch';
 
-let graphqlLocation =
-  process.env.APOLLO_SERVER_DEV ?? 'http://localhost:3002';
-if (process.env.NODE_ENV === 'production') {
-  graphqlLocation =
-    process.env.APOLLO_SERVER_PROD ?? 'http://codyduong.dev/api';
-}
-if (process.env.FUNCTIONS_EMULATOR == 'true') {
-  graphqlLocation =
-    process.env.APOLLO_SERVER_EMULATE ?? 'http://localhost:5000/api';
-}
-console.log(process.env);
-
 const client = new ApolloClient({
   cache:
     typeof window.__APOLLO_STATE__ === 'object'
       ? new InMemoryCache().restore(window.__APOLLO_STATE__)
       : new InMemoryCache().restore(JSON.parse(window.__APOLLO_STATE__)),
-  link: new HttpLink({ uri: graphqlLocation, fetch }),
+  link: new HttpLink({
+    uri:
+      typeof window.__GRAPHQLURL__ === 'string'
+        ? window.__GRAPHQLURL__
+        : JSON.parse(window.__GRAPHQLURL__),
+    fetch,
+  }),
   ssrForceFetchDelay: 100, // in milliseconds
 });
 

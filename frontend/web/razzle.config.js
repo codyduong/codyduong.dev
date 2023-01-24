@@ -62,6 +62,7 @@ module.exports = {
     // https://github.com/jaredpalmer/razzle/pull/1273
     enableReactRefresh: true,
   },
+  plugins: ['graphql'],
   modifyWebpackConfig(opts) {
     const { webpackConfig, webpackObject, env } = opts;
 
@@ -91,14 +92,17 @@ module.exports = {
     fileLoaderRule['oneOf'] = [...svgr, { use: oldUse }];
     webpackConfig.module.rules[fileLoaderInfo[0].ruleIndex] = fileLoaderRule;
 
-    webpackConfig.plugins.push(new webpack.EnvironmentPlugin(['NODE_ENV']));
-
-    // webpackConfig.plugins.push(
-    //   new webpack.EnvironmentPlugin([
-    //     'RAZZLE_ASSETS_MANIFEST',
-    //     'RAZZLE_PUBLIC_DIR',
-    //   ])
-    // );
+    webpackConfig.plugins.push(
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: 'production',
+        // 'RAZZLE_ASSETS_MANIFEST',
+        // 'RAZZLE_PUBLIC_DIR',
+        FUNCTIONS_EMULATOR: false,
+        APOLLO_SERVER_DEV: undefined,
+        APOLLO_SERVER_PROD: undefined,
+        APOLLO_SERVER_EMULATE: undefined,
+      })
+    );
 
     webpackConfig.plugins.push(
       new webpack.ProvidePlugin({ process: 'process/browser' })

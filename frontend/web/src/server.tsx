@@ -16,7 +16,6 @@ import { StaticRouter } from 'react-router-dom/server';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import { ServerStyleSheet } from 'styled-components';
 import fs from 'fs';
-
 import App from 'packages/mono-app';
 import path from 'path';
 import generateTitleTag from './titleGenerator';
@@ -101,13 +100,17 @@ export const renderApp = async (
 
   let graphqlLocation =
     process.env.APOLLO_SERVER_DEV ?? 'http://localhost:3002';
+
   if (process.env.NODE_ENV === 'production') {
     graphqlLocation =
-      process.env.APOLLO_SERVER_PROD ?? 'http://codyduong.dev/api';
-  }
-  if (process.env.FUNCTIONS_EMULATOR == 'true') {
-    graphqlLocation =
-      process.env.APOLLO_SERVER_EMULATE ?? 'http://localhost:5000/api';
+      process.env.APOLLO_SERVER_PROD ?? 'https://codyduong.dev/api/';
+
+    // if we are in production double check we aren't going to external resources
+    const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+    if (url?.match(/^http:\/\/codyduong.dev\/api.*$/) === null) {
+      graphqlLocation =
+        process.env.APOLLO_SERVER_EMULATE ?? 'http://localhost:5000/api/';
+    }
   }
 
   const client = new ApolloClient({
@@ -182,7 +185,7 @@ export const renderApp = async (
         <div id="root">${markup}</div>
         ${scriptTags}
         ${renderToString(<script dangerouslySetInnerHTML={{
-          __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(/</g, '\\u003c')};`,
+          __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(/</g, '\\u003c')};  window.__GRAPHQLURL__=${JSON.stringify(graphqlLocation).replace(/</g, '\\u003c')};`,
         }} />)}
       </body>
     </html>`;
@@ -197,7 +200,7 @@ const server = express()
     res.set('Cache-Control', '0');
 
     try {
-      if (req.url.includes('404')) {
+      if (req.url === '/404') {
         res.status(404);
       }
       if (req.url.slice(-1) == '/') {

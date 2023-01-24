@@ -1,0 +1,8 @@
+query GetArticles {
+  articles {
+    id
+    title
+    updatedAt
+    content
+  }
+}
