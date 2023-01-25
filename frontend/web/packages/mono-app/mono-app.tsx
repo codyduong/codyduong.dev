@@ -11,7 +11,6 @@ import Redirect from 'packages/http/Redirect';
 import { BypassProvider } from 'packages/mono-app/BypassContext';
 import Bypass from 'packages/mono-app/Bypass';
 import { AccessibilityProvider } from 'packages/mono-app/AccessibilityContext';
-import Article from 'packages/pages/Articles/Article';
 
 const Home = loadable(
   () => import(/* webpackPrefetch: true */ 'packages/pages/Home')
@@ -100,8 +99,7 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                     element={<WebAccessibilityStatement />}
                   />
                   <Route path="/playground" element={<Construction3D />} />
-                  <Route path="/articles" element={<Articles />} />
-                  <Route path="/articles/:id" element={<Article />} />
+                  <Route path="/articles/*" element={<Articles />} />
                   <Route path="/contact" element={<Links />} />
                   <Route path="/404" element={<NotFound />} />
                   <Route path="*" element={<Redirect to={'/404'} />} />

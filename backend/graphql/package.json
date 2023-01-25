@@ -4,7 +4,7 @@
   "private": "true",
   "main": "dist/functions.js",
   "scripts": {
-    "dev": "ts-node ./src/server.ts",
+    "dev": "cross-env NODE_ENV=development ts-node ./src/server.ts",
     "start": "node dist/server",
     "clean": "./scripts/clean.sh",
     "build": "yarn -s run clean && yarn -s run generate && tsc",
@@ -40,6 +40,7 @@
     "@types/glob": "^8.0.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "18.11.18",
+    "cross-env": "^7.0.3",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",
     "nodemon": "^2.0.20",
     "prisma": "4.9.0",

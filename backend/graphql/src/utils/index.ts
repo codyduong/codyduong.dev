@@ -8,6 +8,7 @@ import { verify } from 'jsonwebtoken';
 import { shield } from 'graphql-shield';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import * as dotenv from 'dotenv';
+import { IOptionsConstructor } from 'graphql-shield/typings/types';
 dotenv.config();
 
 const glob = promisify(g);
@@ -42,7 +43,7 @@ export const processAdapter = <TypeName extends string>(
   }
 };
 
-const permissionsDebug =
+const permissionsDebug: IOptionsConstructor | undefined =
   process.env.NODE_ENV === 'development'
     ? {
         debug: true,

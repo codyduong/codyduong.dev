@@ -98,9 +98,9 @@ module.exports = {
         // 'RAZZLE_ASSETS_MANIFEST',
         // 'RAZZLE_PUBLIC_DIR',
         FUNCTIONS_EMULATOR: false,
-        APOLLO_SERVER_DEV: undefined,
-        APOLLO_SERVER_PROD: undefined,
-        APOLLO_SERVER_EMULATE: undefined,
+        APOLLO_SERVER_DEV: 'http://localhost:3002',
+        APOLLO_SERVER_PROD: 'http://codyduong.dev/api/',
+        APOLLO_SERVER_EMULATE: 'http://localhost:5000/api/',
       })
     );
 

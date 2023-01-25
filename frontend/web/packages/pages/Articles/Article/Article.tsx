@@ -1,4 +1,4 @@
-const Article = () => {
+const Article = (): JSX.Element => {
   return <>null</>;
 };
 
