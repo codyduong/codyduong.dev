@@ -4,7 +4,7 @@ import { useThemeBase } from 'packages/themed';
 import loadable from 'packages/components/SpinkitLoadable';
 import Page from 'packages/pages/Page';
 import { TheatreProvider } from 'packages/components/3D/TheatreContext';
-import { QueryProvider } from 'packages/mono-app/QueryContext';
+import { QueryProvider } from 'packages/mono-app/UrlSearchParamsContext';
 import { useMemo, useEffect } from 'react';
 import generateTitleTag from 'titleGenerator';
 import Redirect from 'packages/http/Redirect';

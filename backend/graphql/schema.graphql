@@ -24,7 +24,7 @@ type Mutation {
 }
 
 type Query {
-  article(id: String): article
+  article(articleId: Int, id: String): article
   articles(orderBy: ArticleSortOrder, searchString: String, skip: Int, take: Int): [article!]!
 }
 
@@ -39,6 +39,7 @@ type UserAuthPayload {
 }
 
 type article {
+  articleId: Int!
   content: String
   createdAt: DateTime!
   id: String!

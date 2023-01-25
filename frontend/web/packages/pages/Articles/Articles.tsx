@@ -4,12 +4,13 @@ import Section from 'packages/components/Section';
 import T from 'packages/components/Typography';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import GetArticle from './GetArticles.graphql';
+import GetArticles from './GetArticles.graphql';
 import loadable from 'packages/components/SpinkitLoadable';
-import Redirect from 'packages/http/Redirect';
+import { Link } from 'packages/components/A';
 
 const Article = loadable(
-  () => import(/* webpackPrefetch: true */ 'packages/pages/Articles/Article')
+  () => import(/* webpackPrefetch: true */ 'packages/pages/Articles/Article'),
+  { ssr: false }
 );
 
 const ArticleUl = styled.ul`
@@ -17,6 +18,7 @@ const ArticleUl = styled.ul`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.px[50]};
+  user-select: none;
 `;
 
 const ArticleLi = styled.li`
@@ -32,7 +34,7 @@ const ArticleLi = styled.li`
 `;
 
 const Articles = (): JSX.Element => {
-  const { data } = useQuery(GetArticle, {});
+  const { data } = useQuery(GetArticles, {});
 
   return (
     <Routes>
@@ -47,7 +49,9 @@ const Articles = (): JSX.Element => {
               <ArticleUl>
                 {data?.articles.map((article) => {
                   return (
-                    <ArticleLi key={article.id}>[] {article.title}</ArticleLi>
+                    <ArticleLi key={article.id}>
+                      <Link to={`${article.articleId}`}>{article.title}</Link>
+                    </ArticleLi>
                   );
                 })}
               </ArticleUl>
@@ -55,8 +59,7 @@ const Articles = (): JSX.Element => {
           </Content>
         }
       />
-      <Route path="/:title" element={<Article />} />
-      <Route path="*" element={<Redirect to={'/404/'} />} />
+      <Route path="/:id" element={<Article />} />
     </Routes>
   );
 };

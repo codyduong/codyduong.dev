@@ -16,6 +16,7 @@ export default Adapter<'article'>({
       name: 'article',
       definition(t) {
         t.nonNull.string('id');
+        t.nonNull.int('articleId');
         t.nonNull.field('createdAt', { type: 'DateTime' });
         t.nonNull.field('updatedAt', { type: 'DateTime' });
         t.nonNull.string('title');
@@ -42,10 +43,14 @@ export default Adapter<'article'>({
         type: 'article',
         args: {
           id: stringArg(),
+          articleId: intArg(),
         },
-        resolve: (_parent, args, context: Context) => {
+        resolve: (_parent, { id, articleId }, context: Context) => {
           return context.prisma.article.findUnique({
-            where: { id: args.id || undefined },
+            where: {
+              id: id ?? undefined,
+              articleId: articleId ?? undefined,
+            },
           });
         },
       });
@@ -94,6 +99,8 @@ export default Adapter<'article'>({
         resolve: (_, args, context: Context) => {
           return context.prisma.article.create({
             data: {
+              // auto-increment is handled by a mongoDB trigger
+              articleId: null!,
               title: args.data.title,
               content: args.data.content ?? '',
             },

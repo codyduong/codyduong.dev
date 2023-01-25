@@ -5,6 +5,16 @@
  * DO NOT EDIT MANUALLY
  */
     
+declare module '*GetArticle.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { GetArticleQuery, GetArticleQueryVariables } from 'graphql-gen/types';
+  const GetArticleDocument: DocumentNode<
+    GetArticleQuery,
+    GetArticleQueryVariables
+  >;
+  export default GetArticleDocument;
+}
+
 declare module '*GetArticles.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
   import { GetArticlesQuery, GetArticlesQueryVariables } from 'graphql-gen/types';
