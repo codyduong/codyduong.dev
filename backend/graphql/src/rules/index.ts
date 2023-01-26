@@ -4,7 +4,7 @@ import type { Context } from '../context';
 
 export const rules = {
   isAdmin: rule()(async (_parent, _args, context: Context) => {
-    const userId = await getIsAdmin(context);
-    return Boolean(userId);
+    const isAdmin = await getIsAdmin(context);
+    return Boolean(isAdmin);
   }),
 } as const;

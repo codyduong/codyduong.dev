@@ -6,9 +6,8 @@ import { promisify } from 'util';
 import { Context } from '../context';
 import { verify } from 'jsonwebtoken';
 import { shield } from 'graphql-shield';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import * as dotenv from 'dotenv';
 import { IOptionsConstructor } from 'graphql-shield/typings/types';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const glob = promisify(g);
@@ -17,7 +16,7 @@ export const processAdapter = <TypeName extends string>(
   adapter: Adapter<TypeName>
 ): {
   schema: SchemaType<TypeName>[];
-  permissions: Parameters<typeof shield>[0];
+  permissions: Adapter<TypeName>['permissions'];
 } => {
   const resolvers = [
     extendType({
@@ -69,7 +68,16 @@ export const generateSchemaTypesFromAdapters = async (): Promise<{
         const adapter = (await import(p)).default;
         const { schema, permissions: newPermissions } = processAdapter(adapter);
         schemaTypes.push(...schema);
-        permissionsObject = { ...permissionsObject, ...newPermissions };
+        permissionsObject = {
+          Query: {
+            ...((permissionsObject as any).Query ?? {}),
+            ...newPermissions.Query,
+          },
+          Mutation: {
+            ...((permissionsObject as any).Mutation ?? {}),
+            ...newPermissions.Mutation,
+          },
+        };
       } catch (e) {
         console.warn(e);
       }

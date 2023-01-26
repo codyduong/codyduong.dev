@@ -42,6 +42,7 @@ const ButtonStyled = styled.button`
     &.disabled {
       background: ${({ theme }) => theme.color.surface[350]};
       color: ${({ theme }) => theme.color.text[400]};
+      cursor: not-allowed;
     }
   }
 
@@ -72,6 +73,7 @@ const ButtonStyled = styled.button`
       background: ${({ theme }) => theme.color.surface[200]};
       border: 3px solid ${({ theme }) => theme.color.text[300]};
       color: ${({ theme }) => theme.color.text[300]};
+      cursor: not-allowed;
     }
   }
 

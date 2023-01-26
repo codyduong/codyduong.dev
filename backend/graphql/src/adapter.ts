@@ -17,7 +17,10 @@ export type Adapter<TypeName extends string> = {
     Query?: (t: ObjectDefinitionBlock<'Query'>) => void;
     Mutation?: (t: ObjectDefinitionBlock<'Mutation'>) => void;
   };
-  permissions: Parameters<typeof shield>[0];
+  permissions: {
+    Query?: Parameters<typeof shield>[0];
+    Mutation?: Parameters<typeof shield>[0];
+  };
 };
 
 export const Adapter = <TypeName extends string>(a: Adapter<TypeName>) => {

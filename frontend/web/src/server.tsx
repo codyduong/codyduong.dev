@@ -31,6 +31,8 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import fetch from 'cross-fetch';
+import * as dotenv from 'dotenv';
+dotenv.config({ debug: true, override: false });
 
 let assets: unknown;
 
@@ -185,7 +187,10 @@ export const renderApp = async (
         <div id="root">${markup}</div>
         ${scriptTags}
         ${renderToString(<script dangerouslySetInnerHTML={{
-          __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(/</g, '\\u003c')};  window.__GRAPHQLURL__=${JSON.stringify(graphqlLocation).replace(/</g, '\\u003c')};`,
+          __html: `
+            window.__APOLLO_STATE__=${JSON.stringify(state).replace(/</g, '\\u003c')};
+            window.__GRAPHQLURL__=${JSON.stringify(graphqlLocation).replace(/</g, '\\u003c')};
+            window.__TOKEN__=${JSON.stringify(process.env['APOLLO_ADMIN_TOKEN'] ?? "").replace(/</g, '\\u003c')};`,
         }} />)}
       </body>
     </html>`;

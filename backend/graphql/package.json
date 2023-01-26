@@ -4,7 +4,7 @@
   "private": "true",
   "main": "dist/functions.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development ts-node ./src/server.ts",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/server.ts",
     "start": "node dist/server",
     "clean": "./scripts/clean.sh",
     "build": "yarn -s run clean && yarn -s run generate && tsc",

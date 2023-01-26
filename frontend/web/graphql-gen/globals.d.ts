@@ -15,6 +15,16 @@ declare module '*GetArticle.graphql' {
   export default GetArticleDocument;
 }
 
+declare module '*UpdateArticle.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { UpdateArticleMutation, UpdateArticleMutationVariables } from 'graphql-gen/types';
+  const UpdateArticleDocument: DocumentNode<
+    UpdateArticleMutation,
+    UpdateArticleMutationVariables
+  >;
+  export default UpdateArticleDocument;
+}
+
 declare module '*GetArticles.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
   import { GetArticlesQuery, GetArticlesQueryVariables } from 'graphql-gen/types';
