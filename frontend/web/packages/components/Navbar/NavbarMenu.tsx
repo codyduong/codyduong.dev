@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import A from 'packages/components/A';
 import color from 'color';
 import CloseIcon from '@mui/icons-material/Close';
-import { commoncss } from 'packages/style';
+import { breakpoints, commoncss } from 'packages/style';
 import Search from './NavbarSearch';
 import { useState } from 'react';
 
@@ -38,17 +38,31 @@ const NavbarMenuComponent = styled.menu`
   margin: 0;
 
   background-color: inherit;
-  transition: height 500ms ease-in-out 0s, top 500ms ease-in-out 0s;
+  transition: all 500ms ease-in-out 0s;
+  transition-property: height, top, max-height;
 
-  &.open {
-    height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
+  @media not screen and (min-width: ${breakpoints.xl}) {
+    &.open {
+      height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
 
-    &.searching {
-      top: 0px;
-      height: calc(100vh - 0rem);
+      &.searching {
+        height: calc(100vh - 0rem);
+      }
     }
   }
+  @media only screen and (min-width: ${breakpoints.xl}) {
+    min-width: 600px;
+    width: 50vw;
+    // transform: translateX(50%) translateX(-50vw);
+    transform: translateX(-10%);
+    border-radius: 0 0
+      ${({ theme }) => `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
 
+    &.open {
+      /* background-color: ${({ theme }) => theme.color.surface[400]}; */
+      height: 400px;
+    }
+  }
   &.close {
     & > ${MenuItem} {
       box-shadow: inset 100vw 0 5rem 0
