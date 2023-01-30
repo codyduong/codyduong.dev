@@ -34,7 +34,7 @@ const ArticleLi = styled.li`
 `;
 
 const Articles = (): JSX.Element => {
-  const { data } = useQuery(GetArticles, {});
+  const { data, error } = useQuery(GetArticles, {});
 
   return (
     <Routes>
@@ -55,6 +55,12 @@ const Articles = (): JSX.Element => {
                   );
                 })}
               </ArticleUl>
+              {!!error && (
+                <>
+                  <T.P2>There was an error loading the articles</T.P2>
+                  <T.P2>{error.message}</T.P2>
+                </>
+              )}
             </Section>
           </Content>
         }

@@ -108,11 +108,11 @@ export const renderApp = async (
       process.env.APOLLO_SERVER_PROD ?? 'https://codyduong.dev/api/';
 
     // if we are in production double check we aren't going to external resources
-    const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-    if (url?.match(/^http:\/\/codyduong.dev\/api.*$/) === null) {
-      graphqlLocation =
-        process.env.APOLLO_SERVER_EMULATE ?? 'http://localhost:5000/api/';
-    }
+    // const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+    // if (url?.match(/^http:\/\/codyduong.dev\/api.*$/) === null) {
+    //   graphqlLocation =
+    //     process.env.APOLLO_SERVER_EMULATE ?? 'http://localhost:5000/api/';
+    // }
   }
 
   const client = new ApolloClient({

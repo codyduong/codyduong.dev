@@ -12,6 +12,6 @@ else
 fi
 
 # only generate if we are not in CI
-if [[ -z "${CI}" ]]; then
-  yarn graphql-codegen
-fi
+# if [[ -z "${CI}" && -z "${GCP_PROJECT}" ]]; then
+#   yarn graphql-codegen
+# fi

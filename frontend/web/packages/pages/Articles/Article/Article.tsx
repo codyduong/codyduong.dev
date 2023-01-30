@@ -12,8 +12,11 @@ import Content from 'packages/components/Content';
 import Section from 'packages/components/Section';
 import { ErrorBoundary } from 'react-error-boundary';
 import Button from 'packages/components/Button';
+import Link from 'packages/components/A';
 
-const COMPONENTS = {} as const;
+const COMPONENTS = {
+  a: Link.Styled,
+} as const;
 
 const ArticleStyled = styled.div`
   display: flex;
