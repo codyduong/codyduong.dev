@@ -10,7 +10,9 @@
     "build": "yarn -s run clean && yarn -s run generate && tsc",
     "generate": "yarn -s run generate:prisma && yarn -s run generate:nexus",
     "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node --transpile-only src/schema"
+    "generate:nexus": "ts-node --transpile-only src/schema",
+    "ci": "yarn install --frozen-lockfile",
+    "lint:changed": "./scripts/lint.sh"
   },
   "prettier": {
     "tabWidth": 2,
@@ -40,7 +42,9 @@
     "@types/glob": "^8.0.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
     "cross-env": "^7.0.3",
+    "eslint": "^8.18.0",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",
     "nodemon": "^2.0.20",
     "prisma": "4.9.0",
