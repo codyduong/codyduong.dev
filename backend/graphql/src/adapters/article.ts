@@ -8,13 +8,15 @@ import {
 } from 'nexus';
 import { Context } from '../context';
 import { Adapter } from '../adapter';
+import { rules } from '../rules';
 
-export default {
+export default Adapter<'article'>({
   schema: [
     objectType({
       name: 'article',
       definition(t) {
         t.nonNull.string('id');
+        t.nonNull.int('articleId');
         t.nonNull.field('createdAt', { type: 'DateTime' });
         t.nonNull.field('updatedAt', { type: 'DateTime' });
         t.nonNull.string('title');
@@ -34,6 +36,13 @@ export default {
         t.string('content');
       },
     }),
+    inputObjectType({
+      name: 'ArticleUpdateInput',
+      definition(t) {
+        t.string('title');
+        t.string('content');
+      },
+    }),
   ],
   resolver: {
     Query: (t) => {
@@ -41,10 +50,14 @@ export default {
         type: 'article',
         args: {
           id: stringArg(),
+          articleId: intArg(),
         },
-        resolve: (_parent, args, context: Context) => {
+        resolve: (_parent, { id, articleId }, context: Context) => {
           return context.prisma.article.findUnique({
-            where: { id: args.id || undefined },
+            where: {
+              id: id ?? undefined,
+              articleId: articleId ?? undefined,
+            },
           });
         },
       });
@@ -72,9 +85,9 @@ export default {
             where: {
               ...or,
             },
-            take: args.take || undefined,
-            skip: args.skip || undefined,
-            orderBy: args.orderBy || undefined,
+            take: args.take ?? undefined,
+            skip: args.skip ?? undefined,
+            orderBy: args.orderBy ?? undefined,
           });
         },
       });
@@ -93,54 +106,50 @@ export default {
         resolve: (_, args, context: Context) => {
           return context.prisma.article.create({
             data: {
+              // auto-increment is handled by a mongoDB trigger
+              articleId: null!,
               title: args.data.title,
               content: args.data.content ?? '',
             },
           });
         },
       });
-      // t.field('togglePublishPost', {
-      //   type: 'Post',
-      //   args: {
-      //     id: nonNull(stringArg()),
-      //   },
-      //   resolve: async (_, args, context: Context) => {
-      //     try {
-      //       const post = await context.prisma.post.findUnique({
-      //         where: { id: args.id || undefined },
-      //         select: {
-      //           published: true,
-      //         },
-      //       })
-      //       return context.prisma.post.update({
-      //         where: { id: args.id || undefined },
-      //         data: { published: !post?.published },
-      //       })
-      //     } catch (e) {
-      //       throw new Error(
-      //         `Post with ID ${args.id} does not exist in the database.`,
-      //       )
-      //     }
-      //   },
-      // })
+      t.field('updateArticle', {
+        type: 'article',
+        args: {
+          id: nonNull(stringArg()),
+          data: nonNull(
+            arg({
+              type: 'ArticleUpdateInput',
+            })
+          ),
+        },
+        resolve: async (_, { id, data }, context: Context) => {
+          try {
+            const article = await context.prisma.article.findUnique({
+              where: { id: id ?? undefined },
+            });
 
-      // t.field('incrementPostViewCount', {
-      //   type: 'Post',
-      //   args: {
-      //     id: nonNull(stringArg()),
-      //   },
-      //   resolve: (_, args, context: Context) => {
-      //     return context.prisma.post.update({
-      //       where: { id: args.id || undefined },
-      //       data: {
-      //         viewCount: {
-      //           increment: 1,
-      //         },
-      //       },
-      //     })
-      //   },
-      // })
+            const newData = {
+              ...(article ?? {}),
+              ...{
+                title: data.title ?? undefined,
+                content: data.content ?? undefined,
+              },
+            };
+            delete newData['id'];
 
+            return context.prisma.article.update({
+              where: { id: id ?? undefined },
+              data: newData,
+            });
+          } catch (e) {
+            throw new Error(
+              `Article with ID ${id} does not exist in the database.`
+            );
+          }
+        },
+      });
       t.field('deleteArticle', {
         type: 'article',
         args: {
@@ -154,4 +163,12 @@ export default {
       });
     },
   },
-} satisfies Adapter<'article'>;
+  permissions: {
+    Query: {},
+    Mutation: {
+      createArticle: rules.isAdmin,
+      updateArticle: rules.isAdmin,
+      deleteArticle: rules.isAdmin,
+    },
+  },
+});

@@ -1,0 +1,10 @@
+{
+  "functions": [
+    {
+      "function": "api",
+      "source": ".",
+      "codebase": "backend",
+      "runtime": "nodejs16"
+    }
+  ]
+}

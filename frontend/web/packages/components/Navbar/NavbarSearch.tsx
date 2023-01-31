@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import React, { useState, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import color from 'color';
+import { breakpoints } from 'packages/style';
 
 const SearchDiv = styled.div`
   box-sizing: border-box;
@@ -29,9 +30,11 @@ const SearchDiv = styled.div`
   flex-grow: 1;
 
   transition: padding 0.225s, max-height 0.225s;
-  &.searching {
-    padding-top: 16px;
-    max-height: 66px;
+  @media not screen and (min-width: ${breakpoints.xl}) {
+    &.searching {
+      padding-top: 16px;
+      max-height: 66px;
+    }
   }
 `;
 

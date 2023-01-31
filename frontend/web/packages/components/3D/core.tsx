@@ -2,7 +2,7 @@ import type { getProject } from '@theatre/core';
 import { useTheatre } from 'packages/components/3D/TheatreContext';
 import { editable } from '@theatre/r3f';
 import React, { useEffect } from 'react';
-import { useQuery } from 'packages/mono-app/QueryContext';
+import { useUrlSearchParams } from 'packages/mono-app/UrlSearchParamsContext';
 import { Debug } from '@react-three/cannon';
 import type { ThreeElements } from '@react-three/fiber';
 import { Line } from '@react-three/drei';
@@ -38,7 +38,7 @@ const editableMock: {
  */
 let initialized = false;
 async function showStudioOnQuery(
-  query: ReturnType<typeof useQuery>
+  query: ReturnType<typeof useUrlSearchParams>
 ): Promise<void> {
   if (process.env.NODE_ENV === 'development') {
     const { default: studio } = await import('@theatre/studio');
@@ -56,7 +56,7 @@ async function showStudioOnQuery(
 }
 
 export function RunOnThreeDev<T extends () => R, R>(toRun: T): R | null {
-  return useQuery().has('3D_DEBUG') ? toRun() : null;
+  return useUrlSearchParams().has('3D_DEBUG') ? toRun() : null;
 }
 
 export function RenderOnThreeDev<
@@ -67,7 +67,7 @@ export function RenderOnThreeDev<
 }: Props[0] & {
   DebugComponent: (...args: Props) => JSX.Element;
 }): JSX.Element {
-  return useQuery().get('3D_DEBUG') ? (
+  return useUrlSearchParams().get('3D_DEBUG') ? (
     <DebugComponent {...rest} />
   ) : (
     <>{rest.children}</>
@@ -91,7 +91,7 @@ export const Theatre = ({
 }: TheatreProps): JSX.Element | null => {
   const { getProject, SheetProvider } = useTheatre();
 
-  const query = useQuery();
+  const query = useUrlSearchParams();
   useEffect(() => {
     showStudioOnQuery(query);
   }, [query]);

@@ -9,8 +9,16 @@ datasource db {
 
 model article {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  articleId Int      @unique
   content   String
   createdAt DateTime @db.Date @default(now())
   title     String
   updatedAt DateTime @db.Date @updatedAt
+}
+
+model user {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  role      String?
 }

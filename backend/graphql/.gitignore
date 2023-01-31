@@ -3,3 +3,7 @@ dist/
 src/generated/
 *.env
 *.db
+firebase-debug.log*
+ui-debug.log*
+.firebase
+stats.json

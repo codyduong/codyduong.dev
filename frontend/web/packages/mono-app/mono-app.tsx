@@ -4,7 +4,7 @@ import { useThemeBase } from 'packages/themed';
 import loadable from 'packages/components/SpinkitLoadable';
 import Page from 'packages/pages/Page';
 import { TheatreProvider } from 'packages/components/3D/TheatreContext';
-import { QueryProvider } from 'packages/mono-app/QueryContext';
+import { QueryProvider } from 'packages/mono-app/UrlSearchParamsContext';
 import { useMemo, useEffect } from 'react';
 import generateTitleTag from 'titleGenerator';
 import Redirect from 'packages/http/Redirect';
@@ -99,7 +99,7 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                     element={<WebAccessibilityStatement />}
                   />
                   <Route path="/playground" element={<Construction3D />} />
-                  <Route path="/articles" element={<Articles />} />
+                  <Route path="/articles/*" element={<Articles />} />
                   <Route path="/contact" element={<Links />} />
                   <Route path="/404" element={<NotFound />} />
                   <Route path="*" element={<Redirect to={'/404'} />} />

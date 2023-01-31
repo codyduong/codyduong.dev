@@ -10,3 +10,8 @@ if [[ $( cat $reactLib | grep "svg" ) ]]; then
 else
   echo "*.svg module not found in $reactLib"
 fi
+
+# only generate if we are not in CI
+# if [[ -z "${CI}" && -z "${GCP_PROJECT}" ]]; then
+#   yarn graphql-codegen
+# fi

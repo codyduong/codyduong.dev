@@ -9,7 +9,7 @@
     "rewrites": [
       {
         "source": "/api/**",
-        "function": "app"
+        "function": "api"
       },
       {
         "source": "**",
@@ -19,6 +19,13 @@
   },
   "functions": [
     {
+      "function": "api",
+      "source": "../../backend/graphql/",
+      "codebase": "backend",
+      "runtime": "nodejs16"
+    },
+    {
+      "function": "app",
       "source": ".",
       "codebase": "default",
       "ignore": [
