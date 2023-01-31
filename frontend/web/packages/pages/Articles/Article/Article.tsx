@@ -2,6 +2,8 @@ import { evaluate } from '@mdx-js/mdx';
 import styled from 'styled-components';
 import GET_ARTICLE from './GetArticle.graphql';
 import UPDATE_ARTICLE from './UpdateArticle.graphql';
+import IS_AUTHENTICATED from './IsAuthenticated.graphql';
+import LOGIN_USER from './LoginUser.graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import * as runtime from 'react/jsx-runtime';
 import { useParams } from 'react-router-dom';
@@ -13,6 +15,130 @@ import Section from 'packages/components/Section';
 import { ErrorBoundary } from 'react-error-boundary';
 import Button from 'packages/components/Button';
 import Link from 'packages/components/A';
+import { GetArticleQuery } from 'graphql-gen/types';
+import { setContext } from '@apollo/client/link/context';
+
+interface ArticleEditorProps {
+  contentStr: string | undefined;
+  setContentStr: React.Dispatch<React.SetStateAction<string | undefined>>;
+  oldContentStr: string | undefined;
+  setOldContentStr: React.Dispatch<React.SetStateAction<string | undefined>>;
+  dirty: boolean;
+  error: string;
+  article: GetArticleQuery['article'];
+}
+
+const ArticleEditor = ({
+  contentStr,
+  setContentStr,
+  dirty,
+  oldContentStr,
+  setOldContentStr,
+  error,
+  article,
+}: ArticleEditorProps): JSX.Element => {
+  const [updateArticle] = useMutation(UPDATE_ARTICLE);
+  const {
+    client,
+    data: auth,
+    loading,
+    refetch,
+  } = useQuery(IS_AUTHENTICATED, {
+    fetchPolicy: 'network-only',
+  });
+  const [loginUser] = useMutation(LOGIN_USER);
+
+  const isAuthenticated = auth?.isAuthenticated?.isAuthenticated;
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const isLoginable = email && password;
+
+  console.log(isAuthenticated);
+
+  return (
+    <TextEditorWrapper>
+      {!isAuthenticated && (
+        <>
+          <label>Email</label>
+          <input
+            onChange={(v) => {
+              setEmail(v.currentTarget.value);
+            }}
+          />
+          <label>Password</label>
+          <input
+            type="password"
+            onChange={(v) => {
+              setPassword(v.currentTarget.value);
+            }}
+          />
+          <Button
+            disabled={!isLoginable}
+            onClick={async () => {
+              setIsLoggingIn(true);
+
+              const { data } = await loginUser({
+                variables: {
+                  email: email,
+                  password: password,
+                },
+              });
+
+              localStorage.setItem(
+                'token',
+                data?.loginUser?.token ? `Bearer ${data.loginUser.token}` : ''
+              );
+
+              client.resetStore();
+
+              refetch();
+              setIsLoggingIn(false);
+            }}
+          >
+            Login
+          </Button>
+        </>
+      )}
+      <TextEditor
+        value={contentStr}
+        onChange={(v) => {
+          setContentStr(v.currentTarget.value);
+        }}
+      />
+      <ButtonWrapper>
+        <Button
+          disabled={loading || isLoggingIn || !dirty}
+          onClick={() => {
+            setContentStr(oldContentStr);
+          }}
+        >
+          Reset
+        </Button>
+        <Button
+          disabled={loading || isLoggingIn || !dirty || !article}
+          onClick={async () => {
+            const { data } = await updateArticle({
+              variables: {
+                id: article!.id,
+                data: {
+                  content: contentStr,
+                },
+              },
+            });
+
+            setOldContentStr(data?.updateArticle?.content ?? undefined);
+            setContentStr(data?.updateArticle?.content ?? undefined);
+          }}
+        >
+          Submit
+        </Button>
+      </ButtonWrapper>
+      <ErrorMessage>{error}</ErrorMessage>
+    </TextEditorWrapper>
+  );
+};
 
 const COMPONENTS = {
   a: Link.Styled,
@@ -58,7 +184,6 @@ const Article = (): JSX.Element | null => {
     variables: { articleId: id ? Number(id) : null },
     skip: !id,
   });
-  const [updateArticle] = useMutation(UPDATE_ARTICLE);
   const isEditorOpen = urlParams.has('edit');
 
   const article = data?.article;
@@ -97,75 +222,49 @@ const Article = (): JSX.Element | null => {
   return (
     <Content>
       <ArticleStyled>
-        <ErrorBoundary
-          FallbackComponent={({ error, resetErrorBoundary }): JSX.Element => {
-            useEffect(() => {
-              const timeout = setTimeout(() => {
-                resetErrorBoundary();
-              }, 5000);
+        <>
+          <ErrorBoundary
+            FallbackComponent={({ error, resetErrorBoundary }): JSX.Element => {
+              useEffect(() => {
+                const timeout = setTimeout(() => {
+                  resetErrorBoundary();
+                }, 5000);
 
-              return () => {
-                clearTimeout(timeout);
-              };
-            }, []);
+                return () => {
+                  clearTimeout(timeout);
+                };
+              }, []);
 
-            return (
-              <>
-                <ErrorMessage>It blew up</ErrorMessage>
-                <ErrorMessage>${error.message}</ErrorMessage>
-                <ErrorMessage>${error.stack}</ErrorMessage>
-                <Button
-                  onClick={() => {
-                    resetErrorBoundary();
-                  }}
-                >
-                  Reset
-                </Button>
-              </>
-            );
-          }}
-        >
-          <Section>{content}</Section>
-        </ErrorBoundary>
-        {isEditorOpen && (
-          <TextEditorWrapper>
-            <TextEditor
-              value={contentStr}
-              onChange={(v) => {
-                setContentStr(v.currentTarget.value);
-              }}
+              return (
+                <>
+                  <ErrorMessage>It blew up</ErrorMessage>
+                  <ErrorMessage>${error.message}</ErrorMessage>
+                  <ErrorMessage>${error.stack}</ErrorMessage>
+                  <Button
+                    onClick={() => {
+                      resetErrorBoundary();
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </>
+              );
+            }}
+          >
+            <Section>{content}</Section>
+          </ErrorBoundary>
+          {isEditorOpen && (
+            <ArticleEditor
+              contentStr={contentStr}
+              setContentStr={setContentStr}
+              oldContentStr={oldContentStr}
+              setOldContentStr={setOldContentStr}
+              dirty={dirty}
+              error={error}
+              article={article}
             />
-            <ButtonWrapper>
-              <Button
-                disabled={!dirty}
-                onClick={() => {
-                  setContentStr(oldContentStr);
-                }}
-              >
-                Reset
-              </Button>
-              <Button
-                disabled={!dirty || !article}
-                onClick={async () => {
-                  const { data } = await updateArticle({
-                    variables: {
-                      id: article!.id,
-                      data: {
-                        content: contentStr,
-                      },
-                    },
-                  });
-
-                  setOldContentStr(data?.updateArticle?.content ?? undefined);
-                  setContentStr(data?.updateArticle?.content ?? undefined);
-                }}
-              >
-                Submit
-              </Button>
-            </ButtonWrapper>
-            <ErrorMessage>{error}</ErrorMessage>
-          </TextEditorWrapper>
-        )}
+          )}
+        </>
       </ArticleStyled>
     </Content>
   );

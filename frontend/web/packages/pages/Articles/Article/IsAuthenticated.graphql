@@ -1,0 +1,9 @@
+query IsAuthenticated {
+  isAuthenticated {
+    isAuthenticated
+    user {
+      email
+      role   
+    }
+  }
+}

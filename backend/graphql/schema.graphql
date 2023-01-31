@@ -32,6 +32,7 @@ type Mutation {
 type Query {
   article(articleId: Int, id: String): article
   articles(orderBy: ArticleSortOrder, searchString: String, skip: Int, take: Int): [article!]!
+  isAuthenticated: UserAuthenticated
 }
 
 enum SortOrder {
@@ -41,6 +42,11 @@ enum SortOrder {
 
 type UserAuthPayload {
   token: String
+  user: user
+}
+
+type UserAuthenticated {
+  isAuthenticated: Boolean
   user: user
 }
 
