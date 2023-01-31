@@ -66,18 +66,7 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
   }, [pathname]);
 
   const hasFooter =
-    (
-      matchRoutes(
-        [
-          { path: '/' },
-          { path: '/home' },
-          // { path: '/contact' },
-          { path: '/404' },
-          { path: '/work/agi' },
-        ],
-        pathname
-      ) ?? []
-    ).length > 0;
+    (matchRoutes([{ path: '/playground' }], pathname) ?? []).length == 0;
 
   return (
     <AccessibilityProvider>
