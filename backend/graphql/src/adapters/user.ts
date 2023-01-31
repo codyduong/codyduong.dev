@@ -1,10 +1,10 @@
 import { nonNull, objectType, stringArg } from 'nexus';
 import { Adapter } from '../adapter';
 import { Context } from '../context';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { compare, hash } from 'bcryptjs';
 import { allow, deny } from 'graphql-shield';
-import { APP_SECRET } from '../utils';
+import { APP_SECRET, Token } from '../utils';
 
 export default Adapter<'user'>({
   schema: [
@@ -23,8 +23,49 @@ export default Adapter<'user'>({
         t.field('user', { type: 'user' });
       },
     }),
+    objectType({
+      name: 'UserAuthenticated',
+      definition(t) {
+        t.boolean('isAuthenticated'), t.field('user', { type: 'user' });
+      },
+    }),
   ],
   resolver: {
+    Query: (t) => {
+      t.field('isAuthenticated', {
+        type: 'UserAuthenticated',
+        args: null,
+        resolve: async (_parent, _args, context: Context) => {
+          try {
+            const authHeader = context.req.get('Authorization');
+            if (authHeader) {
+              const token = authHeader.replace('Bearer ', '');
+              const verifiedToken = verify(token, APP_SECRET) as Token;
+              const user = await context.prisma.user.findUnique({
+                where: {
+                  id: verifiedToken.id,
+                },
+              });
+              if (!user) {
+                throw new Error(
+                  `No user found for token id: ${verifiedToken.id}`
+                );
+              }
+              return {
+                isAuthenticated: user.role === 'admin',
+                user: user,
+              };
+            }
+          } catch (e) {
+            console.warn(e);
+          }
+          return {
+            isAuthenticated: false,
+            user: null,
+          };
+        },
+      });
+    },
     Mutation: (t) => {
       t.field('createUser', {
         type: 'UserAuthPayload',
@@ -74,6 +115,9 @@ export default Adapter<'user'>({
     },
   },
   permissions: {
+    Query: {
+      isAuthenticated: allow,
+    },
     Mutation: {
       // disable creating any new users
       createUser: deny,
