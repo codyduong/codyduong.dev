@@ -99,7 +99,7 @@ module.exports = {
         // 'RAZZLE_PUBLIC_DIR',
         FUNCTIONS_EMULATOR: false,
         APOLLO_SERVER_DEV: 'http://localhost:3002',
-        APOLLO_SERVER_PROD: 'http://codyduong.dev/api/',
+        APOLLO_SERVER_PROD: 'https://codyduong.dev/api/',
         APOLLO_SERVER_EMULATE: 'http://localhost:5000/api/',
         APOLLO_ADMIN_TOKEN: 'Bearer Unset',
       })
