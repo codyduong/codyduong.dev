@@ -5,6 +5,7 @@ import loadable from 'packages/components/SpinkitLoadable';
 import classNames from 'classnames';
 import { useState } from 'react';
 import Redirect from 'packages/http/Redirect';
+import { commoncss } from 'packages/style';
 
 const AGI = loadable(() => import('./agi/index'));
 
@@ -13,17 +14,39 @@ const Section = styled.section`
   height: 100%;
   justify-content: center;
   align-items: center;
-  transition: all 750ms;
+  transition: box-shadow 750ms;
 
-  &.hovering-agi {
-    box-shadow: inset 100vw 0 0 0 #006b36;
-  }
+  ${() =>
+    commoncss.animation({
+      enabled: css`
+        &.hovering-agi {
+          box-shadow: inset 100vw 0 0 0 #006b36;
+        }
+      `,
+    })}
 `;
 
 const transitionColor = css`
   transition: color 750ms;
   &.fulldark {
     color: ${({ theme }) => theme.color.text[600]};
+  }
+
+  &.otherlight {
+    transition: color 225ms;
+    color: ${({ theme }) => theme.color.base[300]};
+  }
+
+  & {
+    ${() =>
+      commoncss.animation({
+        disabled: css`
+          &.light {
+            transition: color 225ms;
+            color: ${({ theme }) => theme.color.base[300]};
+          }
+        `,
+      })}
   }
 `;
 
@@ -124,12 +147,14 @@ const Work = (): JSX.Element => {
 
   const workSectionClassnames = classNames('work-section', {
     ['hovering-agi']: hovering == 'agi',
+    ['hovering-other']: hovering == 'other',
   });
   const agiTextClassname = classNames({
     ['light']: hovering == 'agi',
     ['fulldark']: hovering && hovering != 'agi',
   });
   const otherTextClassname = classNames({
+    ['otherlight']: hovering == 'other',
     ['fulldark']: hovering && hovering != 'other',
   });
 
@@ -162,6 +187,13 @@ const Work = (): JSX.Element => {
               />
               <Workplace
                 to={'/playground/'}
+                onClick={() => setHovering(null)}
+                onMouseEnter={() => setHovering('other')}
+                onMouseLeave={() =>
+                  setHovering((prevstate) =>
+                    prevstate == 'other' ? null : prevstate
+                  )
+                }
                 classname={'Other'}
                 dateString={'Always Ongoing'}
                 workplaceTitle={'Other Projects'}

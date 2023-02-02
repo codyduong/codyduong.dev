@@ -5,7 +5,7 @@ import T from 'packages/components/Typography';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import GetArticles from './GetArticles.graphql';
-import loadable from 'packages/components/SpinkitLoadable';
+import loadable, { Spinner } from 'packages/components/SpinkitLoadable';
 import { Link } from 'packages/components/A';
 
 const Article = loadable(
@@ -33,8 +33,16 @@ const ArticleLi = styled.li`
   cursor: pointer;
 `;
 
+const Li = styled.li`
+  all: unset;
+`;
+
+const StyledSpinner = styled(Spinner)`
+  height: 6rem;
+`;
+
 const Articles = (): JSX.Element => {
-  const { data, error } = useQuery(GetArticles, {});
+  const { data, error, loading } = useQuery(GetArticles, {});
 
   return (
     <Routes>
@@ -46,7 +54,7 @@ const Articles = (): JSX.Element => {
               <T.H1>articles</T.H1>
               <T.P2>Welcome to the place I dump ideas and opinions</T.P2>
               <T.P2>This page is still under construction</T.P2>
-              <ArticleUl>
+              <ArticleUl aria-busy={loading}>
                 {data?.articles.map((article) => {
                   return (
                     <ArticleLi key={article.id}>
@@ -54,13 +62,18 @@ const Articles = (): JSX.Element => {
                     </ArticleLi>
                   );
                 })}
+                {loading && (
+                  <Li>
+                    <StyledSpinner />
+                  </Li>
+                )}
+                {!!error && (
+                  <Li>
+                    <T.P2>There was an error loading the articles</T.P2>
+                    <T.P2>{error.message}</T.P2>
+                  </Li>
+                )}
               </ArticleUl>
-              {!!error && (
-                <>
-                  <T.P2>There was an error loading the articles</T.P2>
-                  <T.P2>{error.message}</T.P2>
-                </>
-              )}
             </Section>
           </Content>
         }

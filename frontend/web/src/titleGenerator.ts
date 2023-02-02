@@ -14,7 +14,7 @@ const PATH_TO_TITLE = {
  * List of special paths we want to override with a custom string
  */
 const FULL_PATHS_OVERRIDE = {
-  '/work/agi/': 'AGI',
+  '/work/agi': 'AGI',
   '/': 'Home',
   '': 'Home',
 };

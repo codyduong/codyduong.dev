@@ -47,6 +47,7 @@ const NavbarMenuComponent = styled.menu`
 
       &.searching {
         height: calc(100vh - 0rem);
+        top: 0;
       }
     }
   }

@@ -7,7 +7,7 @@ import LOGIN_USER from './LoginUser.graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import * as runtime from 'react/jsx-runtime';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useUrlSearchParams } from 'packages/mono-app/UrlSearchParamsContext';
 import T from 'packages/components/Typography';
 import Content from 'packages/components/Content';
@@ -16,7 +16,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 import Button from 'packages/components/Button';
 import Link from 'packages/components/A';
 import { GetArticleQuery } from 'graphql-gen/types';
-import { setContext } from '@apollo/client/link/context';
 
 interface ArticleEditorProps {
   contentStr: string | undefined;
@@ -109,7 +108,7 @@ const ArticleEditor = ({
       />
       <ButtonWrapper>
         <Button
-          disabled={loading || isLoggingIn || !dirty}
+          disabled={loading || isLoggingIn || !isAuthenticated || !dirty}
           onClick={() => {
             setContentStr(oldContentStr);
           }}
@@ -117,7 +116,9 @@ const ArticleEditor = ({
           Reset
         </Button>
         <Button
-          disabled={loading || isLoggingIn || !dirty || !article}
+          disabled={
+            loading || isLoggingIn || !isAuthenticated || !dirty || !article
+          }
           onClick={async () => {
             const { data } = await updateArticle({
               variables: {
@@ -193,6 +194,18 @@ const Article = (): JSX.Element | null => {
   const [error, setError] = useState('');
   const [content, setContent] = useState<React.ReactNode>();
 
+  const evaluatePromise = useMemo(
+    async () =>
+      contentStr
+        ? await evaluate(contentStr, {
+            Fragment: undefined,
+            ...runtime,
+            format: 'mdx',
+          })
+        : { default: undefined },
+    [contentStr]
+  );
+
   useEffect(() => {
     setOldContentStr(article?.content ?? undefined);
     setContentStr(article?.content ?? undefined);
@@ -202,20 +215,16 @@ const Article = (): JSX.Element | null => {
     if (contentStr) {
       (async () => {
         try {
-          const { default: MDXContent } = await evaluate(contentStr, {
-            Fragment: undefined,
-            ...runtime,
-            format: 'mdx',
-          });
+          const { default: MDXContent } = await evaluatePromise;
 
-          setContent(MDXContent({ components: COMPONENTS }));
+          setContent(MDXContent?.({ components: COMPONENTS }));
           setError('');
         } catch (e) {
           setError(`${e as any}`);
         }
       })();
     }
-  }, [contentStr]);
+  }, [evaluatePromise]);
 
   const dirty = oldContentStr !== contentStr;
 

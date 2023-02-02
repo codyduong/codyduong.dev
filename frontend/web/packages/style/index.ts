@@ -2,7 +2,11 @@ import {
   AccessibilityType,
   useAccessibility,
 } from 'packages/mono-app/AccessibilityContext';
-import { css, FlattenSimpleInterpolation } from 'styled-components';
+import {
+  css,
+  FlattenInterpolation,
+  FlattenSimpleInterpolation,
+} from 'styled-components';
 
 export { default as breakpoints } from './breakpoints';
 export const commoncss = {
@@ -57,8 +61,14 @@ export const commoncss = {
     }
   },
   animation: <
-    T extends string | FlattenSimpleInterpolation = FlattenSimpleInterpolation,
-    U extends string | FlattenSimpleInterpolation = FlattenSimpleInterpolation
+    T extends
+      | string
+      | FlattenSimpleInterpolation
+      | FlattenInterpolation<any> = FlattenSimpleInterpolation,
+    U extends
+      | string
+      | FlattenSimpleInterpolation
+      | FlattenInterpolation<any> = FlattenSimpleInterpolation
   >(opts: {
     enabled?: T;
     disabled?: U;
