@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { Paragraph } from 'packages/components/Typography';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import A from 'packages/components/A';
 import color from 'color';
 import CloseIcon from '@mui/icons-material/Close';
@@ -41,34 +41,56 @@ const NavbarMenuComponent = styled.menu`
   transition: all 500ms ease-in-out 0s;
   transition-property: height, top, max-height;
 
-  @media not screen and (min-width: ${breakpoints.xl}) {
-    &.open {
-      height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
+  & {
+    ${() =>
+      commoncss.animation({
+        enabled: css`
+          @media not screen and (min-width: ${breakpoints.xl}) {
+            &.open {
+              height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
 
-      &.searching {
-        height: calc(100vh - 0rem);
-        top: 0;
-      }
-    }
-  }
-  @media only screen and (min-width: ${breakpoints.xl}) {
-    min-width: 600px;
-    width: 50vw;
-    // transform: translateX(50%) translateX(-50vw);
-    transform: translateX(-10%);
-    border-radius: 0 0
-      ${({ theme }) => `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
+              &.searching {
+                height: calc(100vh - 0rem);
+                top: 0;
+              }
+            }
+          }
+          @media only screen and (min-width: ${breakpoints.xl}) {
+            min-width: 600px;
+            width: 50vw;
+            // transform: translateX(50%) translateX(-50vw);
+            transform: translateX(-10%);
+            border-radius: 0 0
+              ${({ theme }) =>
+                `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
 
-    &.open {
-      /* background-color: ${({ theme }) => theme.color.surface[400]}; */
-      height: 400px;
-    }
-  }
-  &.close {
-    & > ${MenuItem} {
-      box-shadow: inset 100vw 0 5rem 0
-        ${({ theme }) => theme.color.surface[400]};
-    }
+            &.open {
+              /* background-color: ${({ theme }) =>
+                theme.color.surface[400]}; */
+              height: 400px;
+            }
+          }
+
+          &.close {
+            & > ${MenuItem} {
+              box-shadow: inset 100vw 0 5rem 0
+                ${({ theme }) => theme.color.surface[400]};
+            }
+          }
+        `,
+        disabled: css`
+          opacity: 0;
+          &.open {
+            transition: opacity 225ms ease-in-out 0s;
+            height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
+            opacity: 1;
+          }
+          &.close {
+            transition: opacity 225ms ease-in-out 0s, height 0s 225ms;
+            opacity: 0;
+          }
+        `,
+      })}
   }
 `;
 
