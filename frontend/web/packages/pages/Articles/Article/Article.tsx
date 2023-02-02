@@ -16,6 +16,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import Button from 'packages/components/Button';
 import Link from 'packages/components/A';
 import { GetArticleQuery } from 'graphql-gen/types';
+import { useLocalStorage } from 'packages/context/LocalStorageContext';
 
 interface ArticleEditorProps {
   contentStr: string | undefined;
@@ -45,6 +46,8 @@ const ArticleEditor = ({
   } = useQuery(IS_AUTHENTICATED, {
     fetchPolicy: 'network-only',
   });
+  const LocalStorage = useLocalStorage();
+
   const [loginUser] = useMutation(LOGIN_USER);
 
   const isAuthenticated = auth?.isAuthenticated?.isAuthenticated;
@@ -85,9 +88,11 @@ const ArticleEditor = ({
                 },
               });
 
-              localStorage.setItem(
+              LocalStorage?.setItem(
                 'token',
-                data?.loginUser?.token ? `Bearer ${data.loginUser.token}` : ''
+                data?.loginUser?.token
+                  ? `Bearer ${data.loginUser.token}`
+                  : 'Bearer Unset'
               );
 
               client.resetStore();

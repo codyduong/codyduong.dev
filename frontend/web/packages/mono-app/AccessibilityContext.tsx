@@ -1,7 +1,8 @@
+import { useLocalStorage } from 'packages/context/LocalStorageContext';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 export type AccessibilityType = {
-  paragraphWidth?: number | undefined;
+  paragraphWidth: number | undefined;
   setParagraphWidth: React.Dispatch<React.SetStateAction<number | undefined>>;
   disableInteractionAnimations: boolean;
   setDisableInteractionAnimations: React.Dispatch<
@@ -11,40 +12,59 @@ export type AccessibilityType = {
 
 /* eslint-disable @typescript-eslint/no-empty-function, no-empty-function */
 const defaultValue = {
+  paragraphWidth: undefined,
   setParagraphWidth: () => {},
   disableInteractionAnimations: false,
   setDisableInteractionAnimations: () => {},
-};
+} as const;
 /* eslint-enable @typescript-eslint/no-empty-function, no-empty-function */
 
 const AccessibilityContext = createContext<AccessibilityType>(defaultValue);
 
 export const AccessibilityProvider = ({
-  value,
   children,
 }: {
-  value?: Partial<
-    Pick<AccessibilityType, 'paragraphWidth' | 'disableInteractionAnimations'>
-  >;
   children: React.ReactNode;
 }): JSX.Element => {
-  const [paragraphWidth, setParagraphWidth] = useState<number | undefined>(
-    value?.paragraphWidth
-  );
+  const LocalStorage = useLocalStorage();
+  const [paragraphWidth, setParagraphWidth] = useState<number>();
   const [disableInteractionAnimations, setDisableInteractionAnimations] =
-    useState(
-      value?.disableInteractionAnimations ?? typeof window !== 'undefined'
+    useState(false);
+
+  useEffect(() => {
+    const paragraphWidthString = LocalStorage?.getItem('paragraphWidth');
+    const disableInteractionAnimationsString = LocalStorage?.getItem(
+      'disableInteractionAnimations'
+    );
+    setParagraphWidth(
+      paragraphWidthString == undefined
+        ? undefined
+        : paragraphWidthString === ''
+        ? undefined
+        : Number(paragraphWidthString)
+    );
+    setDisableInteractionAnimations(
+      disableInteractionAnimationsString === 'true' ||
+        disableInteractionAnimationsString === 'false'
+        ? disableInteractionAnimationsString === 'true'
+        : typeof window !== 'undefined'
         ? window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true
         : false
     );
+  }, [LocalStorage]);
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     setDisableInteractionAnimations(
-  //       window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true
-  //     );
-  //   }
-  // }, []);
+  useEffect(() => {
+    paragraphWidth == undefined
+      ? LocalStorage?.removeItem('paragraphWidth')
+      : LocalStorage?.setItem('paragraphWidth', `${paragraphWidth}`);
+  }, [paragraphWidth]);
+
+  useEffect(() => {
+    LocalStorage?.setItem(
+      'disableInteractionAnimations',
+      `${disableInteractionAnimations}`
+    );
+  }, [disableInteractionAnimations]);
 
   return (
     <AccessibilityContext.Provider

@@ -26,9 +26,14 @@ const NavbarAccessibleSettingsModal = ({
   open,
   setOpen,
 }: NavbarSettingsModalProps): JSX.Element => {
-  const { disableInteractionAnimations, setDisableInteractionAnimations } =
-    useAccessibility();
-  const [checked, setCheckedObject] = useState<NavbarSettingsChecks>({});
+  const {
+    disableInteractionAnimations,
+    setDisableInteractionAnimations,
+    paragraphWidth,
+  } = useAccessibility();
+  const [checked, setCheckedObject] = useState<NavbarSettingsChecks>({
+    paragraphWidth: !!paragraphWidth,
+  });
 
   const setChecked = (s: NavbarSettingChecksKeys) => {
     return (b: boolean) => {
