@@ -40,50 +40,49 @@ const NavbarMenuComponent = styled.menu`
 
   background-color: inherit;
   transition: all 500ms ease-in-out 0s;
-  transition-property: height, top, max-height;
+
+  @media not screen and (min-width: ${breakpoints.xl}) {
+    &.open {
+      height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
+
+      &.searching {
+        height: calc(100vh - 0rem);
+        top: 0;
+      }
+    }
+  }
+
+  @media only screen and (min-width: ${breakpoints.xl}) {
+    min-width: 600px;
+    width: 50vw;
+    transform: translateX(50%) translateX(-50vw);
+    // transform: translateX(-10%);
+    border-radius: 0 0
+      ${({ theme }) => `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
+
+    &.open {
+      /* background-color: ${({ theme }) => theme.color.surface[400]}; */
+      height: 400px;
+    }
+  }
+
+  &.close {
+    & > ${MenuItem} {
+      box-shadow: inset 100vw 0 5rem 0
+        ${({ theme }) => theme.color.surface[400]};
+    }
+  }
 
   & {
     ${() =>
       commoncss.animation({
         enabled: css`
-          @media not screen and (min-width: ${breakpoints.xl}) {
-            &.open {
-              height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
-
-              &.searching {
-                height: calc(100vh - 0rem);
-                top: 0;
-              }
-            }
-          }
-          @media only screen and (min-width: ${breakpoints.xl}) {
-            min-width: 600px;
-            width: 50vw;
-            transform: translateX(50%) translateX(-50vw);
-            // transform: translateX(-10%);
-            border-radius: 0 0
-              ${({ theme }) =>
-                `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
-
-            &.open {
-              /* background-color: ${({ theme }) =>
-                theme.color.surface[400]}; */
-              height: 400px;
-            }
-          }
-
-          &.close {
-            & > ${MenuItem} {
-              box-shadow: inset 100vw 0 5rem 0
-                ${({ theme }) => theme.color.surface[400]};
-            }
-          }
+          transition-property: height, top, max-height;
         `,
         disabled: css`
           opacity: 0;
           &.open {
             transition: opacity 225ms ease-in-out 0s;
-            height: calc(100vh - ${(props) => props.theme.spacing.rem[300]});
             opacity: 1;
           }
           &.close {

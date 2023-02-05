@@ -1,5 +1,5 @@
 import { Typography } from 'packages/components/Typography';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import A from 'packages/components/A';
@@ -20,7 +20,7 @@ const TrapFocus = styled.div`
 const Header = styled.header`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   position: sticky;
   width: 100%;
@@ -46,6 +46,14 @@ const Nav = styled.nav`
 
   background-color: inherit;
   box-sizing: border-box;
+
+  ${() =>
+    commoncss.animation({
+      enabled: css`
+        transition: all 750ms ease-in-out;
+        transition-property: padding;
+      `,
+    })}
 
   padding: ${(props) =>
     `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};

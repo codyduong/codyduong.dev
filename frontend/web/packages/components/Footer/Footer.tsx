@@ -1,13 +1,22 @@
 import A, { Link } from 'packages/components/A';
 import { LINKS } from 'packages/pages/links/Links';
-import { breakpoints } from 'packages/style';
-import styled, { useTheme } from 'styled-components';
+import { breakpoints, commoncss } from 'packages/style';
+import styled, { css, useTheme } from 'styled-components';
 
 const FooterStyled = styled.footer`
   background-color: ${({ theme }) => theme.color.surface[350]};
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+
+  ${() =>
+    commoncss.animation({
+      enabled: css`
+        transition: all 750ms ease-in-out;
+        transition-property: padding;
+      `,
+    })}
+
   padding: ${({ theme }) =>
     `${theme.spacing.px[100]} ${theme.spacing.px[150]}`};
 
