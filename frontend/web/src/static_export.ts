@@ -10,5 +10,5 @@ export const render = async (req, res) => {
 };
 
 export const routes = () => {
-  return ['/', '/home/', '/links/', '/work/', '/articles/', '/contact/', '/404/', '/work/agi/'];
+  return ['/', '/home/', '/links/', '/work/', '/posts/', '/contact/', '/404/', '/work/agi/'];
 };

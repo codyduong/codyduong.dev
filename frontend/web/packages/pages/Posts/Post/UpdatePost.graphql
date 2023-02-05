@@ -1,0 +1,5 @@
+mutation UpdatePost($data: PostUpdateInput!, $id: String!) {
+  updatePost(data: $data, id: $id) {
+    content
+  }
+}

@@ -5,14 +5,24 @@
  * DO NOT EDIT MANUALLY
  */
     
-declare module '*GetArticle.graphql' {
+declare module '*GetPosts.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-  import { GetArticleQuery, GetArticleQueryVariables } from 'graphql-gen/types';
-  const GetArticleDocument: DocumentNode<
-    GetArticleQuery,
-    GetArticleQueryVariables
+  import { GetPostsQuery, GetPostsQueryVariables } from 'graphql-gen/types';
+  const GetPostsDocument: DocumentNode<
+    GetPostsQuery,
+    GetPostsQueryVariables
   >;
-  export default GetArticleDocument;
+  export default GetPostsDocument;
+}
+
+declare module '*GetPost.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { GetPostQuery, GetPostQueryVariables } from 'graphql-gen/types';
+  const GetPostDocument: DocumentNode<
+    GetPostQuery,
+    GetPostQueryVariables
+  >;
+  export default GetPostDocument;
 }
 
 declare module '*IsAuthenticated.graphql' {
@@ -35,22 +45,12 @@ declare module '*LoginUser.graphql' {
   export default LoginUserDocument;
 }
 
-declare module '*UpdateArticle.graphql' {
+declare module '*UpdatePost.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-  import { UpdateArticleMutation, UpdateArticleMutationVariables } from 'graphql-gen/types';
-  const UpdateArticleDocument: DocumentNode<
-    UpdateArticleMutation,
-    UpdateArticleMutationVariables
+  import { UpdatePostMutation, UpdatePostMutationVariables } from 'graphql-gen/types';
+  const UpdatePostDocument: DocumentNode<
+    UpdatePostMutation,
+    UpdatePostMutationVariables
   >;
-  export default UpdateArticleDocument;
-}
-
-declare module '*GetArticles.graphql' {
-  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-  import { GetArticlesQuery, GetArticlesQueryVariables } from 'graphql-gen/types';
-  const GetArticlesDocument: DocumentNode<
-    GetArticlesQuery,
-    GetArticlesQueryVariables
-  >;
-  export default GetArticlesDocument;
+  export default UpdatePostDocument;
 }

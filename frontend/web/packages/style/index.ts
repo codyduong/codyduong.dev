@@ -1,7 +1,7 @@
 import {
-  AccessibilityType,
   useAccessibility,
-} from 'packages/mono-app/AccessibilityContext';
+  AccessibilityType,
+} from 'packages/mono-app/context/AccessibilityContext';
 import {
   css,
   FlattenInterpolation,

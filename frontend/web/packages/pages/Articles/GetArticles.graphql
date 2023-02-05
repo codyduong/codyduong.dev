@@ -1,8 +1,0 @@
-query GetArticles {
-  articles {
-    id
-    articleId
-    title
-    updatedAt
-  }
-}

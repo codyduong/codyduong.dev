@@ -12,6 +12,10 @@ const FooterStyled = styled.footer`
     `${theme.spacing.px[100]} ${theme.spacing.px[150]}`};
 
   @media only screen and (min-width: ${breakpoints.md}) {
+    padding: ${({ theme }) => `${theme.spacing.px[200]} calc(10vw)`};
+  }
+
+  @media only screen and (min-width: ${breakpoints.lg}) {
     padding: ${({ theme }) => `${theme.spacing.px[200]} calc(20vw)`};
   }
 `;

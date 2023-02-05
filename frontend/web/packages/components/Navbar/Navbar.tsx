@@ -9,7 +9,7 @@ import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { commoncss } from 'packages/style';
+import { breakpoints, commoncss } from 'packages/style';
 import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
@@ -40,14 +40,23 @@ const Nav = styled.nav`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: ${(props) =>
-    `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
   position: sticky;
   width: 100%;
   height: ${(props) => props.theme.spacing.rem[300]};
 
   background-color: inherit;
   box-sizing: border-box;
+
+  padding: ${(props) =>
+    `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
+
+  @media only screen and (min-width: ${breakpoints.md}) {
+    padding: ${({ theme }) => `${theme.spacing.px(75)} calc(10vw)`};
+  }
+
+  @media only screen and (min-width: ${breakpoints.lg}) {
+    padding: ${({ theme }) => `${theme.spacing.px(75)} calc(20vw)`};
+  }
 `;
 
 const Name = styled(A.Link)`
@@ -215,13 +224,9 @@ const Navbar = (): JSX.Element => {
 
   const location = useLocation();
   const pathnameFormatted = location.pathname.split('/')[1];
-  const _currentlyAt = [
-    'home',
-    'work',
-    'articles',
-    'contact',
-    'links',
-  ].includes(pathnameFormatted)
+  const _currentlyAt = ['home', 'work', 'posts', 'contact', 'links'].includes(
+    pathnameFormatted
+  )
     ? pathnameFormatted
     : 'home';
 

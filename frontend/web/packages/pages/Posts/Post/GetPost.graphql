@@ -1,0 +1,7 @@
+query GetPost($postId: Int) {
+  post(postId: $postId) {
+    title
+    content
+    id
+  }
+}

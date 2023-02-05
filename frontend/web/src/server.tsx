@@ -30,6 +30,7 @@ import {
   createHttpLink,
   InMemoryCache,
 } from '@apollo/client';
+import { CookiesProvider, Cookies } from 'react-cookie';
 import fetch from 'cross-fetch';
 import * as dotenv from 'dotenv';
 dotenv.config({ debug: true, override: false });
@@ -131,12 +132,14 @@ export const renderApp = async (
   const AppWithContexts = (
     <HttpContextProvider context={context}>
       <ApolloProvider client={client}>
-        <StaticRouter location={req.url}>
-          {/* @ts-expect-error: todo */}
-          <ChunkExtractorManager extractor={extractor}>
-            <App query={req.query} />
-          </ChunkExtractorManager>
-        </StaticRouter>
+        <CookiesProvider cookies={new Cookies(req.headers.cookie)}>
+          <StaticRouter location={req.url}>
+            {/* @ts-expect-error: todo */}
+            <ChunkExtractorManager extractor={extractor}>
+              <App query={req.query} />
+            </ChunkExtractorManager>
+          </StaticRouter>
+        </CookiesProvider>
       </ApolloProvider>
     </HttpContextProvider>
   );
@@ -177,7 +180,7 @@ export const renderApp = async (
           content="Cody Duong's personal website"
         />
         <title>
-          ${generateTitleTag(req.url)}
+          ${generateTitleTag(req.url, state)}
         </title>
         ${cssLinksFromAssets(assets, 'client')}
         ${linkTags}

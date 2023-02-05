@@ -5,7 +5,6 @@ import Section from 'packages/components/Section';
 import Content from 'packages/components/Content';
 import A, { Link } from 'packages/components/A';
 import { commoncss } from 'packages/style';
-import { useAccessibility } from 'packages/mono-app/AccessibilityContext';
 
 const SectionContainer = styled.div``;
 
@@ -90,11 +89,8 @@ const Home = (): JSX.Element => {
             built with React for clientside, Express for the server, and
             RazzleJS for configuration. Deployed via Google Hosting and Google
             Cloud Functions. Read more about{' '}
-            <Link.Styled to="/articles/0">
-              how this website was built
-            </Link.Styled>{' '}
-            at my <Link.Styled to="/articles">blog</Link.Styled> or check out
-            the{' '}
+            <Link.Styled to="/posts/0">how this website was built</Link.Styled>{' '}
+            at my <Link.Styled to="/posts">posts</Link.Styled> or check out the{' '}
             <A.Styled href="https://github.com/codyduong/codyduong.dev">
               repository
             </A.Styled>

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import Input from 'packages/components/Input';
-import { useAccessibility } from 'packages/mono-app/AccessibilityContext';
+import { useAccessibility } from 'packages/mono-app/context/AccessibilityContext';
 import { commoncss } from 'packages/style';
 import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';

@@ -4,14 +4,17 @@ import { useThemeBase } from 'packages/themed';
 import loadable from 'packages/components/SpinkitLoadable';
 import Page from 'packages/pages/Page';
 import { TheatreProvider } from 'packages/components/3D/TheatreContext';
-import { QueryProvider } from 'packages/mono-app/UrlSearchParamsContext';
+import { QueryProvider } from 'packages/mono-app/context/UrlSearchParamsContext';
 import { useMemo, useEffect } from 'react';
-import generateTitleTag from 'titleGenerator';
+import generateTitleTag, { WEBSITE_NAME } from 'titleGenerator';
 import Redirect from 'packages/http/Redirect';
-import { BypassProvider } from 'packages/mono-app/BypassContext';
+import { BypassProvider } from 'packages/mono-app/context/BypassContext';
 import Bypass from 'packages/mono-app/Bypass';
-import { AccessibilityProvider } from 'packages/mono-app/AccessibilityContext';
-import { LocalStorageProvider } from 'packages/context/LocalStorageContext';
+import { AccessibilityProvider } from 'packages/mono-app/context/AccessibilityContext';
+import {
+  TitleProvider,
+  useTitle,
+} from 'packages/mono-app/context/TitleContext';
 
 const Home = loadable(
   () => import(/* webpackPrefetch: true */ 'packages/pages/Home')
@@ -33,14 +36,32 @@ const Links = loadable(
 const Work = loadable(
   () => import(/* webpackPrefetch: true */ 'packages/pages/Work')
 );
-const Articles = loadable(
-  () => import(/* webpackPrefetch: true */ 'packages/pages/Articles')
+const Posts = loadable(
+  () => import(/* webpackPrefetch: true */ 'packages/pages/Posts')
 );
 
 const useBrowserQuery = (): InstanceType<typeof URLSearchParams> => {
   const { search } = useLocation();
 
   return useMemo(() => new URLSearchParams(search), [search]);
+};
+
+const Titler = (): null => {
+  const { pathname } = useLocation();
+  const { prefixOverride } = useTitle();
+
+  useEffect(() => {
+    if (document) {
+      if (!prefixOverride) {
+        const state = window.__APOLLO_STATE__;
+        document.title = generateTitleTag(pathname, state);
+      } else {
+        document.title = prefixOverride + ' - ' + WEBSITE_NAME;
+      }
+    }
+  }, [pathname, prefixOverride]);
+
+  return null;
 };
 
 interface AppProps {
@@ -60,23 +81,18 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
 
   const { pathname } = useLocation();
 
-  useEffect(() => {
-    if (document) {
-      document.title = generateTitleTag(pathname);
-    }
-  }, [pathname]);
-
   const hasFooter =
     (matchRoutes([{ path: '/playground' }], pathname) ?? []).length == 0;
 
   return (
-    <LocalStorageProvider>
-      <AccessibilityProvider>
-        <ThemeProvider theme={theme}>
-          <QueryProvider
-            query={serverQuery.keys.length > 0 ? serverQuery : browserQuery}
-          >
-            <TheatreProvider>
+    <AccessibilityProvider>
+      <ThemeProvider theme={theme}>
+        <QueryProvider
+          query={serverQuery.keys.length > 0 ? serverQuery : browserQuery}
+        >
+          <TheatreProvider>
+            <TitleProvider>
+              <Titler />
               <BypassProvider>
                 <Bypass />
                 <Page hasFooter={hasFooter}>
@@ -93,18 +109,18 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                       element={<WebAccessibilityStatement />}
                     />
                     <Route path="/playground" element={<Construction3D />} />
-                    <Route path="/articles/*" element={<Articles />} />
+                    <Route path="/posts/*" element={<Posts />} />
                     <Route path="/contact" element={<Links />} />
                     <Route path="/404" element={<NotFound />} />
                     <Route path="*" element={<Redirect to={'/404'} />} />
                   </Routes>
                 </Page>
               </BypassProvider>
-            </TheatreProvider>
-          </QueryProvider>
-        </ThemeProvider>
-      </AccessibilityProvider>
-    </LocalStorageProvider>
+            </TitleProvider>
+          </TheatreProvider>
+        </QueryProvider>
+      </ThemeProvider>
+    </AccessibilityProvider>
   );
 }
 

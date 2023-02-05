@@ -11,12 +11,10 @@ import {
 } from '@apollo/client';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
+import { CookiesProvider } from 'react-cookie';
 
 const httpLink = new HttpLink({
-  uri:
-    typeof window.__GRAPHQLURL__ === 'string'
-      ? window.__GRAPHQLURL__
-      : JSON.parse(window.__GRAPHQLURL__),
+  uri: window.__GRAPHQLURL__,
   fetch,
 });
 
@@ -24,16 +22,22 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: localStorage.getItem('token') ?? window.__TOKEN__ ?? '',
+      authorization:
+        (() => {
+          try {
+            return JSON.parse(localStorage.getItem('token')!);
+          } catch {
+            return localStorage.getItem('token');
+          }
+        })() ??
+        window.__TOKEN__ ??
+        '',
     },
   };
 });
 
 const client = new ApolloClient({
-  cache:
-    typeof window.__APOLLO_STATE__ === 'object'
-      ? new InMemoryCache().restore(window.__APOLLO_STATE__)
-      : new InMemoryCache().restore(JSON.parse(window.__APOLLO_STATE__)),
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
   link: authLink.concat(httpLink),
   ssrForceFetchDelay: 100, // in milliseconds
 });
@@ -42,11 +46,13 @@ loadableReady(() => {
   hydrateRoot(
     document.getElementById('root')!,
     // <React.StrictMode>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <App query={null} />
-      </BrowserRouter>
-    </ApolloProvider>
+    <CookiesProvider>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <App query={null} />
+        </BrowserRouter>
+      </ApolloProvider>
+    </CookiesProvider>
     // </React.StrictMode>
   );
 });

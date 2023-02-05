@@ -3,7 +3,7 @@ import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 import { useEffect, useRef } from 'react';
-import { useBypass } from 'packages/mono-app/BypassContext';
+import { useBypass } from 'packages/mono-app/context/BypassContext';
 
 const PageDiv = styled.div`
   width: 100vw;

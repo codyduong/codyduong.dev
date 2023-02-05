@@ -1,5 +1,5 @@
 import utils from 'packages/components/utils';
-import { useBypass } from 'packages/mono-app/BypassContext';
+import { useBypass } from 'packages/mono-app/context/BypassContext';
 import styled from 'styled-components';
 
 const BypassDiv = styled.div`

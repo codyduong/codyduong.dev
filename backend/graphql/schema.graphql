@@ -2,37 +2,37 @@
 ### Do not make changes to this file directly
 
 
-input ArticleCreateInput {
-  content: String
-  title: String!
-}
-
-input ArticleSortOrder {
-  updatedAt: SortOrder!
-}
-
-input ArticleUpdateInput {
-  content: String
-  title: String
-}
-
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
 type Mutation {
-  createArticle(data: ArticleCreateInput!): article
+  createPost(data: PostCreateInput!): post
   createUser(email: String!, password: String!): UserAuthPayload
-  deleteArticle(id: String!): article
+  deletePost(id: String!): post
   loginUser(email: String!, password: String!): UserAuthPayload
-  updateArticle(data: ArticleUpdateInput!, id: String!): article
+  updatePost(data: PostUpdateInput!, id: String!): post
+}
+
+input PostCreateInput {
+  content: String
+  title: String!
+}
+
+input PostSortOrder {
+  updatedAt: SortOrder!
+}
+
+input PostUpdateInput {
+  content: String
+  title: String
 }
 
 type Query {
-  article(articleId: Int, id: String): article
-  articles(orderBy: ArticleSortOrder, searchString: String, skip: Int, take: Int): [article!]!
   isAuthenticated: UserAuthenticated
+  post(id: String, postId: Int): post
+  posts(orderBy: PostSortOrder, searchString: String, skip: Int, take: Int): [post!]!
 }
 
 enum SortOrder {
@@ -50,11 +50,11 @@ type UserAuthenticated {
   user: user
 }
 
-type article {
-  articleId: Int!
+type post {
   content: String
   createdAt: DateTime!
   id: String!
+  postId: Int!
   title: String!
   updatedAt: DateTime!
 }

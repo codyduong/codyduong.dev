@@ -58,8 +58,8 @@ const NavbarMenuComponent = styled.menu`
           @media only screen and (min-width: ${breakpoints.xl}) {
             min-width: 600px;
             width: 50vw;
-            // transform: translateX(50%) translateX(-50vw);
-            transform: translateX(-10%);
+            transform: translateX(50%) translateX(-50vw);
+            // transform: translateX(-10%);
             border-radius: 0 0
               ${({ theme }) =>
                 `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
@@ -274,8 +274,8 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
           <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
             playground
           </StyledLinkComponent>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/articles">
-            articles
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/posts">
+            posts
           </StyledLinkComponent>
           <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
             contact
