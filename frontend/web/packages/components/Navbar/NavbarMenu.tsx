@@ -8,6 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { breakpoints, commoncss } from 'packages/style';
 import Search from './NavbarSearch';
 import { useState } from 'react';
+import utils from 'packages/components/utils';
 
 const MenuItem = styled.li`
   all: unset;
@@ -230,9 +231,14 @@ const SearchConstructionText = styled(Paragraph.P2)`
 interface HamburgerProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  menuButton: React.RefObject<HTMLButtonElement>;
 }
 
-const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
+const NavbarMenu = ({
+  open,
+  setOpen,
+  menuButton,
+}: HamburgerProps): JSX.Element => {
   const [searching, setSearching] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
@@ -288,7 +294,10 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       <CloseItemLi role="menuitem">
         <CloseIconWrapper
           tabIndex={open ? undefined : -1}
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            menuButton.current && utils.attemptFocus(menuButton.current);
+            setOpen(false);
+          }}
           aria-label="Close Navigation Menu"
         >
           <CloseIcon role="img" />

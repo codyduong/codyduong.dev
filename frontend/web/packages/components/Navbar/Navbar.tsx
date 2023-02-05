@@ -198,6 +198,7 @@ const Navbar = (): JSX.Element => {
   const [initial, setInitial] = useState(true);
 
   const refHeader = useRef<HTMLDivElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
 
   const navClassname = classnames('navbar-root', {
     ['navbar-open']: open,
@@ -280,6 +281,7 @@ const Navbar = (): JSX.Element => {
           </NavbarListItem>
           <NavbarListItem>
             <HamburgerButton
+              ref={menuButton}
               id="nav-hamburger-button"
               onClick={() => {
                 setOpen(!open);
@@ -300,7 +302,7 @@ const Navbar = (): JSX.Element => {
             </HamburgerButton>
           </NavbarListItem>
         </NavbarListRight>
-        <NavbarMenu open={open} setOpen={setOpen} />
+        <NavbarMenu open={open} setOpen={setOpen} menuButton={menuButton} />
         <TrapFocus
           tabIndex={open ? 0 : -1}
           onFocus={() => {
