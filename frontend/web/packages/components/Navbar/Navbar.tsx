@@ -12,6 +12,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { breakpoints, commoncss } from 'packages/style';
 import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { useScroll } from 'packages/mono-app/context/ScrollContext';
 
 const TrapFocus = styled.div`
   position: absolute;
@@ -22,7 +23,7 @@ const Header = styled.header`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  position: sticky;
+  position: absolute;
   width: 100%;
   height: ${(props) => props.theme.spacing.rem[300]};
   background-color: ${(props) => props.theme.color.surface[400]};
@@ -33,6 +34,22 @@ const Header = styled.header`
   &.navbar-open {
     background-color: ${(props) => props.theme.color.surface[500]};
   }
+
+  ${() =>
+    commoncss.animation({
+      enabled: css`
+        transition: background-color 500ms, transform 500ms ease-out 100ms,
+          opacity 500ms ease-out 100ms;
+        opacity: 1;
+
+        &.navbar-hide {
+          transition: background-color 500ms, transform 500ms ease-in 100ms,
+            opacity 500ms ease-in 100ms;
+          opacity: 0;
+          transform: translateY(-100%);
+        }
+      `,
+    })}
 `;
 
 const Nav = styled.nav`
@@ -204,6 +221,8 @@ const Navbar = (): JSX.Element => {
   const [settings, setSettings] = useState(false);
   const [accessibility, setAccessibility] = useState(false);
   const [initial, setInitial] = useState(true);
+  const [focusWithin, setFocusWithin] = useState(false);
+  const { pageDirection, setPageDirection } = useScroll();
 
   const refHeader = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -211,6 +230,7 @@ const Navbar = (): JSX.Element => {
   const navClassname = classnames('navbar-root', {
     ['navbar-open']: open,
     ['navbar-closed']: !open,
+    ['navbar-hide']: pageDirection === 'down' && !focusWithin,
   });
   const hamburgerClassname = (s: 'open' | 'close'): string => {
     return classnames(`hamburger-icon-${s}`, {
@@ -240,7 +260,17 @@ const Navbar = (): JSX.Element => {
     : 'home';
 
   return (
-    <Header className={navClassname} ref={refHeader}>
+    <Header
+      className={navClassname}
+      ref={refHeader}
+      onFocusCapture={() => {
+        setFocusWithin(true);
+        setPageDirection(undefined);
+      }}
+      onBlurCapture={() => {
+        setFocusWithin(false);
+      }}
+    >
       <Nav>
         <TrapFocus
           tabIndex={open ? 0 : -1}
