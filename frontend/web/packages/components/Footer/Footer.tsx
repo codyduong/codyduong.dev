@@ -1,32 +1,25 @@
 import A, { Link } from 'packages/components/A';
+import { cssWidth } from 'packages/components/Section';
 import { LINKS } from 'packages/pages/links/Links';
-import { breakpoints, commoncss } from 'packages/style';
-import styled, { css, useTheme } from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 const FooterStyled = styled.footer`
   background-color: ${({ theme }) => theme.color.surface[350]};
   display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: ${({ theme }) =>
+    `${theme.spacing.px[200]} ${theme.spacing.px[150]}`};
+`;
+
+const FooterWrapper = styled.div`
+  display: flex;
+  flex-grow: 1;
   flex-flow: row wrap;
   justify-content: space-between;
 
-  ${() =>
-    commoncss.animation({
-      enabled: css`
-        transition: all 750ms ease-in-out;
-        transition-property: padding;
-      `,
-    })}
-
-  padding: ${({ theme }) =>
-    `${theme.spacing.px[100]} ${theme.spacing.px[150]}`};
-
-  @media only screen and (min-width: ${breakpoints.md}) {
-    padding: ${({ theme }) => `${theme.spacing.px[200]} calc(10vw)`};
-  }
-
-  @media only screen and (min-width: ${breakpoints.lg}) {
-    padding: ${({ theme }) => `${theme.spacing.px[200]} calc(20vw)`};
-  }
+  ${cssWidth}
 `;
 
 const LinksWrapper = styled.section`
@@ -72,25 +65,27 @@ const Footer = (): JSX.Element => {
 
   return (
     <FooterStyled>
-      <LinksWrapper>
-        {LINKS.map((L) => (
-          <LinkSVG
-            key={L['aria-label']}
-            aria-label={`${L['aria-label']}`}
-            hovercolor={
-              typeof L.hoverColor === 'function'
-                ? L.hoverColor(theme)
-                : L.hoverColor
-            }
-            href={L.to}
-          >
-            <L.icon aria-label={`${L['aria-label']}`} />
-          </LinkSVG>
-        ))}
-      </LinksWrapper>
-      <StyledFooterLink to="web-accessibility-statement">
-        Accessibility Statement
-      </StyledFooterLink>
+      <FooterWrapper>
+        <LinksWrapper>
+          {LINKS.map((L) => (
+            <LinkSVG
+              key={L['aria-label']}
+              aria-label={`${L['aria-label']}`}
+              hovercolor={
+                typeof L.hoverColor === 'function'
+                  ? L.hoverColor(theme)
+                  : L.hoverColor
+              }
+              href={L.to}
+            >
+              <L.icon aria-label={`${L['aria-label']}`} />
+            </LinkSVG>
+          ))}
+        </LinksWrapper>
+        <StyledFooterLink to="web-accessibility-statement">
+          Accessibility Statement
+        </StyledFooterLink>
+      </FooterWrapper>
     </FooterStyled>
   );
 };

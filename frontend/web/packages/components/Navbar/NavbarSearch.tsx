@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import color from 'color';
 import { breakpoints } from 'packages/style';
+import { cssWidth } from 'packages/components/Section';
 
 const SearchDiv = styled.div`
   box-sizing: border-box;
@@ -65,6 +66,8 @@ const SearchWrapper = styled.div`
     border: 1px outset ${({ theme }) => theme.color.base[300]};
     box-shadow: 0px 1px 6px ${({ theme }) => theme.color.base[300]};
   }
+
+  ${cssWidth}
 `;
 
 const SearchButton = styled.button<{ order?: number }>`

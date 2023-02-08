@@ -13,6 +13,7 @@ import { breakpoints, commoncss } from 'packages/style';
 import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useScroll } from 'packages/mono-app/context/ScrollContext';
+import { cssWidth } from 'packages/components/Section';
 
 const TrapFocus = styled.div`
   position: absolute;
@@ -55,7 +56,7 @@ const Header = styled.header`
 const Nav = styled.nav`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   position: sticky;
   width: 100%;
@@ -64,24 +65,20 @@ const Nav = styled.nav`
   background-color: inherit;
   box-sizing: border-box;
 
-  ${() =>
-    commoncss.animation({
-      enabled: css`
-        transition: all 750ms ease-in-out;
-        transition-property: padding;
-      `,
-    })}
-
   padding: ${(props) =>
     `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
+`;
 
-  @media only screen and (min-width: ${breakpoints.md}) {
-    padding: ${({ theme }) => `${theme.spacing.px(75)} calc(10vw)`};
-  }
+const NavInner = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: inherit;
+  box-sizing: border-box;
+  flex-grow: 1;
 
-  @media only screen and (min-width: ${breakpoints.lg}) {
-    padding: ${({ theme }) => `${theme.spacing.px(75)} calc(20vw)`};
-  }
+  ${cssWidth}
 `;
 
 const Name = styled(A.Link)`
@@ -280,16 +277,17 @@ const Navbar = (): JSX.Element => {
               utils.focusLastDescendant(refHeader.current);
           }}
         />
-        <Name
-          to="/"
-          onClick={() => {
-            setOpen(false);
-          }}
-        >
-          codyduong
-        </Name>
-        <NavbarListRight>
-          {/* <NavbarListItem>
+        <NavInner>
+          <Name
+            to="/"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            codyduong
+          </Name>
+          <NavbarListRight>
+            {/* <NavbarListItem>
             <SettingsButton
               id="nav-settings-button"
               onClick={() => {
@@ -302,44 +300,45 @@ const Navbar = (): JSX.Element => {
               <SettingsIcon />
             </SettingsButton>
           </NavbarListItem> */}
-          <NavbarListItem>
-            <SettingsButton
-              id="nav-accessibility-button"
-              onClick={() => {
-                setAccessibility(!accessibility);
-              }}
-              aria-label={`${
-                settings ? 'Close' : 'Open'
-              } Accessibility Options`}
-              aria-haspopup="dialog"
-              aria-controls="modal-accessibility-settings"
-            >
-              <VisibilityOutlinedIcon />
-            </SettingsButton>
-          </NavbarListItem>
-          <NavbarListItem>
-            <HamburgerButton
-              ref={menuButton}
-              id="nav-hamburger-button"
-              onClick={() => {
-                setOpen(!open);
-              }}
-              aria-label={`${open ? 'Close' : 'Open'} Navigation Menu`}
-              aria-haspopup="menu"
-              aria-controls="nav-hamburger-list"
-            >
-              {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
-              <MenuIcon
-                className={hamburgerClassname('close')}
-                aria-labelledby="nav-hamburger-button"
-              />
-              <MenuOpenIcon
-                className={hamburgerClassname('open')}
-                aria-labelledby="nav-hamburger-button"
-              />
-            </HamburgerButton>
-          </NavbarListItem>
-        </NavbarListRight>
+            <NavbarListItem>
+              <SettingsButton
+                id="nav-accessibility-button"
+                onClick={() => {
+                  setAccessibility(!accessibility);
+                }}
+                aria-label={`${
+                  settings ? 'Close' : 'Open'
+                } Accessibility Options`}
+                aria-haspopup="dialog"
+                aria-controls="modal-accessibility-settings"
+              >
+                <VisibilityOutlinedIcon />
+              </SettingsButton>
+            </NavbarListItem>
+            <NavbarListItem>
+              <HamburgerButton
+                ref={menuButton}
+                id="nav-hamburger-button"
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                aria-label={`${open ? 'Close' : 'Open'} Navigation Menu`}
+                aria-haspopup="menu"
+                aria-controls="nav-hamburger-list"
+              >
+                {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
+                <MenuIcon
+                  className={hamburgerClassname('close')}
+                  aria-labelledby="nav-hamburger-button"
+                />
+                <MenuOpenIcon
+                  className={hamburgerClassname('open')}
+                  aria-labelledby="nav-hamburger-button"
+                />
+              </HamburgerButton>
+            </NavbarListItem>
+          </NavbarListRight>
+        </NavInner>
         <NavbarMenu open={open} setOpen={setOpen} menuButton={menuButton} />
         <TrapFocus
           tabIndex={open ? 0 : -1}
