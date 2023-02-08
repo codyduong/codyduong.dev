@@ -89,16 +89,28 @@ const Name = styled(A.Link)`
   border-radius: ${(props) => props.theme.spacing.rem[25]};
 `;
 
-const HamburgerButton = styled.button`
+const NavButtonBase = styled.button`
   ${commoncss.focus}
   position: relative;
   display: flex;
-  height: ${(props) => props.theme.spacing.rem[200]};
+  height: ${(props) => props.theme.spacing.px[200]};
   padding: ${(props) => `${props.theme.spacing.rem[12.5]} 0`};
   border-radius: ${(props) => props.theme.spacing.rem[25]};
   flex-direction: row;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.rem[50]};
+  aspect-ratio: 1;
+  justify-content: center;
+  align-items: center;
+  && > svg {
+    fill: ${({ theme }) => theme.color.surface[100]};
+    transition: all 225ms ease-in-out 0s;
+    opacity: 1;
+    transform-origin: center left;
+  }
+`;
+
+const HamburgerButton = styled(NavButtonBase)`
   label {
     ${Typography.Paragraph.P3.css}
     color: ${({ theme }) => theme.color.text[100]};
@@ -108,9 +120,6 @@ const HamburgerButton = styled.button`
     pointer-events: none;
     user-select: none;
   }
-  aspect-ratio: 1;
-  justify-content: center;
-  align-items: center;
   && > svg {
     fill: ${({ theme }) => theme.color.surface[100]};
     transition: all 225ms ease-in-out 0s;
@@ -178,27 +187,6 @@ const HamburgerButton = styled.button`
     &.hamburger-prevent-animate {
       animation-duration: 0s !important;
     }
-  }
-`;
-
-const SettingsButton = styled.button`
-  ${commoncss.focus}
-  position: relative;
-  display: flex;
-  height: ${(props) => props.theme.spacing.rem[200]};
-  padding: ${(props) => `${props.theme.spacing.rem[12.5]} 0`};
-  border-radius: ${(props) => props.theme.spacing.rem[25]};
-  flex-direction: row;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.rem[50]};
-  aspect-ratio: 1;
-  justify-content: center;
-  align-items: center;
-  && > svg {
-    fill: ${({ theme }) => theme.color.surface[100]};
-    transition: all 225ms ease-in-out 0s;
-    opacity: 1;
-    transform-origin: center left;
   }
 `;
 
@@ -301,7 +289,7 @@ const Navbar = (): JSX.Element => {
             </SettingsButton>
           </NavbarListItem> */}
             <NavbarListItem>
-              <SettingsButton
+              <NavButtonBase
                 id="nav-accessibility-button"
                 onClick={() => {
                   setAccessibility(!accessibility);
@@ -313,7 +301,7 @@ const Navbar = (): JSX.Element => {
                 aria-controls="modal-accessibility-settings"
               >
                 <VisibilityOutlinedIcon />
-              </SettingsButton>
+              </NavButtonBase>
             </NavbarListItem>
             <NavbarListItem>
               <HamburgerButton
