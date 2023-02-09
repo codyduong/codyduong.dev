@@ -3,6 +3,7 @@ import { useId, useState } from 'react';
 import styled from 'styled-components';
 import T from 'packages/components/Typography';
 import classNames from 'classnames';
+import { LinkProps } from 'react-router-dom';
 
 const FooterExpansion = styled.div`
   display: flex;
@@ -51,18 +52,22 @@ const SubLink = styled(StyledFooterLink)`
   text-decoration: underline;
 `;
 
-type FooterLinkExpansionProps<P> = Omit<JSX.IntrinsicElements['div'], 'ref'> & {
+type FooterLinkExpansionProps<P, C extends React.FC<P> | undefined> = Omit<
+  JSX.IntrinsicElements['div'],
+  'ref'
+> & {
   title: string;
   elements?:
     | React.ReactNode
-    | { key: string | number; component?: React.FC<P>; props?: P }[];
+    | ({ key: string | number; component?: C } & (C extends undefined
+        ? { props: LinkProps & React.RefAttributes<HTMLAnchorElement> }
+        : { props?: P }))[];
 };
 
-export default function FooterLinkExpansion<P = JSX.IntrinsicElements['div']>({
-  title,
-  elements,
-  ...rest
-}: FooterLinkExpansionProps<P>): JSX.Element {
+export default function FooterLinkExpansion<
+  P = JSX.IntrinsicElements['div'],
+  C extends React.FC<P> | undefined = undefined
+>({ title, elements, ...rest }: FooterLinkExpansionProps<P, C>): JSX.Element {
   const [open, setOpen] = useState(false);
   const id = useId();
   const elementsWrapperClassnames = classNames({
@@ -80,9 +85,9 @@ export default function FooterLinkExpansion<P = JSX.IntrinsicElements['div']>({
           // @ts-expect-error: key is on every react component
           C({ key, ...props })
         ) : (
+          // @ts-expect-error: conditional flow isn't strong enough
           <SubLink key={key} {...(props ?? {})}>
-            {/* 
-            @ts-expect-error: children can be on react component */}
+            {/* @ts-expect-error: children can be on react component */}
             {props?.children ?? null}
           </SubLink>
         )
