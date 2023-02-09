@@ -187,6 +187,9 @@ const Footer = (): JSX.Element => {
                 onMouseEnter={() => {
                   loadPosts();
                 }}
+                onOpen={(open) => {
+                  open && loadPosts();
+                }}
               />
               {/* <FooterLink to="/contact">
                 Contact

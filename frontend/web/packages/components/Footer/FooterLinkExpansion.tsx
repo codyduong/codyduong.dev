@@ -62,12 +62,18 @@ type FooterLinkExpansionProps<P, C extends React.FC<P> | undefined> = Omit<
     | ({ key: string | number; component?: C } & (C extends undefined
         ? { props: LinkProps & React.RefAttributes<HTMLAnchorElement> }
         : { props?: P }))[];
+  onOpen?: (open: boolean) => void;
 };
 
 export default function FooterLinkExpansion<
   P = JSX.IntrinsicElements['div'],
   C extends React.FC<P> | undefined = undefined
->({ title, elements, ...rest }: FooterLinkExpansionProps<P, C>): JSX.Element {
+>({
+  title,
+  elements,
+  onOpen,
+  ...rest
+}: FooterLinkExpansionProps<P, C>): JSX.Element {
   const [open, setOpen] = useState(false);
   const id = useId();
   const elementsWrapperClassnames = classNames({
@@ -75,7 +81,10 @@ export default function FooterLinkExpansion<
   });
 
   const onClickHandler: React.MouseEventHandler<HTMLButtonElement> = (_) => {
-    setOpen(!open);
+    setOpen((p) => {
+      onOpen?.(p);
+      return !p;
+    });
   };
 
   const elementsComponent = Array.isArray(elements) ? (
