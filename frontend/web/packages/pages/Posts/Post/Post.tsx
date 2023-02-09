@@ -18,7 +18,6 @@ import Link from 'packages/components/A';
 import { GetPostQuery } from 'graphql-gen/types';
 import useLocalStorage from 'packages/hooks/useLocalStorage';
 import { Spinner } from 'packages/components/SpinkitLoadable';
-import Head from 'packages/components/Head';
 import { useTitle } from 'packages/mono-app/context/TitleContext';
 
 interface PostEditorProps {
@@ -148,6 +147,7 @@ const PostEditor = ({
 
 const COMPONENTS = {
   a: Link.Styled,
+  Link: Link.Link.Styled,
 } as const;
 
 const PostStyled = styled.div`
@@ -215,7 +215,7 @@ const Post = (): JSX.Element | null => {
   useEffect(() => {
     setOldContentStr(post?.content ?? undefined);
     setContentStr(post?.content ?? undefined);
-    setPrefixOverride(post?.title);
+    setPrefixOverride(post?.title ?? 'Not Found');
     return () => {
       setPrefixOverride(undefined);
     };
@@ -271,8 +271,7 @@ const Post = (): JSX.Element | null => {
             }}
           >
             <Section aria-busy={loading}>
-              {loading && <Spinner />}
-              {content}
+              {loading ? <Spinner /> : post ? content : <>Not Found</>}
             </Section>
           </ErrorBoundary>
           {isEditorOpen && (

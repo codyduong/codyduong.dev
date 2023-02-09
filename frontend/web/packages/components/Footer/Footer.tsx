@@ -1,9 +1,12 @@
-import A, { Link } from 'packages/components/A';
+import A from 'packages/components/A';
 import { cssWidth } from 'packages/components/Section';
 import { LINKS } from 'packages/pages/links/Links';
 import styled, { useTheme } from 'styled-components';
 import T from 'packages/components/Typography';
 import FooterLink from 'packages/components/Footer/FooterLink';
+import FooterLinkExpansion from 'packages/components/Footer/FooterLinkExpansion';
+import GET_POSTS from 'packages/pages/Posts/GetPosts.graphql';
+import { useLazyQuery } from '@apollo/client';
 
 const FooterStyled = styled.footer`
   // background-color: ${({ theme }) => theme.color.surface[350]};
@@ -110,12 +113,22 @@ const CopyrightText = styled.span`
 
 const Footer = (): JSX.Element => {
   const theme = useTheme();
+  const [getPosts, { loading, error, data: posts }] = useLazyQuery(
+    GET_POSTS,
+    {}
+  );
+
+  const loadPosts = (): void => {
+    if (!posts) {
+      getPosts({});
+    }
+  };
 
   return (
-    <FooterStyled>
+    <FooterStyled tabIndex={-1}>
       <FooterTop>
         <FooterWrapper>
-          <LinksWrapper>
+          <LinksWrapper tabIndex={-1}>
             {LINKS.map((L) => (
               <LinkSVG
                 key={L['aria-label']}
@@ -132,15 +145,54 @@ const Footer = (): JSX.Element => {
             ))}
           </LinksWrapper>
           <FooterGroupWrapper>
-            <FooterGroup>
+            <FooterGroup tabIndex={-1}>
               <FooterHeader>Navigate</FooterHeader>
-              <FooterLink to="/home">Home</FooterLink>
+              <FooterLink to="/">Home</FooterLink>
               <FooterLink to="/work">Work</FooterLink>
               <FooterLink to="/playground">Playground</FooterLink>
-              <FooterLink to="/posts">Posts</FooterLink>
-              <FooterLink to="/contact">Contact</FooterLink>
+              <FooterLinkExpansion
+                title="Posts"
+                elements={
+                  posts
+                    ? [
+                        ...posts.posts.map((post) => ({
+                          key: post.id,
+                          props: {
+                            to: `/posts/${post.postId}`,
+                            children: post.title as React.ReactNode,
+                          },
+                        })),
+                        {
+                          key: 'post-expansion',
+                          props: {
+                            to: '/posts',
+                            children: (
+                              <>
+                                <span>
+                                  <span aria-hidden> . . . </span>
+                                  view all posts
+                                </span>
+                              </>
+                            ),
+                          },
+                        },
+                      ]
+                    : loading
+                    ? 'Loading Posts'
+                    : error?.message
+                }
+                onClick={() => {
+                  loadPosts();
+                }}
+                onMouseEnter={() => {
+                  loadPosts();
+                }}
+              />
+              {/* <FooterLink to="/contact">
+                Contact
+              </FooterLink> */}
             </FooterGroup>
-            <FooterGroup>
+            <FooterGroup tabIndex={-1}>
               <FooterHeader>Links</FooterHeader>
               <FooterLink to="/settings">Manage Settings</FooterLink>
               <FooterLink to="/web-accessibility-statement">

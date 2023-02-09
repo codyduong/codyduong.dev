@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'packages/components/A';
-import T from 'packages/components/Typography';
+// import T from 'packages/components/Typography';
 
-const StyledFooterLink = styled(Link)`
+export const StyledFooterLink = styled(Link)`
   font-size: 1.125rem;
   color: ${({ theme }) => theme.color.text[100]};
   align-self: center;
@@ -19,14 +19,18 @@ const StyledFooterLink = styled(Link)`
   }
 `;
 
-interface FooterLinkProps {
+type FooterLinkProps = Parameters<typeof StyledFooterLink>[0] & {
   to: string;
   children?: React.ReactNode;
-}
+};
 
-const FooterLink = ({ to, children }: FooterLinkProps): JSX.Element => {
+const FooterLink = ({
+  to,
+  children,
+  ...rest
+}: FooterLinkProps): JSX.Element => {
   return (
-    <StyledFooterLink to={to}>
+    <StyledFooterLink to={to} {...rest}>
       <span>{children}</span>
       <span aria-hidden>{'>'}</span>
     </StyledFooterLink>

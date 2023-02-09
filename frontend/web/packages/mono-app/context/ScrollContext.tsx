@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
 
 type ScrollType = {
+  pageRef: React.RefObject<HTMLDivElement> | null;
+  setPageRef: React.Dispatch<
+    React.SetStateAction<React.RefObject<HTMLDivElement> | null>
+  >;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   pageDirection: 'up' | 'down' | undefined;
@@ -11,6 +15,8 @@ type ScrollType = {
 
 /* eslint-disable no-empty-function, @typescript-eslint/no-empty-function */
 const defaultValue: ScrollType = {
+  pageRef: null,
+  setPageRef: () => {},
   page: 0,
   setPage: () => {},
   pageDirection: undefined,
@@ -29,11 +35,15 @@ export const ScrollProvider = ({
   const [pageDirection, setPageDirection] = useState(
     defaultValue.pageDirection
   );
+  const [pageRef, setPageRef] =
+    useState<React.RefObject<HTMLDivElement> | null>(null);
 
   return (
     <ScrollContext.Provider
       value={{
         ...defaultValue,
+        pageRef,
+        setPageRef,
         page,
         setPage,
         pageDirection,

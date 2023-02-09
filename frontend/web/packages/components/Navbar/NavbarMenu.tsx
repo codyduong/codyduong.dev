@@ -270,7 +270,7 @@ const NavbarMenu = ({
         </MenuItem>
       ) : (
         <>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/home">
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/">
             home
           </StyledLinkComponent>
           <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
@@ -282,9 +282,9 @@ const NavbarMenu = ({
           <StyledLinkComponent open={open} setOpen={setOpen} to="/posts">
             posts
           </StyledLinkComponent>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
+          {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
             contact
-          </StyledLinkComponent>
+          </StyledLinkComponent> */}
         </>
       )}
       {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">

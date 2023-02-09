@@ -1,4 +1,5 @@
 import { useHttp } from 'packages/http/HttpContext';
+import NotFound from 'packages/pages/404/NotFound';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +7,7 @@ interface RedirectProps {
   to: string;
 }
 
-const Redirect = ({ to }: RedirectProps): null => {
+const Redirect = ({ to }: RedirectProps): JSX.Element => {
   const { setRedirect } = useHttp();
   const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const Redirect = ({ to }: RedirectProps): null => {
     navigate(to, { replace: true });
   }, []);
 
-  return null;
+  return <NotFound />;
 };
 
 export default Redirect;

@@ -1,11 +1,10 @@
 import Navbar from 'packages/components/Navbar';
 import Footer from 'packages/components/Footer';
-import { breakpoints, commoncss } from 'packages/style';
-import styled, { css } from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
+import { breakpoints } from 'packages/style';
+import styled from 'styled-components';
+import { useEffect, useRef } from 'react';
 import { useBypass } from 'packages/mono-app/context/BypassContext';
 import { useScroll } from 'packages/mono-app/context/ScrollContext';
-import classnames from 'classnames';
 
 const PageDiv = styled.div`
   width: 100vw;
@@ -50,7 +49,7 @@ export default function Page({
   const ref = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const { setMainContent } = useBypass();
-  const { setPage, setPageDirection } = useScroll();
+  const { setPage, setPageDirection, setPageRef } = useScroll();
 
   const handleScroll = (e: HTMLElementEventMap['scroll']): void => {
     // @ts-expect-error: yada
@@ -77,8 +76,10 @@ export default function Page({
   }, [ref]);
 
   useEffect(() => {
+    setPageRef(pageRef);
     pageRef.current?.addEventListener('scroll', handleScroll);
     return () => {
+      setPageRef(null);
       pageRef.current?.removeEventListener('scroll', handleScroll);
     };
   }, [pageRef]);
