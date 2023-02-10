@@ -114,6 +114,7 @@
     "eslint": "^8.18.0",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",
     "eslint-mdx": "^1.17.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-mdx": "^1.17.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
