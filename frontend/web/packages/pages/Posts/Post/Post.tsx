@@ -19,6 +19,7 @@ import { GetPostQuery } from 'graphql-gen/types';
 import useLocalStorage from 'packages/hooks/useLocalStorage';
 import { Spinner } from 'packages/components/SpinkitLoadable';
 import { useTitle } from 'packages/mono-app/context/TitleContext';
+import PostNotFound from 'packages/pages/Posts/Post/PostNotFound';
 
 interface PostEditorProps {
   contentStr: string | undefined;
@@ -63,19 +64,24 @@ const PostEditor = ({
     <TextEditorWrapper>
       {!isAuthenticated && (
         <>
-          <label>Email</label>
-          <input
-            onChange={(v) => {
-              setEmail(v.currentTarget.value);
-            }}
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            onChange={(v) => {
-              setPassword(v.currentTarget.value);
-            }}
-          />
+          <label>
+            Email
+            <input
+              onChange={(v) => {
+                setEmail(v.currentTarget.value);
+              }}
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              onChange={(v) => {
+                setPassword(v.currentTarget.value);
+              }}
+            />
+          </label>
+
           <Button
             disabled={!isLoginable}
             onClick={async () => {
@@ -147,6 +153,11 @@ const PostEditor = ({
 
 const COMPONENTS = {
   a: Link.Styled,
+  h1: T.H1,
+  h2: T.H2,
+  h3: T.H3,
+  h4: T.H4,
+  h5: T.H5,
   Link: Link.Link.Styled,
 } as const;
 
@@ -270,9 +281,15 @@ const Post = (): JSX.Element | null => {
               );
             }}
           >
-            <Section aria-busy={loading}>
-              {loading ? <Spinner /> : post ? content : <>Not Found</>}
-            </Section>
+            {loading ? (
+              <Section aria-busy={loading}>
+                <Spinner />
+              </Section>
+            ) : post ? (
+              <Section>{content}</Section>
+            ) : (
+              <PostNotFound />
+            )}
           </ErrorBoundary>
           {isEditorOpen && (
             <PostEditor
