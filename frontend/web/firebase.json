@@ -32,7 +32,26 @@
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log"
+        "firebase-debug.*.log",
+        "**/*.tsx",
+        "**/*.ts",
+        "src",
+        "packages",
+        "config",
+        "cache",
+        ".babelrc",
+        ".env-EXAMPLE",
+        ".eslintrc.js",
+        ".gitignore",
+        ".graphqlrc.js",
+        ".prettierignore",
+        "craco.config.js",
+        "razzle.config.js",
+        "README.md",
+        "tsconfig.json",
+        "tsconfig.storybook.json",
+        "tsconfig.tsbuildinfo",
+        "ui-debug.log"
       ],
       "runtime": "nodejs16"
     }
