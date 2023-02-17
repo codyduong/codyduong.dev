@@ -197,11 +197,11 @@ const Footer = (): JSX.Element => {
             </FooterGroup>
             <FooterGroup tabIndex={-1}>
               <FooterHeader>Links</FooterHeader>
-              <FooterLink to="/settings">Manage Settings</FooterLink>
+              {/* <FooterLink to="/settings">Manage Settings</FooterLink> */}
               <FooterLink to="/web-accessibility-statement">
                 Accessibility Statement
               </FooterLink>
-              <FooterLink to="/privacy-policy">Privacy Policy</FooterLink>
+              {/* <FooterLink to="/privacy-policy">Privacy Policy</FooterLink> */}
             </FooterGroup>
           </FooterGroupWrapper>
         </FooterWrapper>

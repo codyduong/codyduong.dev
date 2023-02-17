@@ -1,9 +1,10 @@
 import { StyledFooterLink } from 'packages/components/Footer/FooterLink';
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import styled from 'styled-components';
 import T from 'packages/components/Typography';
 import classNames from 'classnames';
 import { LinkProps } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const FooterExpansion = styled.div`
   display: flex;
@@ -86,6 +87,12 @@ export default function FooterLinkExpansion<
       return !p;
     });
   };
+
+  const path = useLocation();
+
+  useEffect(() => {
+    open && setOpen(false);
+  }, [path]);
 
   const elementsComponent = Array.isArray(elements) ? (
     <>
