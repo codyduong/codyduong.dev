@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import T from 'packages/components/Typography';
 import { StyledSwitch } from './common';
 import ParagraphWidthInput from './ParagraphWidthInput';
-import { useAccessibility } from 'packages/mono-app/AccessibilityContext';
+import { useAccessibility } from 'packages/mono-app/context/AccessibilityContext';
 
 const StyledH3 = styled.h3`
   ${T.P3.bold.css}
@@ -26,9 +26,14 @@ const NavbarAccessibleSettingsModal = ({
   open,
   setOpen,
 }: NavbarSettingsModalProps): JSX.Element => {
-  const { disableInteractionAnimations, setDisableInteractionAnimations } =
-    useAccessibility();
-  const [checked, setCheckedObject] = useState<NavbarSettingsChecks>({});
+  const {
+    disableInteractionAnimations,
+    setDisableInteractionAnimations,
+    paragraphWidth,
+  } = useAccessibility();
+  const [checked, setCheckedObject] = useState<NavbarSettingsChecks>({
+    paragraphWidth: !!paragraphWidth,
+  });
 
   const setChecked = (s: NavbarSettingChecksKeys) => {
     return (b: boolean) => {

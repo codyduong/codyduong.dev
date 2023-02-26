@@ -1,11 +1,13 @@
 import { breakpoints, commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 
-const Css = css`
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: ${({ theme }) => `${theme.spacing.rem[200]}`};
-  font-size: calc(${(props) => props.theme.spacing.rem[100]});
+export const cssWidth = css<{ maxWidth?: string | false }>`
+  max-width: ${({ maxWidth }) =>
+    typeof maxWidth === 'undefined'
+      ? '600px'
+      : typeof maxWidth === 'string'
+      ? maxWidth
+      : 'unset'};
 
   ${() =>
     commoncss.animation({
@@ -33,10 +35,20 @@ const Css = css`
     })}
 `;
 
+export const Css = css`
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: ${({ theme }) => `${theme.spacing.rem[200]}`};
+  font-size: calc(${(props) => props.theme.spacing.rem[100]});
+
+  ${cssWidth}
+`;
+
 export const Section = styled.section`
   ${Css}
 `;
 
 export default Object.assign(Section, {
   css: Css,
+  cssWidth: cssWidth,
 });

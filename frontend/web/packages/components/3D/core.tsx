@@ -2,7 +2,7 @@ import type { getProject } from '@theatre/core';
 import { useTheatre } from 'packages/components/3D/TheatreContext';
 import { editable } from '@theatre/r3f';
 import React, { useEffect } from 'react';
-import { useUrlSearchParams } from 'packages/mono-app/UrlSearchParamsContext';
+import { useUrlSearchParams } from 'packages/mono-app/context/UrlSearchParamsContext';
 import { Debug } from '@react-three/cannon';
 import type { ThreeElements } from '@react-three/fiber';
 import { Line } from '@react-three/drei';

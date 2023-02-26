@@ -8,6 +8,7 @@ import breakpoints from 'packages/style/breakpoints';
 import { ButtonProps } from 'packages/components/Button/Button';
 import ModalHeading from './ModalHeading';
 import { useModal } from './ModalContext';
+import { commoncss } from 'packages/style';
 
 const ModalFooter = styled.div<{ numberOfButtons?: number }>`
   display: flex;
@@ -96,18 +97,15 @@ const ModalContainer = styled(T.P2)`
   }
 
   &.modal-small {
-    width: min(calc(${({ theme }) => theme.spacing.px[1000]} * 2), 100%);
+    width: min(${({ theme }) => theme.spacing.px(2000)}, 100%);
   }
 
   &.modal-medium {
-    width: min(
-      calc(${({ theme }) => theme.spacing.px[1000]} * 2 + 100px),
-      100%
-    );
+    width: min(${({ theme }) => theme.spacing.px(3000)}, 100%);
   }
 
   &.modal-large {
-    width: min(calc(${({ theme }) => theme.spacing.px(4500)}), 100%);
+    width: min(${({ theme }) => theme.spacing.px(5000)}, 100%);
     & > ${ModalFooter} {
       max-width: calc(
         ${({ theme }) =>
@@ -142,6 +140,19 @@ const ModalContainer = styled(T.P2)`
 
   & > p {
     ${ModalScrollContent};
+  }
+
+  && {
+    ${() =>
+      commoncss.widthlimited({
+        enabled: (p) =>
+          p
+            ? css`
+                font-size: ${({ theme }) => theme.spacing.rem[100]};
+                max-width: ${p}ch;
+              `
+            : undefined,
+      })}
   }
 `;
 

@@ -1,43 +1,46 @@
 import { evaluate } from '@mdx-js/mdx';
 import styled from 'styled-components';
-import GET_ARTICLE from './GetArticle.graphql';
-import UPDATE_ARTICLE from './UpdateArticle.graphql';
+import GET_POST from './GetPost.graphql';
+import UPDATE_POST from './UpdatePost.graphql';
 import IS_AUTHENTICATED from './IsAuthenticated.graphql';
 import LOGIN_USER from './LoginUser.graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import * as runtime from 'react/jsx-runtime';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useUrlSearchParams } from 'packages/mono-app/UrlSearchParamsContext';
+import { useEffect, useState, useMemo } from 'react';
+import { useUrlSearchParams } from 'packages/mono-app/context/UrlSearchParamsContext';
 import T from 'packages/components/Typography';
 import Content from 'packages/components/Content';
 import Section from 'packages/components/Section';
 import { ErrorBoundary } from 'react-error-boundary';
 import Button from 'packages/components/Button';
 import Link from 'packages/components/A';
-import { GetArticleQuery } from 'graphql-gen/types';
-import { setContext } from '@apollo/client/link/context';
+import { GetPostQuery } from 'graphql-gen/types';
+import useLocalStorage from 'packages/hooks/useLocalStorage';
+import { Spinner } from 'packages/components/SpinkitLoadable';
+import { useTitle } from 'packages/mono-app/context/TitleContext';
+import PostNotFound from 'packages/pages/Posts/Post/PostNotFound';
 
-interface ArticleEditorProps {
+interface PostEditorProps {
   contentStr: string | undefined;
   setContentStr: React.Dispatch<React.SetStateAction<string | undefined>>;
   oldContentStr: string | undefined;
   setOldContentStr: React.Dispatch<React.SetStateAction<string | undefined>>;
   dirty: boolean;
   error: string;
-  article: GetArticleQuery['article'];
+  post: GetPostQuery['post'];
 }
 
-const ArticleEditor = ({
+const PostEditor = ({
   contentStr,
   setContentStr,
   dirty,
   oldContentStr,
   setOldContentStr,
   error,
-  article,
-}: ArticleEditorProps): JSX.Element => {
-  const [updateArticle] = useMutation(UPDATE_ARTICLE);
+  post,
+}: PostEditorProps): JSX.Element => {
+  const [updatePost] = useMutation(UPDATE_POST);
   const {
     client,
     data: auth,
@@ -46,6 +49,8 @@ const ArticleEditor = ({
   } = useQuery(IS_AUTHENTICATED, {
     fetchPolicy: 'network-only',
   });
+  const [_, setToken] = useLocalStorage('token');
+
   const [loginUser] = useMutation(LOGIN_USER);
 
   const isAuthenticated = auth?.isAuthenticated?.isAuthenticated;
@@ -55,25 +60,28 @@ const ArticleEditor = ({
   const [password, setPassword] = useState('');
   const isLoginable = email && password;
 
-  console.log(isAuthenticated);
-
   return (
     <TextEditorWrapper>
       {!isAuthenticated && (
         <>
-          <label>Email</label>
-          <input
-            onChange={(v) => {
-              setEmail(v.currentTarget.value);
-            }}
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            onChange={(v) => {
-              setPassword(v.currentTarget.value);
-            }}
-          />
+          <label>
+            Email
+            <input
+              onChange={(v) => {
+                setEmail(v.currentTarget.value);
+              }}
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              onChange={(v) => {
+                setPassword(v.currentTarget.value);
+              }}
+            />
+          </label>
+
           <Button
             disabled={!isLoginable}
             onClick={async () => {
@@ -86,9 +94,10 @@ const ArticleEditor = ({
                 },
               });
 
-              localStorage.setItem(
-                'token',
-                data?.loginUser?.token ? `Bearer ${data.loginUser.token}` : ''
+              setToken(
+                data?.loginUser?.token
+                  ? `Bearer ${data.loginUser.token}`
+                  : 'Bearer Unset'
               );
 
               client.resetStore();
@@ -109,7 +118,7 @@ const ArticleEditor = ({
       />
       <ButtonWrapper>
         <Button
-          disabled={loading || isLoggingIn || !dirty}
+          disabled={loading || isLoggingIn || !isAuthenticated || !dirty}
           onClick={() => {
             setContentStr(oldContentStr);
           }}
@@ -117,19 +126,21 @@ const ArticleEditor = ({
           Reset
         </Button>
         <Button
-          disabled={loading || isLoggingIn || !dirty || !article}
+          disabled={
+            loading || isLoggingIn || !isAuthenticated || !dirty || !post
+          }
           onClick={async () => {
-            const { data } = await updateArticle({
+            const { data } = await updatePost({
               variables: {
-                id: article!.id,
+                id: post!.id,
                 data: {
                   content: contentStr,
                 },
               },
             });
 
-            setOldContentStr(data?.updateArticle?.content ?? undefined);
-            setContentStr(data?.updateArticle?.content ?? undefined);
+            setOldContentStr(data?.updatePost?.content ?? undefined);
+            setContentStr(data?.updatePost?.content ?? undefined);
           }}
         >
           Submit
@@ -142,9 +153,15 @@ const ArticleEditor = ({
 
 const COMPONENTS = {
   a: Link.Styled,
+  h1: T.H1,
+  h2: T.H2,
+  h3: T.H3,
+  h4: T.H4,
+  h5: T.H5,
+  Link: Link.Link.Styled,
 } as const;
 
-const ArticleStyled = styled.div`
+const PostStyled = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
@@ -177,51 +194,64 @@ const ErrorMessage = styled(T.P3)`
   color: ${({ theme }) => theme.color.destructive[300]};
 `;
 
-const Article = (): JSX.Element | null => {
+const Post = (): JSX.Element | null => {
   const { id } = useParams();
   const urlParams = useUrlSearchParams();
-  const { data } = useQuery(GET_ARTICLE, {
-    variables: { articleId: id ? Number(id) : null },
+  const { data, loading } = useQuery(GET_POST, {
+    variables: { postId: id ? Number(id) : null },
     skip: !id,
   });
   const isEditorOpen = urlParams.has('edit');
 
-  const article = data?.article;
+  const post = data?.post;
 
   const [oldContentStr, setOldContentStr] = useState<string>();
   const [contentStr, setContentStr] = useState<string>();
   const [error, setError] = useState('');
   const [content, setContent] = useState<React.ReactNode>();
+  const { setPrefixOverride } = useTitle();
+
+  const evaluatePromise = useMemo(
+    async () =>
+      contentStr
+        ? await evaluate(contentStr, {
+            Fragment: undefined,
+            ...runtime,
+            format: 'mdx',
+          })
+        : { default: undefined },
+    [contentStr]
+  );
 
   useEffect(() => {
-    setOldContentStr(article?.content ?? undefined);
-    setContentStr(article?.content ?? undefined);
-  }, [article]);
+    setOldContentStr(post?.content ?? undefined);
+    setContentStr(post?.content ?? undefined);
+    setPrefixOverride(post?.title ?? 'Not Found');
+    return () => {
+      setPrefixOverride(undefined);
+    };
+  }, [post]);
 
   useEffect(() => {
     if (contentStr) {
       (async () => {
         try {
-          const { default: MDXContent } = await evaluate(contentStr, {
-            Fragment: undefined,
-            ...runtime,
-            format: 'mdx',
-          });
+          const { default: MDXContent } = await evaluatePromise;
 
-          setContent(MDXContent({ components: COMPONENTS }));
+          setContent(MDXContent?.({ components: COMPONENTS }));
           setError('');
         } catch (e) {
           setError(`${e as any}`);
         }
       })();
     }
-  }, [contentStr]);
+  }, [evaluatePromise]);
 
   const dirty = oldContentStr !== contentStr;
 
   return (
     <Content>
-      <ArticleStyled>
+      <PostStyled>
         <>
           <ErrorBoundary
             FallbackComponent={({ error, resetErrorBoundary }): JSX.Element => {
@@ -251,23 +281,31 @@ const Article = (): JSX.Element | null => {
               );
             }}
           >
-            <Section>{content}</Section>
+            {loading ? (
+              <Section aria-busy={loading}>
+                <Spinner />
+              </Section>
+            ) : post ? (
+              <Section>{content}</Section>
+            ) : (
+              <PostNotFound />
+            )}
           </ErrorBoundary>
           {isEditorOpen && (
-            <ArticleEditor
+            <PostEditor
               contentStr={contentStr}
               setContentStr={setContentStr}
               oldContentStr={oldContentStr}
               setOldContentStr={setOldContentStr}
               dirty={dirty}
               error={error}
-              article={article}
+              post={post}
             />
           )}
         </>
-      </ArticleStyled>
+      </PostStyled>
     </Content>
   );
 };
 
-export default Article;
+export default Post;

@@ -1,6 +1,0 @@
-query GetArticle($articleId: Int) {
-  article(articleId: $articleId) {
-    content
-    id
-  }
-}

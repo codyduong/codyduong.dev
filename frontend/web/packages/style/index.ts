@@ -1,8 +1,12 @@
 import {
-  AccessibilityType,
   useAccessibility,
-} from 'packages/mono-app/AccessibilityContext';
-import { css, FlattenSimpleInterpolation } from 'styled-components';
+  AccessibilityType,
+} from 'packages/mono-app/context/AccessibilityContext';
+import {
+  css,
+  FlattenInterpolation,
+  FlattenSimpleInterpolation,
+} from 'styled-components';
 
 export { default as breakpoints } from './breakpoints';
 export const commoncss = {
@@ -30,12 +34,20 @@ export const commoncss = {
     }}
   `,
   widthlimited: <
-    T extends string | FlattenSimpleInterpolation = FlattenSimpleInterpolation,
-    U extends string | FlattenSimpleInterpolation = FlattenSimpleInterpolation
+    T extends
+      | undefined
+      | string
+      | FlattenSimpleInterpolation
+      | FlattenInterpolation<any> = FlattenSimpleInterpolation,
+    U extends
+      | undefined
+      | string
+      | FlattenSimpleInterpolation
+      | FlattenInterpolation<any> = FlattenSimpleInterpolation
   >(opts?: {
     enabled?: T | ((paragraphWidth: AccessibilityType['paragraphWidth']) => T);
     disabled?: U | ((paragraphWidth: AccessibilityType['paragraphWidth']) => U);
-  }): FlattenSimpleInterpolation => {
+  }): FlattenInterpolation<any> | undefined => {
     const { paragraphWidth } = useAccessibility();
     if (paragraphWidth) {
       return typeof opts?.enabled === 'function'
@@ -57,8 +69,16 @@ export const commoncss = {
     }
   },
   animation: <
-    T extends string | FlattenSimpleInterpolation = FlattenSimpleInterpolation,
-    U extends string | FlattenSimpleInterpolation = FlattenSimpleInterpolation
+    T extends
+      | undefined
+      | string
+      | FlattenSimpleInterpolation
+      | FlattenInterpolation<any> = FlattenSimpleInterpolation,
+    U extends
+      | undefined
+      | string
+      | FlattenSimpleInterpolation
+      | FlattenInterpolation<any> = FlattenSimpleInterpolation
   >(opts: {
     enabled?: T;
     disabled?: U;

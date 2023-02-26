@@ -15,9 +15,13 @@ const SpinnerWrapper = styled.div`
   align-items: center;
 `;
 
-export function Spinner(): JSX.Element {
+interface SpinnerProps {
+  className?: string;
+}
+
+export function Spinner({ className }: SpinnerProps): JSX.Element {
   return (
-    <SpinnerWrapper>
+    <SpinnerWrapper className={className}>
       <div className="sk-circle">
         <div className="sk-circle-dot"></div>
         <div className="sk-circle-dot"></div>

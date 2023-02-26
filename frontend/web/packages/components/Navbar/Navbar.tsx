@@ -1,5 +1,5 @@
 import { Typography } from 'packages/components/Typography';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import A from 'packages/components/A';
@@ -8,10 +8,12 @@ import classnames from 'classnames';
 import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
-import SettingsIcon from '@mui/icons-material/Settings';
+// import SettingsIcon from '@mui/icons-material/Settings';
 import { commoncss } from 'packages/style';
 import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { useScroll } from 'packages/mono-app/context/ScrollContext';
+import { cssWidth } from 'packages/components/Section';
 
 const TrapFocus = styled.div`
   position: absolute;
@@ -20,9 +22,9 @@ const TrapFocus = styled.div`
 const Header = styled.header`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  position: sticky;
+  position: absolute;
   width: 100%;
   height: ${(props) => props.theme.spacing.rem[300]};
   background-color: ${(props) => props.theme.color.surface[400]};
@@ -33,21 +35,50 @@ const Header = styled.header`
   &.navbar-open {
     background-color: ${(props) => props.theme.color.surface[500]};
   }
+
+  ${() =>
+    commoncss.animation({
+      enabled: css`
+        transition: background-color 500ms, transform 500ms ease-out 100ms,
+          opacity 500ms ease-out 100ms;
+        opacity: 1;
+
+        &.navbar-hide {
+          transition: background-color 500ms, transform 500ms ease-in 100ms,
+            opacity 500ms ease-in 100ms;
+          opacity: 0;
+          transform: translateY(-100%);
+        }
+      `,
+    })}
 `;
 
 const Nav = styled.nav`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: ${(props) =>
-    `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
   position: sticky;
   width: 100%;
   height: ${(props) => props.theme.spacing.rem[300]};
 
   background-color: inherit;
   box-sizing: border-box;
+
+  padding: ${(props) =>
+    `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
+`;
+
+const NavInner = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: inherit;
+  box-sizing: border-box;
+  flex-grow: 1;
+
+  ${cssWidth}
 `;
 
 const Name = styled(A.Link)`
@@ -58,16 +89,28 @@ const Name = styled(A.Link)`
   border-radius: ${(props) => props.theme.spacing.rem[25]};
 `;
 
-const HamburgerButton = styled.button`
+const NavButtonBase = styled.button`
   ${commoncss.focus}
   position: relative;
   display: flex;
-  height: ${(props) => props.theme.spacing.rem[200]};
+  height: ${(props) => props.theme.spacing.px[200]};
   padding: ${(props) => `${props.theme.spacing.rem[12.5]} 0`};
   border-radius: ${(props) => props.theme.spacing.rem[25]};
   flex-direction: row;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.rem[50]};
+  aspect-ratio: 1;
+  justify-content: center;
+  align-items: center;
+  && > svg {
+    fill: ${({ theme }) => theme.color.surface[100]};
+    transition: all 225ms ease-in-out 0s;
+    opacity: 1;
+    transform-origin: center left;
+  }
+`;
+
+const HamburgerButton = styled(NavButtonBase)`
   label {
     ${Typography.Paragraph.P3.css}
     color: ${({ theme }) => theme.color.text[100]};
@@ -77,9 +120,6 @@ const HamburgerButton = styled.button`
     pointer-events: none;
     user-select: none;
   }
-  aspect-ratio: 1;
-  justify-content: center;
-  align-items: center;
   && > svg {
     fill: ${({ theme }) => theme.color.surface[100]};
     transition: all 225ms ease-in-out 0s;
@@ -150,27 +190,6 @@ const HamburgerButton = styled.button`
   }
 `;
 
-const SettingsButton = styled.button`
-  ${commoncss.focus}
-  position: relative;
-  display: flex;
-  height: ${(props) => props.theme.spacing.rem[200]};
-  padding: ${(props) => `${props.theme.spacing.rem[12.5]} 0`};
-  border-radius: ${(props) => props.theme.spacing.rem[25]};
-  flex-direction: row;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.rem[50]};
-  aspect-ratio: 1;
-  justify-content: center;
-  align-items: center;
-  && > svg {
-    fill: ${({ theme }) => theme.color.surface[100]};
-    transition: all 225ms ease-in-out 0s;
-    opacity: 1;
-    transform-origin: center left;
-  }
-`;
-
 const NavbarListRight = styled.ul`
   all: unset;
   display: flex;
@@ -187,12 +206,16 @@ const Navbar = (): JSX.Element => {
   const [settings, setSettings] = useState(false);
   const [accessibility, setAccessibility] = useState(false);
   const [initial, setInitial] = useState(true);
+  const [focusWithin, setFocusWithin] = useState(false);
+  const { pageDirection, setPageDirection } = useScroll();
 
   const refHeader = useRef<HTMLDivElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
 
   const navClassname = classnames('navbar-root', {
     ['navbar-open']: open,
     ['navbar-closed']: !open,
+    ['navbar-hide']: pageDirection === 'down' && !focusWithin,
   });
   const hamburgerClassname = (s: 'open' | 'close'): string => {
     return classnames(`hamburger-icon-${s}`, {
@@ -215,18 +238,24 @@ const Navbar = (): JSX.Element => {
 
   const location = useLocation();
   const pathnameFormatted = location.pathname.split('/')[1];
-  const _currentlyAt = [
-    'home',
-    'work',
-    'articles',
-    'contact',
-    'links',
-  ].includes(pathnameFormatted)
+  const _currentlyAt = ['home', 'work', 'posts', 'contact', 'links'].includes(
+    pathnameFormatted
+  )
     ? pathnameFormatted
     : 'home';
 
   return (
-    <Header className={navClassname} ref={refHeader}>
+    <Header
+      className={navClassname}
+      ref={refHeader}
+      onFocusCapture={() => {
+        setFocusWithin(true);
+        setPageDirection(undefined);
+      }}
+      onBlurCapture={() => {
+        setFocusWithin(false);
+      }}
+    >
       <Nav>
         <TrapFocus
           tabIndex={open ? 0 : -1}
@@ -236,16 +265,17 @@ const Navbar = (): JSX.Element => {
               utils.focusLastDescendant(refHeader.current);
           }}
         />
-        <Name
-          to="/"
-          onClick={() => {
-            setOpen(false);
-          }}
-        >
-          codyduong
-        </Name>
-        <NavbarListRight>
-          {/* <NavbarListItem>
+        <NavInner>
+          <Name
+            to="/"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            codyduong
+          </Name>
+          <NavbarListRight>
+            {/* <NavbarListItem>
             <SettingsButton
               id="nav-settings-button"
               onClick={() => {
@@ -258,44 +288,46 @@ const Navbar = (): JSX.Element => {
               <SettingsIcon />
             </SettingsButton>
           </NavbarListItem> */}
-          <NavbarListItem>
-            <SettingsButton
-              id="nav-accessibility-button"
-              onClick={() => {
-                setAccessibility(!accessibility);
-              }}
-              aria-label={`${
-                settings ? 'Close' : 'Open'
-              } Accessibility Options`}
-              aria-haspopup="dialog"
-              aria-controls="modal-accessibility-settings"
-            >
-              <VisibilityOutlinedIcon />
-            </SettingsButton>
-          </NavbarListItem>
-          <NavbarListItem>
-            <HamburgerButton
-              id="nav-hamburger-button"
-              onClick={() => {
-                setOpen(!open);
-              }}
-              aria-label={`${open ? 'Close' : 'Open'} Navigation Menu`}
-              aria-haspopup="menu"
-              aria-controls="nav-hamburger-list"
-            >
-              {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
-              <MenuIcon
-                className={hamburgerClassname('close')}
-                aria-labelledby="nav-hamburger-button"
-              />
-              <MenuOpenIcon
-                className={hamburgerClassname('open')}
-                aria-labelledby="nav-hamburger-button"
-              />
-            </HamburgerButton>
-          </NavbarListItem>
-        </NavbarListRight>
-        <NavbarMenu open={open} setOpen={setOpen} />
+            <NavbarListItem>
+              <NavButtonBase
+                id="nav-accessibility-button"
+                onClick={() => {
+                  setAccessibility(!accessibility);
+                }}
+                aria-label={`${
+                  settings ? 'Close' : 'Open'
+                } Accessibility Options`}
+                aria-haspopup="dialog"
+                aria-controls="modal-accessibility-settings"
+              >
+                <VisibilityOutlinedIcon />
+              </NavButtonBase>
+            </NavbarListItem>
+            <NavbarListItem>
+              <HamburgerButton
+                ref={menuButton}
+                id="nav-hamburger-button"
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                aria-label={`${open ? 'Close' : 'Open'} Navigation Menu`}
+                aria-haspopup="menu"
+                aria-controls="nav-hamburger-list"
+              >
+                {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
+                <MenuIcon
+                  className={hamburgerClassname('close')}
+                  aria-labelledby="nav-hamburger-button"
+                />
+                <MenuOpenIcon
+                  className={hamburgerClassname('open')}
+                  aria-labelledby="nav-hamburger-button"
+                />
+              </HamburgerButton>
+            </NavbarListItem>
+          </NavbarListRight>
+        </NavInner>
+        <NavbarMenu open={open} setOpen={setOpen} menuButton={menuButton} />
         <TrapFocus
           tabIndex={open ? 0 : -1}
           onFocus={() => {

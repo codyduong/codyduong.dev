@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import { Paragraph } from 'packages/components/Typography';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import A from 'packages/components/A';
 import color from 'color';
 import CloseIcon from '@mui/icons-material/Close';
 import { breakpoints, commoncss } from 'packages/style';
 import Search from './NavbarSearch';
 import { useState } from 'react';
+import utils from 'packages/components/utils';
 
 const MenuItem = styled.li`
   all: unset;
@@ -39,7 +40,6 @@ const NavbarMenuComponent = styled.menu`
 
   background-color: inherit;
   transition: all 500ms ease-in-out 0s;
-  transition-property: height, top, max-height;
 
   @media not screen and (min-width: ${breakpoints.xl}) {
     &.open {
@@ -47,14 +47,16 @@ const NavbarMenuComponent = styled.menu`
 
       &.searching {
         height: calc(100vh - 0rem);
+        top: 0;
       }
     }
   }
+
   @media only screen and (min-width: ${breakpoints.xl}) {
     min-width: 600px;
     width: 50vw;
-    // transform: translateX(50%) translateX(-50vw);
-    transform: translateX(-10%);
+    transform: translateX(50%) translateX(-50vw);
+    // transform: translateX(-10%);
     border-radius: 0 0
       ${({ theme }) => `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
 
@@ -63,11 +65,32 @@ const NavbarMenuComponent = styled.menu`
       height: 400px;
     }
   }
+
   &.close {
     & > ${MenuItem} {
       box-shadow: inset 100vw 0 5rem 0
         ${({ theme }) => theme.color.surface[400]};
     }
+  }
+
+  & {
+    ${() =>
+      commoncss.animation({
+        enabled: css`
+          transition-property: height, top, max-height;
+        `,
+        disabled: css`
+          opacity: 0;
+          &.open {
+            transition: opacity 225ms ease-in-out 0s;
+            opacity: 1;
+          }
+          &.close {
+            transition: opacity 225ms ease-in-out 0s, height 0s 225ms;
+            opacity: 0;
+          }
+        `,
+      })}
   }
 `;
 
@@ -207,9 +230,14 @@ const SearchConstructionText = styled(Paragraph.P2)`
 interface HamburgerProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  menuButton: React.RefObject<HTMLButtonElement>;
 }
 
-const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
+const NavbarMenu = ({
+  open,
+  setOpen,
+  menuButton,
+}: HamburgerProps): JSX.Element => {
   const [searching, setSearching] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
@@ -242,7 +270,7 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
         </MenuItem>
       ) : (
         <>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/home">
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/">
             home
           </StyledLinkComponent>
           <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
@@ -251,12 +279,12 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
           <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
             playground
           </StyledLinkComponent>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/articles">
-            articles
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/posts">
+            posts
           </StyledLinkComponent>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
+          {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
             contact
-          </StyledLinkComponent>
+          </StyledLinkComponent> */}
         </>
       )}
       {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/links/">
@@ -265,7 +293,10 @@ const NavbarMenu = ({ open, setOpen }: HamburgerProps): JSX.Element => {
       <CloseItemLi role="menuitem">
         <CloseIconWrapper
           tabIndex={open ? undefined : -1}
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            menuButton.current && utils.attemptFocus(menuButton.current);
+            setOpen(false);
+          }}
           aria-label="Close Navigation Menu"
         >
           <CloseIcon role="img" />

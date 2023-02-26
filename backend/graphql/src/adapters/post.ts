@@ -10,13 +10,13 @@ import { Context } from '../context';
 import { Adapter } from '../adapter';
 import { rules } from '../rules';
 
-export default Adapter<'article'>({
+export default Adapter<'post'>({
   schema: [
     objectType({
-      name: 'article',
+      name: 'post',
       definition(t) {
         t.nonNull.string('id');
-        t.nonNull.int('articleId');
+        t.nonNull.int('postId');
         t.nonNull.field('createdAt', { type: 'DateTime' });
         t.nonNull.field('updatedAt', { type: 'DateTime' });
         t.nonNull.string('title');
@@ -24,20 +24,20 @@ export default Adapter<'article'>({
       },
     }),
     inputObjectType({
-      name: 'ArticleSortOrder',
+      name: 'PostSortOrder',
       definition(t) {
         t.nonNull.field('updatedAt', { type: 'SortOrder' });
       },
     }),
     inputObjectType({
-      name: 'ArticleCreateInput',
+      name: 'PostCreateInput',
       definition(t) {
         t.nonNull.string('title');
         t.string('content');
       },
     }),
     inputObjectType({
-      name: 'ArticleUpdateInput',
+      name: 'PostUpdateInput',
       definition(t) {
         t.string('title');
         t.string('content');
@@ -46,29 +46,29 @@ export default Adapter<'article'>({
   ],
   resolver: {
     Query: (t) => {
-      t.nullable.field('article', {
-        type: 'article',
+      t.nullable.field('post', {
+        type: 'post',
         args: {
           id: stringArg(),
-          articleId: intArg(),
+          postId: intArg(),
         },
-        resolve: (_parent, { id, articleId }, context: Context) => {
-          return context.prisma.article.findUnique({
+        resolve: (_parent, { id, postId }, context: Context) => {
+          return context.prisma.post.findUnique({
             where: {
               id: id ?? undefined,
-              articleId: articleId ?? undefined,
+              postId: postId ?? undefined,
             },
           });
         },
       });
-      t.nonNull.list.nonNull.field('articles', {
-        type: 'article',
+      t.nonNull.list.nonNull.field('posts', {
+        type: 'post',
         args: {
           searchString: stringArg(),
           skip: intArg(),
           take: intArg(),
           orderBy: arg({
-            type: 'ArticleSortOrder',
+            type: 'PostSortOrder',
           }),
         },
         resolve: (_parent, args, context: Context) => {
@@ -81,7 +81,7 @@ export default Adapter<'article'>({
               }
             : {};
 
-          return context.prisma.article.findMany({
+          return context.prisma.post.findMany({
             where: {
               ...or,
             },
@@ -93,45 +93,45 @@ export default Adapter<'article'>({
       });
     },
     Mutation: (t) => {
-      t.field('createArticle', {
-        type: 'article',
+      t.field('createPost', {
+        type: 'post',
         args: {
           data: nonNull(
             arg({
-              type: 'ArticleCreateInput',
+              type: 'PostCreateInput',
             })
           ),
           // authorEmail: nonNull(stringArg()),
         },
         resolve: (_, args, context: Context) => {
-          return context.prisma.article.create({
+          return context.prisma.post.create({
             data: {
               // auto-increment is handled by a mongoDB trigger
-              articleId: null!,
+              postId: null!,
               title: args.data.title,
               content: args.data.content ?? '',
             },
           });
         },
       });
-      t.field('updateArticle', {
-        type: 'article',
+      t.field('updatePost', {
+        type: 'post',
         args: {
           id: nonNull(stringArg()),
           data: nonNull(
             arg({
-              type: 'ArticleUpdateInput',
+              type: 'PostUpdateInput',
             })
           ),
         },
         resolve: async (_, { id, data }, context: Context) => {
           try {
-            const article = await context.prisma.article.findUnique({
+            const post = await context.prisma.post.findUnique({
               where: { id: id ?? undefined },
             });
 
             const newData = {
-              ...(article ?? {}),
+              ...(post ?? {}),
               ...{
                 title: data.title ?? undefined,
                 content: data.content ?? undefined,
@@ -139,24 +139,24 @@ export default Adapter<'article'>({
             };
             delete newData['id'];
 
-            return context.prisma.article.update({
+            return context.prisma.post.update({
               where: { id: id ?? undefined },
               data: newData,
             });
           } catch (e) {
             throw new Error(
-              `Article with ID ${id} does not exist in the database.`
+              `Post with ID ${id} does not exist in the database.`
             );
           }
         },
       });
-      t.field('deleteArticle', {
-        type: 'article',
+      t.field('deletePost', {
+        type: 'post',
         args: {
           id: nonNull(stringArg()),
         },
         resolve: (_, args, context: Context) => {
-          return context.prisma.article.delete({
+          return context.prisma.post.delete({
             where: { id: args.id },
           });
         },
@@ -166,9 +166,9 @@ export default Adapter<'article'>({
   permissions: {
     Query: {},
     Mutation: {
-      createArticle: rules.isAdmin,
-      updateArticle: rules.isAdmin,
-      deleteArticle: rules.isAdmin,
+      createPost: rules.isAdmin,
+      updatePost: rules.isAdmin,
+      deletePost: rules.isAdmin,
     },
   },
 });
