@@ -2,7 +2,9 @@ export const WEBSITE_NAME = 'Cody Duong';
 
 const defaultPathToTitle = (path: string[], _?: unknown): string => {
   let prefix = path[path.length - 1] ?? '';
-  prefix = prefix.charAt(0).toUpperCase() + prefix.slice(1);
+  prefix = prefix.replace(/(^\w|-\w)/g, (v) =>
+    v.replace(/-/, ' ').toUpperCase()
+  );
   return prefix;
 };
 
