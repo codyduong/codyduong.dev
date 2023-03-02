@@ -2,13 +2,6 @@ import { breakpoints, commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 
 export const cssWidth = css<{ maxWidth?: string | false }>`
-  max-width: ${({ maxWidth }) =>
-    typeof maxWidth === 'undefined'
-      ? '600px'
-      : typeof maxWidth === 'string'
-      ? maxWidth
-      : 'unset'};
-
   ${() =>
     commoncss.animation({
       enabled: css`
@@ -17,22 +10,22 @@ export const cssWidth = css<{ maxWidth?: string | false }>`
       `,
     })}
 
-  ${() =>
+  ${({ maxWidth = '60vw' }) =>
     commoncss.widthlimited({
       enabled: (p) => css`
         max-width: ${p}ch;
 
         @media only screen and (min-width: ${breakpoints.md}) {
-          max-width: ${p ? `min(60vw, ${p}ch)` : 'min(60vw, 600px)'};
+          max-width: ${p ? `min(${maxWidth}, ${p}ch)` : maxWidth};
         }
       `,
       disabled: () =>
         css`
           @media only screen and (min-width: ${breakpoints.md}) {
-            max-width: 60vw;
+            max-width: ${maxWidth};
           } ;
         `,
-    })}
+    })};
 `;
 
 export const Css = css`

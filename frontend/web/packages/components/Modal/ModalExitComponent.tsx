@@ -28,12 +28,12 @@ const ModalExit = styled.button`
 export const ModalExitComponent = forwardRef<
   HTMLButtonElement,
   React.PropsWithoutRef<JSX.IntrinsicElements['button']>
->(function ModalExitComponent({ className, ...rest }): JSX.Element {
+>(function ModalExitComponent({ className, ...rest }, ref): JSX.Element {
   const cs = classnames(className, 'modal-exit');
   const theme = useTheme();
 
   return (
-    <ModalExit className={cs} aria-label="Exit Modal" {...rest}>
+    <ModalExit ref={ref} className={cs} aria-label="Exit Modal" {...rest}>
       <ClearIcon fill={theme.color.text[400]} />
     </ModalExit>
   );

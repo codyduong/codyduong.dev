@@ -251,7 +251,7 @@ const NavbarMenu = ({
     <NavbarMenuComponent
       className={hamburgerClassname}
       id="nav-hamburger-list"
-      role="menu"
+      // role="menu"
       aria-labelledby="nav-hamburger-button"
       aria-expanded={open}
     >

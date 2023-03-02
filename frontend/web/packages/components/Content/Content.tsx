@@ -1,7 +1,7 @@
 import { breakpoints, commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 
-const Content = styled.div<{ footerPadding?: boolean }>`
+const Content = styled.div<{ footerPadding?: boolean; disableMedia?: boolean }>`
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
