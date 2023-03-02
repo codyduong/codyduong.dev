@@ -31,7 +31,7 @@ input PostUpdateInput {
 
 type Query {
   isAuthenticated: UserAuthenticated
-  post(id: String, postId: Int): post
+  post(id: String, postId: Int, title: String): post
   posts(orderBy: PostSortOrder, searchString: String, skip: Int, take: Int): [post!]!
 }
 

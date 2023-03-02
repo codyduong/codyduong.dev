@@ -51,12 +51,14 @@ export default Adapter<'post'>({
         args: {
           id: stringArg(),
           postId: intArg(),
+          title: stringArg(),
         },
-        resolve: (_parent, { id, postId }, context: Context) => {
+        resolve: (_parent, { id, postId, title }, context: Context) => {
           return context.prisma.post.findUnique({
             where: {
               id: id ?? undefined,
               postId: postId ?? undefined,
+              title: title ?? undefined,
             },
           });
         },

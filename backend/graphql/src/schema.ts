@@ -17,8 +17,8 @@ export const schema = async () => {
     makeSchema({
       types: [SortOrder, DateTime, ...types],
       outputs: {
-        schema: __dirname + '/../schema.graphql',
-        typegen: __dirname + '/generated/nexus.ts',
+        schema: require.resolve('./../schema.graphql'),
+        typegen: require.resolve('./generated/nexus.ts'),
       },
       sourceTypes: {
         modules: [

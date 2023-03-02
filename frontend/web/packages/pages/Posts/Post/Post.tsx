@@ -198,8 +198,11 @@ const Post = (): JSX.Element | null => {
   const { id } = useParams();
   const urlParams = useUrlSearchParams();
   const { data, loading } = useQuery(GET_POST, {
-    variables: { postId: id ? Number(id) : null },
-    skip: !id,
+    variables: isNaN(Number(id))
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,
+        { title: decodeURIComponent(id!) }
+      : { postId: Number(id) },
+    skip: id === undefined,
   });
   const isEditorOpen = urlParams.has('edit');
 
