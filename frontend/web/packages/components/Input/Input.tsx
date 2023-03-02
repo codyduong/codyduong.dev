@@ -55,17 +55,13 @@ const Suffix = styled.span`
   user-select: none;
 `;
 
-interface InputProps
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+type InputProps = React.PropsWithoutRef<JSX.IntrinsicElements['input']> & {
   label: string;
   disabled?: boolean;
   invalid?: boolean;
   suffix?: string;
   wrapperId?: string;
-}
+};
 
 const Input = ({
   label,

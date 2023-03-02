@@ -1,6 +1,7 @@
 import styled, { useTheme } from 'styled-components';
 import classnames from 'classnames';
 import ClearIcon from '@mui/icons-material/Clear';
+import { forwardRef } from 'react';
 
 const ModalExit = styled.button`
   padding: 0;
@@ -24,18 +25,10 @@ const ModalExit = styled.button`
   }
 `;
 
-export const ModalExitComponent = ({
-  className,
-  ...rest
-}: Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >,
-  'ref'
-> & {
-  ref?: Parameters<typeof ModalExit>[0]['ref'];
-}): JSX.Element => {
+export const ModalExitComponent = forwardRef<
+  HTMLButtonElement,
+  React.PropsWithoutRef<JSX.IntrinsicElements['button']>
+>(function ModalExitComponent({ className, ...rest }): JSX.Element {
   const cs = classnames(className, 'modal-exit');
   const theme = useTheme();
 
@@ -44,6 +37,6 @@ export const ModalExitComponent = ({
       <ClearIcon fill={theme.color.text[400]} />
     </ModalExit>
   );
-};
+});
 
 export default ModalExitComponent;

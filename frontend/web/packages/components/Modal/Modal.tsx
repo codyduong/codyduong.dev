@@ -9,6 +9,7 @@ import { ButtonProps } from 'packages/components/Button/Button';
 import ModalHeading from './ModalHeading';
 import { useModal } from './ModalContext';
 import { commoncss } from 'packages/style';
+import { forwardRef } from 'react';
 
 const ModalFooter = styled.div<{ numberOfButtons?: number }>`
   display: flex;
@@ -32,19 +33,20 @@ const ModalFooter = styled.div<{ numberOfButtons?: number }>`
   }
 `;
 
-const ModalFooterComponent = (
-  props: React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { numberOfButtons?: number } & {
-    ref?: Parameters<typeof ModalFooter>[0]['ref'];
+const ModalFooterComponent = React.forwardRef<
+  HTMLDivElement,
+  React.PropsWithoutRef<JSX.IntrinsicElements['div']> & {
+    numberOfButtons?: number;
   }
-): JSX.Element => (
-  <ModalFooter
-    numberOfButtons={React.Children.count(props.children)}
-    {...props}
-  />
-);
+>(function ModalFooterComponent(props, ref): JSX.Element {
+  return (
+    <ModalFooter
+      ref={ref}
+      numberOfButtons={React.Children.count(props.children)}
+      {...props}
+    />
+  );
+});
 
 /**
  * We need to inset scrollbar 8px on all browsers, not just with ::webkit
@@ -156,21 +158,20 @@ const ModalContainer = styled(T.P2)`
   }
 `;
 
-export const ModalContainerComponent = ({
-  size,
-  className,
-  ...rest
-}: Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >,
-  'ref'
-> & {
-  size: typeof MODAL_SIZES[keyof typeof MODAL_SIZES];
-} & {
-  ref?: Parameters<typeof ModalContainer>[0]['ref'];
-}): JSX.Element => {
+export const ModalContainerComponent = forwardRef<
+  HTMLDivElement,
+  React.PropsWithoutRef<JSX.IntrinsicElements['div']> & {
+    size: typeof MODAL_SIZES[keyof typeof MODAL_SIZES];
+  }
+>(function ModalContainerComponent(
+  {
+    size,
+    // eslint-disable-next-line react/prop-types
+    className,
+    ...rest
+  },
+  ref
+): JSX.Element {
   const cs = classnames(className, 'modal-flat', {
     ['modal-small']: size === MODAL_SIZES.SMALL,
     ['modal-medium']: size === MODAL_SIZES.MEDIUM,
@@ -178,8 +179,8 @@ export const ModalContainerComponent = ({
     ['modal-auto']: size === MODAL_SIZES.AUTO,
   });
 
-  return <ModalContainer className={cs} {...rest} as="div" />;
-};
+  return <ModalContainer ref={ref} className={cs} {...rest} as="div" />;
+});
 
 const ModalContentStyled = styled.div<{ gap: boolean }>`
   ${ModalScrollContent};
@@ -207,13 +208,9 @@ const ModalContentStyled = styled.div<{ gap: boolean }>`
 const ModalContent = ({
   gap = false,
   ...rest
-}: Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >,
-  'ref' | 'id'
-> & { gap?: boolean }): JSX.Element => {
+}: Omit<React.PropsWithoutRef<JSX.IntrinsicElements['div']>, 'id'> & {
+  gap?: boolean;
+}): JSX.Element => {
   const { ariaDescribedBy } = useModal();
 
   return <ModalContentStyled id={ariaDescribedBy} gap={gap} {...rest} />;
@@ -257,13 +254,7 @@ export type ModalFlatProps<T extends Record<string, any>> = {
     content?: React.CSSProperties;
   };
 
-  containerProps?: Omit<
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >,
-    'ref'
-  >;
+  containerProps?: React.PropsWithoutRef<JSX.IntrinsicElements['div']>;
 } & (
   | {
       content?: never;

@@ -12,13 +12,7 @@ const ModalHeadingStyled = styled.h2`
   }
 `;
 
-type ModalHeadingProps = Omit<
-  React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLHeadingElement>,
-    HTMLHeadingElement
-  >,
-  'ref'
-> & {
+type ModalHeadingProps = React.PropsWithoutRef<JSX.IntrinsicElements['h2']> & {
   exitLabel?: string;
 };
 
