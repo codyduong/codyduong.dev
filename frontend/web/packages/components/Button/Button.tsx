@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { commoncss } from 'packages/style';
-import { ForwardedRef } from 'react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 import { Paragraph } from 'packages/components/Typography';
 import Color from 'color';
@@ -91,31 +91,42 @@ export const ButtonAction = {
   productive: 'productive',
 } as const;
 
-export type ButtonProps = Omit<JSX.IntrinsicElements['button'], 'ref'> & {
-  ref?: ForwardedRef<HTMLButtonElement>;
+export type ButtonProps = React.PropsWithoutRef<
+  JSX.IntrinsicElements['button']
+> & {
   hierarchy?: typeof ButtonHierarchy[keyof typeof ButtonHierarchy];
   action?: typeof ButtonAction[keyof typeof ButtonAction];
 };
 
-export const Button = ({
-  hierarchy = 'primary',
-  action = 'default',
-  className: oldClassName,
-  disabled,
-  children,
-  ...rest
-}: ButtonProps): JSX.Element => {
-  const className = classNames(oldClassName, {
-    ['button-primary']: hierarchy == ButtonHierarchy.primary,
-    ['button-secondary']: hierarchy == ButtonHierarchy.secondary,
-    ['button-destructive']: action == ButtonAction.destructive,
-    ['button-productive']: action == ButtonAction.productive,
-    ['disabled']: disabled,
-  });
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      hierarchy = 'primary',
+      action = 'default',
+      className: oldClassName,
+      disabled,
+      children,
+      ...rest
+    },
+    ref
+  ): JSX.Element {
+    const className = classNames(oldClassName, {
+      ['button-primary']: hierarchy == ButtonHierarchy.primary,
+      ['button-secondary']: hierarchy == ButtonHierarchy.secondary,
+      ['button-destructive']: action == ButtonAction.destructive,
+      ['button-productive']: action == ButtonAction.productive,
+      ['disabled']: disabled,
+    });
 
-  return (
-    <ButtonStyled className={className} disabled={disabled} {...rest}>
-      {children}
-    </ButtonStyled>
-  );
-};
+    return (
+      <ButtonStyled
+        ref={ref}
+        className={className}
+        disabled={disabled}
+        {...rest}
+      >
+        {children}
+      </ButtonStyled>
+    );
+  }
+);
