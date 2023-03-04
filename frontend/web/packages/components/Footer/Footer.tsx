@@ -1,12 +1,13 @@
 import A from 'packages/components/A';
 import { cssWidth } from 'packages/components/Section';
 import { LINKS } from 'packages/pages/links/Links';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 import T from 'packages/components/Typography';
 import FooterLink from 'packages/components/Footer/FooterLink';
 import FooterLinkExpansion from 'packages/components/Footer/FooterLinkExpansion';
 import GET_POSTS from 'packages/pages/Posts/GetPosts.graphql';
 import { useLazyQuery } from '@apollo/client';
+import { breakpoints, commoncss } from 'packages/style';
 
 const FooterStyled = styled.footer`
   // background-color: ${({ theme }) => theme.color.surface[350]};
@@ -38,6 +39,24 @@ const FooterWrapper = styled.div`
   gap: ${({ theme }) => theme.spacing.px[200]};
 
   ${cssWidth};
+
+  ${({ maxWidth = '60vw' }) =>
+    commoncss.widthlimited({
+      enabled: (p) => css`
+        max-width: ${p}ch;
+
+        @media only screen and (min-width: ${breakpoints.md}) {
+          max-width: ${p ? `min(${maxWidth}, ${p}ch)` : maxWidth};
+        }
+      `,
+      disabled: () =>
+        css`
+          @media only screen and (min-width: ${breakpoints.md}) {
+            min-width: 600px;
+            max-width: ${maxWidth};
+          } ;
+        `,
+    })};
 `;
 
 const LinksWrapper = styled.section`

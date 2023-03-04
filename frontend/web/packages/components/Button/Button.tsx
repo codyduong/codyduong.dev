@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { commoncss } from 'packages/style';
 import { forwardRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Paragraph } from 'packages/components/Typography';
 import Color from 'color';
 
@@ -76,6 +76,9 @@ const ButtonStyled = styled.button`
       cursor: not-allowed;
     }
   }
+
+  transition: all 225ms 125ms;
+  transition-property: background-color;
 
   ${commoncss.focus}
 `;

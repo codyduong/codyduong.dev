@@ -9,7 +9,7 @@ import styled, {
 
 const HeadingCss = css`
   font-family: 'Overpass';
-  font-style: italic;
+  /* font-style: italic; */
   font-weight: 800;
   margin: 0 0;
   color: ${(props) => props.theme.color.text[500]};
@@ -147,24 +147,35 @@ const BoldCss = css`
   }
 `;
 
+const P2size = css`
+  font-size: ${(props) => props.theme.spacing.rem[125]};
+`;
 const P2css = css`
   ${PCss}
-  font-size: calc(${(props) => props.theme.spacing.rem[125]});
+  ${P2size}
+`;
+const P3size = css`
+  font-size: ${(props) => props.theme.spacing.rem[100]};
 `;
 const P3css = css`
   ${PCss}
-  font-size: calc(${(props) => props.theme.spacing.rem[100]});
+  ${P3size}
+`;
+const P4size = css`
+  font-size: ${(props) => props.theme.spacing.rem[87.5]};
 `;
 const P4css = css`
   ${PCss}
-  font-size: calc(${(props) => props.theme.spacing.rem[87.5]});
+  ${P4size}
 `;
 
 const calculateP = (
-  pn: ReturnType<typeof css>
+  pn: ReturnType<typeof css>,
+  size: ReturnType<typeof css>
   // eslint-disable-next-line @typescript-eslint/ban-types
 ): StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
   css: typeof pn;
+  size: typeof pn;
   // eslint-disable-next-line @typescript-eslint/ban-types
   italic: StyledComponentBase<'p', DefaultTheme, PCommonProps, never> & {
     css: FlattenInterpolation<ThemeProps<DefaultTheme>>;
@@ -180,6 +191,7 @@ const calculateP = (
     `,
     {
       css: pn,
+      size: size,
       italic: Object.assign(
         styled.p`
           ${pn}
@@ -258,9 +270,9 @@ const calculateSpan = (
 };
 
 export const Paragraph = {
-  P2: calculateP(P2css),
-  P3: calculateP(P3css),
-  P4: calculateP(P4css),
+  P2: calculateP(P2css, P2size),
+  P3: calculateP(P3css, P3size),
+  P4: calculateP(P4css, P4size),
 } as const;
 export const Span = {
   Span2: calculateSpan(P2css),

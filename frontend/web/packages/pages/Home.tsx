@@ -7,7 +7,7 @@ import A, { Link } from 'packages/components/A';
 import { breakpoints, commoncss } from 'packages/style';
 import Button from 'packages/components/Button';
 
-const TopSectionWrapper = styled.div`
+const SectionWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -16,7 +16,7 @@ const TopSectionWrapper = styled.div`
   padding: ${({ theme }) =>
     `${theme.spacing.px[200]} ${theme.spacing.px[150]}`};
   width: 100%;
-  height: calc(100vh - ${({ theme }) => theme.spacing.px[300]});
+  min-height: calc(90vh - ${({ theme }) => theme.spacing.px[300]});
 
   ${() =>
     commoncss.animation({
@@ -27,12 +27,13 @@ const TopSectionWrapper = styled.div`
     })}
 
   @media only screen and (min-width: ${breakpoints.md}) {
-    padding: ${({ theme }) => `${theme.spacing.px[400]} ${theme.spacing.px[150]}`};
+    padding: ${({ theme }) =>
+      `${theme.spacing.px[400]} ${theme.spacing.px[150]}`};
   }
 `;
 
 const TopSection = styled(Section)`
-  /* text-align: center; */
+  ${T.P2.size}
 `;
 
 const QuickButtons = styled.div`
@@ -43,12 +44,18 @@ const QuickButtons = styled.div`
 
   & > button {
     flex: 0 0 fit-content;
+    text-transform: lowercase;
   }
 `;
 
-const NameHeading = styled.h2`
-  ${T.Heading.H1.css}
+const NameHeading = styled(T.Heading.H1)`
+  font-size: ${(props) => props.theme.spacing.rem[400]};
+  text-transform: lowercase;
+`;
+
+const NameTagline = styled(T.Heading.H2)`
   margin-top: 0;
+  text-transform: lowercase;
 `;
 
 const Description = styled(T.P2)`
@@ -112,23 +119,29 @@ const AllInLink = styled(A)`
 const Home = (): JSX.Element => {
   return (
     <>
-      <TopSectionWrapper>
-        <TopSection maxWidth={'550px'}>
-          <T.Heading.H1>Cody Duong</T.Heading.H1>
-          <NameHeading>
-            Modern Software Engineer exploring cutting-edge technologies
-          </NameHeading>
+      <SectionWrapper>
+        <TopSection maxWidth={'600px'}>
+          <NameHeading>Cody Duong</NameHeading>
+          <NameTagline>
+            Software Engineer exploring cutting-edge technologies
+          </NameTagline>
           <Description>
-            I&apos;m a software engineer from Kansas. I&apos;ve been developing
-            websites, native apps, and improving developer experiences since
-            2019. I&apos;m about building experimental, highly-interactive,
-            accessible experiences
+            I&apos;m a self-taught software engineer from Kansas. I&apos;ve been
+            developing websites, native apps, and improving developer
+            experiences since 2019. I&apos;m about building experimental,
+            highly-interactive, accessible experiences.
+          </Description>
+          <Description>
+            I&apos;m currently a Software Engineering Intern at{' '}
+            <Link.Styled to="/work/agi">AGI Digital</Link.Styled> and student at{' '}
+            <A.Styled href="https://ku.edu">The University of Kansas</A.Styled>{' '}
+            pursuing a Bachelor of Science in Computer Science.
           </Description>
           <QuickButtons>
             <Button>View Projects</Button>
           </QuickButtons>
         </TopSection>
-      </TopSectionWrapper>
+      </SectionWrapper>
       <Content>
         {/* <Construction3D /> */}
         <SectionContainer>

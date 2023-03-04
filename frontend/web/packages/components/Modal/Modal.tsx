@@ -33,7 +33,7 @@ const ModalFooter = styled.div<{ numberOfButtons?: number }>`
   }
 `;
 
-const ModalFooterComponent = React.forwardRef<
+const ModalFooterComponent = forwardRef<
   HTMLDivElement,
   React.PropsWithoutRef<JSX.IntrinsicElements['div']> & {
     numberOfButtons?: number;
@@ -150,7 +150,7 @@ const ModalContainer = styled(T.P2)`
         enabled: (p) =>
           p
             ? css`
-                font-size: ${({ theme }) => theme.spacing.rem[100]};
+                ${T.P3.size}
                 max-width: ${p}ch;
               `
             : undefined,
