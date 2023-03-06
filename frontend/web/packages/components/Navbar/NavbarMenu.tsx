@@ -276,8 +276,11 @@ const NavbarMenu = ({
           <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
             work
           </StyledLinkComponent>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
-            playground
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/projects">
+            projects
+          </StyledLinkComponent>
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/lab">
+            lab
           </StyledLinkComponent>
           <StyledLinkComponent open={open} setOpen={setOpen} to="/posts">
             posts

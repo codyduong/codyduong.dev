@@ -5,11 +5,13 @@ import T from 'packages/components/Typography';
 import classNames from 'classnames';
 import { LinkProps } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { breakpoints } from 'packages/style';
 
 const FooterExpansion = styled.div`
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
+  color: ${({ theme }) => theme.color.text[100]};
 `;
 
 const ElementsWrapper = styled.ul`
@@ -25,17 +27,29 @@ const ElementsWrapper = styled.ul`
   transition-property: max-height, opacity;
   box-sizing: content-box;
 
-  & > a {
-    margin-left: ${({ theme }) => theme.spacing.px[125]};
-    margin-right: 2px;
+  & > a,
+  > span {
+    padding: ${({ theme }) => `0 ${theme.spacing.px[50]}`};
+    @media only screen and (min-width: ${breakpoints.md}) {
+      padding: ${({ theme }) => `0 ${theme.spacing.px[100]}`};
+    }
+    @media only screen and (min-width: ${breakpoints.xxl}) {
+      padding: ${({ theme }) => `0 ${theme.spacing.px[125]}`};
+    }
   }
 
-  & > a:first-child {
-    margin-top: ${({ theme }) => theme.spacing.px[50]};
+  & > a,
+  > span {
+    &:first-child {
+      margin-top: ${({ theme }) => theme.spacing.px[50]};
+    }
   }
 
-  & > a:last-child {
-    margin-bottom: ${({ theme }) => theme.spacing.px[75]};
+  & > a,
+  > span {
+    &:last-child {
+      margin-bottom: ${({ theme }) => theme.spacing.px[75]};
+    }
   }
 
   &.open {
@@ -51,6 +65,7 @@ const SubLink = styled(StyledFooterLink)`
   width: 100%;
   border: unset;
   text-decoration: underline;
+  box-sizing: border-box;
 `;
 
 type FooterLinkExpansionProps<P, C extends React.FC<P> | undefined> = Omit<

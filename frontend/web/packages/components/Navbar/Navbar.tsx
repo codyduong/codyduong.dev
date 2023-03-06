@@ -340,7 +340,8 @@ const Navbar = (): JSX.Element => {
           <NavbarLinks>
             {/* <StyledLink to="/">home</StyledLink> */}
             <StyledLink to="/work">work</StyledLink>
-            <StyledLink to="/playground">playground</StyledLink>
+            <StyledLink to="/projects">projects</StyledLink>
+            <StyledLink to="/lab">lab</StyledLink>
             <StyledLink to="/posts">posts</StyledLink>
           </NavbarLinks>
           <NavbarListRight>

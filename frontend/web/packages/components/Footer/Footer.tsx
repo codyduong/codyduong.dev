@@ -130,6 +130,10 @@ const CopyrightText = styled.span`
   color: ${({ theme }) => theme.color.surface[100]};
 `;
 
+const AllPosts = styled.span`
+  margin-left: auto;
+`;
+
 const Footer = (): JSX.Element => {
   const theme = useTheme();
   const [getPosts, { loading, error, data: posts }] = useLazyQuery(
@@ -172,33 +176,35 @@ const Footer = (): JSX.Element => {
               <FooterLinkExpansion
                 title="Posts"
                 elements={
-                  posts
-                    ? [
-                        ...posts.posts.map((post) => ({
-                          key: post.id,
-                          props: {
-                            to: `/posts/${post.postId}`,
-                            children: post.title as React.ReactNode,
-                          },
-                        })),
-                        {
-                          key: 'post-expansion',
-                          props: {
-                            to: '/posts',
-                            children: (
-                              <>
-                                <span>
-                                  <span aria-hidden> . . . </span>
-                                  view all posts
-                                </span>
-                              </>
-                            ),
-                          },
+                  posts ? (
+                    [
+                      ...posts.posts.slice(0, 3).map((post) => ({
+                        key: post.id,
+                        props: {
+                          to: `/posts/${post.postId}`,
+                          children: post.title as React.ReactNode,
                         },
-                      ]
-                    : loading
-                    ? 'Loading Posts'
-                    : error?.message
+                      })),
+                      {
+                        key: 'post-expansion',
+                        props: {
+                          to: '/posts',
+                          children: (
+                            <>
+                              <AllPosts>
+                                <span aria-hidden> . . . </span>
+                                view all posts
+                              </AllPosts>
+                            </>
+                          ),
+                        },
+                      },
+                    ]
+                  ) : loading ? (
+                    <span>Loading Posts</span>
+                  ) : (
+                    <span>{error?.message}</span>
+                  )
                 }
                 onClick={() => {
                   loadPosts();

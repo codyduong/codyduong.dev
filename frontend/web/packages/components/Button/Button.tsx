@@ -25,18 +25,21 @@ const ButtonStyled = styled.button`
     background: ${({ theme }) => theme.color.base[300]};
     color: ${({ theme }) => theme.color.text[100]};
     &:hover {
-      background: ${({ theme }) => theme.color.base[500]};
+      background: ${({ theme }) => theme.color.base[100]};
+    }
+    &:active {
+      box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
     }
     &.button-destructive {
       background: ${({ theme }) => theme.color.destructive[300]};
       &:hover {
-        background: ${({ theme }) => theme.color.destructive[500]};
+        background: ${({ theme }) => theme.color.destructive[200]};
       }
     }
     &.button-productive {
       background: ${({ theme }) => theme.color.productive[300]};
       &:hover {
-        background: ${({ theme }) => theme.color.productive[500]};
+        background: ${({ theme }) => theme.color.productive[200]};
       }
     }
     &.disabled {
