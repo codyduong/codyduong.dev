@@ -7,10 +7,11 @@
     "dev": "cross-env NODE_ENV=development nodemon ./src/server.ts",
     "start": "node dist/server",
     "clean": "./scripts/clean.sh",
-    "build": "yarn -s run clean && yarn -s run generate && tsc",
+    "build": "yarn -s run clean && yarn -s run generate && tsc && yarn cpf",
     "generate": "yarn -s run generate:prisma && yarn -s run generate:nexus",
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node --transpile-only src/schema",
+    "cpf": "copyfiles -V -f src/generated/nexus.ts dist/generated",
     "ci": "yarn install --frozen-lockfile",
     "lint:changed": "./scripts/lint.sh",
     "deploy": "firebase deploy"
@@ -24,7 +25,6 @@
   "dependencies": {
     "@apollo/server": "^4.3.1",
     "@prisma/client": "4.9.0",
-    "apollo-server-express": "^3.11.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -46,6 +46,7 @@
     "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.18.0",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",

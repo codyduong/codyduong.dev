@@ -8,8 +8,6 @@
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log",
-        "**/*.tsx",
-        "**/*.ts",
         "src",
         ".env-EXAMPLE",
         ".eslintrc.js",
@@ -20,7 +18,7 @@
         "tsconfig.tsbuildinfo"
       ],
       "codebase": "backend",
-      "runtime": "nodejs16"
+      "runtime": "nodejs18"
     }
   ]
 }
