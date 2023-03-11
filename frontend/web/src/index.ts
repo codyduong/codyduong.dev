@@ -21,6 +21,6 @@ export default {
   server: express()
     .use((req, res) => app.handle(req, res))
     .listen(port, () => {
-      console.log(`> App started http://localhost:${port}`);
+      console.log(`🚀 App started http://localhost:${port}`);
     }),
 };
