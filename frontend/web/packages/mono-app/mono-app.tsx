@@ -18,7 +18,7 @@ import {
 import { ScrollProvider } from 'packages/mono-app/context/ScrollContext';
 
 const Home = loadable(
-  () => import(/* webpackPrefetch: true */ 'packages/pages/Home')
+  () => import(/* webpackPrefetch: true */ 'packages/pages/Home/Home')
 );
 const WebAccessibilityStatement = loadable(
   () =>

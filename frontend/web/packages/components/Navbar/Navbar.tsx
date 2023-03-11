@@ -264,6 +264,12 @@ const StyledLink = forwardRef<
   );
 });
 
+const StyledSeperator = styled.span`
+  ${T.P4.css}
+  margin-top: auto;
+  color: ${({ theme }) => theme.color.text[200]};
+`;
+
 const Navbar = (): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [settings, setSettings] = useState(false);
@@ -339,10 +345,11 @@ const Navbar = (): JSX.Element => {
           </Name>
           <NavbarLinks>
             {/* <StyledLink to="/">home</StyledLink> */}
-            <StyledLink to="/work">work</StyledLink>
             <StyledLink to="/projects">projects</StyledLink>
-            <StyledLink to="/lab">lab</StyledLink>
             <StyledLink to="/posts">posts</StyledLink>
+            <StyledLink to="/gists">gists</StyledLink>
+            <StyledSeperator aria-hidden>|</StyledSeperator>
+            <StyledLink to="/work">work</StyledLink>
           </NavbarLinks>
           <NavbarListRight>
             <NavbarListItem>

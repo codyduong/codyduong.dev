@@ -171,8 +171,7 @@ const Footer = (): JSX.Element => {
             <FooterGroup tabIndex={-1}>
               <FooterHeader>Navigate</FooterHeader>
               <FooterLink to="/">Home</FooterLink>
-              <FooterLink to="/work">Work</FooterLink>
-              <FooterLink to="/playground">Playground</FooterLink>
+              <FooterLink to="/projects">Projects</FooterLink>
               <FooterLinkExpansion
                 title="Posts"
                 elements={
@@ -216,6 +215,7 @@ const Footer = (): JSX.Element => {
                   open && loadPosts();
                 }}
               />
+              <FooterLink to="/work">Work</FooterLink>
               {/* <FooterLink to="/contact">
                 Contact
               </FooterLink> */}
