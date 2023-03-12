@@ -7,12 +7,28 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type FeedbackResponse {
+  ok: Boolean!
+  redirected: Boolean!
+  status: Int!
+  statusText: String!
+  type: String
+  url: String!
+}
+
+input FeedbackUploadInput {
+  email: String!
+  message: String!
+  name: String!
+}
+
 type Mutation {
   createPost(data: PostCreateInput!): post
   createUser(email: String!, password: String!): UserAuthPayload
   deletePost(id: String!): post
   loginUser(email: String!, password: String!): UserAuthPayload
   updatePost(data: PostUpdateInput!, id: String!): post
+  uploadFeedback(data: FeedbackUploadInput!): FeedbackResponse
 }
 
 input PostCreateInput {

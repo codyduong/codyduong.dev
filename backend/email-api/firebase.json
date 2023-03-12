@@ -1,0 +1,24 @@
+{
+  "functions": [
+    {
+      "function": "email-api",
+      "source": ".",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "src",
+        ".env-EXAMPLE",
+        ".eslintrc.js",
+        ".gitignore",
+        ".prettierignore",
+        "README.md",
+        "tsconfig.json",
+        "tsconfig.tsbuildinfo"
+      ],
+      "codebase": "backend",
+      "runtime": "nodejs18"
+    }
+  ]
+}

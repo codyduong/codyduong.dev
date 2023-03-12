@@ -117,3 +117,4 @@ export const getIsAdmin = async (context: Context): Promise<boolean> => {
 };
 
 export const APP_SECRET = process.env['APP_SECRET']!;
+export { default as fetchWithApi } from './fetch';

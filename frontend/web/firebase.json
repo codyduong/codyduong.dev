@@ -19,12 +19,6 @@
   },
   "functions": [
     {
-      "function": "api",
-      "source": "../../backend/graphql/",
-      "codebase": "backend",
-      "runtime": "nodejs16"
-    },
-    {
       "function": "app",
       "source": ".",
       "codebase": "default",
@@ -53,7 +47,19 @@
         "tsconfig.tsbuildinfo",
         "ui-debug.log"
       ],
-      "runtime": "nodejs16"
+      "runtime": "nodejs18"
+    },
+    {
+      "function": "api",
+      "source": "../../backend/graphql/",
+      "codebase": "backend",
+      "runtime": "nodejs18"
+    },
+    {
+      "function": "email-api",
+      "source": "../../backend/email-api/",
+      "codebase": "backend",
+      "runtime": "nodejs18"
     }
   ]
 }

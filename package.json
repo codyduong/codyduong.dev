@@ -5,6 +5,7 @@
   "workspaces": [
     "frontend/inferna/",
     "frontend/web/",
-    "backend/graphql/"
+    "backend/graphql/",
+    "backend/react-email/"
   ]
 }
