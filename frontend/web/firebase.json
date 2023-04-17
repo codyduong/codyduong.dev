@@ -13,42 +13,14 @@
       },
       {
         "source": "**",
-        "function": "app"
+        "run": {
+          "serviceId": "web",
+          "region": "us-central1"
+        }
       }
     ]
   },
   "functions": [
-    {
-      "function": "app",
-      "source": ".",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "**/*.tsx",
-        "**/*.ts",
-        "src",
-        "packages",
-        "config",
-        "cache",
-        ".babelrc",
-        ".env-EXAMPLE",
-        ".eslintrc.js",
-        ".gitignore",
-        ".graphqlrc.js",
-        ".prettierignore",
-        "craco.config.js",
-        "razzle.config.js",
-        "README.md",
-        "tsconfig.json",
-        "tsconfig.storybook.json",
-        "tsconfig.tsbuildinfo",
-        "ui-debug.log"
-      ],
-      "runtime": "nodejs16"
-    },
     {
       "function": "api",
       "source": "../../backend/graphql/",

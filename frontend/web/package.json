@@ -20,7 +20,7 @@
     "ci": "yarn install --frozen-lockfile",
     "lint": "yarn eslint",
     "lint:changed": "./scripts/lint.sh",
-    "postinstall": "./scripts/post-install.sh",
+    "postinstall": "exit 0; ./scripts/post-install.sh",
     "deploy": "firebase deploy --only hosting,functions:app",
     "generate": "graphql-codegen"
   },

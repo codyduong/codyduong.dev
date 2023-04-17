@@ -130,16 +130,15 @@ module.exports = {
       );
 
       /** Configure functions.tsx for output as well */
-      const appDirectory = fs.realpathSync(
-        path.join(process.cwd(), process.env.RAZZLE_APP_PATH || '')
-      );
-      const resolveApp = (relativePath) =>
-        path.resolve(appDirectory, relativePath);
-
-      webpackConfig.entry = {
-        ...webpackConfig.entry,
-        functions: resolveApp('src/functions'),
-      };
+      // const appDirectory = fs.realpathSync(
+      //   path.join(process.cwd(), process.env.RAZZLE_APP_PATH || '')
+      // );
+      // const resolveApp = (relativePath) =>
+      //   path.resolve(appDirectory, relativePath);
+      // webpackConfig.entry = {
+      //   ...webpackConfig.entry,
+      //   functions: resolveApp('src/functions'),
+      // };
     }
     if (env.target === 'web') {
       const filename = path.resolve(__dirname, 'build');
