@@ -1,0 +1,39 @@
+name: backend/email-api
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+    paths:
+      - 'backend/email-api/**'
+  pull_request:
+    branches: [ master ]
+
+defaults:
+  run:
+    working-directory: backend/email-api
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: master
+        fetch-depth: 0
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+        cache-dependency-path: 'backend/graphql/yarn.lock'
+    - run: yarn ci
+    - run: yarn lint:changed

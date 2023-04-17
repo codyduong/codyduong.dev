@@ -12,7 +12,7 @@ import classnames from 'classnames';
 // import { ControlledSlider } from '../Slider/Slider';
 
 export default {
-  title: 'Components/Modals',
+  title: 'Atoms/Modals',
   component: Modal,
   decorators: undefined,
   parameters: {

@@ -8,6 +8,7 @@ import Button from 'packages/components/Button';
 import FeedIcon from '@mui/icons-material/Feed';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
+import { SimpleInput } from 'packages/components/Input';
 
 const TopSection = styled.section`
   display: flex;
@@ -163,6 +164,7 @@ const Home = (): JSX.Element => {
             <Button
               onClick={() => {
                 projectsRef.current?.scrollIntoView(ScrollBehavior);
+                projectsRef.current?.focus({ preventScroll: true });
               }}
             >
               View Projects
@@ -170,6 +172,7 @@ const Home = (): JSX.Element => {
             <Button
               onClick={() => {
                 contactRef.current?.scrollIntoView(ScrollBehavior);
+                contactRef.current?.focus({ preventScroll: true });
               }}
             >
               Get in Touch
@@ -181,7 +184,7 @@ const Home = (): JSX.Element => {
           </QuickButtons>
         </SectionInner>
       </TopSection>
-      <MiddleSection ref={aboutRef}>
+      <MiddleSection ref={aboutRef} tabIndex={-1}>
         <SectionInner maxWidth="768px">
           <Heading2>About</Heading2>
           <Description>
@@ -191,14 +194,30 @@ const Home = (): JSX.Element => {
             highly-interactive, accessible experiences.
           </Description>
           <Description>
-            I&apos;m currently a Software Engineering Intern at{' '}
-            <Link.Styled to="/work/agi">AGI Digital</Link.Styled> and student at{' '}
+            Currently a Computer Science Student{' '}
             <A.Styled href="https://ku.edu">The University of Kansas</A.Styled>{' '}
-            pursuing a Bachelor of Science in Computer Science.
+            and Software Engineering Intern at{' '}
+            <Link.Styled to="/work/agi">AGI Digital</Link.Styled>
           </Description>
+          <Description>
+            Also in GitHub&apos;s{' '}
+            <AllInLink href="https://allinopensource.org">
+              <AIwrapper>
+                &thinsp;<AIc aria-hidden>{'{ '}</AIc>
+                all in
+                <AIc aria-hidden>{' }'}</AIc>&thinsp;
+              </AIwrapper>
+              &thinsp;
+              <AIu>Student Program</AIu>
+            </AllInLink>{' '}
+            in the 2023 Cohort.
+          </Description>
+          {/* <Description>
+            Formerly at <Link.Styled to="/work/agi">AGI Digital</Link.Styled>
+          </Description> */}
         </SectionInner>
       </MiddleSection>
-      <MiddleSection ref={projectsRef}>
+      <MiddleSection ref={projectsRef} tabIndex={-1}>
         <SectionInner maxWidth="768px">
           <Heading2>Projects</Heading2>
           <Description>
@@ -206,12 +225,16 @@ const Home = (): JSX.Element => {
           </Description>
         </SectionInner>
       </MiddleSection>
-      <MiddleSection ref={contactRef}>
+      <MiddleSection ref={contactRef} tabIndex={-1}>
         <SectionInner maxWidth="768px">
           <Heading2>Contact Me</Heading2>
           <Description>
-            Contact me to provide feedback or about professional inquries
+            Looking to hire me, learn more about my experience, or provide
+            feedback for my website? I would be more than happy to speak with
+            you.
           </Description>
+          <SimpleInput label="Name" />
+          <SimpleInput label="Email" />
         </SectionInner>
       </MiddleSection>
     </>

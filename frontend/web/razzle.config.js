@@ -60,7 +60,8 @@ function locateLoader(rules, loaderName) {
 module.exports = {
   options: {
     // https://github.com/jaredpalmer/razzle/pull/1273
-    enableReactRefresh: true,
+    // enableReactRefresh: true,
+    // ^ This causes issues with styled-components
   },
   plugins: ['graphql'],
   modifyWebpackConfig(opts) {

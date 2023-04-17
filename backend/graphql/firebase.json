@@ -17,8 +17,8 @@
         "tsconfig.json",
         "tsconfig.tsbuildinfo"
       ],
-      "codebase": "backend",
-      "runtime": "nodejs18"
+      "codebase": "graphql",
+      "runtime": "nodejs16"
     }
   ]
 }

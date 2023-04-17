@@ -5,8 +5,19 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 require('dotenv').config();
 
 let transportOptions: SMTPTransport.Options;
-if (process.env.GCLOUD_PROJECT || process.env.NODE_ENV === 'production') {
-  transportOptions = {};
+if (
+  process.env.GCLOUD_PROJECT ||
+  process.env.NODE_ENV === 'production' ||
+  Boolean(process.env['USE_PROD'])
+) {
+  transportOptions = {
+    host: process.env['PROD_HOST'],
+    port: process.env['PROD_PORT'] ? Number(process.env['PROD_PORT']) : 587,
+    auth: {
+      user: process.env['PROD_USER'] || 'apikey',
+      pass: process.env['PROD_PASS'] || process.env['SENDGRID_API_KEY'],
+    },
+  };
 } else {
   for (const name of ['DEV_NAME', 'DEV_USER', 'DEV_PASS']) {
     if (process.env[name] === undefined) {
@@ -14,8 +25,8 @@ if (process.env.GCLOUD_PROJECT || process.env.NODE_ENV === 'production') {
     }
   }
   transportOptions = {
-    host: process.env['DEV_HOST'] ?? 'smtp.ethereal.email',
-    port: Number(process.env['DEV_PORT']) ?? 587,
+    host: process.env['DEV_HOST'] || 'smtp.ethereal.email',
+    port: process.env['DEV_PORT'] ? Number(process.env['DEV_PORT']) : 587,
     secure: false,
     auth: {
       user: process.env['DEV_USER'],
@@ -23,6 +34,8 @@ if (process.env.GCLOUD_PROJECT || process.env.NODE_ENV === 'production') {
     },
   };
 }
+
+console.log(transportOptions);
 
 const transporter = nodemailer.createTransport(transportOptions);
 
@@ -40,18 +53,20 @@ const server = express()
 
       const info = await transporter.sendMail({
         from: '"Automated Feedback 🤖" <noreply@codyduong.dev>',
-        to: 'feedback@codyduong.dev',
+        to: 'cody.qd@gmail.com',
         subject: `Feedback from "${req.body.name}" <${req.body.email}>`,
-        html: `<b>${req.body.message} Test?</b>`,
+        html: `${req.body.message}`,
       });
 
-      console.log('Message sent: %s', info.messageId);
+      console.log(
+        `Message Sent\nid: ${info.messageId}\naccepted: ${info.accepted}\nrejected: ${info.rejected}\nresponse: ${info.response}`
+      );
       if (transportOptions.host === 'smtp.ethereal.email') {
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
       }
 
       res.status(200).json({
-        sent: 'success',
+        response: info.response,
       });
     } catch (e) {
       console.error(e);

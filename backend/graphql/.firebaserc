@@ -1,6 +1,6 @@
 {
   "projects": {
-    "backend": "codyduongweb"
+    "graphql": "codyduongweb"
   },
   "targets": {},
   "etags": {}

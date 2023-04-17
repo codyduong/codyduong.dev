@@ -90,31 +90,5 @@ export const generateSchemaTypesFromAdapters = async (): Promise<{
   };
 };
 
-export type Token = {
-  id: string;
-};
-
-export const getIsAdmin = async (context: Context): Promise<boolean> => {
-  try {
-    const authHeader = context.req.get('Authorization');
-    if (authHeader) {
-      const token = authHeader.replace('Bearer ', '');
-      const verifiedToken = verify(token, APP_SECRET) as Token;
-      const user = await context.prisma.user.findUnique({
-        where: {
-          id: verifiedToken.id,
-        },
-      });
-      if (!user) {
-        throw new Error(`No user found for token id: ${verifiedToken.id}`);
-      }
-      return user.role === 'admin';
-    }
-  } catch (e) {
-    console.warn(e);
-  }
-  return false;
-};
-
 export const APP_SECRET = process.env['APP_SECRET']!;
 export { default as fetchWithApi } from './fetch';

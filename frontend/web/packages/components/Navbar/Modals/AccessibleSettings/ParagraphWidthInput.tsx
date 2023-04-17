@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import Input from 'packages/components/Input';
+import { SimpleInput } from 'packages/components/Input';
 import { useAccessibility } from 'packages/mono-app/context/AccessibilityContext';
 import { commoncss } from 'packages/style';
 import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { StyledSwitch } from './common';
 
-const StyledInput = styled(Input)`
+const StyledInput = styled(SimpleInput)`
   margin-left: ${({ theme }) => theme.spacing.px[100]};
 
   div {

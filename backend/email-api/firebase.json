@@ -17,8 +17,8 @@
         "tsconfig.json",
         "tsconfig.tsbuildinfo"
       ],
-      "codebase": "backend",
-      "runtime": "nodejs18"
+      "codebase": "email-api",
+      "runtime": "nodejs16"
     }
   ]
 }

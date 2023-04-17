@@ -47,19 +47,19 @@
         "tsconfig.tsbuildinfo",
         "ui-debug.log"
       ],
-      "runtime": "nodejs18"
+      "runtime": "nodejs16"
     },
     {
       "function": "api",
       "source": "../../backend/graphql/",
-      "codebase": "backend",
-      "runtime": "nodejs18"
+      "codebase": "graphql",
+      "runtime": "nodejs16"
     },
     {
       "function": "email-api",
       "source": "../../backend/email-api/",
-      "codebase": "backend",
-      "runtime": "nodejs18"
+      "codebase": "email-api",
+      "runtime": "nodejs16"
     }
   ]
 }

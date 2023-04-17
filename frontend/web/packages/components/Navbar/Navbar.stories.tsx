@@ -4,7 +4,7 @@ import { withRouter } from 'storybook-addon-react-router-v6';
 import styled from 'styled-components';
 
 export default {
-  title: 'Components/Navbar',
+  title: 'Molecules/Navbar',
   component: N,
   decorators: [withRouter],
   parameters: {

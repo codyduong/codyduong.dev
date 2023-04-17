@@ -1,11 +1,4 @@
-import {
-  arg,
-  inputObjectType,
-  intArg,
-  nonNull,
-  objectType,
-  stringArg,
-} from 'nexus';
+import { arg, inputObjectType, nonNull, objectType } from 'nexus';
 import { Context } from '../context';
 import { Adapter } from '../adapter';
 import { rules } from '../rules';
@@ -17,11 +10,9 @@ export default Adapter<'contact'>({
       name: 'FeedbackResponse',
       definition(t) {
         t.nonNull.boolean('ok');
-        t.nonNull.boolean('redirected');
         t.nonNull.int('status');
         t.nonNull.string('statusText');
-        t.string('type');
-        t.nonNull.string('url');
+        t.nullable.string('serverResponse');
       },
     }),
     inputObjectType({
@@ -34,8 +25,6 @@ export default Adapter<'contact'>({
     }),
   ],
   resolver: {
-    // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
-    Query: (_t) => {},
     Mutation: (t) => {
       t.field('uploadFeedback', {
         type: 'FeedbackResponse',
@@ -47,19 +36,19 @@ export default Adapter<'contact'>({
           ),
         },
         resolve: async (_, { data }, _context: Context) => {
-          const { ok, redirected, status, statusText, type, url } =
-            await fetchWithApi('email-api', {
-              method: 'post',
-              body: JSON.stringify(data),
-              headers: { 'Content-Type': 'application/json' },
-            });
+          const response = await fetchWithApi('email-api', {
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' },
+          });
+          const { ok, redirected, status, statusText } = response;
+          const json = await response.json();
           return {
             ok,
             redirected,
             status,
             statusText,
-            type,
-            url,
+            serverResponse: json.response ?? null,
           };
         },
       });
