@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const functions = require('firebase-functions');
 import express from 'express';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServer } from '@apollo/server';
@@ -10,23 +8,29 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 
+const port = parseInt(process.env.PORT || '8080');
+
 // Setup express cloud function
 const app = express();
 const httpServer = http.createServer(app);
 
 // Create graphql server
-async function startServer() {
+async function startServer(): Promise<void> {
   const apolloServer = new ApolloServer<Context>({
     schema: await schema(),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
   await apolloServer.start();
-  app.use(
-    cors(),
-    bodyParser.json(),
-    expressMiddleware(apolloServer, { context })
-  );
+  app
+    .use(
+      cors(),
+      bodyParser.json(),
+      expressMiddleware(apolloServer, { context })
+    )
+    .listen(port, () => {
+      console.log(`\
+  🚀 Server started on port ${port}
+    `);
+    });
 }
 startServer();
-
-exports.api = functions.https.onRequest(app);

@@ -9,11 +9,9 @@ scalar DateTime
 
 type FeedbackResponse {
   ok: Boolean!
-  redirected: Boolean!
+  serverResponse: String
   status: Int!
   statusText: String!
-  type: String
-  url: String!
 }
 
 input FeedbackUploadInput {

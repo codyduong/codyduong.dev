@@ -64,7 +64,7 @@ const Column = styled.div`
 //   pointer-events: none;
 // `;
 
-const StyledAGISuretrack = styled(AGISuretrack)`
+const StyledAGISuretrack = styled(AGISuretrack as any)`
   max-height: 4rem;
 `;
 

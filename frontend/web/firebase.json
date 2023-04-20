@@ -9,7 +9,10 @@
     "rewrites": [
       {
         "source": "/api/**",
-        "function": "api"
+        "run": {
+          "serviceId": "api",
+          "region": "us-central1"
+        }
       },
       {
         "source": "**",
@@ -20,18 +23,5 @@
       }
     ]
   },
-  "functions": [
-    {
-      "function": "api",
-      "source": "../../backend/graphql/",
-      "codebase": "graphql",
-      "runtime": "nodejs16"
-    },
-    {
-      "function": "email-api",
-      "source": "../../backend/email-api/",
-      "codebase": "email-api",
-      "runtime": "nodejs16"
-    }
-  ]
+  "functions": []
 }

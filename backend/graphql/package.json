@@ -2,10 +2,9 @@
   "name": "codyduongweb-graphql",
   "version": "0.1.0",
   "private": "true",
-  "main": "dist/functions.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon ./src/server.ts",
-    "start": "node dist/server",
+    "start": "node dist/functions",
     "clean": "./scripts/clean.sh",
     "build": "yarn -s run clean && yarn -s run generate && tsc && yarn cpf",
     "generate": "yarn -s run generate:prisma && yarn -s run generate:nexus",
@@ -14,7 +13,11 @@
     "cpf": "copyfiles -V -f src/generated/nexus.ts dist/generated",
     "ci": "yarn install --frozen-lockfile",
     "lint:changed": "./scripts/lint.sh",
-    "deploy": "firebase deploy"
+    "docker:build": "docker build . --tag us-central1-docker.pkg.dev/codyduongweb/docker/api:latest",
+    "docker:push": "docker push us-central1-docker.pkg.dev/codyduongweb/docker/api:latest",
+    "gcloud:push": "gcloud run deploy --image us-central1-docker.pkg.dev/codyduongweb/docker/api:latest",
+    "deploy": "yarn docker:build && yarn docker:push && yarn gcloud:push",
+    "build+deploy": "yarn build && yarn deploy"
   },
   "prettier": {
     "tabWidth": 2,
@@ -28,9 +31,7 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
     "firebase-admin": "^11.3.0",
-    "firebase-functions": "^4.1.0",
     "glob": "^8.0.3",
     "graphql": "16.6.0",
     "graphql-middleware": "^6.1.33",

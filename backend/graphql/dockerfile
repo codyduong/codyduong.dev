@@ -7,14 +7,14 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY ./yarn.lock ./yarn.lock
 COPY ./.env ./.env
+COPY ./prisma ./prisma
+COPY ./schema.graphql ./schema.graphql
 
 # Install dependencies.
-RUN apt-get -y update
-RUN apt-get -y install git
 RUN yarn install --only=production
 
 # Copy local code to the container image.
-COPY ./build ./build
+COPY ./dist ./dist
 
 # Run the web service on container startup.
 CMD [ "yarn", "start" ]

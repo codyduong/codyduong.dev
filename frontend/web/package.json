@@ -2,10 +2,9 @@
   "name": "codyduongweb",
   "version": "0.1.0",
   "private": true,
-  "main": "build/functions.js",
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
-    "start": "concurrently \"yarn start:tsc\" \"razzle start\"",
+    "start": "node build/functions.js",
     "start:firebase": "concurrently \"yarn start:tsc\" \"razzle start\" \"firebase emulators:start\"",
     "build:lite": "tsc -b && razzle build --noninteractive",
     "export:no_build": "echo deprecated; exit 1 && razzle export && scripts/cp404.sh",
@@ -21,8 +20,13 @@
     "lint": "yarn eslint",
     "lint:changed": "./scripts/lint.sh",
     "postinstall": "exit 0; ./scripts/post-install.sh",
-    "deploy": "firebase deploy --only hosting,functions:app",
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen",
+    "firebase:deploy": "firebase deploy --only hosting",
+    "docker:build": "docker build . --tag us-central1-docker.pkg.dev/codyduongweb/docker/web:latest",
+    "docker:push": "docker push us-central1-docker.pkg.dev/codyduongweb/docker/web:latest",
+    "gcloud:push": "gcloud run deploy --image us-central1-docker.pkg.dev/codyduongweb/docker/web:latest",
+    "deploy": "yarn docker:build && yarn docker:push && yarn gcloud:push && firebase:deploy",
+    "build+deploy": "yarn build && yarn deploy"
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
@@ -54,7 +58,6 @@
     "cross-fetch": "^3.1.5",
     "dotenv": "^16.0.3",
     "firebase-admin": "^11.3.0",
-    "firebase-functions": "^4.1.0",
     "geojson-vt": "^3.2.1",
     "global": "^4.4.0",
     "graphql": "^16.6.0",

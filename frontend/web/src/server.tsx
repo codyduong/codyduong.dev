@@ -122,7 +122,7 @@ export const renderApp = async (
       uri: graphqlLocation,
       credentials: 'same-origin',
       headers: {
-        cookie: req.header('Cookie'),
+        cookie: req.header('Cookie') ?? '',
       },
       fetch,
     }),
