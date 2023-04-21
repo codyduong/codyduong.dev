@@ -5,7 +5,7 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'codyduong',
   ],
-  plugins: ['jsx-a11y'],
+  plugins: ['jsx-a11y', 'prettier'],
   env: {
     browser: true,
     node: true,

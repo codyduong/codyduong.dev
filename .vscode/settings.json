@@ -1,3 +1,7 @@
 {
-  "graphql-config.load.rootDir": "frontend/web/"
+  "graphql-config.load.rootDir": "frontend/web/",
+  "eslint.workingDirectories": [
+    "frontend/web",
+    "backend/graphql"
+  ]
 }

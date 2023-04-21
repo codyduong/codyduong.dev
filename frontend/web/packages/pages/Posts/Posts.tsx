@@ -9,8 +9,7 @@ import loadable, { Spinner } from 'packages/components/SpinkitLoadable';
 import { Link } from 'packages/components/A';
 
 const Post = loadable(
-  () => import(/* webpackPrefetch: true */ 'packages/pages/Posts/Post'),
-  { ssr: false }
+  () => import(/* webpackPrefetch: true */ 'packages/pages/Posts/Post')
 );
 
 const PostUl = styled.ul`

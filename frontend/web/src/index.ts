@@ -3,8 +3,8 @@ import express from 'express';
 
 let app = require('./server').default;
 
-if (module.hot) {
-  module.hot.accept('./server', () => {
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept('./server', () => {
     console.log('🔁  HMR Reloading `./server`...');
     try {
       app = require('./server').default;

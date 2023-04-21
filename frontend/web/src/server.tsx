@@ -17,7 +17,7 @@ import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import { ServerStyleSheet } from 'styled-components';
 import fs from 'fs';
 import App from 'packages/mono-app';
-import path from 'path';
+import path, { dirname } from 'path';
 import generateTitleTag from './titleGenerator';
 import {
   HttpContextDefaultValue,
@@ -33,15 +33,22 @@ import {
 import { CookiesProvider, Cookies } from 'react-cookie';
 import fetch from 'cross-fetch';
 import * as dotenv from 'dotenv';
-dotenv.config({ debug: true, override: false });
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({
+  debug: true,
+  override: false,
+  path: path.resolve(__dirname, '..', '.env'),
+});
 
 let assets: unknown;
 
 /* eslint-disable prettier/prettier */
-const syncLoadAssets = () => {
-  assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
-};
-syncLoadAssets();
+// const syncLoadAssets = () => {
+//   assets = import(`file:///${process.env.RAZZLE_ASSETS_MANIFEST!}`);
+// };
+// syncLoadAssets();
 
 // @ts-ignore
 const cssLinksFromAssets = (assets, entrypoint) => {

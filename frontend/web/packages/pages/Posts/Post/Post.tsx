@@ -1,4 +1,4 @@
-import { evaluate } from '@mdx-js/mdx';
+import { evaluate, compile, run } from '@mdx-js/mdx';
 import styled from 'styled-components';
 import GET_POST from './GetPost.graphql';
 import UPDATE_POST from './UpdatePost.graphql';
@@ -217,11 +217,15 @@ const Post = (): JSX.Element | null => {
   const evaluatePromise = useMemo(
     async () =>
       contentStr
-        ? await evaluate(contentStr, {
-            Fragment: undefined,
-            ...runtime,
-            format: 'mdx',
-          })
+        ? document
+          ? await evaluate(contentStr, {
+              Fragment: undefined,
+              ...runtime,
+              format: 'mdx',
+            })
+          : await compile(contentStr, {
+              format: 'mdx',
+            })
         : { default: undefined },
     [contentStr]
   );
@@ -239,10 +243,21 @@ const Post = (): JSX.Element | null => {
     if (contentStr) {
       (async () => {
         try {
-          const { default: MDXContent } = await evaluatePromise;
+          const result = await evaluatePromise;
 
-          setContent(MDXContent?.({ components: COMPONENTS }));
-          setError('');
+          if ('default' in result) {
+            // client-only
+            const { default: MDXContent } = result;
+
+            setContent(MDXContent?.({ components: COMPONENTS }));
+            setError('');
+          } else {
+            // server->client
+            const { default: MDXContent } = await run(result, runtime);
+
+            setContent(MDXContent?.({ components: COMPONENTS }));
+            setError('');
+          }
         } catch (e) {
           setError(`${e as any}`);
         }

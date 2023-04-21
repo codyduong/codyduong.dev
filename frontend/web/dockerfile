@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY ./yarn.lock ./yarn.lock
 COPY ./.env ./.env
+COPY ./scripts ./scripts
 
 # Install dependencies.
 RUN apt-get -y update

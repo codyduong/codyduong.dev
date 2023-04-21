@@ -1,5 +1,5 @@
 WORKSPACE_LOCATION="frontend/web"
-IGNORED_FILES=`cat .prettierignore | sed -E "s@\*\*@[^[:space:]]*@g"  | tr '\n' '|'`
+IGNORED_FILES=`cat .eslintignore | sed -E "s@\*\*@[^[:space:]]*@g"  | tr '\n' '|'`
 
 COMMON_POINT="$(git merge-base origin/master HEAD)"
 
