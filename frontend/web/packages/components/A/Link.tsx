@@ -1,6 +1,6 @@
 import { Link as L, LinkProps } from 'react-router-dom';
 import { commoncss } from 'packages/style';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import { useScroll } from 'packages/mono-app/context/ScrollContext';
 
 const LBase = css`

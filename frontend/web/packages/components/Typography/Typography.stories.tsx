@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 import { themes, ThemeProvider, ensure } from '@storybook/theming';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import { Heading, Paragraph } from './index';
 
 export default {

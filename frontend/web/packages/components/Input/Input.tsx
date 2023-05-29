@@ -1,6 +1,6 @@
 import T from 'packages/components/Typography';
 import { useId } from 'react';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import classNames from 'classnames';
 
 const LabelInputWrapper = styled.div`

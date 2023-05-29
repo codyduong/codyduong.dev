@@ -2,7 +2,7 @@ import Section from 'packages/components/Section';
 import Content from 'packages/components/Content';
 import A, { Link } from 'packages/components/A';
 import T from 'packages/components/Typography';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import { commoncss } from 'packages/style';
 
 type WebAccessibilityStatementProps = Record<string, never>;

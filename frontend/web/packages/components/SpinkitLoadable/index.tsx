@@ -1,11 +1,15 @@
 import 'spinkit/spinkit.css';
-import baseLoadable, {
+import {
+  default as base,
   DefaultComponent,
   LoadableComponent,
   OptionsWithoutResolver,
   OptionsWithResolver,
 } from '@loadable/component';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
+
+// @ts-expect-error: some fuckery to import it correctly with ESM - @codyduong
+const baseLoadable = typeof base === 'function' ? base : base.default;
 
 const SpinnerWrapper = styled.div`
   width: 100%;

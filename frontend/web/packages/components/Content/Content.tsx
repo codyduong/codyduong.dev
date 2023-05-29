@@ -1,5 +1,5 @@
 import { breakpoints, commoncss } from 'packages/style';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 
 const Content = styled.div<{ footerPadding?: boolean; disableMedia?: boolean }>`
   display: flex;

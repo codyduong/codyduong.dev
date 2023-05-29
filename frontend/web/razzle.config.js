@@ -64,7 +64,7 @@ export const options = {
   debug: {
     options: false,
     config: false,
-    nodeExternals: true,
+    nodeExternals: false,
   },
   // buildType: 'serveronly',
 };
@@ -142,16 +142,22 @@ export function modifyWebpackConfig(opts) {
 
     /** ESM Support */
     // webpackConfig.target = 'node';
-    webpackConfig.externals = [];
+    webpackConfig.externals ||= [];
+    webpackConfig.externals.concat([
+      'ts-invariant',
+      '@apollo/client',
+      '@theatre/r3f',
+    ]);
+    webpackConfig.externalsType = 'module';
     webpackConfig.experiments ||= {};
     webpackConfig.experiments.outputModule = true;
+    webpackConfig.experiments.topLevelAwait = true;
     // for weback lt 5
     webpackConfig.output.libraryTarget = 'module';
     // for webpack gt 5
     webpackConfig.output.library = {
       type: 'module',
     };
-    // HMR is not implemented for module chunk format yet
     webpackConfig.output.chunkFormat = 'module';
     // webpackConfig.stats = 'errors-only';
 
@@ -180,15 +186,15 @@ export function modifyWebpackConfig(opts) {
   return webpackConfig;
 }
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-// export function modifyWebpackOptions({
-//   env: { target: _t, dev: _d },
-//   options: { webpackOptions },
-// }) {
-//   webpackOptions.notNodeExternalResMatch = (request, _context) => {
-//     return /@loadable\/server/.test(request);
-//   };
-//   webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([
-//     /@loadable\/server/,
-//   ]);
-//   return webpackOptions;
-// }
+export function modifyWebpackOptions({
+  env: { target: _t, dev: _d },
+  options: { webpackOptions },
+}) {
+  webpackOptions.notNodeExternalResMatch = (request, _context) => {
+    return /process\/browser/.test(request);
+  };
+  // webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([
+  //   /@loadable\/server/,
+  // ]);
+  return webpackOptions;
+}

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import ModalExitComponent from './ModalExitComponent';
 import T from 'packages/components/Typography';
 import { useModal } from 'packages/components/Modal/ModalContext';

@@ -2,7 +2,7 @@
 import { Meta } from '@storybook/react';
 import { Button as B, ButtonProps } from './Button';
 import T from 'packages/components/Typography';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import React from 'react';
 
 export default {

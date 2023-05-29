@@ -1,6 +1,6 @@
 import loadable from 'packages/components/SpinkitLoadable';
 import { Typography } from 'packages/components/Typography';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 
 const CanvasSection = styled.section`
   position: absolute;

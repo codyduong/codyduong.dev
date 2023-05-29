@@ -1,9 +1,9 @@
 import React from 'react';
-import { CSSProperties, DefaultTheme } from 'styled-components';
+import { CSSProperties, DefaultTheme } from 'packages/styled-components';
 
 export type ColorValue = NonNullable<CSSProperties['color']>;
 
-declare module 'styled-components' {
+declare module 'packages/styled-components' {
   export interface DefaultTheme {
     readonly color: {
       readonly text: {

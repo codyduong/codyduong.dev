@@ -1,12 +1,12 @@
-import styled, { useTheme } from 'styled-components';
+import styled, { useTheme } from 'packages/styled-components';
 import breakpoints from 'packages/style/breakpoints';
 import A from 'packages/components/A';
 import Content from 'packages/components/Content';
 
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub.js';
+import LinkedInIcon from '@mui/icons-material/LinkedIn.js';
 import StackOverflow from './StackOverflow.svg';
-import EmailIcon from '@mui/icons-material/Email';
+import EmailIcon from '@mui/icons-material/Email.js';
 import { Theme } from 'packages/themed/Themes';
 import T from 'packages/components/Typography';
 

@@ -3,7 +3,7 @@ import Content from 'packages/components/Content';
 import Section from 'packages/components/Section';
 import T from 'packages/components/Typography';
 import { Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import GetPosts from './GetPosts.graphql';
 import loadable, { Spinner } from 'packages/components/SpinkitLoadable';
 import { Link } from 'packages/components/A';

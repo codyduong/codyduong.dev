@@ -5,8 +5,8 @@ import { Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import {
   Physics,
   usePlane,
@@ -126,7 +126,6 @@ const Construction3DClient = ({
               render={(e) => (
                 <>
                   <ambientLight />
-                  {/* @ts-expect-error: TODO */}
                   <e.pointLight
                     theatreKey="pointLight1"
                     intensity={10}

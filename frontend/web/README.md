@@ -37,3 +37,14 @@ Deploy build
 ### `yarn export`
 
 Deprecated command. Used for Static Site Generation (SSG).\
+
+<!--
+ESM STUFF
+
+see node_modules_override
+see razzle.config.js
+https://github.com/styled-components/styled-components/issues/3437#issuecomment-1103085056
+invariant issue with ts-invariant
+@apollo/client issues
+
+-->

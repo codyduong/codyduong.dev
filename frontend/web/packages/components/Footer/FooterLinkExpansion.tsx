@@ -1,6 +1,6 @@
 import { StyledFooterLink } from 'packages/components/Footer/FooterLink';
 import { useEffect, useId, useState } from 'react';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import T from 'packages/components/Typography';
 import classNames from 'classnames';
 import { LinkProps } from 'react-router-dom';

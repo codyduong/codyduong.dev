@@ -1,6 +1,6 @@
 import Modal from 'packages/components/Modal';
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import T from 'packages/components/Typography';
 import { StyledSwitch } from './common';
 import ParagraphWidthInput from './ParagraphWidthInput';

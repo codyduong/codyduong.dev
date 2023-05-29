@@ -3,7 +3,7 @@ import { SimpleInput } from 'packages/components/Input';
 import { useAccessibility } from 'packages/mono-app/context/AccessibilityContext';
 import { commoncss } from 'packages/style';
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import { StyledSwitch } from './common';
 
 const StyledInput = styled(SimpleInput)`

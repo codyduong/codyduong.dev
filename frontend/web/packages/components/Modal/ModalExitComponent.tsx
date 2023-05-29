@@ -1,6 +1,6 @@
-import styled, { useTheme } from 'styled-components';
+import styled, { useTheme } from 'packages/styled-components';
 import classnames from 'classnames';
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from '@mui/icons-material/Clear.js';
 import { forwardRef } from 'react';
 
 const ModalExit = styled.button`

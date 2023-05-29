@@ -1,11 +1,11 @@
 import _l from 'packages/components/SpinkitLoadable';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import T from 'packages/components/Typography';
 import Section from 'packages/components/Section';
 import A, { Link } from 'packages/components/A';
 import { breakpoints, commoncss } from 'packages/style';
 import Button from 'packages/components/Button';
-import FeedIcon from '@mui/icons-material/Feed';
+import FeedIcon from '@mui/icons-material/Feed.js';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import { SimpleInput } from 'packages/components/Input';

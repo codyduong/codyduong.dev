@@ -1,5 +1,5 @@
 import { matchRoutes, Route, Routes, useLocation } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'packages/styled-components';
 import { useThemeBase } from 'packages/themed';
 import loadable from 'packages/components/SpinkitLoadable';
 import Page from 'packages/pages/Page';
@@ -97,9 +97,11 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                 <Titler />
                 <BypassProvider>
                   <Bypass />
-                  <Page hasFooter={hasFooter}>
-                    <Routes>
-                      {/* eslint-disable prettier/prettier */}
+                  test
+                  {false && (
+                    <Page hasFooter={hasFooter}>
+                      <Routes>
+                        {/* eslint-disable prettier/prettier */}
                       <Route path="/" element={<Home />} />
                       <Route path="/work/*" element={<Work />} />
                       <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
@@ -113,8 +115,9 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                       <Route path="/playground/*" element={<Redirect.Routes to="/lab/*" />} />
                       <Route path="*" element={<Redirect to={'/404'} />} />
                       {/* eslint-enable prettier/prettier */}
-                    </Routes>
-                  </Page>
+                      </Routes>
+                    </Page>
+                  )}
                 </BypassProvider>
               </TitleProvider>
             </ScrollProvider>

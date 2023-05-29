@@ -5,7 +5,7 @@ import styled, {
   FlattenInterpolation,
   StyledComponentBase,
   ThemeProps,
-} from 'styled-components';
+} from 'packages/styled-components';
 
 const HeadingCss = css`
   font-family: 'Overpass';

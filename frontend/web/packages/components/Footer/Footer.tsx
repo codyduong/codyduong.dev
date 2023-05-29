@@ -1,7 +1,7 @@
 import A from 'packages/components/A';
 import { cssWidth } from 'packages/components/Section';
 import { LINKS } from 'packages/pages/links/Links';
-import styled, { css, useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'packages/styled-components';
 import T from 'packages/components/Typography';
 import FooterLink from 'packages/components/Footer/FooterLink';
 import FooterLinkExpansion from 'packages/components/Footer/FooterLinkExpansion';

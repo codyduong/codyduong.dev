@@ -4,6 +4,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+// ESM support for @loadable
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+global.require = require;
+
 /**
  * styled-components and loadable: https://github.com/jaredpalmer/razzle/discussions/1783
  * react-router-dom-v6 redirect: https://github.com/remix-run/react-router/issues/7267#issuecomment-714518241
@@ -12,10 +17,10 @@
 import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server';
+import { StaticRouter } from 'react-router-dom/dist/server.js';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
-import { ServerStyleSheet } from 'styled-components';
-import fs from 'fs';
+import { ServerStyleSheet } from 'packages/styled-components';
+import fs, { readFileSync } from 'fs';
 import App from 'packages/mono-app';
 import path, { dirname } from 'path';
 import generateTitleTag from './titleGenerator';
@@ -23,17 +28,17 @@ import {
   HttpContextDefaultValue,
   HttpContextProvider,
 } from 'packages/http/HttpContext';
-import { getDataFromTree } from '@apollo/client/react/ssr';
-import {
-  ApolloClient,
-  ApolloProvider,
-  createHttpLink,
-  InMemoryCache,
-} from '@apollo/client';
+import { getDataFromTree } from '@apollo/client/react/ssr/index.js';
+// import {
+//   ApolloClient,
+//   ApolloProvider,
+//   HttpLink,
+//   InMemoryCache,
+// } from '@apollo/client';
 import { CookiesProvider, Cookies } from 'react-cookie';
 import fetch from 'cross-fetch';
 import * as dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
+import { URL, fileURLToPath, pathToFileURL } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({
@@ -103,7 +108,14 @@ export const renderApp = async (
   }
 
   const extractor = new ChunkExtractor({
-    statsFile: path.resolve(__dirname, '../build/loadable-stats.json'),
+    stats: JSON.parse(
+      readFileSync(
+        pathToFileURL(path.resolve(__dirname, '../build/loadable-stats.json')),
+        {
+          encoding: 'utf-8',
+        }
+      )
+    ),
     entrypoints: ['client'],
   });
   const sheet = new ServerStyleSheet();
@@ -123,38 +135,39 @@ export const renderApp = async (
     // }
   }
 
-  const client = new ApolloClient({
-    ssrMode: true,
-    link: createHttpLink({
-      uri: graphqlLocation,
-      credentials: 'same-origin',
-      headers: {
-        cookie: req.header('Cookie') ?? '',
-      },
-      fetch,
-    }),
-    cache: new InMemoryCache(),
-  });
+  // const client = new ApolloClient({
+  //   ssrMode: true,
+  //   link: new HttpLink({
+  //     uri: graphqlLocation,
+  //     credentials: 'same-origin',
+  //     headers: {
+  //       cookie: req.header('Cookie') ?? '',
+  //     },
+  //     fetch,
+  //   }),
+  //   cache: new InMemoryCache(),
+  // });
 
   const AppWithContexts = (
     <HttpContextProvider context={context}>
-      <ApolloProvider client={client}>
-        <CookiesProvider cookies={new Cookies(req.headers.cookie)}>
-          <StaticRouter location={req.url}>
-            {/* @ts-expect-error: todo */}
-            <ChunkExtractorManager extractor={extractor}>
-              <App query={req.query} />
-            </ChunkExtractorManager>
-          </StaticRouter>
-        </CookiesProvider>
-      </ApolloProvider>
+      {/* <ApolloProvider client={client}> */}
+      <CookiesProvider cookies={new Cookies(req.headers.cookie)}>
+        <StaticRouter location={req.url}>
+          {/* @ts-expect-error: todo */}
+          <ChunkExtractorManager extractor={extractor}>
+            <App query={req.query} />
+          </ChunkExtractorManager>
+        </StaticRouter>
+      </CookiesProvider>
+      {/* </ApolloProvider> */}
     </HttpContextProvider>
   );
 
   // we don't want to use the parser from apollo since it mutilates from client
   // TODO: log bug and create min repro for github issue
-  await getDataFromTree(AppWithContexts);
-  const state = client.extract();
+  // await getDataFromTree(AppWithContexts);
+  // const state = client.extract();
+  const state = {};
 
   let markup = '';
   let styleTags;
@@ -189,7 +202,9 @@ export const renderApp = async (
         <title>
           ${generateTitleTag(req.url, state)}
         </title>
-        ${cssLinksFromAssets(assets, 'client')}
+        ` + 
+        // ${cssLinksFromAssets(assets, 'client')}
+        `
         ${linkTags}
         ${styleTags}
       </head>

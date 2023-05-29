@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import T from 'packages/components/Typography';
 // import AGISvg from './AGI.svg';
 import AGISuretrack from './AGISureTrack.svg';

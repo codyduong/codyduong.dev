@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import T from 'packages/components/Typography';
 import { Link, Route, Routes } from 'react-router-dom';
 import loadable from 'packages/components/SpinkitLoadable';

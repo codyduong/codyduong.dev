@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import { Paragraph } from 'packages/components/Typography';
 import { useLocation } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import A from 'packages/components/A';
 import color from 'color';
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close.js';
 import { breakpoints, commoncss } from 'packages/style';
 import Search from './NavbarSearch';
 import { useState } from 'react';

@@ -1,6 +1,6 @@
 import React from 'react';
 import ModalPortal from './ModalPortal';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import Button from '../Button';
 import T from '../Typography';
 import classnames from 'classnames';
@@ -379,7 +379,6 @@ const Modal = <T extends Record<string, any> = Record<string, any>>({
       portalTo={portalTo}
       persist={persist}
     >
-      {/* @ts-expect-error Inferred type exclusions don't work well with generics. This works fine */}
       <ModalFlat {...rest} />
     </ModalPortal>
   );

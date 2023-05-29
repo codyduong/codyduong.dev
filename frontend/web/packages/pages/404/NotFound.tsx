@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import { Paragraph } from 'packages/components/Typography';
 
 const Section = styled.section`

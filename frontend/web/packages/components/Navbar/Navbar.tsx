@@ -1,20 +1,20 @@
 import { Typography } from 'packages/components/Typography';
-import styled, { css } from 'styled-components';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import styled, { css } from 'packages/styled-components';
+import MenuIcon from '@mui/icons-material/Menu.js';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen.js';
 import A from 'packages/components/A';
 import { useRef, useState, useEffect, forwardRef } from 'react';
 import classnames from 'classnames';
 import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
-// import SettingsIcon from '@mui/icons-material/Settings';
+// import SettingsIcon from '@mui/icons-material/Settings.js';
 import { breakpoints, commoncss } from 'packages/style';
 import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined.js';
 import { useScroll } from 'packages/mono-app/context/ScrollContext';
 import { cssWidth } from 'packages/components/Section';
-import Search from '@mui/icons-material/Search';
+import Search from '@mui/icons-material/Search.js';
 import T from 'packages/components/Typography';
 
 const TrapFocus = styled.div`

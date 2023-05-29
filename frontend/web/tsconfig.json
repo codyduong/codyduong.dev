@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -24,13 +20,15 @@
     "paths": {
       "graphql-gen/*": ["../graphql-gen/*"],
       "packages/*": ["../packages/*"],
-      "src/*": ["*"]
+      "src/*": ["*"],
     },
     "typeRoots": ["./src/types"]
   },
   "include": [
     "src",
     "packages",
-    "graphql-gen"
-, "node_modules_override/razzle", "node_modules_override/razzle-dev-utils"  ]
+    "graphql-gen",
+    "node_modules_override/razzle",
+    "node_modules_override/razzle-dev-utils"
+  ]
 }

@@ -1,5 +1,5 @@
 import { evaluate, compile, run } from '@mdx-js/mdx';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import GET_POST from './GetPost.graphql';
 import UPDATE_POST from './UpdatePost.graphql';
 import IS_AUTHENTICATED from './IsAuthenticated.graphql';

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import Switch from 'packages/components/Switch';
 
 export const StyledSwitch = styled(Switch)`

@@ -1,6 +1,6 @@
 import utils from 'packages/components/utils';
 import { useBypass } from 'packages/mono-app/context/BypassContext';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 
 const BypassDiv = styled.div`
   position: absolute;
