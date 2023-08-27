@@ -97,11 +97,9 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                 <Titler />
                 <BypassProvider>
                   <Bypass />
-                  test
-                  {false && (
-                    <Page hasFooter={hasFooter}>
-                      <Routes>
-                        {/* eslint-disable prettier/prettier */}
+                  <Page hasFooter={hasFooter}>
+                    <Routes>
+                      {/* eslint-disable prettier/prettier */}
                       <Route path="/" element={<Home />} />
                       <Route path="/work/*" element={<Work />} />
                       <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
@@ -115,9 +113,8 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                       <Route path="/playground/*" element={<Redirect.Routes to="/lab/*" />} />
                       <Route path="*" element={<Redirect to={'/404'} />} />
                       {/* eslint-enable prettier/prettier */}
-                      </Routes>
-                    </Page>
-                  )}
+                    </Routes>
+                  </Page>
                 </BypassProvider>
               </TitleProvider>
             </ScrollProvider>
