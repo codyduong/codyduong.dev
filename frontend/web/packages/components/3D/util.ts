@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import type { BufferGeometry } from 'three';
 import { Geometry } from 'three-stdlib';
-import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry';
+import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 // import { ConvexHull, VertexNode } from 'three/examples/jsm/math/ConvexHull';
 import type {
   CompoundBodyProps,

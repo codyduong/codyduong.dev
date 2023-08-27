@@ -1,6 +1,6 @@
 import T from 'packages/components/Typography';
 import { useId } from 'react';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import classNames from 'classnames';
 
 const LabelInputWrapper = styled.div`
@@ -34,16 +34,13 @@ const InputWrapper = styled.div`
   }
 
   &:focus-within {
-    outline: ${({ theme }) => theme.color.base[200]} 4px solid;
+    outline: ${({ theme }) => theme.color.base[200]} 3px solid;
   }
   &.disabled {
     background-color: ${({ theme }) => theme.color.surface[200]};
   }
   &:invalid {
-    outline: ${({ theme }) => theme.color.destructive[200]} 4px solid;
-  }
-  &.invalid {
-    outline: ${({ theme }) => theme.color.destructive[200]} 4px solid;
+    outline: ${({ theme }) => theme.color.destructive[200]} 3px solid;
   }
 `;
 
@@ -55,17 +52,13 @@ const Suffix = styled.span`
   user-select: none;
 `;
 
-interface InputProps
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+type InputProps = React.PropsWithoutRef<JSX.IntrinsicElements['input']> & {
   label: string;
   disabled?: boolean;
   invalid?: boolean;
   suffix?: string;
   wrapperId?: string;
-}
+};
 
 const Input = ({
   label,

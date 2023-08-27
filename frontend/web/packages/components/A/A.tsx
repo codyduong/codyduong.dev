@@ -1,6 +1,6 @@
 import { commoncss } from 'packages/style';
 import { forwardRef } from 'react';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 
 export const ABase = forwardRef<
   HTMLAnchorElement,

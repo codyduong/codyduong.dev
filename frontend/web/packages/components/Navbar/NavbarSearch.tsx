@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import SearchIcon from '@mui/icons-material/Search';
-import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined';
-import CloseIcon from '@mui/icons-material/Close';
+import styled from 'packages/styled-components';
+import SearchIcon from '@mui/icons-material/Search.js';
+import BackspaceOutlinedIcon from '@mui/icons-material/BackspaceOutlined.js';
+import CloseIcon from '@mui/icons-material/Close.js';
 import React, { useState, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import color from 'color';

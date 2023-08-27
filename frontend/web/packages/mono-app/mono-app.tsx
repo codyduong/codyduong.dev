@@ -1,5 +1,5 @@
 import { matchRoutes, Route, Routes, useLocation } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'packages/styled-components';
 import { useThemeBase } from 'packages/themed';
 import loadable from 'packages/components/SpinkitLoadable';
 import Page from 'packages/pages/Page';
@@ -18,7 +18,7 @@ import {
 import { ScrollProvider } from 'packages/mono-app/context/ScrollContext';
 
 const Home = loadable(
-  () => import(/* webpackPrefetch: true */ 'packages/pages/Home')
+  () => import(/* webpackPrefetch: true */ 'packages/pages/Home/Home')
 );
 const WebAccessibilityStatement = loadable(
   () =>
@@ -83,7 +83,7 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
   const { pathname } = useLocation();
 
   const hasFooter =
-    (matchRoutes([{ path: '/playground' }], pathname) ?? []).length == 0;
+    (matchRoutes([{ path: '/lab' }], pathname) ?? []).length == 0;
 
   return (
     <AccessibilityProvider>
@@ -99,22 +99,20 @@ function App({ query: serverQueryUnformatted }: AppProps): JSX.Element {
                   <Bypass />
                   <Page hasFooter={hasFooter}>
                     <Routes>
+                      {/* eslint-disable prettier/prettier */}
                       <Route path="/" element={<Home />} />
-                      <Route path="/home" element={<Redirect to={'/'} />} />
-                      <Route
-                        path="/links"
-                        element={<Redirect to={'/contact'} />}
-                      />
                       <Route path="/work/*" element={<Work />} />
-                      <Route
-                        path="/web-accessibility-statement"
-                        element={<WebAccessibilityStatement />}
-                      />
-                      <Route path="/playground" element={<Construction3D />} />
+                      <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
+                      <Route path="/lab/*" element={<Construction3D />} />
                       <Route path="/posts/*" element={<Posts />} />
                       <Route path="/contact" element={<Links />} />
                       <Route path="/404" element={<NotFound />} />
+                      {/* Redirects */}
+                      <Route path="/home" element={<Redirect to={'/'} />} />
+                      <Route path="/links" element={<Redirect to={'/contact'} />} />
+                      <Route path="/playground/*" element={<Redirect.Routes to="/lab/*" />} />
                       <Route path="*" element={<Redirect to={'/404'} />} />
+                      {/* eslint-enable prettier/prettier */}
                     </Routes>
                   </Page>
                 </BypassProvider>

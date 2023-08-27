@@ -4,7 +4,7 @@ import { ComponentStory, Meta } from '@storybook/react';
 // import { withDesign } from 'storybook-addon-designs';
 import Button from '../Button';
 import T from '../Typography';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 // import Checkbox from '../CheckBox/StandardCheckBox';
 import classnames from 'classnames';
 // import theme from '../../../styles/theme';
@@ -12,7 +12,7 @@ import classnames from 'classnames';
 // import { ControlledSlider } from '../Slider/Slider';
 
 export default {
-  title: 'Components/Modals',
+  title: 'Atoms/Modals',
   component: Modal,
   decorators: undefined,
   parameters: {

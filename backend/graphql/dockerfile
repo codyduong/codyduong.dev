@@ -1,0 +1,20 @@
+# https://hub.docker.com/_/node
+FROM node:18
+
+# Create and change to the app directory.
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+COPY ./yarn.lock ./yarn.lock
+COPY ./.env ./.env
+COPY ./prisma ./prisma
+COPY ./schema.graphql ./schema.graphql
+
+# Install dependencies.
+RUN yarn install --only=production
+
+# Copy local code to the container image.
+COPY ./dist ./dist
+
+# Run the web service on container startup.
+CMD [ "yarn", "start" ]

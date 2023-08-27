@@ -1,9 +1,9 @@
 import { Theatre } from './core';
 import { useEffect } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls, useTexture } from '@react-three/drei';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 
 const Home3D = (): JSX.Element => {
   const discMaterial = useLoader(MTLLoader, '3d/cd/cd.mtl');
@@ -22,7 +22,6 @@ const Home3D = (): JSX.Element => {
         render={(e) => (
           <>
             <ambientLight />
-            {/* @ts-expect-error: TODO */}
             <e.pointLight theatreKey="pointLight1" position={[10, 10, 10]} />
             {/* <e.mesh theatreKey="Cube">
           <boxGeometry args={[1, 1, 1]} />

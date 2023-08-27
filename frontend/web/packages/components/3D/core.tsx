@@ -29,6 +29,8 @@ const editableMock: {
   directionalLight: React.forwardRef((props, ref) => (<directionalLight ref={ref} {...props} />)),
   fog: React.forwardRef((props, ref) => (<fog ref={ref} {...props} />)),
   primitive: React.forwardRef((props, ref) => (<primitive ref={ref} {...props} />)),
+  hemisphereLight: React.forwardRef((props, ref) => (<hemisphereLight ref={ref} {...props} />)),
+  ambientLight: React.forwardRef((props, ref) => (<ambientLight ref={ref} {...props} />))
 };
 /* eslint-enable prettier/prettier, react/display-name */
 

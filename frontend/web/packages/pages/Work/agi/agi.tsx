@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import T from 'packages/components/Typography';
 // import AGISvg from './AGI.svg';
 import AGISuretrack from './AGISureTrack.svg';
@@ -64,7 +64,7 @@ const Column = styled.div`
 //   pointer-events: none;
 // `;
 
-const StyledAGISuretrack = styled(AGISuretrack)`
+const StyledAGISuretrack = styled(AGISuretrack as any)`
   max-height: 4rem;
 `;
 

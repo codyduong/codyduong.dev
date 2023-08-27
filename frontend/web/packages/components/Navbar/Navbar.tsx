@@ -1,19 +1,21 @@
 import { Typography } from 'packages/components/Typography';
-import styled, { css } from 'styled-components';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import styled, { css } from 'packages/styled-components';
+import MenuIcon from '@mui/icons-material/Menu.js';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen.js';
 import A from 'packages/components/A';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, forwardRef } from 'react';
 import classnames from 'classnames';
 import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
-// import SettingsIcon from '@mui/icons-material/Settings';
-import { commoncss } from 'packages/style';
+// import SettingsIcon from '@mui/icons-material/Settings.js';
+import { breakpoints, commoncss } from 'packages/style';
 import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined.js';
 import { useScroll } from 'packages/mono-app/context/ScrollContext';
 import { cssWidth } from 'packages/components/Section';
+import Search from '@mui/icons-material/Search.js';
+import T from 'packages/components/Typography';
 
 const TrapFocus = styled.div`
   position: absolute;
@@ -79,6 +81,24 @@ const NavInner = styled.div`
   flex-grow: 1;
 
   ${cssWidth}
+
+  ${({ maxWidth = '60vw' }) =>
+    commoncss.widthlimited({
+      enabled: (p) => css`
+        max-width: ${p}ch;
+
+        @media only screen and (min-width: ${breakpoints.md}) {
+          max-width: ${p ? `min(${maxWidth}, ${p}ch)` : maxWidth};
+        }
+      `,
+      disabled: () =>
+        css`
+          @media only screen and (min-width: ${breakpoints.md}) {
+            min-width: 600px;
+            max-width: ${maxWidth};
+          } ;
+        `,
+    })};
 `;
 
 const Name = styled(A.Link)`
@@ -190,6 +210,18 @@ const HamburgerButton = styled(NavButtonBase)`
   }
 `;
 
+const NavbarLinks = styled.ul`
+  all: unset;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  gap: 32px;
+
+  @media not screen and (min-width: ${breakpoints.lg}) {
+    display: none;
+  }
+`;
+
 const NavbarListRight = styled.ul`
   all: unset;
   display: flex;
@@ -197,8 +229,45 @@ const NavbarListRight = styled.ul`
   gap: 4px;
 `;
 
-const NavbarListItem = styled.li`
+const NavbarListItem = styled.li<{ hideAtMax?: string; hideAtMin?: string }>`
   all: unset;
+  margin: auto 0;
+  ${({ hideAtMax }) =>
+    hideAtMax &&
+    css`
+      @media not screen and (max-width: ${hideAtMax}) {
+        display: none;
+      }
+    `}
+  ${({ hideAtMin }) =>
+    hideAtMin &&
+    css`
+      @media not screen and (min-width: ${hideAtMin}) {
+        display: none;
+      }
+    `}
+`;
+
+const StyledLinkBase = styled(A.Link)`
+  ${T.Paragraph.P4.css}
+  color: ${(props) => props.theme.color.text[100]};
+`;
+
+const StyledLink = forwardRef<
+  HTMLAnchorElement,
+  Parameters<typeof StyledLinkBase>[0]
+>(function StyledLinkComponent(props, ref): JSX.Element {
+  return (
+    <NavbarListItem>
+      <StyledLinkBase ref={ref} {...props} />
+    </NavbarListItem>
+  );
+});
+
+const StyledSeperator = styled.span`
+  ${T.P4.css}
+  margin-top: auto;
+  color: ${({ theme }) => theme.color.text[200]};
 `;
 
 const Navbar = (): JSX.Element => {
@@ -274,20 +343,15 @@ const Navbar = (): JSX.Element => {
           >
             codyduong
           </Name>
+          <NavbarLinks>
+            {/* <StyledLink to="/">home</StyledLink> */}
+            <StyledLink to="/projects">projects</StyledLink>
+            <StyledLink to="/posts">posts</StyledLink>
+            <StyledLink to="/gists">gists</StyledLink>
+            <StyledSeperator aria-hidden>|</StyledSeperator>
+            <StyledLink to="/work">work</StyledLink>
+          </NavbarLinks>
           <NavbarListRight>
-            {/* <NavbarListItem>
-            <SettingsButton
-              id="nav-settings-button"
-              onClick={() => {
-                setSettings(!settings);
-              }}
-              aria-label={`${settings ? 'Close' : 'Open'} Settings`}
-              aria-haspopup="dialog"
-              aria-controls="modal-settings"
-            >
-              <SettingsIcon />
-            </SettingsButton>
-          </NavbarListItem> */}
             <NavbarListItem>
               <NavButtonBase
                 id="nav-accessibility-button"
@@ -303,7 +367,7 @@ const Navbar = (): JSX.Element => {
                 <VisibilityOutlinedIcon />
               </NavButtonBase>
             </NavbarListItem>
-            <NavbarListItem>
+            <NavbarListItem hideAtMax={breakpoints.lg}>
               <HamburgerButton
                 ref={menuButton}
                 id="nav-hamburger-button"
@@ -324,6 +388,21 @@ const Navbar = (): JSX.Element => {
                   aria-labelledby="nav-hamburger-button"
                 />
               </HamburgerButton>
+            </NavbarListItem>
+            <NavbarListItem hideAtMin={breakpoints.lg}>
+              <NavButtonBase
+                ref={menuButton}
+                id="nav-hamburger-button"
+                onClick={() => {
+                  // setOpen(!open);
+                }}
+                aria-label={`${open ? 'Close' : 'Open'} Search`}
+              >
+                <Search
+                  className={hamburgerClassname('close')}
+                  aria-labelledby="nav-hamburger-button"
+                />
+              </NavButtonBase>
             </NavbarListItem>
           </NavbarListRight>
         </NavInner>

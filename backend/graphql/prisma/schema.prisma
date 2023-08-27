@@ -12,7 +12,7 @@ model post {
   postId    Int      @unique
   content   String
   createdAt DateTime @db.Date @default(now())
-  title     String
+  title     String   @unique
   updatedAt DateTime @db.Date @updatedAt
 }
 

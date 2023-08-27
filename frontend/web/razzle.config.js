@@ -1,10 +1,10 @@
-'use strict';
-
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
-const LoadablePlugin = require('@loadable/webpack-plugin');
-const webpack = require('webpack');
-const fs = require('fs');
+import { resolve, join, dirname } from 'path';
+import LoadablePlugin from '@loadable/webpack-plugin';
+import webpack from 'webpack';
+import { realpathSync } from 'fs';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /* https://gist.github.com/fivethreeo/1b37aa5bfd99eb3ecdfb7aa6039cab40 */
 function locateLoader(rules, loaderName) {
@@ -23,8 +23,7 @@ function locateLoader(rules, loaderName) {
       );
       if (useIndex !== -1) {
         info.push({
-          rule: rule,
-          ruleIndex: ruleIndex,
+          rule: rule,          ruleIndex: ruleIndex,
           useIndex: useIndex
         });
       }
@@ -57,100 +56,145 @@ function locateLoader(rules, loaderName) {
   /* eslint-enable */
 }
 
-module.exports = {
-  options: {
-    // https://github.com/jaredpalmer/razzle/pull/1273
-    enableReactRefresh: true,
+export const options = {
+  // https://github.com/jaredpalmer/razzle/pull/1273
+  enableReactRefresh: true,
+  // ^ This causes issues with styled-components
+  verbose: true,
+  debug: {
+    options: false,
+    config: false,
+    nodeExternals: false,
   },
-  plugins: ['graphql'],
-  modifyWebpackConfig(opts) {
-    const { webpackConfig, webpackObject, env } = opts;
+  // buildType: 'serveronly',
+};
+export const plugins = ['graphql'];
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function modifyWebpackConfig(opts) {
+  const { webpackConfig, webpackObject, env } = opts;
 
-    const svgr = [
-      {
-        test: /\.svg$/i,
-        type: 'asset',
-        resourceQuery: /url/, // *.svg?url
-      },
-      {
-        test: /\.svg$/i,
-        issuer: /\.[jt]sx?$/,
-        resourceQuery: { not: [/url/] },
-        use: ['@svgr/webpack'],
-      },
-    ];
+  const svgr = [
+    {
+      test: /\.svg$/i,
+      type: 'asset',
+      resourceQuery: /url/, // *.svg?url
+    },
+    {
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      resourceQuery: { not: [/url/] },
+      use: [{ loader: '@svgr/webpack', options: { ref: true } }],
+    },
+  ];
 
-    // https://github.com/jaredpalmer/razzle/discussions/1609#discussioncomment-661996
-    /* https://gist.github.com/fivethreeo/1b37aa5bfd99eb3ecdfb7aa6039cab40#file-razzle-config-js */
-    const fileLoaderInfo = locateLoader(
-      webpackConfig.module.rules,
-      'file-loader'
+  // https://github.com/jaredpalmer/razzle/discussions/1609#discussioncomment-661996
+  /* https://gist.github.com/fivethreeo/1b37aa5bfd99eb3ecdfb7aa6039cab40#file-razzle-config-js */
+  const fileLoaderInfo = locateLoader(
+    webpackConfig.module.rules,
+    'file-loader'
+  );
+  const fileLoaderRule = fileLoaderInfo[0].rule;
+  const oldUse = fileLoaderRule.use;
+  fileLoaderRule['use'] = undefined;
+  fileLoaderRule['oneOf'] = [...svgr, { use: oldUse }];
+  webpackConfig.module.rules[fileLoaderInfo[0].ruleIndex] = fileLoaderRule;
+
+  webpackConfig.plugins.push(
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      // 'RAZZLE_ASSETS_MANIFEST',
+      // 'RAZZLE_PUBLIC_DIR',
+      FUNCTIONS_EMULATOR: false,
+      APOLLO_SERVER_DEV: 'http://localhost:3002',
+      APOLLO_SERVER_PROD: 'https://codyduong.dev/api/',
+      APOLLO_SERVER_EMULATE: 'http://localhost:5000/api/',
+      APOLLO_ADMIN_TOKEN: 'Bearer Unset',
+    })
+  );
+
+  webpackConfig.plugins.push(
+    new webpack.ProvidePlugin({ process: 'process/browser' })
+  );
+
+  // https://github.com/jaredpalmer/razzle/discussions/1864#discussioncomment-2807427
+  if (env.target === 'node') {
+    webpackConfig.plugins.concat(
+      new webpackObject.ContextReplacementPlugin(
+        // we want to replace context
+        /express\/lib/,
+        // express/lib/*
+        resolve('node_modules'),
+        {
+          // and return a map
+          ejs: 'ejs', // which resolves request for 'ejs'
+        } // to module 'ejs'
+      ), // __webpack_require__(...)(mod)
+      // we set `mod = 'ejs'`
+      new webpackObject.ContextReplacementPlugin(
+        /@loadable\/server/,
+        (context) => {
+          Object.assign(context, {
+            request: 'import',
+          });
+        }
+      )
     );
-    const fileLoaderRule = fileLoaderInfo[0].rule;
-    const oldUse = fileLoaderRule.use;
-    fileLoaderRule['use'] = undefined;
-    fileLoaderRule['oneOf'] = [...svgr, { use: oldUse }];
-    webpackConfig.module.rules[fileLoaderInfo[0].ruleIndex] = fileLoaderRule;
+
+    /** ESM Support */
+    // webpackConfig.target = 'node';
+    webpackConfig.externals ||= [];
+    webpackConfig.externals.concat([
+      'ts-invariant',
+      '@apollo/client',
+      '@theatre/r3f',
+    ]);
+    webpackConfig.externalsType = 'module';
+    webpackConfig.experiments ||= {};
+    webpackConfig.experiments.outputModule = true;
+    webpackConfig.experiments.topLevelAwait = true;
+    // for weback lt 5
+    webpackConfig.output.libraryTarget = 'module';
+    // for webpack gt 5
+    webpackConfig.output.library = {
+      type: 'module',
+    };
+    webpackConfig.output.chunkFormat = 'module';
+    // webpackConfig.stats = 'errors-only';
+
+    /** Configure functions.tsx for output as well */
+    const appDirectory = realpathSync(
+      join(process.cwd(), process.env.RAZZLE_APP_PATH || '')
+    );
+    const resolveApp = (relativePath) => resolve(appDirectory, relativePath);
+    webpackConfig.entry = {
+      ...webpackConfig.entry,
+      functions: resolveApp('src/functions'),
+    };
+  }
+
+  if (env.target === 'web') {
+    const filename = resolve(__dirname, 'build');
 
     webpackConfig.plugins.push(
-      new webpack.EnvironmentPlugin({
-        NODE_ENV: 'production',
-        // 'RAZZLE_ASSETS_MANIFEST',
-        // 'RAZZLE_PUBLIC_DIR',
-        FUNCTIONS_EMULATOR: false,
-        APOLLO_SERVER_DEV: 'http://localhost:3002',
-        APOLLO_SERVER_PROD: 'https://codyduong.dev/api/',
-        APOLLO_SERVER_EMULATE: 'http://localhost:5000/api/',
-        APOLLO_ADMIN_TOKEN: 'Bearer Unset',
+      new LoadablePlugin({
+        outputAsset: false,
+        writeToDisk: { filename },
       })
     );
+  }
 
-    webpackConfig.plugins.push(
-      new webpack.ProvidePlugin({ process: 'process/browser' })
-    );
-
-    // https://github.com/jaredpalmer/razzle/discussions/1864#discussioncomment-2807427
-    if (env.target === 'node') {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      // require('./config/firebase/firebasePlugin').modifyWebpackConfig(opts);
-
-      webpackConfig.plugins.push(
-        new webpackObject.ContextReplacementPlugin(
-          // we want to replace context
-          /express\/lib/, // and replace all searches in
-          // express/lib/*
-          path.resolve('node_modules'), // to look in folder 'node_modules'
-          {
-            // and return a map
-            ejs: 'ejs', // which resolves request for 'ejs'
-          } // to module 'ejs'
-        ) // __webpack_require__(...)(mod)
-        // we set `mod = 'ejs'`
-      );
-
-      /** Configure functions.tsx for output as well */
-      const appDirectory = fs.realpathSync(
-        path.join(process.cwd(), process.env.RAZZLE_APP_PATH || '')
-      );
-      const resolveApp = (relativePath) =>
-        path.resolve(appDirectory, relativePath);
-
-      webpackConfig.entry = {
-        ...webpackConfig.entry,
-        functions: resolveApp('src/functions'),
-      };
-    }
-    if (env.target === 'web') {
-      const filename = path.resolve(__dirname, 'build');
-
-      webpackConfig.plugins.push(
-        new LoadablePlugin({
-          outputAsset: false,
-          writeToDisk: { filename },
-        })
-      );
-    }
-
-    return webpackConfig;
-  },
-};
+  return webpackConfig;
+}
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function modifyWebpackOptions({
+  env: { target: _t, dev: _d },
+  options: { webpackOptions },
+}) {
+  webpackOptions.notNodeExternalResMatch = (request, _context) => {
+    return /process\/browser/.test(request);
+  };
+  // webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([
+  //   /@loadable\/server/,
+  // ]);
+  return webpackOptions;
+}

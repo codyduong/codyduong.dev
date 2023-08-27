@@ -1,15 +1,13 @@
 {
   "functions": [
     {
-      "function": "api",
+      "function": "email-api",
       "source": ".",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log",
-        "**/*.tsx",
-        "**/*.ts",
         "src",
         ".env-EXAMPLE",
         ".eslintrc.js",
@@ -19,7 +17,7 @@
         "tsconfig.json",
         "tsconfig.tsbuildinfo"
       ],
-      "codebase": "backend",
+      "codebase": "email-api",
       "runtime": "nodejs16"
     }
   ]

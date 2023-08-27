@@ -1,13 +1,19 @@
+import type { ContextFunction } from '@apollo/server';
+import type { ExpressContextFunctionArgument } from '@apollo/server/dist/esm/express4';
 import { PrismaClient } from '@prisma/client';
+import type express from 'express';
 
 export interface Context {
   prisma: PrismaClient;
-  req: any; // HTTP request carrying the `Authorization` header
+  req: express.Request;
 }
 
 const prisma = new PrismaClient();
 
-export const context = (req: any): Context => ({
-  ...req,
+export const context: ContextFunction<
+  [ExpressContextFunctionArgument],
+  Context
+> = async (args) => ({
+  ...args,
   prisma: prisma,
 });

@@ -1,5 +1,5 @@
-query GetPost($postId: Int) {
-  post(postId: $postId) {
+query GetPost($postId: Int, $title: String) {
+  post(postId: $postId, title: $title) {
     title
     content
     id

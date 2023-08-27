@@ -1,12 +1,13 @@
 import A from 'packages/components/A';
 import { cssWidth } from 'packages/components/Section';
 import { LINKS } from 'packages/pages/links/Links';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'packages/styled-components';
 import T from 'packages/components/Typography';
 import FooterLink from 'packages/components/Footer/FooterLink';
 import FooterLinkExpansion from 'packages/components/Footer/FooterLinkExpansion';
 import GET_POSTS from 'packages/pages/Posts/GetPosts.graphql';
 import { useLazyQuery } from '@apollo/client';
+import { breakpoints, commoncss } from 'packages/style';
 
 const FooterStyled = styled.footer`
   // background-color: ${({ theme }) => theme.color.surface[350]};
@@ -38,6 +39,24 @@ const FooterWrapper = styled.div`
   gap: ${({ theme }) => theme.spacing.px[200]};
 
   ${cssWidth};
+
+  ${({ maxWidth = '60vw' }) =>
+    commoncss.widthlimited({
+      enabled: (p) => css`
+        max-width: ${p}ch;
+
+        @media only screen and (min-width: ${breakpoints.md}) {
+          max-width: ${p ? `min(${maxWidth}, ${p}ch)` : maxWidth};
+        }
+      `,
+      disabled: () =>
+        css`
+          @media only screen and (min-width: ${breakpoints.md}) {
+            min-width: 600px;
+            max-width: ${maxWidth};
+          } ;
+        `,
+    })};
 `;
 
 const LinksWrapper = styled.section`
@@ -111,6 +130,10 @@ const CopyrightText = styled.span`
   color: ${({ theme }) => theme.color.surface[100]};
 `;
 
+const AllPosts = styled.span`
+  margin-left: auto;
+`;
+
 const Footer = (): JSX.Element => {
   const theme = useTheme();
   const [getPosts, { loading, error, data: posts }] = useLazyQuery(
@@ -148,38 +171,39 @@ const Footer = (): JSX.Element => {
             <FooterGroup tabIndex={-1}>
               <FooterHeader>Navigate</FooterHeader>
               <FooterLink to="/">Home</FooterLink>
-              <FooterLink to="/work">Work</FooterLink>
-              <FooterLink to="/playground">Playground</FooterLink>
+              <FooterLink to="/projects">Projects</FooterLink>
               <FooterLinkExpansion
                 title="Posts"
                 elements={
-                  posts
-                    ? [
-                        ...posts.posts.map((post) => ({
-                          key: post.id,
-                          props: {
-                            to: `/posts/${post.postId}`,
-                            children: post.title as React.ReactNode,
-                          },
-                        })),
-                        {
-                          key: 'post-expansion',
-                          props: {
-                            to: '/posts',
-                            children: (
-                              <>
-                                <span>
-                                  <span aria-hidden> . . . </span>
-                                  view all posts
-                                </span>
-                              </>
-                            ),
-                          },
+                  posts ? (
+                    [
+                      ...posts.posts.slice(0, 3).map((post) => ({
+                        key: post.id,
+                        props: {
+                          to: `/posts/${post.postId}`,
+                          children: post.title as React.ReactNode,
                         },
-                      ]
-                    : loading
-                    ? 'Loading Posts'
-                    : error?.message
+                      })),
+                      {
+                        key: 'post-expansion',
+                        props: {
+                          to: '/posts',
+                          children: (
+                            <>
+                              <AllPosts>
+                                <span aria-hidden> . . . </span>
+                                view all posts
+                              </AllPosts>
+                            </>
+                          ),
+                        },
+                      },
+                    ]
+                  ) : loading ? (
+                    <span>Loading Posts</span>
+                  ) : (
+                    <span>{error?.message}</span>
+                  )
                 }
                 onClick={() => {
                   loadPosts();
@@ -191,6 +215,7 @@ const Footer = (): JSX.Element => {
                   open && loadPosts();
                 }}
               />
+              <FooterLink to="/work">Work</FooterLink>
               {/* <FooterLink to="/contact">
                 Contact
               </FooterLink> */}

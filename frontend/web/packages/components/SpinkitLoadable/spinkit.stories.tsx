@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 import { Spinner as S } from 'packages/components/SpinkitLoadable';
 
 export default {
-  title: 'Components/SpinkitSpinner',
+  title: 'Atoms/SpinkitSpinner',
   component: S,
   decorators: undefined,
   parameters: {

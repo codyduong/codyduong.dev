@@ -1,7 +1,7 @@
 import './storybook.css'
 import '@fontsource/overpass'
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'packages/styled-components';
 import themes from '../packages/themed/themes/index';
 
 export const parameters = {

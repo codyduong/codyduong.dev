@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import { Paragraph } from 'packages/components/Typography';
 import { useLocation } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import A from 'packages/components/A';
 import color from 'color';
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close.js';
 import { breakpoints, commoncss } from 'packages/style';
 import Search from './NavbarSearch';
 import { useState } from 'react';
@@ -132,21 +132,22 @@ const StyledLink = styled(A.Link)`
       color: ${(props) => props.theme.color.base[300]};
     }
   }
-`;
 
-const LinkDivider = styled.div`
-  width: 100%;
-  height: max(0.05rem, 1px);
+  &::after {
+    content: '';
+    width: 100%;
+    height: max(0.05rem, 1px);
 
-  /* inferna-color-text-400 */
-  background: #404040;
-  border-radius: 0.5px;
+    /* inferna-color-text-400 */
+    background: #404040;
+    border-radius: 0.5px;
 
-  /* Inside auto layout */
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+  }
 `;
 
 type StyledLinkComponentProps = Parameters<typeof StyledLink>[0] & {
@@ -174,7 +175,6 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
         tabIndex={open ? undefined : -1}
       >
         {children}
-        <LinkDivider aria-hidden />
       </StyledLink>
     </MenuItem>
   );
@@ -251,7 +251,7 @@ const NavbarMenu = ({
     <NavbarMenuComponent
       className={hamburgerClassname}
       id="nav-hamburger-list"
-      role="menu"
+      // role="menu"
       aria-labelledby="nav-hamburger-button"
       aria-expanded={open}
     >
@@ -273,14 +273,17 @@ const NavbarMenu = ({
           <StyledLinkComponent open={open} setOpen={setOpen} to="/">
             home
           </StyledLinkComponent>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
-            work
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/projects">
+            projects
           </StyledLinkComponent>
-          <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
-            playground
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/lab">
+            lab
           </StyledLinkComponent>
           <StyledLinkComponent open={open} setOpen={setOpen} to="/posts">
             posts
+          </StyledLinkComponent>
+          <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
+            work
           </StyledLinkComponent>
           {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/contact">
             contact

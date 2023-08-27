@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'packages/styled-components';
 import T from 'packages/components/Typography';
 import classnames from 'classnames';
 import { commoncss } from 'packages/style';
@@ -86,11 +86,7 @@ type SwitchProps = {
   setChecked: React.Dispatch<boolean>;
   className?: string | undefined;
   buttonProps?: Omit<
-    React.DetailedHTMLProps<
-      React.ButtonHTMLAttributes<HTMLButtonElement>,
-      HTMLButtonElement
-    >,
-    | 'ref'
+    React.PropsWithoutRef<JSX.IntrinsicElements['button']>,
     | 'role'
     | 'aria-checked'
     | 'onClick'

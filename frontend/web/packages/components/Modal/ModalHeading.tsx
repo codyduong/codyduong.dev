@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import ModalExitComponent from './ModalExitComponent';
 import T from 'packages/components/Typography';
 import { useModal } from 'packages/components/Modal/ModalContext';
@@ -12,13 +12,7 @@ const ModalHeadingStyled = styled.h2`
   }
 `;
 
-type ModalHeadingProps = Omit<
-  React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLHeadingElement>,
-    HTMLHeadingElement
-  >,
-  'ref'
-> & {
+type ModalHeadingProps = React.PropsWithoutRef<JSX.IntrinsicElements['h2']> & {
   exitLabel?: string;
 };
 

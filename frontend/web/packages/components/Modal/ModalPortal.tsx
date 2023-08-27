@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import * as ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import { useState, useEffect, useRef, useId } from 'react';

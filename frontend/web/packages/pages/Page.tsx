@@ -1,7 +1,7 @@
 import Navbar from 'packages/components/Navbar';
 import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import { useEffect, useRef } from 'react';
 import { useBypass } from 'packages/mono-app/context/BypassContext';
 import { useScroll } from 'packages/mono-app/context/ScrollContext';

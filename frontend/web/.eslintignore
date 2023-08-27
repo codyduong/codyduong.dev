@@ -1,0 +1,6 @@
+/config/jest/**
+/graphql-gen/globals.d.ts
+/graphql-gen/types.ts
+node_modules
+node_modules_override
+build

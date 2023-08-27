@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 import { Link } from 'packages/components/A';
 // import T from 'packages/components/Typography';
 

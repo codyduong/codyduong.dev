@@ -6,7 +6,7 @@ import {
   css,
   FlattenInterpolation,
   FlattenSimpleInterpolation,
-} from 'styled-components';
+} from 'packages/styled-components';
 
 export { default as breakpoints } from './breakpoints';
 export const commoncss = {

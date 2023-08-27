@@ -4,7 +4,8 @@ import { Context } from '../context';
 import { sign, verify } from 'jsonwebtoken';
 import { compare, hash } from 'bcryptjs';
 import { allow, deny } from 'graphql-shield';
-import { APP_SECRET, Token } from '../utils';
+import { APP_SECRET } from '../utils';
+import { Token } from '../rules/isAdmin';
 
 export default Adapter<'user'>({
   schema: [

@@ -1,5 +1,5 @@
-import { evaluate } from '@mdx-js/mdx';
-import styled from 'styled-components';
+import { evaluate, compile, run } from '@mdx-js/mdx';
+import styled from 'packages/styled-components';
 import GET_POST from './GetPost.graphql';
 import UPDATE_POST from './UpdatePost.graphql';
 import IS_AUTHENTICATED from './IsAuthenticated.graphql';
@@ -198,8 +198,11 @@ const Post = (): JSX.Element | null => {
   const { id } = useParams();
   const urlParams = useUrlSearchParams();
   const { data, loading } = useQuery(GET_POST, {
-    variables: { postId: id ? Number(id) : null },
-    skip: !id,
+    variables: isNaN(Number(id))
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,
+        { title: decodeURIComponent(id!) }
+      : { postId: Number(id) },
+    skip: id === undefined,
   });
   const isEditorOpen = urlParams.has('edit');
 
@@ -214,11 +217,15 @@ const Post = (): JSX.Element | null => {
   const evaluatePromise = useMemo(
     async () =>
       contentStr
-        ? await evaluate(contentStr, {
-            Fragment: undefined,
-            ...runtime,
-            format: 'mdx',
-          })
+        ? document
+          ? await evaluate(contentStr, {
+              Fragment: undefined,
+              ...runtime,
+              format: 'mdx',
+            })
+          : await compile(contentStr, {
+              format: 'mdx',
+            })
         : { default: undefined },
     [contentStr]
   );
@@ -236,10 +243,21 @@ const Post = (): JSX.Element | null => {
     if (contentStr) {
       (async () => {
         try {
-          const { default: MDXContent } = await evaluatePromise;
+          const result = await evaluatePromise;
 
-          setContent(MDXContent?.({ components: COMPONENTS }));
-          setError('');
+          if ('default' in result) {
+            // client-only
+            const { default: MDXContent } = result;
+
+            setContent(MDXContent?.({ components: COMPONENTS }));
+            setError('');
+          } else {
+            // server->client
+            const { default: MDXContent } = await run(result, runtime);
+
+            setContent(MDXContent?.({ components: COMPONENTS }));
+            setError('');
+          }
         } catch (e) {
           setError(`${e as any}`);
         }

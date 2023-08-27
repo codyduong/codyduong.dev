@@ -1,10 +1,10 @@
 import { Meta } from '@storybook/react';
 import N from 'packages/components/Navbar';
 import { withRouter } from 'storybook-addon-react-router-v6';
-import styled from 'styled-components';
+import styled from 'packages/styled-components';
 
 export default {
-  title: 'Components/Navbar',
+  title: 'Molecules/Navbar',
   component: N,
   decorators: [withRouter],
   parameters: {

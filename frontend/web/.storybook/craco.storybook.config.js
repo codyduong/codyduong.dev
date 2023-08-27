@@ -1,4 +1,4 @@
-const cracoConfig = require('../craco.config');
+const cracoConfig = require('./craco.config');
 
 /**
  * Add a plugin to remove ModuleScopePlugin from webpack when running storybook because it messes
