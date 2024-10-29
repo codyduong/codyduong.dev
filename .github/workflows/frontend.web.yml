@@ -1,0 +1,37 @@
+name: frontend/web
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+    paths:
+      - '.github/workflows/frontend.web.yml'
+      - 'frontend/web/**.ts'
+      - 'frontend/web/**.tsx'
+      - 'frontend/web/**.js'
+      - 'frontend/web/**.mjs'
+  pull_request:
+    branches: [ master ]
+
+defaults:
+  run:
+    working-directory: frontend/web
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        bun: [1.1.42]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Use Bun.js ${{ matrix.bun }}
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: ${{ matrix.bun }}
+    - run: bun install --frozen-lockfile
+    - run: bun lint:changed
