@@ -2,7 +2,7 @@ import Navbar from 'packages/components/Navbar';
 import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
-import { useCallback, useEffect, useRef } from 'react';
+import { Suspense, useCallback, useEffect, useRef } from 'react';
 import { useBypass } from 'packages/app/contexts/BypassContext';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 
@@ -93,8 +93,10 @@ export default function Page({
     <PageDiv tabIndex={-1}>
       <Navbar />
       <PageContent ref={ref} id="main-content" tabIndex={-1}>
-        {children}
-        {hasFooter && <Footer />}
+        <Suspense>
+          {children}
+          {hasFooter && <Footer />}
+        </Suspense>
       </PageContent>
     </PageDiv>
   );

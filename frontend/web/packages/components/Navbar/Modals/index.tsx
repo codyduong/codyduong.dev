@@ -1,1 +1,1 @@
-export { AccessibleSettingsModal } from './AccessibleSettings';
+export { default as AccessibleSettingsModal } from './AccessibleSettings';

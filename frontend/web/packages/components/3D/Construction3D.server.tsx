@@ -1,7 +1,16 @@
 import { Typography } from 'packages/components/Typography';
 import styled from 'styled-components';
 import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
-import Construction3DClient from './Construction3D.client';
+import React from 'react';
+
+const Construction3DClient = React.lazy(() => {
+  if (import.meta.env.SSR) {
+    return new Promise((_resolve, reject) => {
+      reject();
+    });
+  }
+  return import('./Construction3D.client');
+});
 
 const CanvasSection = styled.section`
   position: static;
@@ -33,7 +42,6 @@ const UnderConstructionSection = styled.section`
   box-sizing: border-box;
   padding: ${(props) => props.theme.spacing.rem[300]};
 `;
-
 
 export default function Construction3DServer(): JSX.Element {
   const query = useUrlSearchParams();

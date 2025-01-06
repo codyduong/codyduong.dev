@@ -1,1 +1,1 @@
-export { default as AccessibleSettingsModal } from './Modal.tsx';
+export { default } from './Modal.tsx';

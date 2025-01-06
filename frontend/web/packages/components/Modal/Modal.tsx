@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React from 'react';
-import ModalPortal from './ModalPortal';
+import React, { Suspense } from 'react';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
 import T from '../Typography';
@@ -10,6 +9,15 @@ import { ButtonProps } from 'packages/components/Button/Button';
 import ModalHeading from './ModalHeading';
 import { useModal } from './ModalContext';
 import { commoncss } from 'packages/style';
+
+const ModalPortal = React.lazy(() => {
+  if (!import.meta.env.SSR) {
+    return import('./ModalPortal');
+  }
+  return new Promise((_resolve, reject) => {
+    reject();
+  });
+});
 
 const ModalFooter = styled.div<{ numberOfButtons?: number }>`
   display: flex;
@@ -384,15 +392,17 @@ const Modal = <T extends Record<string, any> = Record<string, any>>({
   };
 
   return (
-    <ModalPortal
-      open={open}
-      onClose={closeModal}
-      onCloseAnimationComplete={onCloseAnimationComplete}
-      portalTo={portalTo}
-      persist={persist}
-    >
-      <ModalFlat {...rest} />
-    </ModalPortal>
+    <Suspense fallback={<></>}>
+      <ModalPortal
+        open={open}
+        onClose={closeModal}
+        onCloseAnimationComplete={onCloseAnimationComplete}
+        portalTo={portalTo}
+        persist={persist}
+      >
+        <ModalFlat {...rest} />
+      </ModalPortal>
+    </Suspense>
   );
 };
 
@@ -528,15 +538,17 @@ const DefaultModal = <T extends Record<string, any>>({
   };
 
   return (
-    <ModalPortal
-      open={open}
-      onClose={closeModal}
-      onCloseAnimationComplete={onCloseAnimationComplete}
-      portalTo={portalTo}
-      persist={persist}
-    >
-      <ModalFlat {...rest} footer={<DefaultFooter {...footerProps} />} />
-    </ModalPortal>
+    <Suspense fallback={<></>}>
+      <ModalPortal
+        open={open}
+        onClose={closeModal}
+        onCloseAnimationComplete={onCloseAnimationComplete}
+        portalTo={portalTo}
+        persist={persist}
+      >
+        <ModalFlat {...rest} footer={<DefaultFooter {...footerProps} />} />
+      </ModalPortal>
+    </Suspense>
   );
 };
 

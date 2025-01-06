@@ -3,18 +3,18 @@ import styled, { css } from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import A from 'packages/components/A';
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import classnames from 'classnames';
 import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
 // import SettingsIcon from '@mui/icons-material/Settings';
 import { breakpoints, commoncss } from 'packages/style';
-import { AccessibleSettingsModal } from 'packages/components/Navbar/Modals';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { cssWidth } from 'packages/components/Section';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 import { useAccessibility } from 'packages/app/contexts/AccessibilityContext';
+// import { AccessibleSettingsModal } from './Modals';
 
 const TrapFocus = styled.div`
   position: absolute;
@@ -496,10 +496,10 @@ const Navbar = (): JSX.Element => {
             }}
           />
         </Nav>
-        <AccessibleSettingsModal
-          open={accessibility}
-          setOpen={setAccessibility}
-        />
+        {/* <AccessibleSettingsModal
+            open={accessibility}
+            setOpen={setAccessibility}
+          /> */}
         <Banner
           ref={bannerRef}
           className={bannerClassname}

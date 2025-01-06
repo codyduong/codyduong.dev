@@ -29,28 +29,23 @@ const useBrowserQuery = (): InstanceType<typeof URLSearchParams> => {
 };
 
 interface AppProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  query: Record<string, any> | null;
+  serverQuery: URLSearchParams | null;
 }
 
-export default function App({ query: serverQueryUnformatted }: AppProps) {
+export default function App({ serverQuery }: AppProps) {
   const [_count, _setCount] = useState(0);
   const [theme, _setTheme] = useThemeBase();
-
-  const serverQuery = new URLSearchParams('');
   const browserQuery = useBrowserQuery();
-
-  if (serverQueryUnformatted) {
-    for (const [key, value] of Object.entries(serverQueryUnformatted)) {
-      serverQuery.append(key, value);
-    }
-  }
 
   return (
     <ThemeProvider theme={theme}>
       <AccessibilityProvider>
         <QueryProvider
-          query={serverQuery.keys.length > 0 ? serverQuery : browserQuery}
+          query={
+            serverQuery && serverQuery.keys.length > 0
+              ? serverQuery
+              : browserQuery
+          }
         >
           <TheatreProvider>
             <BypassProvider>
