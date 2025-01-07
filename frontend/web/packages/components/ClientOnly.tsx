@@ -15,6 +15,7 @@ function ClientOnly<T extends ComponentType<any>>(props: ClientOnlyProps<T>) {
 
   React.useEffect(() => {
     setComponent(() => React.lazy(props.component));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

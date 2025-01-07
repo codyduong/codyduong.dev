@@ -1,19 +1,7 @@
 import { Typography } from 'packages/components/Typography';
 import styled from 'styled-components';
 import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
-import React, { Suspense, useEffect, useState } from 'react';
-import type Construction3DClientType from './Construction3D.client';
 import { ClientOnly } from '../ClientOnly';
-
-const Construction3DClient = React.lazy<typeof Construction3DClientType>(() => {
-  if (import.meta.env.SSR) {
-    return new Promise((_resolve, reject) => {
-      reject();
-      // resolve({ default: () => null! });
-    });
-  }
-  return import('./Construction3D.client');
-});
 
 const CanvasSection = styled.section`
   position: static;

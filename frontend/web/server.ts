@@ -4,10 +4,9 @@ import { Transform } from 'node:stream';
 import { ServerStyleSheet } from 'styled-components';
 import { createChunkCollector } from 'vite-preload';
 import type { render as tr } from './src/entry-server.tsx';
-import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
+// import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import crypto from 'node:crypto';
 import createCache from '@emotion/cache';
-import createEmotionServer from '@emotion/server/create-instance';
 
 // Constants
 const isProduction = process.env.NODE_ENV === 'production';
@@ -68,7 +67,7 @@ const renderApp = async (req: express.Request, res: express.Response) => {
   const nonce = crypto.randomBytes(16).toString('base64');
   res.setHeader(
     'Content-Security-Policy',
-    `script-src 'self' 'nonce-${nonce}'` //; style-src 'self' 'nonce-${nonce}';,
+    `script-src 'self' 'nonce-${nonce}'`, //; style-src 'self' 'nonce-${nonce}';,
   );
 
   const emotionCache = createCache({ key: 'css', nonce });
