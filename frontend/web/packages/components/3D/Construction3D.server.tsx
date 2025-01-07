@@ -1,12 +1,15 @@
 import { Typography } from 'packages/components/Typography';
 import styled from 'styled-components';
 import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
-import React from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
+import type Construction3DClientType from './Construction3D.client';
+import { ClientOnly } from '../ClientOnly';
 
-const Construction3DClient = React.lazy(() => {
+const Construction3DClient = React.lazy<typeof Construction3DClientType>(() => {
   if (import.meta.env.SSR) {
     return new Promise((_resolve, reject) => {
       reject();
+      // resolve({ default: () => null! });
     });
   }
   return import('./Construction3D.client');
@@ -49,12 +52,8 @@ export default function Construction3DServer(): JSX.Element {
 
   return (
     <>
-      <CanvasSection className={theatre ? 'theatre' : ''} id="r3f-canvas">
-        <Construction3DClient
-          enablePan={theatre}
-          enableZoom={theatre}
-          enabled={theatre}
-        />
+      <CanvasSection className={theatre ? 'theatre' : ''}>
+        <ClientOnly component={() => import('./Construction3D.client')} />
       </CanvasSection>
       <UnderConstructionSection>
         <Typography.Heading.H2>

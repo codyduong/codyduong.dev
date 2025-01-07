@@ -6,13 +6,13 @@ import utils from '../utils';
 import { ModalContextProvider } from './ModalContext';
 
 const ModalRoot = styled.div<{
-  root: boolean;
+  $root: boolean;
 }>`
-  position: ${(props) => (props.root ? 'fixed' : 'absolute')};
+  position: ${(props) => (props.$root ? 'fixed' : 'absolute')};
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: ${(props) => (props.root ? 1100 : 1000)};
+  z-index: ${(props) => (props.$root ? 1100 : 1000)};
   width: 100%;
   height: 100%;
   display: flex;
@@ -236,10 +236,6 @@ const ModalPortal = ({
   const ariaLabelledBy = useId();
   const ariaDescribedBy = useId();
 
-  if (!portalTo) {
-    return null;
-  }
-
   return open || showing || persist
     ? ReactDOM.createPortal(
         <ModalContextProvider
@@ -256,7 +252,7 @@ const ModalPortal = ({
             aria-hidden={!open}
             ref={refBackground}
             tabIndex={-1}
-            root={portalTo.id == 'root'}
+            $root={portalTo.id == 'root'}
             style={{
               transform: `translate(${scroll[0]}px,${scroll[1]}px)`,
             }}

@@ -14,6 +14,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { cssWidth } from 'packages/components/Section';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 import { useAccessibility } from 'packages/app/contexts/AccessibilityContext';
+import { AccessibleSettingsModal } from './Modals';
 // import { AccessibleSettingsModal } from './Modals';
 
 const TrapFocus = styled.div`
@@ -496,10 +497,10 @@ const Navbar = (): JSX.Element => {
             }}
           />
         </Nav>
-        {/* <AccessibleSettingsModal
-            open={accessibility}
-            setOpen={setAccessibility}
-          /> */}
+        <AccessibleSettingsModal
+          open={accessibility}
+          setOpen={setAccessibility}
+        />
         <Banner
           ref={bannerRef}
           className={bannerClassname}

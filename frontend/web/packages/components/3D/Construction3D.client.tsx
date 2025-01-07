@@ -13,6 +13,7 @@ import {
 } from '@react-three/cannon';
 import { A11yAnnouncer, A11ySection } from '@react-three/a11y';
 import { MTLLoader, OBJLoader } from 'three/examples/jsm/Addons.js';
+import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
 
 const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
   const [rotation, position]: [
@@ -73,19 +74,10 @@ const Cone = ({ cone, shapes, primitiveProps }: ConeProps): JSX.Element => {
   );
 };
 
-interface Construction3DClientProps {
-  zoom?: number;
-  enablePan?: boolean;
-  enableZoom?: boolean;
-  enabled?: boolean;
-}
+const Construction3DClient = (): JSX.Element => {
+  const query = useUrlSearchParams();
+  const theatre = query.has('theatrejs');
 
-const Construction3DClient = ({
-  zoom = 2,
-  enablePan = false,
-  enableZoom = false,
-  enabled = false,
-}: Construction3DClientProps): JSX.Element => {
   const coneMaterial = useLoader(MTLLoader, '/3d/cone/materials.mtl');
   const cone = useLoader(OBJLoader, '/3d/cone/model.obj', (loader) => {
     coneMaterial.preload();
@@ -105,16 +97,14 @@ const Construction3DClient = ({
       ),
     [],
   );
-  /* eslint-disable react-hooks/exhaustive-deps */
-  const cone2 = useMemo(() => cone.clone(), []);
-  const cone3 = useMemo(() => cone.clone(), []);
-  /* eslint-enable react-hooks/exhaustive-deps */
+  const cone2 = useMemo(() => cone.clone(), [cone]);
+  const cone3 = useMemo(() => cone.clone(), [cone]);
 
   return (
     <>
       <Suspense>
         <Canvas
-          camera={{ position: [-4, 2, -4], zoom: zoom }}
+          camera={{ position: [-4, 2, -4], zoom: 2 }}
           gl={{ preserveDrawingBuffer: true }}
           shadows={'basic'}
         >
@@ -133,9 +123,9 @@ const Construction3DClient = ({
                     position={[-1, 10, 2.5]}
                   />
                   <OrbitControls
-                    enablePan={enablePan}
-                    enableZoom={enableZoom}
-                    enabled={enabled}
+                    enablePan={theatre}
+                    enableZoom={theatre}
+                    enabled={theatre}
                     // minPolarAngle={Math.PI / 2.2}
                     maxPolarAngle={Math.PI / 2.2}
                   />

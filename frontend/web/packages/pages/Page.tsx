@@ -3,7 +3,6 @@ import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 import { Suspense, useCallback, useEffect, useRef } from 'react';
-import { useBypass } from 'packages/app/contexts/BypassContext';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const PageDiv = styled.div`
@@ -47,8 +46,7 @@ export default function Page({
   hasFooter = false,
 }: PageProps): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const { setMainContent } = useBypass();
-  const { setTop, setPageDirection, setPageRef, setScrollHeight } = useScroll();
+  const { setTop, setPageDirection, setScrollHeight } = useScroll();
 
   const handleScroll = useCallback(
     (e: HTMLElementEventMap['scroll']): void => {
@@ -76,18 +74,12 @@ export default function Page({
   );
 
   useEffect(() => {
-    setMainContent(ref);
-  }, [ref, setMainContent]);
-
-  useEffect(() => {
-    setPageRef(ref);
     const currElem = ref.current;
     currElem?.addEventListener('scroll', handleScroll);
     return () => {
-      setPageRef(null);
       currElem?.removeEventListener('scroll', handleScroll);
     };
-  }, [handleScroll, ref, setPageRef]);
+  }, [handleScroll, ref]);
 
   return (
     <PageDiv tabIndex={-1}>

@@ -9,14 +9,16 @@ import { ButtonProps } from 'packages/components/Button/Button';
 import ModalHeading from './ModalHeading';
 import { useModal } from './ModalContext';
 import { commoncss } from 'packages/style';
+import type ModalPortalType from './ModalPortal';
 
-const ModalPortal = React.lazy(() => {
-  if (!import.meta.env.SSR) {
-    return import('./ModalPortal');
+const ModalPortal = React.lazy<typeof ModalPortalType>(() => {
+  if (import.meta.env.SSR) {
+    return new Promise((resolve, _reject) => {
+      resolve({ default: () => null });
+    });
   }
-  return new Promise((_resolve, reject) => {
-    reject();
-  });
+
+  return import('./ModalPortal');
 });
 
 const ModalFooter = styled.div<{ numberOfButtons?: number }>`
@@ -191,12 +193,12 @@ export const ModalContainerComponent = ({
   return <ModalContainer className={cs} {...rest} as="div" />;
 };
 
-const ModalContentStyled = styled.div<{ gap: boolean }>`
+const ModalContentStyled = styled.div<{ $gap: boolean }>`
   ${ModalScrollContent};
   overflow: visible;
   display: flex;
   flex-flow: column nowrap;
-  gap: ${({ gap, theme }) => (gap ? theme.spacing.px[100] : 0)};
+  gap: ${({ $gap, theme }) => ($gap ? theme.spacing.px[100] : 0)};
   width: 100%;
 
   & > div:first-child {
@@ -227,7 +229,7 @@ const ModalContent = ({
 > & { gap?: boolean }): JSX.Element => {
   const { ariaDescribedBy } = useModal();
 
-  return <ModalContentStyled id={ariaDescribedBy} gap={gap} {...rest} />;
+  return <ModalContentStyled id={ariaDescribedBy} $gap={gap} {...rest} />;
 };
 
 function createButtonsFromArray(
@@ -392,7 +394,7 @@ const Modal = <T extends Record<string, any> = Record<string, any>>({
   };
 
   return (
-    <Suspense fallback={<></>}>
+    <Suspense>
       <ModalPortal
         open={open}
         onClose={closeModal}
@@ -538,7 +540,7 @@ const DefaultModal = <T extends Record<string, any>>({
   };
 
   return (
-    <Suspense fallback={<></>}>
+    <Suspense>
       <ModalPortal
         open={open}
         onClose={closeModal}

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useBypass } from './app/contexts/BypassContext';
 import utils from './components/utils';
 
 const BypassDiv = styled.div`
@@ -33,6 +32,10 @@ const BypassDiv = styled.div`
       text-decoration: underline;
     }
   }
+
+  .no-main {
+    display: hidden;
+  }
 `;
 
 /**
@@ -40,18 +43,16 @@ const BypassDiv = styled.div`
  * A mechanism is available to bypass blocks of content that are repeated on multiple Web pages.
  */
 const Bypass = (): JSX.Element | null => {
-  const { mainContent } = useBypass();
-  const mainContentElement = mainContent?.current;
-
-  if (!mainContentElement) {
-    return null;
-  }
+  // const { mainContent } = useBypass();
+  const mainContent = !import.meta.env.SSR
+    ? document.getElementById('main-content')
+    : null;
 
   const focus = () => {
     try {
-      mainContentElement.focus();
+      mainContent!.focus();
     } catch {
-      utils.attemptFocusOrFirstDescendant(mainContentElement);
+      utils.attemptFocusOrFirstDescendant(mainContent!);
     }
   };
 

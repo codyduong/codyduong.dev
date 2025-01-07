@@ -7,6 +7,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size: 16px;
   overflow: hidden;
+  font-display: auto;
 }
 body > div {
   overflow: hidden;

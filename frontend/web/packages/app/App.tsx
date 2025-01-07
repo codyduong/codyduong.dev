@@ -1,9 +1,8 @@
 import { AccessibilityProvider } from './contexts/AccessibilityContext';
-import React, { useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { useThemeBase } from 'packages/style/themes';
 import Bypass from 'packages/Bypass';
-import { BypassProvider } from './contexts/BypassContext';
 import Page from 'packages/pages/Page';
 import { Route, Routes, useLocation } from 'react-router';
 import { ScrollProvider } from './contexts/ScrollContext';
@@ -48,9 +47,9 @@ export default function App({ serverQuery }: AppProps) {
           }
         >
           <TheatreProvider>
-            <BypassProvider>
-              <ScrollProvider>
-                <Bypass />
+            <ScrollProvider>
+              <Bypass />
+              <Suspense>
                 <Page hasFooter>
                   <Routes>
                     <Route path="/" element={<Home />} />
@@ -64,8 +63,8 @@ export default function App({ serverQuery }: AppProps) {
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Page>
-              </ScrollProvider>
-            </BypassProvider>
+              </Suspense>
+            </ScrollProvider>
           </TheatreProvider>
         </QueryProvider>
       </AccessibilityProvider>
