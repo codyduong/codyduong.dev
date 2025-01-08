@@ -4,4 +4,4 @@ declare module '*.svg?react' {
   export default src as React.FunctionComponent<React.SVGProps<SVGElement>>;
 }
 
-declare module '@fontsource/overpass';
+declare module '@fontsource/*';

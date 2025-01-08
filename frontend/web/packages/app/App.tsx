@@ -52,7 +52,9 @@ export default function App({ serverQuery }: AppProps) {
               <Suspense>
                 <Page hasFooter>
                   <Routes>
+                    <Route path="" element={<Home />} />
                     <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
                     <Route
                       path="/web-accessibility-statement"
                       element={<WebAccessibilityStatement />}

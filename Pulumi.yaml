@@ -1,0 +1,11 @@
+name: codyduongweb
+description: A TypeScript program to deploy a containerized service on Google Cloud
+runtime:
+  name: nodejs
+  options:
+    packagemanager: yarn
+    nodeargs: "--loader ts-node/esm"
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: container-gcp-typescript

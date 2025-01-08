@@ -65,10 +65,10 @@ const renderApp = async (req: express.Request, res: express.Response) => {
   }
 
   const nonce = crypto.randomBytes(16).toString('base64');
-  res.setHeader(
-    'Content-Security-Policy',
-    `script-src 'self' 'nonce-${nonce}'`, //; style-src 'self' 'nonce-${nonce}';,
-  );
+  // res.setHeader(
+  //   'Content-Security-Policy',
+  //   `script-src 'self' 'nonce-${nonce}'`, //; style-src 'self' 'nonce-${nonce}';,
+  // );
 
   const emotionCache = createCache({ key: 'css', nonce });
   const sheet = new ServerStyleSheet();

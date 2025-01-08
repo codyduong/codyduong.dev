@@ -16,8 +16,7 @@ export function render(
   urlString: string,
   options?: RenderToPipeableStreamOptions,
 ) {
-  // TODO use dotenv
-  const url = new URL(urlString, 'https://foobar.com');
+  const url = new URL(urlString, 'https://codyduong.dev');
 
   return renderToPipeableStream(
     sheet.collectStyles(
