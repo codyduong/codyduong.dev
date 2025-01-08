@@ -34,3 +34,6 @@ export function render(
     options,
   );
 }
+
+// for some reason this export doesn't work
+export { default as getTitle } from 'packages/getTitle';

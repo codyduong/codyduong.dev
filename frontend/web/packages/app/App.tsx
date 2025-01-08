@@ -4,22 +4,11 @@ import { ThemeProvider } from 'styled-components';
 import { useThemeBase } from 'packages/style/themes';
 import Bypass from 'packages/Bypass';
 import Page from 'packages/pages/Page';
-import { Route, Routes, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { ScrollProvider } from './contexts/ScrollContext';
 import { QueryProvider } from './contexts/UrlSearchParamsContext';
 import TheatreProvider from 'packages/components/3D/TheatreContext';
-
-const Home = React.lazy(() => import('packages/pages/Home'));
-
-const WebAccessibilityStatement = React.lazy(
-  () => import('packages/pages/WebAccessibilityStatement'),
-);
-
-const Construction3D = React.lazy(
-  () => import('packages/components/3D/Construction3D'),
-);
-
-const NotFound = React.lazy(() => import('packages/pages/404'));
+import RoutesHelper from './RoutesHelper';
 
 const useBrowserQuery = (): InstanceType<typeof URLSearchParams> => {
   const { search } = useLocation();
@@ -51,19 +40,7 @@ export default function App({ serverQuery }: AppProps) {
               <Bypass />
               <Suspense>
                 <Page hasFooter>
-                  <Routes>
-                    <Route path="" element={<Home />} />
-                    <Route path="/" element={<Home />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route
-                      path="/web-accessibility-statement"
-                      element={<WebAccessibilityStatement />}
-                    />
-                    <Route path="/playground" element={<Construction3D />} />
-                    <Route path="/projects" element={<Construction3D />} />
-                    <Route path="/work" element={<Construction3D />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
+                  <RoutesHelper />
                 </Page>
               </Suspense>
             </ScrollProvider>

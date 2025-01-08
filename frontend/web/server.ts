@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import fs from 'node:fs/promises';
 import express from 'express';
 import { Transform } from 'node:stream';
@@ -54,14 +55,22 @@ const renderApp = async (req: express.Request, res: express.Response) => {
   /** @type {string} */
   let template;
   let render: typeof tr;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let getTitle: any;
   if (!isProduction) {
     // Always read fresh template in development
     template = await fs.readFile('./index.html', 'utf-8');
     template = await vite.transformIndexHtml(url, template);
-    render = (await vite.ssrLoadModule('/src/entry-server.tsx')).render;
+    const mod = await vite.ssrLoadModule('/src/entry-server.tsx');
+    render = mod.render;
+    getTitle = mod.getTitle;
   } else {
     template = templateHtml;
-    render = (await import('./dist/server/entry-server.js')).render;
+    const mod = await import('./dist/server/entry-server.js');
+    // @ts-ignore
+    render = mod.render;
+    // @ts-ignore
+    getTitle = mod.getTitle;
   }
 
   const nonce = crypto.randomBytes(16).toString('base64');
@@ -80,8 +89,11 @@ const renderApp = async (req: express.Request, res: express.Response) => {
     nonce,
   });
 
+  const title = getTitle(url, base);
   // eslint-disable-next-line prefer-const
   let [head, rest] = template.split(`<!--app-html-->`);
+
+  head = head.replace('<!--app-title-->', `<title>${title}</title>`);
 
   // Not gonna work locally in Chrome unless you have a HTTP/2 supported proxy in front, use Firefox to pick up 103 Early Hints over HTTP/1.1 without TLS
   // https://developer.chrome.com/docs/web-platform/early-hints
@@ -103,7 +115,11 @@ const renderApp = async (req: express.Request, res: express.Response) => {
       res.send('<h1>Something went wrong</h1>');
     },
     onAllReady() {
-      res.status(didError ? 500 : 200);
+      if (title.startsWith('Not Found')) {
+        res.status(404);
+      } else {
+        res.status(didError ? 500 : 200);
+      }
       res.set({ 'Content-Type': 'text/html' });
       res.append('link', collector.getLinkHeaders());
 
