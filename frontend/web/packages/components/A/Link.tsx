@@ -1,7 +1,7 @@
 import { Link as L, LinkProps } from 'react-router-dom';
 import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
-import { useScroll } from 'packages/app/contexts/ScrollContext';
+// import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const LBase = css`
   text-decoration: none;
@@ -25,7 +25,9 @@ const L2Wrapper = ({
   LinkProps & React.RefAttributes<HTMLAnchorElement>,
   'ref'
 >): JSX.Element => {
-  const { pageRef } = useScroll();
+  // const { pageRef } = useScroll();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pageRef: any = null;
 
   const scrollPageToTop = (): void => {
     if (pageRef && pageRef.current) {
@@ -56,7 +58,7 @@ const StyledLinkCSS = css`
   color: ${({ theme }) => theme.color.base[400]};
   ${commoncss.focus}
   &:hover {
-    color: ${({ theme }) => theme.color.base[200]};
+    color: ${({ theme }) => theme.color.base[300]};
     text-decoration: underline;
   }
 `;
@@ -73,7 +75,9 @@ const StyledLinkWrapper = ({
   LinkProps & React.RefAttributes<HTMLAnchorElement>,
   'ref'
 >): JSX.Element => {
-  const { pageRef } = useScroll();
+  // const { pageRef } = useScroll();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pageRef: any = null;
 
   const scrollPageToTop = (): void => {
     if (pageRef && pageRef.current) {
