@@ -69,6 +69,12 @@ const AllInLink = styled(A)`
   }
 `;
 
+const Ol = styled.ol`
+  li {
+    list-style-type: disc;
+  }
+`;
+
 const Home = (): JSX.Element => {
   return (
     <Content>
@@ -120,10 +126,11 @@ const Home = (): JSX.Element => {
             fun things.
           </T.P3>
           <T.Heading.H2>Currently</T.Heading.H2>
-          <ul>
+          <Ol>
             <li>
               <T.Span3>
-                [JUL 2023 - ] Fullstack Software Engineering Intern @{' '}
+                [<time dateTime="2023-06">JUN 2023</time> - ] Fullstack Software
+                Engineering Intern @{' '}
                 <Link.Styled to="/work/quest-analytics">
                   Quest Analytics
                 </Link.Styled>
@@ -131,24 +138,28 @@ const Home = (): JSX.Element => {
             </li>
             <li>
               <T.Span3>
-                [AUG 2021 - ] Computer Science Student @{' '}
+                [<time dateTime="2021-08">AUG 2021</time> - ] Computer Science
+                Student @{' '}
                 <A.Styled href="https://ku.edu">University of Kansas</A.Styled>
               </T.Span3>
             </li>
-          </ul>
+          </Ol>
         </Section>
         <Section>
           <T.Heading.H2>Formerly</T.Heading.H2>
-          <ul>
+          <Ol>
             <li>
               <T.Span3>
-                [JUL 2021 - JUL 2023] Fullstack Software Engineering Intern @{' '}
+                [<time dateTime="2021-05">MAY 2021</time> -{' '}
+                <time dateTime="2023-06">JUN 2023</time>] Fullstack Software
+                Engineering Intern @{' '}
                 <Link.Styled to="/work/agi">AGI Digital</Link.Styled>{' '}
               </T.Span3>
             </li>
             <li>
               <T.Span3>
-                [2023] Student @ GitHub&apos;s{' '}
+                [<time dateTime="2023-03">MAR 2023</time>] Student @
+                GitHub&apos;s{' '}
                 <AllInLink href="https://allinopensource.org">
                   <AIwrapper>
                     &thinsp;<AIc aria-hidden>{'{ '}</AIc>
@@ -160,7 +171,7 @@ const Home = (): JSX.Element => {
                 </AllInLink>
               </T.Span3>
             </li>
-          </ul>
+          </Ol>
         </Section>
       </SectionContainer>
     </Content>
