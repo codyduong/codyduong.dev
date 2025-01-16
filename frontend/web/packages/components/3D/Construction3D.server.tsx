@@ -2,6 +2,7 @@ import { Typography } from 'packages/components/Typography';
 import styled from 'styled-components';
 import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
 import { ClientOnly } from '../ClientOnly';
+import Head from '../Head';
 
 const CanvasSection = styled.section`
   position: static;
@@ -40,6 +41,7 @@ export default function Construction3DServer(): JSX.Element {
 
   return (
     <>
+      <Head title={'Under Construction'} />
       <CanvasSection className={theatre ? 'theatre' : ''}>
         <ClientOnly component={() => import('./Construction3D.client')} />
       </CanvasSection>

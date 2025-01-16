@@ -4,11 +4,23 @@ import { ThemeProvider } from 'styled-components';
 import { useThemeBase } from 'packages/style/themes';
 import Bypass from 'packages/Bypass';
 import Page from 'packages/pages/Page';
-import { useLocation } from 'react-router';
+import { Route, Routes, useLocation } from 'react-router';
 import { ScrollProvider } from './contexts/ScrollContext';
 import { QueryProvider } from './contexts/UrlSearchParamsContext';
 import TheatreProvider from 'packages/components/3D/TheatreContext';
-import RoutesHelper from './RoutesHelper';
+import { HeadProvider, HeadValue } from './contexts/HeadContext';
+
+const Home = React.lazy(() => import('packages/pages/Home'));
+
+const WebAccessibilityStatement = React.lazy(
+  () => import('packages/pages/WebAccessibilityStatement'),
+);
+
+const Construction3D = React.lazy(
+  () => import('packages/components/3D/Construction3D'),
+);
+
+const NotFound = React.lazy(() => import('packages/pages/404'));
 
 const useBrowserQuery = (): InstanceType<typeof URLSearchParams> => {
   const { search } = useLocation();
@@ -18,35 +30,50 @@ const useBrowserQuery = (): InstanceType<typeof URLSearchParams> => {
 
 interface AppProps {
   serverQuery: URLSearchParams | null;
+  headValue: HeadValue | undefined;
 }
 
-export default function App({ serverQuery }: AppProps) {
+export default function App({ serverQuery, headValue }: AppProps) {
   const [_count, _setCount] = useState(0);
   const [theme, _setTheme] = useThemeBase();
   const browserQuery = useBrowserQuery();
 
   return (
     <ThemeProvider theme={theme}>
-      <AccessibilityProvider>
-        <QueryProvider
-          query={
-            serverQuery && serverQuery.keys.length > 0
-              ? serverQuery
-              : browserQuery
-          }
-        >
-          <TheatreProvider>
-            <ScrollProvider>
-              <Bypass />
-              <Suspense>
-                <Page hasFooter>
-                  <RoutesHelper />
-                </Page>
-              </Suspense>
-            </ScrollProvider>
-          </TheatreProvider>
-        </QueryProvider>
-      </AccessibilityProvider>
+      <HeadProvider value={headValue}>
+        <AccessibilityProvider>
+          <QueryProvider
+            query={
+              serverQuery && serverQuery.keys.length > 0
+                ? serverQuery
+                : browserQuery
+            }
+          >
+            <TheatreProvider>
+              <ScrollProvider>
+                <Bypass />
+                <Suspense>
+                  <Page hasFooter>
+                    <Routes>
+                      <Route path="" element={<Home />} />
+                      <Route path="/" element={<Home />} />
+                      <Route path="/home" element={<Home />} />
+                      <Route
+                        path="/web-accessibility-statement"
+                        element={<WebAccessibilityStatement />}
+                      />
+                      <Route path="/playground" element={<Construction3D />} />
+                      <Route path="/projects" element={<Construction3D />} />
+                      <Route path="/work" element={<Construction3D />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Page>
+                </Suspense>
+              </ScrollProvider>
+            </TheatreProvider>
+          </QueryProvider>
+        </AccessibilityProvider>
+      </HeadProvider>
     </ThemeProvider>
   );
 }

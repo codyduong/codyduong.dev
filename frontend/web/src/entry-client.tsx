@@ -8,7 +8,7 @@ hydrateRoot(
   document.getElementById('root')!,
   <StrictMode>
     <BrowserRouter>
-      <App serverQuery={null} />
+      <App serverQuery={null} headValue={undefined} />
       {/* <TestApp /> */}
     </BrowserRouter>
   </StrictMode>,

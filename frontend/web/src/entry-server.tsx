@@ -1,5 +1,6 @@
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import App from 'packages/app';
+import { HeadValue } from 'packages/app/contexts/HeadContext';
 import { StrictMode } from 'react';
 import {
   renderToPipeableStream,
@@ -14,6 +15,7 @@ export function render(
   collector: ChunkCollector,
   emotionCache: EmotionCache,
   urlString: string,
+  headValue: HeadValue,
   options?: RenderToPipeableStreamOptions,
 ) {
   const url = new URL(urlString, 'https://codyduong.dev');
@@ -24,8 +26,7 @@ export function render(
         <CacheProvider value={emotionCache}>
           <ChunkCollectorContext collector={collector}>
             <StaticRouter location={`/${urlString}`}>
-              <App serverQuery={url.searchParams} />
-              {/* <TestApp /> */}
+              <App serverQuery={url.searchParams} headValue={headValue} />
             </StaticRouter>
           </ChunkCollectorContext>
         </CacheProvider>
@@ -34,6 +35,3 @@ export function render(
     options,
   );
 }
-
-// for some reason this export doesn't work
-export { default as getTitle } from 'packages/getTitle';

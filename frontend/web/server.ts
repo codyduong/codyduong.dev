@@ -8,6 +8,7 @@ import type { render as tr } from './src/entry-server.tsx';
 // import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import crypto from 'node:crypto';
 import createCache from '@emotion/cache';
+import type { HeadValue } from './packages/app/contexts/HeadContext';
 
 // Constants
 const isProduction = process.env.NODE_ENV === 'production';
@@ -55,22 +56,17 @@ const renderApp = async (req: express.Request, res: express.Response) => {
   /** @type {string} */
   let template;
   let render: typeof tr;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let getTitle: any;
   if (!isProduction) {
     // Always read fresh template in development
     template = await fs.readFile('./index.html', 'utf-8');
     template = await vite.transformIndexHtml(url, template);
     const mod = await vite.ssrLoadModule('/src/entry-server.tsx');
     render = mod.render;
-    getTitle = mod.getTitle;
   } else {
     template = templateHtml;
     const mod = await import('./dist/server/entry-server.js');
     // @ts-ignore
     render = mod.render;
-    // @ts-ignore
-    getTitle = mod.getTitle;
   }
 
   const nonce = crypto.randomBytes(16).toString('base64');
@@ -89,11 +85,8 @@ const renderApp = async (req: express.Request, res: express.Response) => {
     nonce,
   });
 
-  const title = getTitle(url, base);
   // eslint-disable-next-line prefer-const
   let [head, rest] = template.split(`<!--app-html-->`);
-
-  head = head.replace('<!--app-title-->', `<title>${title}</title>`);
 
   // Not gonna work locally in Chrome unless you have a HTTP/2 supported proxy in front, use Firefox to pick up 103 Early Hints over HTTP/1.1 without TLS
   // https://developer.chrome.com/docs/web-platform/early-hints
@@ -107,61 +100,81 @@ const renderApp = async (req: express.Request, res: express.Response) => {
 
   let didError = false;
 
-  const { pipe, abort } = render(sheet, collector, emotionCache, url, {
-    nonce,
-    onShellError() {
-      res.status(500);
-      res.set({ 'Content-Type': 'text/html' });
-      res.send('<h1>Something went wrong</h1>');
+  const headValue: HeadValue = {
+    title: '',
+    updateTitle: (title: string) => {
+      // console.log('updating title ', title);
+      headValue.title = title;
     },
-    onAllReady() {
-      if (title.startsWith('Not Found')) {
-        res.status(404);
-      } else {
-        res.status(didError ? 500 : 200);
-      }
-      res.set({ 'Content-Type': 'text/html' });
-      res.append('link', collector.getLinkHeaders());
+  };
 
-      let styleTags;
-      try {
-        styleTags = sheet.getStyleTags();
-      } catch (error) {
-        console.log(error);
-      } finally {
-        sheet.seal();
-      }
+  const { pipe, abort } = render(
+    sheet,
+    collector,
+    emotionCache,
+    url,
+    headValue,
+    {
+      nonce,
+      onShellError() {
+        res.status(500);
+        res.set({ 'Content-Type': 'text/html' });
+        res.send('<h1>Something went wrong</h1>');
+      },
+      onAllReady() {
+        head = head.replace(
+          '<!--app-title-->',
+          `<title>${headValue.title || 'Not Found | Cody Duong'}</title>`,
+        );
+        if (headValue.title === '') {
+          res.status(404);
+        } else {
+          res.status(didError ? 500 : 200);
+        }
 
-      head = head
-        .replace('<!--app-head-->', `<!--app-head-->${styleTags}`)
-        .replaceAll('<style', `<style nonce="${nonce}"`)
-        .replaceAll('<script', `<script nonce="${nonce}"`)
-        // Inject <link rel=modulepreload> and <link rel=stylesheet> in the head.
-        // Without this the CSS for any lazy component would be loaded after the
-        // app has and cause a Flash of Unstyled Content (FOUC).
-        .replace('</head>', `${collector.getTags()}\n</head>`);
+        res.set({ 'Content-Type': 'text/html' });
+        res.append('link', collector.getLinkHeaders());
 
-      res.write(head);
-      // console.log(head);
+        let styleTags;
+        try {
+          styleTags = sheet.getStyleTags();
+        } catch (error) {
+          console.log(error);
+        } finally {
+          sheet.seal();
+        }
 
-      const transformStream = new Transform({
-        transform(chunk, encoding, callback) {
-          res.write(chunk, encoding);
-          callback();
-        },
-      });
+        head = head
+          .replace('<!--app-head-->', `<!--app-head-->${styleTags}`)
+          .replaceAll('<style', `<style nonce="${nonce}"`)
+          .replaceAll('<script', `<script nonce="${nonce}"`)
+          // Inject <link rel=modulepreload> and <link rel=stylesheet> in the head.
+          // Without this the CSS for any lazy component would be loaded after the
+          // app has and cause a Flash of Unstyled Content (FOUC).
+          .replace('</head>', `${collector.getTags()}\n</head>`);
 
-      transformStream.on('finish', () => {
-        res.end(rest);
-      });
+        res.write(head);
+        // console.log(head);
 
-      pipe(transformStream);
+        const transformStream = new Transform({
+          transform(chunk, encoding, callback) {
+            res.write(chunk, encoding);
+            callback();
+          },
+        });
+
+        transformStream.on('finish', () => {
+          res.end(rest);
+        });
+
+        pipe(transformStream);
+      },
+      onError(error) {
+        didError = true;
+        console.error(error);
+      },
     },
-    onError(error) {
-      didError = true;
-      console.error(error);
-    },
-  });
+  );
 
   setTimeout(() => {
     abort();
