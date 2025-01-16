@@ -43,7 +43,7 @@ interface PageProps {
 
 export default function Page({ children, hasFooter = false }: PageProps): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const { setTop, setPageDirection, setScrollHeight } = useScroll();
+  const { setTop, setPageDirection, setScrollHeight, setPageRef } = useScroll();
 
   const handleScroll = useCallback(
     (e: HTMLElementEventMap['scroll']): void => {
@@ -72,10 +72,16 @@ export default function Page({ children, hasFooter = false }: PageProps): JSX.El
     };
   }, [handleScroll, ref]);
 
+  useEffect(() => {
+    if (!import.meta.env.SSR) {
+      setPageRef(ref);
+    }
+  }, [setPageRef]);
+
   return (
     <PageDiv tabIndex={-1}>
       <Navbar />
-      <PageContent ref={ref} id="main-content" tabIndex={-1}>
+      <PageContent ref={ref} tabIndex={-1}>
         <Suspense>
           {children}
           {hasFooter && <Footer />}

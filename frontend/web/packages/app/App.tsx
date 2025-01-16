@@ -12,6 +12,8 @@ import { HeadProvider, HeadValue } from './contexts/HeadContext';
 
 const Home = React.lazy(() => import('packages/pages/Home'));
 
+const Work = React.lazy(() => import('packages/pages/Work'));
+
 const WebAccessibilityStatement = React.lazy(() => import('packages/pages/WebAccessibilityStatement'));
 
 const Construction3D = React.lazy(() => import('packages/components/3D/Construction3D'));
@@ -51,7 +53,7 @@ export default function App({ serverQuery, headValue }: AppProps) {
                       <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
                       <Route path="/playground" element={<Construction3D />} />
                       <Route path="/projects" element={<Construction3D />} />
-                      <Route path="/work" element={<Construction3D />} />
+                      <Route path="/work/*" element={<Work />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </Page>

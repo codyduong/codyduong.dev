@@ -35,7 +35,8 @@ if (!isProduction) {
   });
   app.use(vite.middlewares);
 } else {
-  const compression = (await import('compression')).default;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const compression = (await import('compression')).default as any;
   const sirv = (await import('sirv')).default;
   app.use(compression());
   app.use(base, sirv('./dist/client', { extensions: [] }));
@@ -97,10 +98,14 @@ const renderApp = async (req: express.Request, res: express.Response) => {
   let didError = false;
 
   const headValue: HeadValue = {
-    title: '',
+    title: 'Not Found | Cody Duong',
     updateTitle: (title: string) => {
       // console.log('updating title ', title);
       headValue.title = title;
+    },
+    description: "Cody Duong's personal website",
+    updateDescription: (description: string) => {
+      headValue.description = description;
     },
   };
 
@@ -112,12 +117,25 @@ const renderApp = async (req: express.Request, res: express.Response) => {
       res.send('<h1>Something went wrong</h1>');
     },
     onAllReady() {
-      head = head.replace('<!--app-title-->', `<title>${headValue.title || 'Not Found | Cody Duong'}</title>`);
+      const title = headValue.title;
+      const description = headValue.description;
       if (headValue.title === '') {
         res.status(404);
       } else {
         res.status(didError ? 500 : 200);
       }
+
+      // https://ogp.me/
+      head = head.replace(
+        '<!--app-meta-->',
+        `<title>${title}</title>
+  <meta property="description" content="${description}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="${title.replace(/\s*\|\s*Cody Duong$/, '')}" />
+  <meta property="og:site_name" content="Cody Duong" />
+  <meta property="og:description" content="${description}" />
+        `,
+      );
 
       res.set({ 'Content-Type': 'text/html' });
       res.append('link', collector.getLinkHeaders());
@@ -132,7 +150,7 @@ const renderApp = async (req: express.Request, res: express.Response) => {
       }
 
       head = head
-        .replace('<!--app-head-->', `<!--app-head-->${styleTags}`)
+        .replace('<!--style-tags-->', `<!--style-tags-->${styleTags}`)
         .replaceAll('<style', `<style nonce="${nonce}"`)
         .replaceAll('<script', `<script nonce="${nonce}"`)
         // Inject <link rel=modulepreload> and <link rel=stylesheet> in the head.

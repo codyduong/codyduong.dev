@@ -1,6 +1,7 @@
 import { Link as L, LinkProps } from 'react-router-dom';
 import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
+import { useScroll } from 'packages/app/contexts/ScrollContext';
 // import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const LBase = css`
@@ -22,9 +23,7 @@ const L2Wrapper = ({
   onKeyPress,
   ...rest
 }: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): JSX.Element => {
-  // const { pageRef } = useScroll();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const pageRef: any = null;
+  const { pageRef } = useScroll();
 
   const scrollPageToTop = (): void => {
     if (pageRef && pageRef.current) {
@@ -65,9 +64,7 @@ const StyledLinkWrapper = ({
   onKeyPress,
   ...rest
 }: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): JSX.Element => {
-  // const { pageRef } = useScroll();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const pageRef: any = null;
+  const { pageRef } = useScroll();
 
   const scrollPageToTop = (): void => {
     if (pageRef && pageRef.current) {

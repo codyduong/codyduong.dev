@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import utils from './components/utils';
+import { useScroll } from './app/contexts/ScrollContext';
 
 const BypassDiv = styled.div`
   position: absolute;
@@ -43,14 +44,18 @@ const BypassDiv = styled.div`
  * A mechanism is available to bypass blocks of content that are repeated on multiple Web pages.
  */
 const Bypass = (): JSX.Element | null => {
-  // const { mainContent } = useBypass();
-  const mainContent = !import.meta.env.SSR ? document.getElementById('main-content') : null;
+  const { pageRef: mainContent } = useScroll();
+  const mainContentElement = mainContent?.current;
 
   const focus = () => {
+    if (!mainContentElement) {
+      return null;
+    }
+
     try {
-      mainContent!.focus();
+      mainContentElement.focus();
     } catch {
-      utils.attemptFocusOrFirstDescendant(mainContent!);
+      utils.attemptFocusOrFirstDescendant(mainContentElement);
     }
   };
 

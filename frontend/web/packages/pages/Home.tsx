@@ -8,6 +8,10 @@ import Head from 'packages/components/Head';
 
 const SectionContainer = styled.div``;
 
+const H1Hiya = styled(T.H1)`
+  font-style: italic;
+`;
+
 const _MaxWidth = styled(Section)`
   align-self: start;
   & > h2 {
@@ -84,7 +88,7 @@ const Home = (): JSX.Element => {
         {/* <Construction3D /> */}
         <SectionContainer>
           <Section>
-            <T.Heading.H1>Hiya 👋</T.Heading.H1>
+            <H1Hiya>Hiya 👋</H1Hiya>
             <T.P2>
               I&apos;m Cody{' '}
               <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="juʊŋg">
