@@ -2,7 +2,6 @@ import { Link as L, LinkProps } from 'react-router-dom';
 import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
-// import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const LBase = css`
   text-decoration: none;

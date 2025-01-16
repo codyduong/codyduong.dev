@@ -2,7 +2,7 @@ import Navbar from 'packages/components/Navbar';
 import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
-import { Suspense, useCallback, useEffect, useRef } from 'react';
+import { Suspense, useCallback, useEffect } from 'react';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const PageDiv = styled.div`
@@ -42,8 +42,7 @@ interface PageProps {
 }
 
 export default function Page({ children, hasFooter = false }: PageProps): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
-  const { setTop, setPageDirection, setScrollHeight, setPageRef } = useScroll();
+  const { setTop, setPageDirection, setScrollHeight, pageRef } = useScroll();
 
   const handleScroll = useCallback(
     (e: HTMLElementEventMap['scroll']): void => {
@@ -65,23 +64,17 @@ export default function Page({ children, hasFooter = false }: PageProps): JSX.El
   );
 
   useEffect(() => {
-    const currElem = ref.current;
+    const currElem = pageRef?.current;
     currElem?.addEventListener('scroll', handleScroll);
     return () => {
       currElem?.removeEventListener('scroll', handleScroll);
     };
-  }, [handleScroll, ref]);
-
-  useEffect(() => {
-    if (!import.meta.env.SSR) {
-      setPageRef(ref);
-    }
-  }, [setPageRef]);
+  }, [handleScroll, pageRef]);
 
   return (
     <PageDiv tabIndex={-1}>
       <Navbar />
-      <PageContent ref={ref} tabIndex={-1}>
+      <PageContent ref={pageRef} tabIndex={-1}>
         <Suspense>
           {children}
           {hasFooter && <Footer />}

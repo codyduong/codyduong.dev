@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import utils from './components/utils';
 import { useScroll } from './app/contexts/ScrollContext';
+import { useCallback } from 'react';
 
 const BypassDiv = styled.div`
   position: absolute;
@@ -45,9 +46,9 @@ const BypassDiv = styled.div`
  */
 const Bypass = (): JSX.Element | null => {
   const { pageRef: mainContent } = useScroll();
-  const mainContentElement = mainContent?.current;
 
-  const focus = () => {
+  const focus = useCallback(() => {
+    const mainContentElement = mainContent?.current;
     if (!mainContentElement) {
       return null;
     }
@@ -57,7 +58,7 @@ const Bypass = (): JSX.Element | null => {
     } catch {
       utils.attemptFocusOrFirstDescendant(mainContentElement);
     }
-  };
+  }, [mainContent]);
 
   return (
     <BypassDiv>
