@@ -5,21 +5,13 @@ import { Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
-import {
-  Physics,
-  usePlane,
-  useCompoundBody,
-  CompoundBodyProps,
-} from '@react-three/cannon';
+import { Physics, usePlane, useCompoundBody, CompoundBodyProps } from '@react-three/cannon';
 import { A11yAnnouncer, A11ySection } from '@react-three/a11y';
 import { MTLLoader, OBJLoader } from 'three/examples/jsm/Addons.js';
 import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
 
 const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
-  const [rotation, position]: [
-    [number, number, number],
-    [number, number, number],
-  ] = [
+  const [rotation, position]: [[number, number, number], [number, number, number]] = [
     [-1.57079632679, 0, 0],
     [0, -0.5, 0],
   ];
@@ -62,16 +54,7 @@ const Cone = ({ cone, shapes, primitiveProps }: ConeProps): JSX.Element => {
     ...primitiveProps,
   }));
 
-  return (
-    <primitive
-      ref={ref}
-      editableType="mesh"
-      object={cone}
-      scale={[5, 5, 5]}
-      castShadow
-      receieveShadow
-    />
-  );
+  return <primitive ref={ref} editableType="mesh" object={cone} scale={[5, 5, 5]} castShadow receieveShadow />;
 };
 
 const Construction3DClient = (): JSX.Element => {
@@ -90,10 +73,7 @@ const Construction3DClient = (): JSX.Element => {
           new THREE.CylinderGeometry(0.095, 0.36, 1.28, 12, 1),
           { position: [0, 0.36, 0], rotation: [0, Math.PI / 6, 0] },
         ],
-        [
-          new THREE.CylinderGeometry(0.6, 0.6, 0.1, 12, 1),
-          { position: [0, -0.325, 0] },
-        ],
+        [new THREE.CylinderGeometry(0.6, 0.6, 0.1, 12, 1), { position: [0, -0.325, 0] }],
       ),
     [],
   );
@@ -103,11 +83,7 @@ const Construction3DClient = (): JSX.Element => {
   return (
     <>
       <Suspense>
-        <Canvas
-          camera={{ position: [-4, 2, -4], zoom: 2 }}
-          gl={{ preserveDrawingBuffer: true }}
-          shadows={'basic'}
-        >
+        <Canvas camera={{ position: [-4, 2, -4], zoom: 2 }} gl={{ preserveDrawingBuffer: true }} shadows={'basic'}>
           <A11ySection
             label="Page Under Construction"
             description="A physics simulation of three traffic cones falling from the top of the screen"
@@ -117,11 +93,7 @@ const Construction3DClient = (): JSX.Element => {
               render={(e) => (
                 <>
                   <ambientLight />
-                  <e.pointLight
-                    theatreKey="pointLight1"
-                    intensity={10}
-                    position={[-1, 10, 2.5]}
-                  />
+                  <e.pointLight theatreKey="pointLight1" intensity={10} position={[-1, 10, 2.5]} />
                   <OrbitControls
                     enablePan={theatre}
                     enableZoom={theatre}

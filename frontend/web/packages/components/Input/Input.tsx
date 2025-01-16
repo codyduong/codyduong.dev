@@ -55,11 +55,7 @@ const Suffix = styled.span`
   user-select: none;
 `;
 
-interface InputProps
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+interface InputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   label: string;
   disabled?: boolean;
   invalid?: boolean;
@@ -86,11 +82,7 @@ const Input = ({
   });
 
   return (
-    <LabelInputWrapper
-      className={className}
-      id={wrapperId}
-      aria-hidden={ariaHidden}
-    >
+    <LabelInputWrapper className={className} id={wrapperId} aria-hidden={ariaHidden}>
       <Label htmlFor={inputId}>{label}</Label>
       <InputWrapper className={inputWrapperClassName}>
         <input id={inputId} disabled={disabled} {...rest} />

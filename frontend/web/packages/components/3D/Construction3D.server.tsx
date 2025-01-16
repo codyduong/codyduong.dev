@@ -46,12 +46,8 @@ export default function Construction3DServer(): JSX.Element {
         <ClientOnly component={() => import('./Construction3D.client')} />
       </CanvasSection>
       <UnderConstructionSection>
-        <Typography.Heading.H2>
-          This page is under construction
-        </Typography.Heading.H2>
-        <Typography.Paragraph.P2>
-          Please come back later
-        </Typography.Paragraph.P2>
+        <Typography.Heading.H2>This page is under construction</Typography.Heading.H2>
+        <Typography.Paragraph.P2>Please come back later</Typography.Paragraph.P2>
       </UnderConstructionSection>
     </>
   );

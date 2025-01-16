@@ -21,10 +21,7 @@ const L2Wrapper = ({
   onClick,
   onKeyPress,
   ...rest
-}: Omit<
-  LinkProps & React.RefAttributes<HTMLAnchorElement>,
-  'ref'
->): JSX.Element => {
+}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): JSX.Element => {
   // const { pageRef } = useScroll();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pageRef: any = null;
@@ -39,18 +36,14 @@ const L2Wrapper = ({
     onClick?.(e);
     scrollPageToTop();
   };
-  const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (
-    e,
-  ) => {
+  const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
     onKeyPress?.(e);
     if (e.key === 'Enter') {
       scrollPageToTop();
     }
   };
 
-  return (
-    <L2 onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />
-  );
+  return <L2 onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
 };
 
 const StyledLinkCSS = css`
@@ -71,10 +64,7 @@ const StyledLinkWrapper = ({
   onClick,
   onKeyPress,
   ...rest
-}: Omit<
-  LinkProps & React.RefAttributes<HTMLAnchorElement>,
-  'ref'
->): JSX.Element => {
+}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): JSX.Element => {
   // const { pageRef } = useScroll();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pageRef: any = null;
@@ -89,22 +79,14 @@ const StyledLinkWrapper = ({
     onClick?.(e);
     scrollPageToTop();
   };
-  const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (
-    e,
-  ) => {
+  const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
     onKeyPress?.(e);
     if (e.key === 'Enter') {
       scrollPageToTop();
     }
   };
 
-  return (
-    <StyledLinkBase
-      onClick={onClickHandler}
-      onKeyPress={onKeyPressHandler}
-      {...rest}
-    />
-  );
+  return <StyledLinkBase onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
 };
 
 export const StyledLink = Object.assign(StyledLinkWrapper, {

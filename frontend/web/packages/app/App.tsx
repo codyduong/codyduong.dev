@@ -12,13 +12,9 @@ import { HeadProvider, HeadValue } from './contexts/HeadContext';
 
 const Home = React.lazy(() => import('packages/pages/Home'));
 
-const WebAccessibilityStatement = React.lazy(
-  () => import('packages/pages/WebAccessibilityStatement'),
-);
+const WebAccessibilityStatement = React.lazy(() => import('packages/pages/WebAccessibilityStatement'));
 
-const Construction3D = React.lazy(
-  () => import('packages/components/3D/Construction3D'),
-);
+const Construction3D = React.lazy(() => import('packages/components/3D/Construction3D'));
 
 const NotFound = React.lazy(() => import('packages/pages/404'));
 
@@ -42,13 +38,7 @@ export default function App({ serverQuery, headValue }: AppProps) {
     <ThemeProvider theme={theme}>
       <HeadProvider value={headValue}>
         <AccessibilityProvider>
-          <QueryProvider
-            query={
-              serverQuery && serverQuery.keys.length > 0
-                ? serverQuery
-                : browserQuery
-            }
-          >
+          <QueryProvider query={serverQuery && serverQuery.keys.length > 0 ? serverQuery : browserQuery}>
             <TheatreProvider>
               <ScrollProvider>
                 <Bypass />
@@ -58,10 +48,7 @@ export default function App({ serverQuery, headValue }: AppProps) {
                       <Route path="" element={<Home />} />
                       <Route path="/" element={<Home />} />
                       <Route path="/home" element={<Home />} />
-                      <Route
-                        path="/web-accessibility-statement"
-                        element={<WebAccessibilityStatement />}
-                      />
+                      <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
                       <Route path="/playground" element={<Construction3D />} />
                       <Route path="/projects" element={<Construction3D />} />
                       <Route path="/work" element={<Construction3D />} />

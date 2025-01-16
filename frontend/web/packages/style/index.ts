@@ -1,7 +1,4 @@
-import {
-  useAccessibility,
-  AccessibilityType,
-} from 'packages/app/contexts/AccessibilityContext';
+import { useAccessibility, AccessibilityType } from 'packages/app/contexts/AccessibilityContext';
 import { css, RuleSet } from 'styled-components';
 
 export { default as breakpoints } from './breakpoints';
@@ -57,10 +54,7 @@ export const commoncss = {
           `;
     }
   },
-  animation: <
-    T extends undefined | string | RuleSet<object>,
-    U extends undefined | string | RuleSet<object>,
-  >(opts: {
+  animation: <T extends undefined | string | RuleSet<object>, U extends undefined | string | RuleSet<object>>(opts: {
     enabled?: T;
     disabled?: U;
   }): T | U | undefined => {

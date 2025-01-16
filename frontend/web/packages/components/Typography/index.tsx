@@ -117,11 +117,7 @@ const PCss = css<PCommonProps>`
     })}
 
   ${({ widthlimited }) => {
-    if (
-      widthlimited === undefined ||
-      widthlimited === 'false' ||
-      widthlimited === false
-    ) {
+    if (widthlimited === undefined || widthlimited === 'false' || widthlimited === false) {
       return;
     }
 

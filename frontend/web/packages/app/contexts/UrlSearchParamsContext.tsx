@@ -13,11 +13,7 @@ export const QueryProvider = ({
   children: React.ReactNode;
   query: UrlSearchParamsType;
 }): JSX.Element => {
-  return (
-    <UrlSearchParamsContext.Provider value={query ?? defaultValue}>
-      {children}
-    </UrlSearchParamsContext.Provider>
-  );
+  return <UrlSearchParamsContext.Provider value={query ?? defaultValue}>{children}</UrlSearchParamsContext.Provider>;
 };
 
 export const QueryConsumer = UrlSearchParamsContext.Consumer;

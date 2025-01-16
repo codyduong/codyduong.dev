@@ -5,9 +5,7 @@ export type AccessibilityType = {
   paragraphWidth: number | undefined;
   setParagraphWidth: React.Dispatch<React.SetStateAction<number | undefined>>;
   disableInteractionAnimations: boolean | undefined;
-  setDisableInteractionAnimations: React.Dispatch<
-    React.SetStateAction<boolean | undefined>
-  >;
+  setDisableInteractionAnimations: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 
   prefersReducedMotion: boolean;
 };
@@ -23,11 +21,7 @@ const defaultValue = {
 
 const AccessibilityContext = createContext<AccessibilityType>(defaultValue);
 
-export const AccessibilityProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element => {
+export const AccessibilityProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [cookies, setCookies] = useCookies(['accessibility']);
 
   const [cookiesWrapper, setCookiesWrapper] = useState(cookies);
@@ -46,8 +40,7 @@ export const AccessibilityProvider = ({
   });
   const setParagraphWidth: AccessibilityType['setParagraphWidth'] = (value) => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(paragraphWidth) : value;
+      const valueToStore = value instanceof Function ? value(paragraphWidth) : value;
       setParagraphWidthState(valueToStore);
       setCookiesHandler(
         'accessibility',
@@ -64,39 +57,33 @@ export const AccessibilityProvider = ({
     }
   };
   const prefersReducedMotion =
-    typeof window !== 'undefined'
-      ? window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true
-      : false;
-  const [disableInteractionAnimations, setDisableInteractionAnimationsState] =
-    useState<boolean | undefined>(() => {
-      return accessibility()[1] === null
-        ? prefersReducedMotion
-        : accessibility()[1] === 1;
-    });
-  const setDisableInteractionAnimations: AccessibilityType['setDisableInteractionAnimations'] =
-    (value) => {
-      try {
-        const valueToStore =
-          value instanceof Function
-            ? value(disableInteractionAnimations)
-            : value === prefersReducedMotion
-              ? undefined
-              : value;
-        setDisableInteractionAnimationsState(valueToStore);
-        setCookiesHandler(
-          'accessibility',
-          {
-            ...(accessibility() ?? {}),
-            1: valueToStore === undefined ? null : valueToStore ? 1 : 0,
-          },
-          {
-            sameSite: 'strict',
-          },
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    typeof window !== 'undefined' ? window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true : false;
+  const [disableInteractionAnimations, setDisableInteractionAnimationsState] = useState<boolean | undefined>(() => {
+    return accessibility()[1] === null ? prefersReducedMotion : accessibility()[1] === 1;
+  });
+  const setDisableInteractionAnimations: AccessibilityType['setDisableInteractionAnimations'] = (value) => {
+    try {
+      const valueToStore =
+        value instanceof Function
+          ? value(disableInteractionAnimations)
+          : value === prefersReducedMotion
+            ? undefined
+            : value;
+      setDisableInteractionAnimationsState(valueToStore);
+      setCookiesHandler(
+        'accessibility',
+        {
+          ...(accessibility() ?? {}),
+          1: valueToStore === undefined ? null : valueToStore ? 1 : 0,
+        },
+        {
+          sameSite: 'strict',
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <AccessibilityContext.Provider

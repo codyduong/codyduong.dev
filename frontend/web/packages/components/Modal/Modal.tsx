@@ -37,25 +37,17 @@ const ModalFooter = styled.div<{ numberOfButtons?: number }>`
     display: flex;
     flex: 1 0
       ${({ numberOfButtons = 2, theme }) =>
-        `calc(100% / ${numberOfButtons} - ${theme.spacing.px[250]} * ${
-          numberOfButtons - 1
-        })`};
+        `calc(100% / ${numberOfButtons} - ${theme.spacing.px[250]} * ${numberOfButtons - 1})`};
   }
 `;
 
 const ModalFooterComponent = (
-  props: React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > & { numberOfButtons?: number } & {
+  props: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+    numberOfButtons?: number;
+  } & {
     ref?: Parameters<typeof ModalFooter>[0]['ref'];
   },
-): JSX.Element => (
-  <ModalFooter
-    numberOfButtons={React.Children.count(props.children)}
-    {...props}
-  />
-);
+): JSX.Element => <ModalFooter numberOfButtons={React.Children.count(props.children)} {...props} />;
 
 /**
  * We need to inset scrollbar 8px on all browsers, not just with ::webkit
@@ -63,12 +55,8 @@ const ModalFooterComponent = (
 const ModalScrollContent = css`
   width: 100%;
   height: 100%;
-  margin-right: calc(
-    -1 * ${({ theme }) => `${theme.spacing.px[150]} - ${theme.spacing.px[50]}`}
-  );
-  padding-right: calc(
-    ${({ theme }) => `${theme.spacing.px[200]} - ${theme.spacing.px[50]}`}
-  );
+  margin-right: calc(-1 * ${({ theme }) => `${theme.spacing.px[150]} - ${theme.spacing.px[50]}`});
+  padding-right: calc(${({ theme }) => `${theme.spacing.px[200]} - ${theme.spacing.px[50]}`});
   scrollbar-gutter: hidden;
   overflow-x: overlay;
   overflow-y: overlay;
@@ -94,9 +82,7 @@ const ModalContainer = styled(T.P2)`
   background: ${({ theme }) => theme.color.surface[100]};
   border: 1px solid ${({ theme }) => theme.color.surface[300]};
   color: ${({ theme }) => theme.color.text[400]};
-  box-shadow: 0px
-    ${({ theme }) => `${theme.spacing.px[50]} ${theme.spacing.px[150]}`}
-    rgba(35, 51, 45, 0.16);
+  box-shadow: 0px ${({ theme }) => `${theme.spacing.px[50]} ${theme.spacing.px[150]}`} rgba(35, 51, 45, 0.16);
   border-radius: ${({ theme }) => theme.spacing.px[25]};
   transition:
     width 500ms ease-in-out 0s,
@@ -120,10 +106,7 @@ const ModalContainer = styled(T.P2)`
   &.modal-large {
     width: min(${({ theme }) => theme.spacing.px(5000)}, 100%);
     & > ${ModalFooter} {
-      max-width: calc(
-        ${({ theme }) =>
-          `${theme.spacing.px(750)}} * 2 + ${theme.spacing.px[150]}`}
-      );
+      max-width: calc(${({ theme }) => `${theme.spacing.px(750)}} * 2 + ${theme.spacing.px[150]}`});
       align-self: center;
       // When sufficient screen size is available, this allows the Next Button to grow according to content
       @media (min-width: ${breakpoints.md}) {
@@ -137,10 +120,7 @@ const ModalContainer = styled(T.P2)`
   &.modal-auto {
     width: auto;
     & > ${ModalFooter} {
-      max-width: calc(
-        ${({ theme }) =>
-          `${theme.spacing.px(750)}} * 2 + ${theme.spacing.px[150]}`}
-      );
+      max-width: calc(${({ theme }) => `${theme.spacing.px(750)}} * 2 + ${theme.spacing.px[150]}`});
       align-self: center;
       // When sufficient screen size is available, this allows the Next Button to grow according to content
       @media (min-width: ${breakpoints.md}) {
@@ -172,13 +152,7 @@ export const ModalContainerComponent = ({
   size,
   className,
   ...rest
-}: Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >,
-  'ref'
-> & {
+}: Omit<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'ref'> & {
   size: (typeof MODAL_SIZES)[keyof typeof MODAL_SIZES];
 } & {
   ref?: Parameters<typeof ModalContainer>[0]['ref'];
@@ -220,21 +194,15 @@ const ModalContentStyled = styled.div<{ $gap: boolean }>`
 const ModalContent = ({
   gap = false,
   ...rest
-}: Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  >,
-  'ref' | 'id'
-> & { gap?: boolean }): JSX.Element => {
+}: Omit<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'ref' | 'id'> & {
+  gap?: boolean;
+}): JSX.Element => {
   const { ariaDescribedBy } = useModal();
 
   return <ModalContentStyled id={ariaDescribedBy} $gap={gap} {...rest} />;
 };
 
-function createButtonsFromArray(
-  a: Array<Parameters<typeof Button>[0]>,
-): JSX.Element {
+function createButtonsFromArray(a: Array<Parameters<typeof Button>[0]>): JSX.Element {
   return (
     <ModalFooter numberOfButtons={a.length} className={'modal-footer'}>
       {a.map((e, i): JSX.Element => {
@@ -244,10 +212,7 @@ function createButtonsFromArray(
   );
 }
 
-function jsxify<T>(
-  f: React.ReactNode | ((props: T) => JSX.Element | null),
-  rest: T,
-): React.ReactNode {
+function jsxify<T>(f: React.ReactNode | ((props: T) => JSX.Element | null), rest: T): React.ReactNode {
   if (typeof f == 'function') {
     return f(rest);
   }
@@ -257,13 +222,7 @@ function jsxify<T>(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ModalFlatProps<T extends Record<string, any>> = {
   heading?: React.ReactNode;
-  footer?:
-    | React.ReactChild
-    | React.ReactPortal
-    | boolean
-    | null
-    | undefined
-    | Array<Parameters<typeof Button>[0]>;
+  footer?: React.ReactChild | React.ReactPortal | boolean | null | undefined | Array<Parameters<typeof Button>[0]>;
   size?: (typeof MODAL_SIZES)[keyof typeof MODAL_SIZES];
 
   styles?: {
@@ -271,24 +230,14 @@ export type ModalFlatProps<T extends Record<string, any>> = {
     content?: React.CSSProperties;
   };
 
-  containerProps?: Omit<
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >,
-    'ref'
-  >;
+  containerProps?: Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'ref'>;
 } & (
   | {
       content?: never;
-      children:
-        | React.ReactNode
-        | ((props: Omit<T, keyof ModalPropsExternal>) => JSX.Element | null);
+      children: React.ReactNode | ((props: Omit<T, keyof ModalPropsExternal>) => JSX.Element | null);
     }
   | {
-      content:
-        | React.ReactNode
-        | ((props: Omit<T, keyof ModalPropsExternal>) => JSX.Element | null);
+      content: React.ReactNode | ((props: Omit<T, keyof ModalPropsExternal>) => JSX.Element | null);
       children?: never;
     }
 );
@@ -326,23 +275,14 @@ export const ModalFlat = <T extends Record<string, any>>({
       aria-describedby={ariaDescribedBy}
       {...containerProps}
     >
-      {typeof heading === 'string' ? (
-        <ModalHeading>{heading}</ModalHeading>
-      ) : (
-        heading
-      )}
-      {typeof contentMergedChildren === 'string' ||
-      typeof contentMergedChildren === 'number' ? (
+      {typeof heading === 'string' ? <ModalHeading>{heading}</ModalHeading> : heading}
+      {typeof contentMergedChildren === 'string' || typeof contentMergedChildren === 'number' ? (
         <T.P2>{contentMergedChildren}</T.P2>
       ) : (
         // @ts-expect-error: This will work fine
         jsxify(contentMergedChildren, rest)
       )}
-      {React.isValidElement(footer)
-        ? footer
-        : Array.isArray(footer)
-          ? createButtonsFromArray(footer)
-          : false}
+      {React.isValidElement(footer) ? footer : Array.isArray(footer) ? createButtonsFromArray(footer) : false}
     </ModalContainerComponent>
   );
 };
@@ -369,9 +309,7 @@ type ModalPropsExternal = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ModalProps<T extends Record<string, any>> = ModalFlatProps<T> &
-  ModalPropsExternal &
-  T;
+export type ModalProps<T extends Record<string, any>> = ModalFlatProps<T> & ModalPropsExternal & T;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Modal = <T extends Record<string, any> = Record<string, any>>({
@@ -448,11 +386,7 @@ const DefaultFooter = ({
         ) : (
           <>
             {backButton && (
-              <Button
-                onClick={onBack}
-                hierarchy="secondary"
-                {...backButtonProps}
-              >
+              <Button onClick={onBack} hierarchy="secondary" {...backButtonProps}>
                 {backText}
               </Button>
             )}
@@ -475,10 +409,7 @@ export type OptionalChildButtonProps = Omit<ButtonProps, 'onClick' | 'text'> & {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DefaultModalProps<T extends Record<string, any>> = (Omit<
-  ModalFlatProps<T>,
-  'footer' | 'children'
-> &
+type DefaultModalProps<T extends Record<string, any>> = (Omit<ModalFlatProps<T>, 'footer' | 'children'> &
   ModalPropsExternal &
   DefaultFooterProps & {
     heading: ModalProps<T>['heading'];

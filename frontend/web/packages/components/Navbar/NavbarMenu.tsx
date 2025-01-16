@@ -18,10 +18,7 @@ const MenuItem = styled.li`
 
   &:hover {
     box-shadow: inset 100vw 0 5rem 0
-      ${({ theme }) =>
-        color(theme.color.surface[500])
-          .mix(color(theme.color.surface[400]), 0.2)
-          .string()};
+      ${({ theme }) => color(theme.color.surface[500]).mix(color(theme.color.surface[400]), 0.2).string()};
   }
 `;
 
@@ -57,8 +54,7 @@ const NavbarMenuComponent = styled.menu`
     width: 50vw;
     transform: translateX(50%) translateX(-50vw);
     // transform: translateX(-10%);
-    border-radius: 0 0
-      ${({ theme }) => `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
+    border-radius: 0 0 ${({ theme }) => `${theme.spacing.px[100]} ${theme.spacing.px[100]}`};
 
     &.open {
       /* background-color: ${({ theme }) => theme.color.surface[400]}; */
@@ -68,8 +64,7 @@ const NavbarMenuComponent = styled.menu`
 
   &.close {
     & > ${MenuItem} {
-      box-shadow: inset 100vw 0 5rem 0
-        ${({ theme }) => theme.color.surface[400]};
+      box-shadow: inset 100vw 0 5rem 0 ${({ theme }) => theme.color.surface[400]};
     }
   }
 
@@ -122,10 +117,7 @@ const StyledLink = styled(A.Link)`
 
   &:hover {
     transition-delay: 50ms;
-    color: ${(props) =>
-      color(props.theme.color.base[100])
-        .mix(color(props.theme.color.base[200]), 0.5)
-        .string()};
+    color: ${(props) => color(props.theme.color.base[100]).mix(color(props.theme.color.base[200]), 0.5).string()};
   }
 
   &.navbar-link-open {
@@ -162,8 +154,7 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
   const toString = (typeof to == 'string' ? to : to.pathname) ?? '';
 
   const cn = classNames(className, 'navbar-link', {
-    ['navbar-link-open']:
-      (location[1] || 'home') === toString.slice(1, toString.length - 1),
+    ['navbar-link-open']: (location[1] || 'home') === toString.slice(1, toString.length - 1),
   });
 
   return (
@@ -215,14 +206,9 @@ const CloseIconWrapper = styled.button`
 
   &:hover {
     transition-delay: 50ms;
-    color: ${(props) =>
-      color(props.theme.color.base[100])
-        .mix(color(props.theme.color.base[200]), 0.5)
-        .string()};
+    color: ${(props) => color(props.theme.color.base[100]).mix(color(props.theme.color.base[200]), 0.5).string()};
     background-color: ${({ theme }) =>
-      color(theme.color.surface[500])
-        .mix(color(theme.color.surface[400]), 0.2)
-        .string()};
+      color(theme.color.surface[500]).mix(color(theme.color.surface[400]), 0.2).string()};
   }
 `;
 
@@ -232,11 +218,7 @@ interface HamburgerProps {
   menuButton: React.RefObject<HTMLButtonElement>;
 }
 
-const NavbarMenu = ({
-  open,
-  setOpen,
-  menuButton,
-}: HamburgerProps): JSX.Element => {
+const NavbarMenu = ({ open, setOpen, menuButton }: HamburgerProps): JSX.Element => {
   const hamburgerClassname = classNames('nav-hamburger-list', {
     ['close']: !open,
     ['open']: open,

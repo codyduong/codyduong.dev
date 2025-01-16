@@ -22,15 +22,8 @@ interface NavbarSettingsModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NavbarAccessibleSettingsModal = ({
-  open,
-  setOpen,
-}: NavbarSettingsModalProps): JSX.Element => {
-  const {
-    disableInteractionAnimations,
-    setDisableInteractionAnimations,
-    paragraphWidth,
-  } = useAccessibility();
+const NavbarAccessibleSettingsModal = ({ open, setOpen }: NavbarSettingsModalProps): JSX.Element => {
+  const { disableInteractionAnimations, setDisableInteractionAnimations, paragraphWidth } = useAccessibility();
   const [checked, setCheckedObject] = useState<NavbarSettingsChecks>({
     paragraphWidth: !!paragraphWidth,
   });
@@ -52,16 +45,11 @@ const NavbarAccessibleSettingsModal = ({
       }}
       size="large"
     >
-      <Modal.Header exitLabel="Close Accessibility Options">
-        Accessibility Options
-      </Modal.Header>
+      <Modal.Header exitLabel="Close Accessibility Options">Accessibility Options</Modal.Header>
       <Modal.Content gap>
         <section>
           <StyledH3>Visual Adjustments</StyledH3>
-          <ParagraphWidthInput
-            checked={checked['paragraphWidth']}
-            setChecked={setChecked('paragraphWidth')}
-          />
+          <ParagraphWidthInput checked={checked['paragraphWidth']} setChecked={setChecked('paragraphWidth')} />
           {/**
            * WCAG 1.4.8
            * Foreground and background colors selection

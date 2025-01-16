@@ -6,9 +6,7 @@ type ScrollType = {
   scrollHeight: number;
   setScrollHeight: React.Dispatch<React.SetStateAction<number>>;
   pageDirection: 'up' | 'down' | undefined;
-  setPageDirection: React.Dispatch<
-    React.SetStateAction<'up' | 'down' | undefined>
-  >;
+  setPageDirection: React.Dispatch<React.SetStateAction<'up' | 'down' | undefined>>;
 };
 
 const defaultValue: ScrollType = {
@@ -22,16 +20,10 @@ const defaultValue: ScrollType = {
 
 const ScrollContext = createContext<ScrollType>(defaultValue);
 
-export const ScrollProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element => {
+export const ScrollProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const [top, setTop] = useState(defaultValue.top);
   const [scrollHeight, setScrollHeight] = useState(defaultValue.scrollHeight);
-  const [pageDirection, setPageDirection] = useState(
-    defaultValue.pageDirection,
-  );
+  const [pageDirection, setPageDirection] = useState(defaultValue.pageDirection);
 
   return (
     <ScrollContext.Provider

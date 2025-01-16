@@ -41,10 +41,7 @@ interface PageProps {
   hasFooter?: boolean;
 }
 
-export default function Page({
-  children,
-  hasFooter = false,
-}: PageProps): JSX.Element {
+export default function Page({ children, hasFooter = false }: PageProps): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const { setTop, setPageDirection, setScrollHeight } = useScroll();
 
@@ -54,13 +51,7 @@ export default function Page({
       const scrollTop = Number(e?.currentTarget?.scrollTop);
       if (!Number.isNaN(scrollTop)) {
         setTop((oldScrollValue) => {
-          setPageDirection(
-            scrollTop > oldScrollValue
-              ? 'down'
-              : scrollTop < oldScrollValue
-                ? 'up'
-                : undefined,
-          );
+          setPageDirection(scrollTop > oldScrollValue ? 'down' : scrollTop < oldScrollValue ? 'up' : undefined);
           return scrollTop;
         });
       }

@@ -22,8 +22,7 @@ const FooterTop = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  padding: ${({ theme }) =>
-    `${theme.spacing.px[200]} ${theme.spacing.px[150]} ${theme.spacing.px[300]}`};
+  padding: ${({ theme }) => `${theme.spacing.px[200]} ${theme.spacing.px[150]} ${theme.spacing.px[300]}`};
 `;
 
 const FooterWrapper = styled.div`
@@ -120,11 +119,7 @@ const Footer = (): JSX.Element => {
               <LinkSVG
                 key={L['aria-label']}
                 aria-label={`${L['aria-label']}`}
-                hovercolor={
-                  typeof L.hoverColor === 'function'
-                    ? L.hoverColor(theme)
-                    : L.hoverColor
-                }
+                hovercolor={typeof L.hoverColor === 'function' ? L.hoverColor(theme) : L.hoverColor}
                 href={L.to}
               >
                 <L.icon aria-label={`${L['aria-label']}`} />
@@ -146,9 +141,7 @@ const Footer = (): JSX.Element => {
             <FooterGroup tabIndex={-1}>
               <FooterHeader>Links</FooterHeader>
               {/* <FooterLink to="/settings">Manage Settings</FooterLink> */}
-              <FooterLink to="/web-accessibility-statement">
-                Accessibility Statement
-              </FooterLink>
+              <FooterLink to="/web-accessibility-statement">Accessibility Statement</FooterLink>
               {/* <FooterLink to="/privacy-policy">Privacy Policy</FooterLink> */}
             </FooterGroup>
           </FooterGroupWrapper>

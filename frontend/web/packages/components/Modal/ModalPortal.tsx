@@ -115,8 +115,7 @@ const ModalPortal = ({
       closeModal();
     }
   }
-  const eventTarget =
-    (refBackground.current as unknown as Document) || document;
+  const eventTarget = (refBackground.current as unknown as Document) || document;
 
   function restoreStyle(): void {
     if (portalTo.id === 'root') {
@@ -132,12 +131,9 @@ const ModalPortal = ({
       setShowing(open);
       // focus into dialog
       eventTarget.addEventListener('keydown', escapeEventFunction);
-      setFocusElementState(
-        document.activeElement ?? document.getElementById('root')!,
-      );
+      setFocusElementState(document.activeElement ?? document.getElementById('root')!);
       try {
-        if (refContainer.current)
-          utils.attemptFocusOrFirstDescendant(refContainer.current);
+        if (refContainer.current) utils.attemptFocusOrFirstDescendant(refContainer.current);
       } catch (_e) {
         // continue
       }
@@ -211,11 +207,7 @@ const ModalPortal = ({
   // Audit correct usage
   if (portalTo.id !== 'root') {
     const style = window.getComputedStyle(portalTo);
-    if (
-      !['relative', 'absolute', 'fixed', 'sticky'].includes(
-        style.getPropertyValue('position'),
-      )
-    ) {
+    if (!['relative', 'absolute', 'fixed', 'sticky'].includes(style.getPropertyValue('position'))) {
       console.warn(
         'Your PortalTo value is not validly linked to a positioned parent element. It must have a position that is not static',
       );
@@ -223,9 +215,7 @@ const ModalPortal = ({
   }
 
   const handleTransitionEnd = (
-    e:
-      | React.TransitionEvent<HTMLDivElement>
-      | React.AnimationEvent<HTMLDivElement>,
+    e: React.TransitionEvent<HTMLDivElement> | React.AnimationEvent<HTMLDivElement>,
   ): void => {
     if (!open && e.currentTarget.className.includes('modal-bg-close')) {
       onCloseAnimationComplete?.();
@@ -263,12 +253,7 @@ const ModalPortal = ({
               e.stopPropagation();
             }}
           >
-            <ModalRootShadow
-              onClick={closeModal}
-              aria-hidden
-              tabIndex={-1}
-              className="modal-root-shadow"
-            />
+            <ModalRootShadow onClick={closeModal} aria-hidden tabIndex={-1} className="modal-root-shadow" />
             {/**
              * Following W3 Authoring on Dialogs/Modals, surround with two invisible, focusable nodes.
              * Use those to trap a user within the modal.
@@ -276,8 +261,7 @@ const ModalPortal = ({
             <div
               tabIndex={trapFocus ? 0 : -1}
               onFocus={() => {
-                if (open && refBackground.current)
-                  utils.focusLastDescendant(refBackground.current);
+                if (open && refBackground.current) utils.focusLastDescendant(refBackground.current);
               }}
             />
             <ModalContainerWrapper
@@ -294,8 +278,7 @@ const ModalPortal = ({
             <div
               tabIndex={trapFocus ? 0 : -1}
               onFocus={() => {
-                if (open && refBackground.current)
-                  utils.focusFirstDescendant(refBackground.current);
+                if (open && refBackground.current) utils.focusFirstDescendant(refBackground.current);
               }}
             />
           </ModalRoot>

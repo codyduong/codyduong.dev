@@ -14,16 +14,8 @@ const defaultValue = {
 
 const TheatreContext = createContext<TheatreContextType>(defaultValue);
 
-export const TheatreProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element => {
-  return (
-    <TheatreContext.Provider value={defaultValue}>
-      {children}
-    </TheatreContext.Provider>
-  );
+export const TheatreProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+  return <TheatreContext.Provider value={defaultValue}>{children}</TheatreContext.Provider>;
 };
 
 export const TheatreConsumer = TheatreContext.Consumer;

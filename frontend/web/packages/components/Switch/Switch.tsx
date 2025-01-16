@@ -7,8 +7,7 @@ const SwitchWrapper = styled.button`
   display: inline-flex;
   align-items: center;
   margin-right: auto;
-  padding: ${({ theme }) =>
-    `${theme.spacing.px(37.5)} ${theme.spacing.px[50]}`};
+  padding: ${({ theme }) => `${theme.spacing.px(37.5)} ${theme.spacing.px[50]}`};
   padding-right: ${({ theme }) => theme.spacing.px[25]};
   border-radius: ${({ theme }) => theme.spacing.px[50]};
   box-sizing: border-box;
@@ -28,8 +27,7 @@ const SwitchLabel = styled(T.P3)`
 `;
 
 const SwitchActual = styled.div`
-  border: solid
-    ${({ theme }) => `${theme.spacing.px[12.5]} ${theme.color.surface[500]}`};
+  border: solid ${({ theme }) => `${theme.spacing.px[12.5]} ${theme.color.surface[500]}`};
   border-radius: 0.75rem;
   padding: ${({ theme }) => theme.spacing.px[25]};
   display: inline-flex;
@@ -86,28 +84,12 @@ type SwitchProps = {
   setChecked: React.Dispatch<boolean>;
   className?: string | undefined;
   buttonProps?: Omit<
-    React.DetailedHTMLProps<
-      React.ButtonHTMLAttributes<HTMLButtonElement>,
-      HTMLButtonElement
-    >,
-    | 'ref'
-    | 'role'
-    | 'aria-checked'
-    | 'onClick'
-    | 'tabIndex'
-    | 'aria-label'
-    | 'className'
+    React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
+    'ref' | 'role' | 'aria-checked' | 'onClick' | 'tabIndex' | 'aria-label' | 'className'
   >;
 };
 
-const Switch = ({
-  label,
-  showLabel = true,
-  checked,
-  setChecked,
-  className,
-  buttonProps,
-}: SwitchProps): JSX.Element => {
+const Switch = ({ label, showLabel = true, checked, setChecked, className, buttonProps }: SwitchProps): JSX.Element => {
   const switchState = classnames({
     ['switch-off']: !checked,
     ['switch-on']: checked,

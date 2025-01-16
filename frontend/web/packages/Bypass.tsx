@@ -44,9 +44,7 @@ const BypassDiv = styled.div`
  */
 const Bypass = (): JSX.Element | null => {
   // const { mainContent } = useBypass();
-  const mainContent = !import.meta.env.SSR
-    ? document.getElementById('main-content')
-    : null;
+  const mainContent = !import.meta.env.SSR ? document.getElementById('main-content') : null;
 
   const focus = () => {
     try {

@@ -27,13 +27,7 @@ const ModalExit = styled.button`
 export const ModalExitComponent = ({
   className,
   ...rest
-}: Omit<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >,
-  'ref'
-> & {
+}: Omit<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'ref'> & {
   ref?: Parameters<typeof ModalExit>[0]['ref'];
 }): JSX.Element => {
   const cs = classnames(className, 'modal-exit');

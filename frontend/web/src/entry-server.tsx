@@ -2,10 +2,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import App from 'packages/app';
 import { HeadValue } from 'packages/app/contexts/HeadContext';
 import { StrictMode } from 'react';
-import {
-  renderToPipeableStream,
-  RenderToPipeableStreamOptions,
-} from 'react-dom/server';
+import { renderToPipeableStream, RenderToPipeableStreamOptions } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { type ServerStyleSheet } from 'styled-components';
 import { type ChunkCollector, ChunkCollectorContext } from 'vite-preload';

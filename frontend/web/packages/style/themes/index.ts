@@ -6,10 +6,7 @@ export const themes = {
   ...DEFAULT,
 } as const;
 
-export function useThemeBase(): [
-  Theme,
-  React.Dispatch<React.SetStateAction<Theme>>,
-] {
+export function useThemeBase(): [Theme, React.Dispatch<React.SetStateAction<Theme>>] {
   const [theme, setTheme] = useState<Theme>(themes.DEFAULT);
 
   const setThemeOverride = (value: Theme | ((value: Theme) => Theme)): void => {

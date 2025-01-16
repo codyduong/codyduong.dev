@@ -114,11 +114,7 @@ const GenerateLinks = (): React.ReactNode => {
         key={`${L.label} ${L.to}`}
         href={L.to}
         target={'_blank'}
-        hoverColor={
-          typeof L.hoverColor === 'function'
-            ? L.hoverColor(theme)
-            : L.hoverColor
-        }
+        hoverColor={typeof L.hoverColor === 'function' ? L.hoverColor(theme) : L.hoverColor}
       >
         <L.icon aria-label={`${L['aria-label']}`} />
         <span>{L.label}</span>

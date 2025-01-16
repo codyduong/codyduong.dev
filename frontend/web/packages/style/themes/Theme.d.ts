@@ -147,8 +147,7 @@ declare module 'styled-components' {
     theme: DefaultTheme;
   }
 
-  export type GetStyledComponentProps<T> =
-    T extends StyledComponent<unknown, unknown, infer P, unknown> ? P : never;
+  export type GetStyledComponentProps<T> = T extends StyledComponent<unknown, unknown, infer P, unknown> ? P : never;
 }
 
 export type Theme = DefaultTheme;

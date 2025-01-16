@@ -17,12 +17,8 @@ const base = process.env.BASE || '/';
 const ABORT_DELAY = 10000;
 
 // Cached production assets
-const templateHtml = isProduction
-  ? await fs.readFile('./dist/client/index.html', 'utf-8')
-  : '';
-const manifest = isProduction
-  ? JSON.parse(await fs.readFile('./dist/client/.vite/manifest.json', 'utf-8'))
-  : undefined;
+const templateHtml = isProduction ? await fs.readFile('./dist/client/index.html', 'utf-8') : '';
+const manifest = isProduction ? JSON.parse(await fs.readFile('./dist/client/.vite/manifest.json', 'utf-8')) : undefined;
 
 // Create http server
 const app = express();
@@ -108,73 +104,63 @@ const renderApp = async (req: express.Request, res: express.Response) => {
     },
   };
 
-  const { pipe, abort } = render(
-    sheet,
-    collector,
-    emotionCache,
-    url,
-    headValue,
-    {
-      nonce,
-      onShellError() {
-        res.status(500);
-        res.set({ 'Content-Type': 'text/html' });
-        res.send('<h1>Something went wrong</h1>');
-      },
-      onAllReady() {
-        head = head.replace(
-          '<!--app-title-->',
-          `<title>${headValue.title || 'Not Found | Cody Duong'}</title>`,
-        );
-        if (headValue.title === '') {
-          res.status(404);
-        } else {
-          res.status(didError ? 500 : 200);
-        }
-
-        res.set({ 'Content-Type': 'text/html' });
-        res.append('link', collector.getLinkHeaders());
-
-        let styleTags;
-        try {
-          styleTags = sheet.getStyleTags();
-        } catch (error) {
-          console.log(error);
-        } finally {
-          sheet.seal();
-        }
-
-        head = head
-          .replace('<!--app-head-->', `<!--app-head-->${styleTags}`)
-          .replaceAll('<style', `<style nonce="${nonce}"`)
-          .replaceAll('<script', `<script nonce="${nonce}"`)
-          // Inject <link rel=modulepreload> and <link rel=stylesheet> in the head.
-          // Without this the CSS for any lazy component would be loaded after the
-          // app has and cause a Flash of Unstyled Content (FOUC).
-          .replace('</head>', `${collector.getTags()}\n</head>`);
-
-        res.write(head);
-        // console.log(head);
-
-        const transformStream = new Transform({
-          transform(chunk, encoding, callback) {
-            res.write(chunk, encoding);
-            callback();
-          },
-        });
-
-        transformStream.on('finish', () => {
-          res.end(rest);
-        });
-
-        pipe(transformStream);
-      },
-      onError(error) {
-        didError = true;
-        console.error(error);
-      },
+  const { pipe, abort } = render(sheet, collector, emotionCache, url, headValue, {
+    nonce,
+    onShellError() {
+      res.status(500);
+      res.set({ 'Content-Type': 'text/html' });
+      res.send('<h1>Something went wrong</h1>');
     },
-  );
+    onAllReady() {
+      head = head.replace('<!--app-title-->', `<title>${headValue.title || 'Not Found | Cody Duong'}</title>`);
+      if (headValue.title === '') {
+        res.status(404);
+      } else {
+        res.status(didError ? 500 : 200);
+      }
+
+      res.set({ 'Content-Type': 'text/html' });
+      res.append('link', collector.getLinkHeaders());
+
+      let styleTags;
+      try {
+        styleTags = sheet.getStyleTags();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        sheet.seal();
+      }
+
+      head = head
+        .replace('<!--app-head-->', `<!--app-head-->${styleTags}`)
+        .replaceAll('<style', `<style nonce="${nonce}"`)
+        .replaceAll('<script', `<script nonce="${nonce}"`)
+        // Inject <link rel=modulepreload> and <link rel=stylesheet> in the head.
+        // Without this the CSS for any lazy component would be loaded after the
+        // app has and cause a Flash of Unstyled Content (FOUC).
+        .replace('</head>', `${collector.getTags()}\n</head>`);
+
+      res.write(head);
+      // console.log(head);
+
+      const transformStream = new Transform({
+        transform(chunk, encoding, callback) {
+          res.write(chunk, encoding);
+          callback();
+        },
+      });
+
+      transformStream.on('finish', () => {
+        res.end(rest);
+      });
+
+      pipe(transformStream);
+    },
+    onError(error) {
+      didError = true;
+      console.error(error);
+    },
+  });
 
   setTimeout(() => {
     abort();

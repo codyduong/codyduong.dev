@@ -87,18 +87,13 @@ const Home = (): JSX.Element => {
             <T.Heading.H1>Hiya 👋</T.Heading.H1>
             <T.P2>
               I&apos;m Cody{' '}
-              <span
-                data-ssml-phoneme-alphabet="ipa"
-                data-ssml-phoneme-ph="juʊŋg"
-              >
+              <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="juʊŋg">
                 Duong
               </span>
-              , software engineer advocating accessibility and exploring the
-              bleeding edge of technologies.
+              , software engineer advocating accessibility and exploring the bleeding edge of technologies.
             </T.P2>
             <T.P3>
-              Welcome to my personal website and{' '}
-              <Link.Styled to="/playground">playground</Link.Styled>.
+              Welcome to my personal website and <Link.Styled to="/playground">playground</Link.Styled>.
             </T.P3>
             {/* <ul>
             <li>
@@ -125,21 +120,16 @@ const Home = (): JSX.Element => {
           <Section>
             <T.Heading.H2>About me</T.Heading.H2>
             <T.P3>
-              I&apos;ve been developing websites, native apps, and improving
-              developer experiences since 2019. I am passionate about
-              Typescript, and Rust. Excited to work on web accessibility on the
-              newest technologies. Working on fun{' '}
-              <Link.Styled to="/projects">projects</Link.Styled>.
+              I&apos;ve been developing websites, native apps, and improving developer experiences since 2019. I am
+              passionate about Typescript, and Rust. Excited to work on web accessibility on the newest technologies.
+              Working on fun <Link.Styled to="/projects">projects</Link.Styled>.
             </T.P3>
             <T.Heading.H2>Currently</T.Heading.H2>
             <Ol>
               <li>
                 <T.Span3>
-                  [<time dateTime="2021-08">AUG 2021</time> - ] Computer Science
-                  Student @{' '}
-                  <A.Styled href="https://ku.edu">
-                    University of Kansas
-                  </A.Styled>
+                  [<time dateTime="2021-08">AUG 2021</time> - ] Computer Science Student @{' '}
+                  <A.Styled href="https://ku.edu">University of Kansas</A.Styled>
                 </T.Span3>
               </li>
             </Ol>
@@ -149,26 +139,19 @@ const Home = (): JSX.Element => {
             <Ol>
               <li>
                 <T.Span3>
-                  [<time dateTime="2023-06">JUN 2023</time> -{' '}
-                  <time dateTime="2024-12">DEC 2024</time>] Full-stack Software
-                  Engineering Intern @{' '}
-                  <Link.Styled to="/work/quest-analytics">
-                    Quest Analytics
-                  </Link.Styled>
+                  [<time dateTime="2023-06">JUN 2023</time> - <time dateTime="2024-12">DEC 2024</time>] Full-stack
+                  Software Engineering Intern @ <Link.Styled to="/work/quest-analytics">Quest Analytics</Link.Styled>
                 </T.Span3>
               </li>
               <li>
                 <T.Span3>
-                  [<time dateTime="2021-05">MAY 2021</time> -{' '}
-                  <time dateTime="2023-06">JUN 2023</time>] Full-stack Software
-                  Engineering Intern @{' '}
-                  <Link.Styled to="/work/agi">AGI Digital</Link.Styled>{' '}
+                  [<time dateTime="2021-05">MAY 2021</time> - <time dateTime="2023-06">JUN 2023</time>] Full-stack
+                  Software Engineering Intern @ <Link.Styled to="/work/agi">AGI Digital</Link.Styled>{' '}
                 </T.Span3>
               </li>
               <li>
                 <T.Span3>
-                  [<time dateTime="2023-03">MAR 2023</time>] Student @
-                  GitHub&apos;s{' '}
+                  [<time dateTime="2023-03">MAR 2023</time>] Student @ GitHub&apos;s{' '}
                   <AllInLink href="https://allinopensource.org">
                     <AIwrapper>
                       &thinsp;<AIc aria-hidden>{'{ '}</AIc>

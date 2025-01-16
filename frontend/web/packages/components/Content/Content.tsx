@@ -7,8 +7,7 @@ const Content = styled.div<{ footerPadding?: boolean }>`
   justify-content: flex-start;
   align-items: center;
   box-sizing: border-box;
-  padding: ${({ theme }) =>
-    `${theme.spacing.px[200]} ${theme.spacing.px[150]}`};
+  padding: ${({ theme }) => `${theme.spacing.px[200]} ${theme.spacing.px[150]}`};
   /* margin-bottom: ${({ footerPadding }) => footerPadding && '5vw'}; */
   min-height: calc(100vh - ${({ theme }) => theme.spacing.px[300]});
 

@@ -52,23 +52,20 @@ const ButtonStyled = styled.button`
     border: 3px solid ${({ theme }) => theme.color.text[300]};
     color: ${({ theme }) => theme.color.text[300]};
     &:hover {
-      background: ${({ theme }) =>
-        Color(theme.color.surface[350]).alpha(0.2).toString()};
+      background: ${({ theme }) => Color(theme.color.surface[350]).alpha(0.2).toString()};
     }
     &.button-destructive {
       border: 3px solid ${({ theme }) => theme.color.destructive[200]};
       color: ${({ theme }) => theme.color.destructive[200]};
       &:hover {
-        background: ${({ theme }) =>
-          Color(theme.color.destructive[200]).alpha(0.2).toString()};
+        background: ${({ theme }) => Color(theme.color.destructive[200]).alpha(0.2).toString()};
       }
     }
     &.button-productive {
       border: 3px solid ${({ theme }) => theme.color.productive[200]};
       color: ${({ theme }) => theme.color.productive[200]};
       &:hover {
-        background: ${({ theme }) =>
-          Color(theme.color.productive[200]).alpha(0.15).toString()};
+        background: ${({ theme }) => Color(theme.color.productive[200]).alpha(0.15).toString()};
       }
     }
     &.disabled {

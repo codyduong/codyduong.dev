@@ -74,8 +74,7 @@ const Nav = styled.nav`
   background-color: inherit;
   box-sizing: border-box;
 
-  padding: ${(props) =>
-    `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
+  padding: ${(props) => `${props.theme.spacing.px(75)} ${props.theme.spacing.px[150]}`};
 `;
 
 const NavInner = styled.div`
@@ -328,9 +327,7 @@ const Navbar = (): JSX.Element => {
 
   const location = useLocation();
   const pathnameFormatted = location.pathname.split('/')[1];
-  const _currentlyAt = ['home', 'work', 'posts', 'contact', 'links'].includes(
-    pathnameFormatted,
-  )
+  const _currentlyAt = ['home', 'work', 'posts', 'contact', 'links'].includes(pathnameFormatted)
     ? pathnameFormatted
     : 'home';
 
@@ -395,8 +392,7 @@ const Navbar = (): JSX.Element => {
           <TrapFocus
             tabIndex={open ? 0 : -1}
             onFocus={() => {
-              if (open && refHeader.current)
-                utils.focusLastDescendant(refHeader.current);
+              if (open && refHeader.current) utils.focusLastDescendant(refHeader.current);
             }}
           />
           <NavInner>
@@ -455,9 +451,7 @@ const Navbar = (): JSX.Element => {
                   onClick={() => {
                     setAccessibility(!accessibility);
                   }}
-                  aria-label={`${
-                    settings ? 'Close' : 'Open'
-                  } Accessibility Options`}
+                  aria-label={`${settings ? 'Close' : 'Open'} Accessibility Options`}
                   aria-haspopup="dialog"
                   aria-controls="modal-accessibility-settings"
                 >
@@ -476,14 +470,8 @@ const Navbar = (): JSX.Element => {
                   aria-controls="nav-hamburger-list"
                 >
                   {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
-                  <MenuIcon
-                    className={hamburgerClassname('close')}
-                    aria-labelledby="nav-hamburger-button"
-                  />
-                  <MenuOpenIcon
-                    className={hamburgerClassname('open')}
-                    aria-labelledby="nav-hamburger-button"
-                  />
+                  <MenuIcon className={hamburgerClassname('close')} aria-labelledby="nav-hamburger-button" />
+                  <MenuOpenIcon className={hamburgerClassname('open')} aria-labelledby="nav-hamburger-button" />
                 </HamburgerButton>
               </HamburgerItem>
             </NavbarListRight>
@@ -492,21 +480,15 @@ const Navbar = (): JSX.Element => {
           <TrapFocus
             tabIndex={open ? 0 : -1}
             onFocus={() => {
-              if (open && refHeader.current)
-                utils.focusFirstDescendant(refHeader.current);
+              if (open && refHeader.current) utils.focusFirstDescendant(refHeader.current);
             }}
           />
         </Nav>
-        <AccessibleSettingsModal
-          open={accessibility}
-          setOpen={setAccessibility}
-        />
+        <AccessibleSettingsModal open={accessibility} setOpen={setAccessibility} />
         <Banner
           ref={bannerRef}
           className={bannerClassname}
-          aria-hidden={
-            !disableInteractionAnimations && (scrolledPastThreshold || open)
-          }
+          aria-hidden={!disableInteractionAnimations && (scrolledPastThreshold || open)}
         >
           <BannerButtonWrapper>
             <BannerButton
@@ -520,8 +502,8 @@ const Navbar = (): JSX.Element => {
           </BannerButtonWrapper>
           <BannerInfo id="banner-description" aria-expanded={bannerOpen}>
             <q>
-              My website is currently undergoing renovations. As such links or
-              pages may be broken. Thanks for your understanding
+              My website is currently undergoing renovations. As such links or pages may be broken. Thanks for your
+              understanding
             </q>{' '}
             -Cody
           </BannerInfo>

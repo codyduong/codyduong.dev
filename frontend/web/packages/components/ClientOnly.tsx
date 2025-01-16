@@ -18,9 +18,5 @@ function ClientOnly<T extends ComponentType<any>>(props: ClientOnlyProps<T>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <React.Suspense fallback={props.fallback}>
-      {Component && <Component />}
-    </React.Suspense>
-  );
+  return <React.Suspense fallback={props.fallback}>{Component && <Component />}</React.Suspense>;
 }

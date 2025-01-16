@@ -24,11 +24,7 @@ type FooterLinkProps = Parameters<typeof StyledFooterLink>[0] & {
   children?: React.ReactNode;
 };
 
-const FooterLink = ({
-  to,
-  children,
-  ...rest
-}: FooterLinkProps): JSX.Element => {
+const FooterLink = ({ to, children, ...rest }: FooterLinkProps): JSX.Element => {
   return (
     <StyledFooterLink to={to} {...rest}>
       <span>{children}</span>
