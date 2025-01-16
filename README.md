@@ -5,7 +5,7 @@ This is my monorepo for codyduong.dev
 ## Technical Details:
 
 * frontend/web
-  * [Vite](https://vite.dev/) SSR w/ [React](https://react.dev/)
+  * [Vite](https://vite.dev/) SSR w/ [React](https://react.dev/) and [Million.js](https://github.com/aidenybai/million)
   * Server for SSR is managed in `./frontend/web/server.ts` and associated files. I really don't like the
     automagic of Next.js.
     

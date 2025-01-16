@@ -1,30 +1,39 @@
 // this needs to be a plain vite.config.ts since there is some automagic within vite
 // during build step
 
-import { defineConfig } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
+import million from 'million/compiler';
+
+export const plugins = [
+  react({ plugins: [['@swc/plugin-styled-components', {}]] }),
+  svgr({
+    svgrOptions: {
+      icon: true,
+    },
+  }),
+  {
+    name: 'html-inject-data-preload-attr',
+    enforce: 'post',
+    transformIndexHtml(html) {
+      const regex = /<(link|style|script)/gi;
+      const replacement = '<$1 data-preload="true"';
+
+      return html.replace(regex, replacement);
+    },
+  },
+] as const satisfies PluginOption[];
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react({ plugins: [['@swc/plugin-styled-components', {}]] }),
-    svgr({
-      svgrOptions: {
-        icon: true,
-      },
+    ...plugins,
+    million.vite({
+      auto: true,
+      server: false,
     }),
-    {
-      name: 'html-inject-data-preload-attr',
-      enforce: 'post',
-      transformIndexHtml(html) {
-        const regex = /<(link|style|script)/gi;
-        const replacement = '<$1 data-preload="true"';
-
-        return html.replace(regex, replacement);
-      },
-    },
   ],
   build: {
     manifest: true,

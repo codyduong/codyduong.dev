@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Theatre, PhysicsDebug } from './core';
 import { toConvexPolyhedronShapes } from './util';
-import { Suspense, useMemo } from 'react';
+import { memo, Suspense, useMemo } from 'react';
 import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
@@ -57,7 +57,7 @@ const Cone = ({ cone, shapes, primitiveProps }: ConeProps): JSX.Element => {
   return <primitive ref={ref} editableType="mesh" object={cone} scale={[5, 5, 5]} castShadow receieveShadow />;
 };
 
-const Construction3DClient = (): JSX.Element => {
+const Construction3DClient = memo((): JSX.Element => {
   const query = useUrlSearchParams();
   const theatre = query.has('theatrejs');
 
@@ -139,6 +139,6 @@ const Construction3DClient = (): JSX.Element => {
       <A11yAnnouncer />
     </>
   );
-};
+});
 
 export default Construction3DClient;

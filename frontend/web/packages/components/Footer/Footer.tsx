@@ -158,6 +158,6 @@ const Footer = (): JSX.Element => {
       </Copyright>
     </FooterStyled>
   );
-};
+}
 
 export default Footer;

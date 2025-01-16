@@ -1,9 +1,16 @@
 import { defineConfig } from 'vite';
-import clientConfig from './vite.config.ts';
+import clientConfig, { plugins } from './vite.config.ts';
+import million from 'million/compiler';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: clientConfig.plugins,
+  plugins: [
+    ...plugins,
+    million.vite({
+      auto: true,
+      server: true,
+    }),
+  ],
   resolve: clientConfig.resolve,
   build: {
     ssr: 'src/entry-server.tsx',
