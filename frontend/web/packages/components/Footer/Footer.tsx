@@ -13,6 +13,11 @@ const FooterStyled = styled.footer`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+
+  li {
+    position: relative;
+    list-style-type: none;
+  }
 `;
 
 const FooterTop = styled.div`
@@ -29,19 +34,20 @@ const FooterWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: flex-start;
   gap: ${({ theme }) => theme.spacing.px[200]};
 
   ${cssWidth};
 `;
 
-const LinksWrapper = styled.section`
+const LinksWrapper = styled.ul`
   display: flex;
   flex-flow: row nowrap;
   color: ${({ theme }) => theme.color.text[100]};
   gap: 8px;
-  margin-right: ${({ theme }) => theme.spacing.px[500]};
+  padding-left: 0px;
+  flex-grow: 1;
 `;
 
 const LinkSVG = styled(A)<{ hovercolor: string }>`
@@ -69,18 +75,28 @@ const FooterGroupWrapper = styled.div`
   display: flex;
   flex-grow: 1;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: flex-start;
-  gap: ${({ theme }) => theme.spacing.px[200]};
+  gap: ${({ theme }) => theme.spacing.px[400]};
+  & > div {
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+  }
 `;
 
-const FooterGroup = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: ${({ theme }) => theme.spacing.px[50]};
-  flex: 1 1 0;
-  min-width: ${({ theme }) => theme.spacing.px(1250)};
+const FooterGroup = styled.div`
+  width: 100%;
+  ul {
+    margin-left: 0px;
+    padding-left: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.spacing.px[50]};
+    flex: 1 1 0;
+    min-width: ${({ theme }) => theme.spacing.px(1250)};
+  }
 `;
 
 const FooterHeader = styled.h4`
@@ -114,50 +130,58 @@ const Footer = (): JSX.Element => {
     <FooterStyled tabIndex={-1}>
       <FooterTop>
         <FooterWrapper>
-          <LinksWrapper tabIndex={-1}>
+          <LinksWrapper aria-label="Social Links" translate="no" lang="en">
             {LINKS.map((L) => (
-              <LinkSVG
-                key={L['aria-label']}
-                aria-label={`${L['aria-label']}`}
-                hovercolor={typeof L.hoverColor === 'function' ? L.hoverColor(theme) : L.hoverColor}
-                href={L.to}
-              >
-                <L.icon aria-label={`${L['aria-label']}`} />
-              </LinkSVG>
+              <li key={L['aria-label']}>
+                <LinkSVG
+                  aria-label={`${L['aria-label']}`}
+                  hovercolor={typeof L.hoverColor === 'function' ? L.hoverColor(theme) : L.hoverColor}
+                  href={L.to}
+                >
+                  <L.icon aria-label={`${L['aria-label']}`} />
+                </LinkSVG>
+              </li>
             ))}
           </LinksWrapper>
           <FooterGroupWrapper>
-            <FooterGroup tabIndex={-1}>
-              <FooterHeader>Navigate</FooterHeader>
-              <FooterLink to="/">Home</FooterLink>
-              <FooterLink to="/playground">Playground</FooterLink>
-              <FooterLink to="/projects">Projects</FooterLink>
-              <FooterLink to="/work">Work</FooterLink>
-
-              {/* <FooterLink to="/contact">
-                Contact
-              </FooterLink> */}
-            </FooterGroup>
-            <FooterGroup tabIndex={-1}>
-              <FooterHeader>Links</FooterHeader>
-              {/* <FooterLink to="/settings">Manage Settings</FooterLink> */}
-              <FooterLink to="/web-accessibility-statement">Accessibility Statement</FooterLink>
-              {/* <FooterLink to="/privacy-policy">Privacy Policy</FooterLink> */}
-            </FooterGroup>
+            <div>
+              <FooterGroup>
+                <FooterHeader aria-description="Quick navigation links">Navigate</FooterHeader>
+                <ul>
+                  <FooterLink to="/">Home</FooterLink>
+                  <FooterLink to="/playground">Playground</FooterLink>
+                  <FooterLink to="/projects">Projects</FooterLink>
+                  <FooterLink to="/work">Work</FooterLink>
+                </ul>
+              </FooterGroup>
+            </div>
+            <div>
+              <FooterGroup>
+                <FooterHeader aria-description="Important">Links</FooterHeader>
+                <ul>
+                  <FooterLink to="/web-accessibility-statement">Accessibility Statement</FooterLink>
+                </ul>
+              </FooterGroup>
+            </div>
           </FooterGroupWrapper>
         </FooterWrapper>
       </FooterTop>
       <Copyright>
         <CopyrightText>
-          © 2025{'    '}|{'    '}Cody{' '}
-          <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="juʊŋg">
-            Duong
+          <span aria-label="Copyright ©">©</span>2025
+          <span aria-hidden>
+            {'    '}|{'    '}
           </span>
-          {'    '}|{'    '}All Rights Reserved
+          <span translate="no">
+            Cody{' '}
+            <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="juʊŋg" lang="vi" translate="no">
+              Duong
+            </span>
+          </span>
         </CopyrightText>
       </Copyright>
     </FooterStyled>
   );
-}
+};
 
 export default Footer;

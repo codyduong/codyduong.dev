@@ -34,16 +34,16 @@ const InputWrapper = styled.div`
   }
 
   &:focus-within {
-    outline: ${({ theme }) => theme.color.base[200]} 4px solid;
+    outline: ${({ theme }) => theme.color.base[200]} 2px solid;
   }
   &.disabled {
     background-color: ${({ theme }) => theme.color.surface[200]};
   }
   &:invalid {
-    outline: ${({ theme }) => theme.color.destructive[200]} 4px solid;
+    outline: ${({ theme }) => theme.color.destructive[200]} 2px solid;
   }
   &.invalid {
-    outline: ${({ theme }) => theme.color.destructive[200]} 4px solid;
+    outline: ${({ theme }) => theme.color.destructive[200]} 2px solid;
   }
 `;
 

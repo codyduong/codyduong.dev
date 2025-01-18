@@ -505,7 +505,9 @@ const Navbar = (): JSX.Element => {
               My website is currently undergoing renovations. As such links or pages may be broken. Thanks for your
               understanding
             </q>{' '}
-            -Cody
+            <span translate="no" lang="en">
+              - Cody
+            </span>
           </BannerInfo>
         </Banner>
       </Header>

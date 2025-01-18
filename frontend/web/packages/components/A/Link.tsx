@@ -52,6 +52,9 @@ const StyledLinkCSS = css`
     color: ${({ theme }) => theme.color.base[300]};
     text-decoration: underline;
   }
+  && svg {
+    font-size: inherit;
+  }
 `;
 
 const StyledLinkBase = styled(L)`

@@ -93,6 +93,7 @@ const ParagraphWidthInput = ({ checked, setChecked }: ParagraphWidthInputProps):
         disabled={!checked}
         label="Width, in characters"
         suffix="chars"
+        type="number"
         inputMode="numeric"
         className={inputClassName}
         value={value}
@@ -105,6 +106,7 @@ const ParagraphWidthInput = ({ checked, setChecked }: ParagraphWidthInputProps):
         onBlur={() => {
           setFocus(false);
         }}
+        min={40}
       />
     </>
   );

@@ -9,19 +9,34 @@ const WebAccessibilityStatement = (_: WebAccessibilityStatementProps): JSX.Eleme
   return (
     <Content>
       <Section>
-        <T.H1>Accessibility Statement for codyduong.dev</T.H1>
-        <T.P2>
-          I (Cody{' '}
-          <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="juʊŋg">
-            Duong
+        <T.H1>
+          Accessibility Statement for{' '}
+          <span translate="no" lang="en">
+            codyduong.dev
           </span>
-          ) am commited to ensuring digital accessibility. As such, I&apos;ve done the best I could to ensuing
+        </T.H1>
+        <T.P2>
+          I (
+          <span translate="no" lang="en">
+            Cody{' '}
+            <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="juʊŋg" lang="vi" translate="no">
+              Duong
+            </span>
+          </span>
+          ) am commited to ensuring digital accessibility. As such, I&apos;ve done the best I could to ensuring
           compliance to various accessibility guidelines and standards to ensure the best user experience for everyone.
         </T.P2>
         <T.H2>Guidelines and Standards</T.H2>
         <T.P2>
-          This website strives to conform to level Double-A of the World Wide Web Consortium (<abbr>W3C</abbr>){' '}
-          <A.Styled href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines 2.1</A.Styled>.
+          This website strives to conform to level{' '}
+          <span translate="no" lang="en">
+            Double-A
+          </span>{' '}
+          of the{' '}
+          <span translate="no" lang="en">
+            <A.Styled href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines 2.1</A.Styled>
+          </span>
+          .
         </T.P2>
         <blockquote cite="https://www.w3.org/TR/WCAG21/#abstract">
           Following these guidelines will make content more accessible to a wider range of people with disabilities,
@@ -32,8 +47,8 @@ const WebAccessibilityStatement = (_: WebAccessibilityStatementProps): JSX.Eleme
           these guidelines will also often make Web content more usable to users in general.
         </blockquote>
         <T.P2>
-          As well as utilizing standards outlined by World Wide Web Consortium (<abbr>W3C</abbr>){' '}
-          <A.Styled href="https://www.w3.org/TR/wai-aria-1.1/">
+          As well as utilizing standards outlined by{' '}
+          <A.Styled href="https://www.w3.org/TR/wai-aria-1.1/" translate="no" lang="en">
             Accessible Rich Internet Applications (<abbr title="Accessible Rich Internet Applications">WAI-ARIA</abbr>)
             1.1
           </A.Styled>{' '}
@@ -43,7 +58,10 @@ const WebAccessibilityStatement = (_: WebAccessibilityStatementProps): JSX.Eleme
         <T.P2>I welcome any feedback regarding accessibility. Contact me:</T.P2>
         <ul>
           <li>
-            E-Mail: <A.Styled href="mailto:accessibility@codyduong.dev">accessibility@codyduong.dev</A.Styled>
+            E-Mail:{' '}
+            <A.Styled href="mailto:accessibility@codyduong.dev" translate="no" lang="en">
+              accessibility@codyduong.dev
+            </A.Styled>
           </li>
         </ul>
       </Section>

@@ -83,7 +83,7 @@ const ModalContainer = styled(T.P2)`
   border: 1px solid ${({ theme }) => theme.color.surface[300]};
   color: ${({ theme }) => theme.color.text[400]};
   box-shadow: 0px ${({ theme }) => `${theme.spacing.px[50]} ${theme.spacing.px[150]}`} rgba(35, 51, 45, 0.16);
-  border-radius: ${({ theme }) => theme.spacing.px[25]};
+  border-radius: ${({ theme }) => theme.spacing.px[100]};
   transition:
     width 500ms ease-in-out 0s,
     height 500ms ease-in-out 0s;

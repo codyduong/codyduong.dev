@@ -19,6 +19,7 @@ const PageDiv = styled.div`
 const PageContent = styled.main`
   flex-direction: column;
   flex: 1;
+  overflow-x: hidden;
   overflow-y: scroll;
   padding-top: ${(props) => props.theme.spacing.rem(600)};
 

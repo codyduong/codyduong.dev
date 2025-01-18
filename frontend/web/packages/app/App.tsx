@@ -10,7 +10,7 @@ import { QueryProvider } from './contexts/UrlSearchParamsContext';
 import TheatreProvider from 'packages/components/3D/TheatreContext';
 import { HeadProvider, HeadValue } from './contexts/HeadContext';
 
-const Home = React.lazy(() => import('packages/pages/Home'));
+const Home = React.lazy(() => import('packages/pages/Home/Home'));
 
 const Work = React.lazy(() => import('packages/pages/Work'));
 

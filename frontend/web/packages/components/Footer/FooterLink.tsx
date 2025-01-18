@@ -2,7 +2,11 @@ import styled from 'styled-components';
 import { Link } from 'packages/components/A';
 // import T from 'packages/components/Typography';
 
-export const StyledFooterLink = styled(Link)`
+const Li = styled.li`
+  width: 100%;
+`;
+
+const StyledFooterLink = styled(Link)`
   font-size: 1.125rem;
   color: ${({ theme }) => theme.color.text[100]};
   align-self: center;
@@ -26,10 +30,12 @@ type FooterLinkProps = Parameters<typeof StyledFooterLink>[0] & {
 
 const FooterLink = ({ to, children, ...rest }: FooterLinkProps): JSX.Element => {
   return (
-    <StyledFooterLink to={to} {...rest}>
-      <span>{children}</span>
-      <span aria-hidden>{'>'}</span>
-    </StyledFooterLink>
+    <Li>
+      <StyledFooterLink to={to} {...rest}>
+        <span>{children}</span>
+        <span aria-hidden>{'>'}</span>
+      </StyledFooterLink>
+    </Li>
   );
 };
 
