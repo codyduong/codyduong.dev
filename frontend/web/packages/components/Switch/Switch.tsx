@@ -84,10 +84,10 @@ type SwitchProps = {
   setChecked: React.Dispatch<boolean>;
   className?: string | undefined;
   buttonProps?: Omit<
-    React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
+    Parameters<typeof SwitchWrapper>[number],
     'ref' | 'role' | 'aria-checked' | 'onClick' | 'tabIndex' | 'aria-label' | 'className'
   >;
-};
+} & { [Param in keyof Parameters<typeof SwitchWrapper>[number]]: never };
 
 const Switch = ({ label, showLabel = true, checked, setChecked, className, buttonProps }: SwitchProps): JSX.Element => {
   const switchState = classnames({

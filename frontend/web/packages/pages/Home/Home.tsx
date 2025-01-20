@@ -5,7 +5,7 @@ import Content from 'packages/components/Content';
 import A, { Link } from 'packages/components/A';
 import { breakpoints, commoncss } from 'packages/style';
 import Head from 'packages/components/Head';
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import TypescriptSvg from './ts-logo-256.svg?react';
 import ReactSvg from './React.svg?react';
@@ -17,6 +17,8 @@ import CypressSvg from './cypress.svg?react';
 import PhpSvg from './php.svg?react';
 import PythonSvg from './python.svg?react';
 import MySQLSvg from './mysql-icon.svg?react';
+import NodeJSSvg from './Nodejs.svg?react';
+import { Temporal } from '@js-temporal/polyfill';
 
 const SectionContainer = styled.div`
   width: 100%;
@@ -86,6 +88,7 @@ const AIc = styled.span`
 
 const AIu = styled.span``;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const AllInLink = styled(A)`
   ${Link.Styled.css}
 
@@ -238,7 +241,47 @@ const MySQL = memo(() => (
   </Badge>
 ));
 
+const NodeJS = memo(() => (
+  <Badge translate="no" lang="en">
+    <NodeJSSvg aria-hidden />
+    Node.js
+  </Badge>
+));
+
+const Age = styled(T.Span3)`
+  font-family: monospace, monospace;
+`;
+
+const Birthday = Temporal.Instant.from('2003-01-09T00:00-06:00');
+const decimalPlaces = 10;
+
+const getAge = () => {
+  const diff = Temporal.Now.instant().since(Birthday);
+  // i am always the same age regardless of timezone
+  const years = diff.total({ unit: 'year', relativeTo: Birthday.toZonedDateTimeISO('America/Chicago') });
+  // https://stackoverflow.com/a/48764436/
+  const p = Math.pow(10, decimalPlaces);
+  const n = years * p * (1 + Number.EPSILON);
+  const yearsRounded = Math.round(n) / p;
+  return yearsRounded.toFixed(decimalPlaces);
+};
+
 const Home = (): JSX.Element => {
+  const ageRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!import.meta.env.SSR) {
+      const timer = setInterval(() => {
+        if (ageRef.current) {
+          ageRef.current.innerText = getAge();
+        }
+      }, 50);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, []);
+
   return (
     <>
       <Head title={'Home'} />
@@ -256,9 +299,15 @@ const Home = (): JSX.Element => {
                 </span>
               </span>
             </T.P2>
-            <T.P3>22-year-old software developer from Kansas.</T.P3>
             <T.P3>
-              View fun interactives at my <Link.Styled to="/playground">playground</Link.Styled>.
+              a{' '}
+              <Age ref={ageRef} role="timer" aria-atomic translate="no" lang="en" suppressHydrationWarning>
+                {getAge()}
+              </Age>{' '}
+              year-old software developer from Kansas.
+            </T.P3>
+            <T.P3>
+              View fun interactive demos at my <Link.Styled to="/playground">playground</Link.Styled>.
             </T.P3>
             <T.P3>
               My primary focuses are in frontend web development have been in data vizualizations (especially 3D and
@@ -290,7 +339,7 @@ const Home = (): JSX.Element => {
                   lang="en"
                 >
                   hitokage{' '}
-                  <span translate="no" lang="jp">
+                  <span translate="no" lang="ja">
                     日と影
                   </span>{' '}
                   <OpenInNewIcon titleAccess="Open in new window" />
@@ -352,6 +401,7 @@ const Home = (): JSX.Element => {
                   <React />
                   <Cypress />
                   {/* <Jest /> */}
+                  <NodeJS />
                   <Php />
                   <Python />
                   {/* <Badge>Django</Badge> */}

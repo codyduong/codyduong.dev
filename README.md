@@ -37,4 +37,10 @@ gcloud auth application-default login --impersonate-service-account <ServiceAcco
 # move to this workspace at application_default_credentials.json
 ```
 
+pulumi up
+```
+# pulumi up --logtostderr -v=3
+pulumi up --logtostderr -v=9
+```
+
 -->

@@ -7,7 +7,6 @@ import Page from 'packages/pages/Page';
 import { Route, Routes, useLocation } from 'react-router';
 import { ScrollProvider } from './contexts/ScrollContext';
 import { QueryProvider } from './contexts/UrlSearchParamsContext';
-import TheatreProvider from 'packages/components/3D/TheatreContext';
 import { HeadProvider, HeadValue } from './contexts/HeadContext';
 
 const Home = React.lazy(() => import('packages/pages/Home/Home'));
@@ -41,25 +40,23 @@ export default function App({ serverQuery, headValue }: AppProps) {
       <HeadProvider value={headValue}>
         <AccessibilityProvider>
           <QueryProvider query={serverQuery && serverQuery.keys.length > 0 ? serverQuery : browserQuery}>
-            <TheatreProvider>
-              <ScrollProvider>
-                <Bypass />
-                <Suspense>
-                  <Page hasFooter>
-                    <Routes>
-                      <Route path="" element={<Home />} />
-                      <Route path="/" element={<Home />} />
-                      <Route path="/home" element={<Home />} />
-                      <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
-                      <Route path="/playground" element={<Construction3D />} />
-                      <Route path="/projects" element={<Construction3D />} />
-                      <Route path="/work/*" element={<Work />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Page>
-                </Suspense>
-              </ScrollProvider>
-            </TheatreProvider>
+            <ScrollProvider>
+              <Bypass />
+              <Suspense>
+                <Page hasFooter>
+                  <Routes>
+                    <Route path="" element={<Home />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
+                    <Route path="/playground" element={<Construction3D />} />
+                    <Route path="/projects" element={<Construction3D />} />
+                    <Route path="/work/*" element={<Work />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Page>
+              </Suspense>
+            </ScrollProvider>
           </QueryProvider>
         </AccessibilityProvider>
       </HeadProvider>

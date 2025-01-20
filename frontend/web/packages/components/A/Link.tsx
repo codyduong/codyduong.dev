@@ -5,7 +5,7 @@ import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const LBase = css`
   text-decoration: none;
-  user-select: none;
+  user-select: auto;
   :hover {
     cursor: pointer;
   }

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
 import { ClientOnly } from '../ClientOnly';
 import Head from '../Head';
+import TheatreProvider from './TheatreContext';
 
 const CanvasSection = styled.section`
   position: static;
@@ -40,7 +41,7 @@ export default function Construction3DServer(): JSX.Element {
   const theatre = query.has('theatrejs');
 
   return (
-    <>
+    <TheatreProvider>
       <Head title={'Under Construction'} />
       <CanvasSection className={theatre ? 'theatre' : ''}>
         <ClientOnly component={() => import('./Construction3D.client')} />
@@ -49,6 +50,6 @@ export default function Construction3DServer(): JSX.Element {
         <Typography.Heading.H1>Under Construction</Typography.Heading.H1>
         <Typography.Paragraph.P2>Code monkeys working hard to get this page done.</Typography.Paragraph.P2>
       </UnderConstructionSection>
-    </>
+    </TheatreProvider>
   );
 }

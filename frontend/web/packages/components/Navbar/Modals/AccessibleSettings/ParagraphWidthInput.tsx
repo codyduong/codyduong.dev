@@ -85,11 +85,13 @@ const ParagraphWidthInput = ({ checked, setChecked }: ParagraphWidthInputProps):
         label="Limit Paragraph Width"
         checked={checked}
         setChecked={setChecked}
-        aria-controls="paragraph-width"
+        buttonProps={{
+          'aria-expanded': checked,
+          'aria-controls': 'paragraph-width',
+        }}
       />
       <StyledInput
         id="paragraph-width"
-        aria-expanded={checked}
         disabled={!checked}
         label="Width, in characters"
         suffix="chars"

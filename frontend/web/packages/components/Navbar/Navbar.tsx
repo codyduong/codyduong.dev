@@ -401,6 +401,8 @@ const Navbar = (): JSX.Element => {
               onClick={() => {
                 setOpen(false);
               }}
+              translate="no"
+              lang="en"
             >
               codyduong
             </Name>
@@ -492,15 +494,17 @@ const Navbar = (): JSX.Element => {
         >
           <BannerButtonWrapper>
             <BannerButton
+              id="banner-button"
+              aria-expanded={bannerOpen}
+              aria-controls="banner-description"
               onClick={() => {
                 setBannerOpen((prev) => !prev);
               }}
-              aria-controls="banner-description"
             >
               🚧 Under Renovation 🚧
             </BannerButton>
           </BannerButtonWrapper>
-          <BannerInfo id="banner-description" aria-expanded={bannerOpen}>
+          <BannerInfo id="banner-description" aria-labelledby="banner-button">
             <q>
               My website is currently undergoing renovations. As such links or pages may be broken. Thanks for your
               understanding
