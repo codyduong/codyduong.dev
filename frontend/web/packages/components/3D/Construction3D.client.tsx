@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { Theatre, PhysicsDebug } from './core';
 import { toConvexPolyhedronShapes } from './util';
 import { memo, Suspense, useMemo } from 'react';
-import { Canvas, PrimitiveProps, useLoader } from '@react-three/fiber';
+import { Canvas, useLoader } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { OrbitControls } from '@react-three/drei';
 import { Physics, usePlane, useCompoundBody, CompoundBodyProps } from '@react-three/cannon';
@@ -10,7 +10,7 @@ import { A11yAnnouncer, A11ySection } from '@react-three/a11y';
 import { MTLLoader, OBJLoader } from 'three/examples/jsm/Addons.js';
 import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
 
-const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
+const Plane = ({ e }: { e: typeof editable }): React.JSX.Element => {
   const [rotation, position]: [[number, number, number], [number, number, number]] = [
     [-1.57079632679, 0, 0],
     [0, -0.5, 0],
@@ -25,13 +25,7 @@ const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
   }));
 
   return (
-    <e.mesh
-      // @ts-expect-error: ?
-      ref={ref}
-      theatreKey="floor"
-      position={[0, -0.5, 0]}
-      rotation={[-1.57079632679, 0, 0]}
-    >
+    <e.mesh ref={ref} theatreKey="floor" position={[0, -0.5, 0]} rotation={[-1.57079632679, 0, 0]}>
       <planeGeometry />
       <meshPhongMaterial transparent color="white" opacity={0} />
     </e.mesh>
@@ -41,10 +35,10 @@ const Plane = ({ e }: { e: typeof editable }): JSX.Element => {
 interface ConeProps {
   cone: THREE.Group;
   shapes: CompoundBodyProps['shapes'];
-  primitiveProps?: Omit<PrimitiveProps, 'object'>;
+  primitiveProps?: Partial<CompoundBodyProps>;
 }
 
-const Cone = ({ cone, shapes, primitiveProps }: ConeProps): JSX.Element => {
+const Cone = ({ cone, shapes, primitiveProps }: ConeProps): React.JSX.Element => {
   const [ref] = useCompoundBody(() => ({
     ...{
       shapes: shapes,
@@ -57,7 +51,7 @@ const Cone = ({ cone, shapes, primitiveProps }: ConeProps): JSX.Element => {
   return <primitive ref={ref} editableType="mesh" object={cone} scale={[5, 5, 5]} castShadow receieveShadow />;
 };
 
-const Construction3DClient = memo((): JSX.Element => {
+const Construction3DClient = memo((): React.JSX.Element => {
   const query = useUrlSearchParams();
   const theatre = query.has('theatrejs');
 

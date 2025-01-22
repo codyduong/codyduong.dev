@@ -36,7 +36,7 @@ const UnderConstructionSection = styled.section`
   padding: ${(props) => props.theme.spacing.rem[300]};
 `;
 
-export default function Construction3DServer(): JSX.Element {
+export default function Construction3DServer(): React.JSX.Element {
   const query = useUrlSearchParams();
   const theatre = query.has('theatrejs');
 

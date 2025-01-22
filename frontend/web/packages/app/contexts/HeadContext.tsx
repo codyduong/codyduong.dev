@@ -22,7 +22,7 @@ export const HeadProvider = ({
 }: {
   children: React.ReactNode;
   value: HeadValue | undefined;
-}): JSX.Element => {
+}): React.JSX.Element => {
   const [t, setT] = useState(value.title);
   const [d, setD] = useState(value.description);
 
@@ -43,7 +43,7 @@ export const HeadProvider = ({
   );
 
   return (
-    <HeadContext.Provider
+    <HeadContext
       value={{
         title: t,
         updateTitle,
@@ -52,7 +52,7 @@ export const HeadProvider = ({
       }}
     >
       {children}
-    </HeadContext.Provider>
+    </HeadContext>
   );
 };
 

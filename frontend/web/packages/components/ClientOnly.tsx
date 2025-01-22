@@ -5,7 +5,7 @@ import React, { ComponentType } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ClientOnlyProps<T extends ComponentType<any>> = {
   component: () => Promise<{ default: T }>;
-  fallback?: JSX.Element | null;
+  fallback?: React.JSX.Element | null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

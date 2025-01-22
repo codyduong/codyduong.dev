@@ -73,7 +73,7 @@ const Input = ({
   wrapperId,
   'aria-hidden': ariaHidden,
   ...rest
-}: InputProps): JSX.Element => {
+}: InputProps): React.JSX.Element => {
   const fallbackId = useId();
   const inputId = id ?? fallbackId;
   const inputWrapperClassName = classNames({

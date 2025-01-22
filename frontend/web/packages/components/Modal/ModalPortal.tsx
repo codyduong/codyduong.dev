@@ -58,7 +58,7 @@ export interface ModalPortalProps {
   onClose: () => void;
   onCloseAnimationComplete?: () => void;
   // we only allow one child for accessibility (easier to manage focus)
-  children: React.ReactChild | boolean | null | undefined; // portal and fragment elements are prohibited
+  children: React.JSX.Element | string | number | boolean | null | undefined; // portal and fragment elements are prohibited
   portalTo?: HTMLElement;
   role?: Extract<React.AriaRole, 'alertdialog' | 'dialog'>;
   style?: React.CSSProperties;
@@ -80,7 +80,7 @@ const ModalPortal = ({
   // the element to focus on if we close the modal
   focusElement = true,
   persist = false,
-}: ModalPortalProps): JSX.Element | null => {
+}: ModalPortalProps): React.JSX.Element | null => {
   const [open, setOpen] = useState(o);
   const [showing, setShowing] = useState(o);
 

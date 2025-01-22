@@ -21,7 +21,7 @@ const defaultValue = {
 
 const AccessibilityContext = createContext<AccessibilityType>(defaultValue);
 
-export const AccessibilityProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+export const AccessibilityProvider = ({ children }: { children: React.ReactNode }): React.JSX.Element => {
   const [cookies, setCookies] = useCookies(['accessibility']);
 
   const [cookiesWrapper, setCookiesWrapper] = useState(cookies);
@@ -86,7 +86,7 @@ export const AccessibilityProvider = ({ children }: { children: React.ReactNode 
   };
 
   return (
-    <AccessibilityContext.Provider
+    <AccessibilityContext
       value={{
         ...defaultValue,
         paragraphWidth,
@@ -97,7 +97,7 @@ export const AccessibilityProvider = ({ children }: { children: React.ReactNode 
       }}
     >
       {children}
-    </AccessibilityContext.Provider>
+    </AccessibilityContext>
   );
 };
 

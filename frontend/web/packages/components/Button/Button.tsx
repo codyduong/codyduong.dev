@@ -103,7 +103,7 @@ export const Button = ({
   disabled,
   children,
   ...rest
-}: ButtonProps): JSX.Element => {
+}: ButtonProps): React.JSX.Element => {
   const className = classNames(oldClassName, {
     ['button-primary']: hierarchy == ButtonHierarchy.primary,
     ['button-secondary']: hierarchy == ButtonHierarchy.secondary,
@@ -114,6 +114,8 @@ export const Button = ({
 
   return (
     <ButtonStyled className={className} disabled={disabled} {...rest}>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore - there is some weird type mismatch between styled-components and react19. todo remove this compiler directive */}
       {children}
     </ButtonStyled>
   );

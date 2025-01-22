@@ -42,7 +42,7 @@ interface PageProps {
   hasFooter?: boolean;
 }
 
-export default function Page({ children, hasFooter = false }: PageProps): JSX.Element {
+export default function Page({ children, hasFooter = false }: PageProps): React.JSX.Element {
   const { setTop, setPageDirection, setScrollHeight, pageRef } = useScroll();
 
   const handleScroll = useCallback(

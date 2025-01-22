@@ -7,7 +7,7 @@ type ScrollType = {
   setScrollHeight: React.Dispatch<React.SetStateAction<number>>;
   pageDirection: 'up' | 'down' | undefined;
   setPageDirection: React.Dispatch<React.SetStateAction<'up' | 'down' | undefined>>;
-  pageRef: React.RefObject<HTMLDivElement> | null;
+  pageRef: React.RefObject<HTMLDivElement | null> | null;
 };
 
 const defaultValue: ScrollType = {
@@ -22,14 +22,14 @@ const defaultValue: ScrollType = {
 
 const ScrollContext = createContext<ScrollType>(defaultValue);
 
-export const ScrollProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+export const ScrollProvider = ({ children }: { children: React.ReactNode }): React.JSX.Element => {
   const [top, setTop] = useState(defaultValue.top);
   const [scrollHeight, setScrollHeight] = useState(defaultValue.scrollHeight);
   const [pageDirection, setPageDirection] = useState(defaultValue.pageDirection);
   const pageRef = useRef<HTMLDivElement>(null);
 
   return (
-    <ScrollContext.Provider
+    <ScrollContext
       value={{
         ...defaultValue,
         top,
@@ -42,7 +42,7 @@ export const ScrollProvider = ({ children }: { children: React.ReactNode }): JSX
       }}
     >
       {children}
-    </ScrollContext.Provider>
+    </ScrollContext>
   );
 };
 

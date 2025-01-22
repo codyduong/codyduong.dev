@@ -44,7 +44,7 @@
 //   color: #ffa600;
 // `;
 
-// const ModalContentItemFiller = (): JSX.Element => (
+// const ModalContentItemFiller = (): React.JSX.Element => (
 //   <ModalContentItem>CONTENT SLOT</ModalContentItem>
 // );
 

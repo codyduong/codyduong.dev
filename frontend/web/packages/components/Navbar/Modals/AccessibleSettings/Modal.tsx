@@ -22,7 +22,7 @@ interface NavbarSettingsModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const NavbarAccessibleSettingsModal = ({ open, setOpen }: NavbarSettingsModalProps): JSX.Element => {
+const NavbarAccessibleSettingsModal = ({ open, setOpen }: NavbarSettingsModalProps): React.JSX.Element => {
   const { disableInteractionAnimations, setDisableInteractionAnimations, paragraphWidth } = useAccessibility();
   const [checked, setCheckedObject] = useState<NavbarSettingsChecks>({
     paragraphWidth: !!paragraphWidth,

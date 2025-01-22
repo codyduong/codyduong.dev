@@ -5,7 +5,7 @@ import T from 'packages/components/Typography';
 
 type WebAccessibilityStatementProps = Record<string, never>;
 
-const WebAccessibilityStatement = (_: WebAccessibilityStatementProps): JSX.Element => {
+const WebAccessibilityStatement = (_: WebAccessibilityStatementProps): React.JSX.Element => {
   return (
     <Content>
       <Section>

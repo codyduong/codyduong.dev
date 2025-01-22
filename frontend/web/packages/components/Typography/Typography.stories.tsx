@@ -37,7 +37,7 @@
 //   flex-grow: 0;
 // `;
 
-// export const Typography = (): JSX.Element => {
+// export const Typography = (): React.JSX.Element => {
 //   return (
 //     <>
 //       <ThemeProvider theme={ensure(themes.light)}>

@@ -47,7 +47,7 @@ const ModalFooterComponent = (
   } & {
     ref?: Parameters<typeof ModalFooter>[0]['ref'];
   },
-): JSX.Element => <ModalFooter numberOfButtons={React.Children.count(props.children)} {...props} />;
+): React.JSX.Element => <ModalFooter numberOfButtons={React.Children.count(props.children)} {...props} />;
 
 /**
  * We need to inset scrollbar 8px on all browsers, not just with ::webkit
@@ -156,7 +156,7 @@ export const ModalContainerComponent = ({
   size: (typeof MODAL_SIZES)[keyof typeof MODAL_SIZES];
 } & {
   ref?: Parameters<typeof ModalContainer>[0]['ref'];
-}): JSX.Element => {
+}): React.JSX.Element => {
   const cs = classnames(className, 'modal-flat', {
     ['modal-small']: size === MODAL_SIZES.SMALL,
     ['modal-medium']: size === MODAL_SIZES.MEDIUM,
@@ -196,23 +196,23 @@ const ModalContent = ({
   ...rest
 }: Omit<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'ref' | 'id'> & {
   gap?: boolean;
-}): JSX.Element => {
+}): React.JSX.Element => {
   const { ariaDescribedBy } = useModal();
 
   return <ModalContentStyled id={ariaDescribedBy} $gap={gap} {...rest} />;
 };
 
-function createButtonsFromArray(a: Array<Parameters<typeof Button>[0]>): JSX.Element {
+function createButtonsFromArray(a: Array<Parameters<typeof Button>[0]>): React.JSX.Element {
   return (
     <ModalFooter numberOfButtons={a.length} className={'modal-footer'}>
-      {a.map((e, i): JSX.Element => {
+      {a.map((e, i): React.JSX.Element => {
         return <Button key={i} {...e} />;
       })}
     </ModalFooter>
   );
 }
 
-function jsxify<T>(f: React.ReactNode | ((props: T) => JSX.Element | null), rest: T): React.ReactNode {
+function jsxify<T>(f: React.ReactNode | ((props: T) => React.JSX.Element | null), rest: T): React.ReactNode {
   if (typeof f == 'function') {
     return f(rest);
   }
@@ -222,7 +222,15 @@ function jsxify<T>(f: React.ReactNode | ((props: T) => JSX.Element | null), rest
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ModalFlatProps<T extends Record<string, any>> = {
   heading?: React.ReactNode;
-  footer?: React.ReactChild | React.ReactPortal | boolean | null | undefined | Array<Parameters<typeof Button>[0]>;
+  footer?:
+    | React.JSX.Element
+    | string
+    | number
+    | React.ReactPortal
+    | boolean
+    | null
+    | undefined
+    | Array<Parameters<typeof Button>[0]>;
   size?: (typeof MODAL_SIZES)[keyof typeof MODAL_SIZES];
 
   styles?: {
@@ -234,10 +242,10 @@ export type ModalFlatProps<T extends Record<string, any>> = {
 } & (
   | {
       content?: never;
-      children: React.ReactNode | ((props: Omit<T, keyof ModalPropsExternal>) => JSX.Element | null);
+      children: React.ReactNode | ((props: Omit<T, keyof ModalPropsExternal>) => React.JSX.Element | null);
     }
   | {
-      content: React.ReactNode | ((props: Omit<T, keyof ModalPropsExternal>) => JSX.Element | null);
+      content: React.ReactNode | ((props: Omit<T, keyof ModalPropsExternal>) => React.JSX.Element | null);
       children?: never;
     }
 );
@@ -252,7 +260,7 @@ export const ModalFlat = <T extends Record<string, any>>({
   size = MODAL_SIZES.SMALL,
   containerProps,
   ...rest
-}: ModalFlatProps<T>): JSX.Element => {
+}: ModalFlatProps<T>): React.JSX.Element => {
   const contentMergedChildren =
     children ??
     (typeof content === 'string' || typeof content === 'number' ? (
@@ -319,7 +327,7 @@ const Modal = <T extends Record<string, any> = Record<string, any>>({
   portalTo,
   persist = false,
   ...rest
-}: ModalProps<T>): JSX.Element => {
+}: ModalProps<T>): React.JSX.Element => {
   const [open, setOpen] = React.useState(o);
 
   React.useEffect(() => {
@@ -377,7 +385,7 @@ const DefaultFooter = ({
 
   disabled = false,
   style,
-}: DefaultFooterProps & { style?: React.CSSProperties }): JSX.Element => {
+}: DefaultFooterProps & { style?: React.CSSProperties }): React.JSX.Element => {
   return (
     <ModalFooter className="modal-footer" style={style}>
       {(backButton || nextButton) &&
@@ -446,7 +454,7 @@ const DefaultModal = <T extends Record<string, any>>({
   portalTo,
   persist = false,
   ...rest
-}: DefaultModalProps<T>): JSX.Element => {
+}: DefaultModalProps<T>): React.JSX.Element => {
   const [open, setOpen] = React.useState(o);
 
   React.useEffect(() => {

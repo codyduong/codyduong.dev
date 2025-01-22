@@ -21,7 +21,7 @@ const L2Wrapper = ({
   onClick,
   onKeyPress,
   ...rest
-}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): JSX.Element => {
+}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
   const { pageRef } = useScroll();
 
   const scrollPageToTop = (): void => {
@@ -65,7 +65,7 @@ const StyledLinkWrapper = ({
   onClick,
   onKeyPress,
   ...rest
-}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): JSX.Element => {
+}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
   const { pageRef } = useScroll();
 
   const scrollPageToTop = (): void => {

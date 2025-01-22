@@ -18,7 +18,7 @@ type ModalHeadingProps = Omit<
   exitLabel?: string;
 };
 
-const ModalHeading = ({ children, exitLabel = 'Exit Modal', ...rest }: ModalHeadingProps): JSX.Element => {
+const ModalHeading = ({ children, exitLabel = 'Exit Modal', ...rest }: ModalHeadingProps): React.JSX.Element => {
   const { onExit, ariaLabelledBy } = useModal();
 
   return (

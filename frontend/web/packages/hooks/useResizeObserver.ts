@@ -3,11 +3,8 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useTransition } fr
 type ResizeObserverHookCallback = (entry: ResizeObserverEntry, observer: ResizeObserver) => void;
 
 type ResizeObserverHook = {
-  observe: (
-    props: [target: React.RefObject<Element> | Element, options?: ResizeObserverOptions],
-    callback: ResizeObserverHookCallback,
-  ) => void;
-  unobserve: (target: React.RefObject<Element> | Element) => void;
+  observe: (props: Parameters<ResizeObserver['observe']>, callback: ResizeObserverHookCallback) => void;
+  unobserve: ResizeObserver['unobserve'];
 };
 
 type ResizeReducerAction =
@@ -18,7 +15,7 @@ type ResizeReducerAction =
     }
   | {
       type: 'remove';
-      target: React.RefObject<Element> | Element;
+      target: Element;
     };
 
 type Observing = [element: Element, callback: ResizeObserverHookCallback][];
@@ -59,38 +56,21 @@ function useResizeObserver(): ResizeObserverHook {
   }, [observing]);
 
   const observe = useCallback<ResizeObserverHook['observe']>(
-    (props, callback) => {
-      const options = props[1];
-      if ('current' in props[0] && props[0].current) {
-        const target = props[0].current;
-        observer?.observe(target, options);
-        startTransition(() => {
-          dispatch({ type: 'add', target, callback });
-        });
-      } else {
-        const target = props[0] as Element;
-        observer?.observe(target, options);
-        startTransition(() => {
-          dispatch({ type: 'add', target, callback });
-        });
-      }
+    ([target, options], callback) => {
+      observer?.observe(target, options);
+      startTransition(() => {
+        dispatch({ type: 'add', target, callback });
+      });
     },
     [observer],
   );
 
   const unobserve = useCallback<ResizeObserverHook['unobserve']>(
     (target) => {
-      if ('current' in target && target.current) {
-        observer?.unobserve(target.current);
-        startTransition(() => {
-          if (target.current) dispatch({ type: 'remove', target: target.current });
-        });
-      } else {
-        observer?.unobserve(target as Element);
-        startTransition(() => {
-          dispatch({ type: 'remove', target });
-        });
-      }
+      observer?.unobserve(target as Element);
+      startTransition(() => {
+        dispatch({ type: 'remove', target });
+      });
     },
     [observer],
   );

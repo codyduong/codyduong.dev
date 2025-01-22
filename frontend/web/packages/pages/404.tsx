@@ -9,7 +9,7 @@ const Section = styled.section`
   height: 100vh;
 `;
 
-export default function NotFound(): JSX.Element {
+export default function NotFound(): React.JSX.Element {
   return (
     <Section>
       <Paragraph.P2>This page was not found</Paragraph.P2>

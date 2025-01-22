@@ -45,7 +45,7 @@ interface ParagraphWidthInputProps {
   setChecked: React.Dispatch<boolean>;
 }
 
-const ParagraphWidthInput = ({ checked, setChecked }: ParagraphWidthInputProps): JSX.Element => {
+const ParagraphWidthInput = ({ checked, setChecked }: ParagraphWidthInputProps): React.JSX.Element => {
   const { paragraphWidth, setParagraphWidth } = useAccessibility();
   const [value, setValue] = useState(typeof paragraphWidth === 'number' ? `${paragraphWidth}` : '80');
   const [focus, setFocus] = useState(false);

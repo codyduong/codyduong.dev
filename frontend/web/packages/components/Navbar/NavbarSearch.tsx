@@ -105,7 +105,7 @@ interface SearchProps {
   open: boolean;
 }
 
-const Search = ({ searching, setSearching, value, setValue, open }: SearchProps): JSX.Element => {
+const Search = ({ searching, setSearching, value, setValue, open }: SearchProps): React.JSX.Element => {
   // const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);

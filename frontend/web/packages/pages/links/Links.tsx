@@ -123,7 +123,7 @@ const GenerateLinks = (): React.ReactNode => {
   });
 };
 
-export default function Links(): JSX.Element {
+export default function Links(): React.JSX.Element {
   return (
     <StyledContent>
       <LinksSection>

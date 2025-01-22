@@ -29,7 +29,7 @@ export const ModalExitComponent = ({
   ...rest
 }: Omit<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, 'ref'> & {
   ref?: Parameters<typeof ModalExit>[0]['ref'];
-}): JSX.Element => {
+}): React.JSX.Element => {
   const cs = classnames(className, 'modal-exit');
   const theme = useTheme();
 

@@ -286,7 +286,7 @@ const BannerInfo = styled.p`
 //   transition: all 225ms ease-in-out 0s;
 // `;
 
-const Navbar = (): JSX.Element => {
+const Navbar = (): React.JSX.Element => {
   const [open, setOpen] = useState(false);
   const [settings, _setSettings] = useState(false);
   const [accessibility, setAccessibility] = useState(false);
@@ -319,9 +319,10 @@ const Navbar = (): JSX.Element => {
 
   let mounted = false;
   useEffect(() => {
-    observe([navInnerRef], (entry) => {
-      console.log(entry.contentBoxSize);
-    });
+    if (navInnerRef.current)
+      observe([navInnerRef.current], (entry) => {
+        console.log(entry.contentBoxSize);
+      });
 
     setTimeout(() => {
       if (mounted) setInitial(false);

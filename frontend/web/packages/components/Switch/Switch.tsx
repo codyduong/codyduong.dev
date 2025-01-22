@@ -89,7 +89,14 @@ type SwitchProps = {
   >;
 } & { [Param in keyof Parameters<typeof SwitchWrapper>[number]]: never };
 
-const Switch = ({ label, showLabel = true, checked, setChecked, className, buttonProps }: SwitchProps): JSX.Element => {
+const Switch = ({
+  label,
+  showLabel = true,
+  checked,
+  setChecked,
+  className,
+  buttonProps,
+}: SwitchProps): React.JSX.Element => {
   const switchState = classnames({
     ['switch-off']: !checked,
     ['switch-on']: checked,

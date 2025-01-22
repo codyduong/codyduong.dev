@@ -148,7 +148,7 @@ type StyledLinkComponentProps = Parameters<typeof StyledLink>[0] & {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const StyledLinkComponent = (props: StyledLinkComponentProps): JSX.Element => {
+const StyledLinkComponent = (props: StyledLinkComponentProps): React.JSX.Element => {
   const { to, children, className, open, setOpen, ...rest } = props;
   const location = useLocation().pathname.split('/');
   const toString = (typeof to == 'string' ? to : to.pathname) ?? '';
@@ -215,10 +215,10 @@ const CloseIconWrapper = styled.button`
 interface HamburgerProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  menuButton: React.RefObject<HTMLButtonElement>;
+  menuButton: React.RefObject<HTMLButtonElement | null>;
 }
 
-const NavbarMenu = ({ open, setOpen, menuButton }: HamburgerProps): JSX.Element => {
+const NavbarMenu = ({ open, setOpen, menuButton }: HamburgerProps): React.JSX.Element => {
   const hamburgerClassname = classNames('nav-hamburger-list', {
     ['close']: !open,
     ['open']: open,

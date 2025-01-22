@@ -18,7 +18,7 @@ interface ProjectProps {
   badges: React.ReactNode;
 }
 
-const Project = (props: ProjectProps): JSX.Element => {
+const Project = (props: ProjectProps): React.JSX.Element => {
   const { title, desc, badges } = props;
 
   return (

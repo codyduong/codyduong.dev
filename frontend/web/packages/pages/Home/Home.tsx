@@ -162,7 +162,7 @@ const getAge = () => {
   return yearsRounded.toFixed(decimalPlaces);
 };
 
-const Home = (): JSX.Element => {
+const Home = (): React.JSX.Element => {
   const ageRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {

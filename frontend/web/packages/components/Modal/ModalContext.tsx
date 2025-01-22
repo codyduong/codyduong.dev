@@ -23,8 +23,8 @@ export const ModalContextProvider = ({
 }: {
   value: ModalContext;
   children: React.ReactNode;
-}): JSX.Element => {
-  return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>;
+}): React.JSX.Element => {
+  return <ModalContext value={value}>{children}</ModalContext>;
 };
 
 export const ModalConsumer = ModalContext.Consumer;

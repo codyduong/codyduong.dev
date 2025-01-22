@@ -123,7 +123,7 @@ const CopyrightText = styled.span`
   color: ${({ theme }) => theme.color.surface[100]};
 `;
 
-const Footer = (): JSX.Element => {
+const Footer = (): React.JSX.Element => {
   const theme = useTheme();
 
   return (

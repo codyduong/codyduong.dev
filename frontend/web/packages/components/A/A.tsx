@@ -2,7 +2,7 @@ import { commoncss } from 'packages/style';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-export const ABase = forwardRef<HTMLAnchorElement, JSX.IntrinsicElements['a'] & { hoverColor?: string }>(
+export const ABase = forwardRef<HTMLAnchorElement, React.JSX.IntrinsicElements['a'] & { hoverColor?: string }>(
   ({ hoverColor: _, ...rest }, ref) => {
     return <a ref={ref} rel="noreferrer noopener" {...rest} />;
   },
