@@ -15,6 +15,7 @@ import { cssWidth } from 'packages/components/Section';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 import { useAccessibility } from 'packages/app/contexts/AccessibilityContext';
 import { AccessibleSettingsModal } from './Modals';
+import useResizeObserver from 'packages/hooks/useResizeObserver';
 // import { AccessibleSettingsModal } from './Modals';
 
 const TrapFocus = styled.div`
@@ -294,10 +295,12 @@ const Navbar = (): JSX.Element => {
   const { top, pageDirection, setPageDirection } = useScroll();
   const [bannerOpen, setBannerOpen] = useState(false);
   const { disableInteractionAnimations } = useAccessibility();
+  const { observe } = useResizeObserver();
 
   const refHeader = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   const bannerRef = useRef<HTMLDivElement>(null);
+  const navInnerRef = useRef<HTMLDivElement>(null);
   // const psuedoHeader = useRef<HTMLDivElement>(null);
 
   const navbarHidden = pageDirection === 'down' && !focusWithin;
@@ -316,6 +319,10 @@ const Navbar = (): JSX.Element => {
 
   let mounted = false;
   useEffect(() => {
+    observe([navInnerRef], (entry) => {
+      console.log(entry.contentBoxSize);
+    });
+
     setTimeout(() => {
       if (mounted) setInitial(false);
     }, 225);
@@ -395,7 +402,7 @@ const Navbar = (): JSX.Element => {
               if (open && refHeader.current) utils.focusLastDescendant(refHeader.current);
             }}
           />
-          <NavInner>
+          <NavInner ref={navInnerRef}>
             <Name
               to="/"
               onClick={() => {

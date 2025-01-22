@@ -33,7 +33,7 @@ export const cssWidth: any = css<{ maxWidth?: string | false }>`
 
 export const Css = css`
   width: 100%;
-  max-width: 600px;
+  /* max-width: 600px; */
   margin-bottom: ${({ theme }) => `${theme.spacing.rem[200]}`};
   font-size: calc(${(props) => props.theme.spacing.rem[100]});
 

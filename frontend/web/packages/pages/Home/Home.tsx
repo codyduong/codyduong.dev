@@ -3,52 +3,30 @@ import T from 'packages/components/Typography';
 import Section from 'packages/components/Section';
 import Content from 'packages/components/Content';
 import A, { Link } from 'packages/components/A';
-import { breakpoints, commoncss } from 'packages/style';
+import { commoncss } from 'packages/style';
 import Head from 'packages/components/Head';
-import { memo, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import TypescriptSvg from './ts-logo-256.svg?react';
-import ReactSvg from './React.svg?react';
-import CSharpSvg from './CSharp.svg?react';
-import DotNetSvg from './dotnet.svg?react';
-import TransactSqlSvg from './icons8-microsoft-sql-server-48.svg?react';
-// import JestSvg from './Jest.svg?react';
-import CypressSvg from './cypress.svg?react';
-import PhpSvg from './php.svg?react';
-import PythonSvg from './python.svg?react';
-import MySQLSvg from './mysql-icon.svg?react';
-import NodeJSSvg from './Nodejs.svg?react';
 import { Temporal } from '@js-temporal/polyfill';
+import {
+  Typescript,
+  CSharp,
+  DotNet,
+  TSql,
+  Cypress,
+  Php,
+  Python,
+  MySQL,
+  ReactBadge as React,
+  NodeJS,
+  ReactBadge,
+  Rust,
+} from 'packages/components/Badges';
+import Project from 'packages/components/Project';
 
 const SectionContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-flow: column nowrap;
-  max-width: 80ch;
-
-  ${() =>
-    commoncss.animation({
-      enabled: css`
-        transition: all 750ms ease-in-out;
-        transition-property: width, max-width;
-      `,
-    })}
-
-  ${() =>
-    commoncss.widthlimited({
-      enabled: (p) => css`
-        max-width: ${p}ch;
-      `,
-      disabled: () => css`
-        @media only screen and (min-width: ${breakpoints.md}) {
-          max-width: 80ch;
-        }
-      `,
-    })}
-
-  & > Section {
-    align-self: stretch;
-  }
 `;
 
 const H1Hiya = styled(T.H1)`
@@ -159,97 +137,15 @@ const Techs = styled.ul`
   gap: 0.75rem;
 `;
 
-const Badge = styled.li`
-  list-style-type: none;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  width: fit-content;
-  padding: 0.25rem 0.6rem;
-  border-radius: 0.75rem;
-  border: solid ${({ theme }) => theme.color.surface[300]} 1px;
-  font-size: calc(${(props) => props.theme.spacing.rem[87.5]});
-`;
-
-const Typescript = memo(() => (
-  <Badge translate="no" lang="en">
-    <TypescriptSvg aria-hidden />
-    TypeScript
-  </Badge>
-));
-
-const React = memo(() => (
-  <Badge translate="no" lang="en">
-    <ReactSvg aria-hidden />
-    React
-  </Badge>
-));
-
-const CSharp = memo(() => (
-  <Badge translate="no" lang="en">
-    <CSharpSvg aria-hidden />
-    <span data-ssml-sub-alias="C Sharp">C#</span>
-  </Badge>
-));
-
-const DotNet = memo(() => (
-  <Badge translate="no" lang="en">
-    <DotNetSvg aria-hidden />
-    <span data-ssml-sub-alias="Dot Net">.NET</span>
-  </Badge>
-));
-
-const TSql = memo(() => (
-  <Badge translate="no" lang="en">
-    <TransactSqlSvg aria-hidden />
-    <span data-ssml-sub-alias="Transact SQL">T-SQL</span>
-  </Badge>
-));
-
-// const Jest = memo(() => (
-//   <Badge>
-//     <JestSvg aria-hidden />
-//     Jest
-//   </Badge>
-// ));
-
-const Cypress = memo(() => (
-  <Badge translate="no" lang="en">
-    <CypressSvg aria-hidden />
-    Cypress
-  </Badge>
-));
-
-const Php = memo(() => (
-  <Badge translate="no" lang="en">
-    <PhpSvg aria-hidden width={24} />
-    PHP
-  </Badge>
-));
-
-const Python = memo(() => (
-  <Badge translate="no" lang="en">
-    <PythonSvg aria-hidden viewBox="0 0 111 111" width={16} height={16} />
-    Python
-  </Badge>
-));
-
-const MySQL = memo(() => (
-  <Badge translate="no" lang="en">
-    <MySQLSvg aria-hidden />
-    MySQL
-  </Badge>
-));
-
-const NodeJS = memo(() => (
-  <Badge translate="no" lang="en">
-    <NodeJSSvg aria-hidden />
-    Node.js
-  </Badge>
-));
-
 const Age = styled(T.Span3)`
   font-family: monospace, monospace;
+`;
+
+const Projects = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1ch;
+  width: 100%;
 `;
 
 const Birthday = Temporal.Instant.from('2003-01-09T00:00-06:00');
@@ -355,12 +251,12 @@ const Home = (): JSX.Element => {
                   powershell-alias-tips <OpenInNewIcon titleAccess="Open in new window" />
                 </Link.Styled>
               </li>
-              <li>
-                {/* https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA8 */}
+              {/* https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA8 */}
+              {/* <li>
                 <Link.Styled to="/projects" aria-label="Read more about other projects I maintain">
                   ...and more
                 </Link.Styled>
-              </li>
+              </li> */}
             </ul>
           </Section>
           <Section>
@@ -426,7 +322,42 @@ const Home = (): JSX.Element => {
           </Section>
           <Section>
             <T.Heading.H2>Projects</T.Heading.H2>
-            <T.P3>Under Construction</T.P3>
+            <br></br>
+            <Projects>
+              <Project
+                title={
+                  <>
+                    hitokage{' '}
+                    <span translate="no" lang="ja">
+                      日と影
+                    </span>{' '}
+                  </>
+                }
+                desc="hitokage is a configurable status bar for Windows implemented in Rust using the relm4 GUI library."
+                badges={
+                  <Techs>
+                    <Rust />
+                  </Techs>
+                }
+              />
+              <Project
+                title={<>mapsy</>}
+                desc={
+                  <>
+                    <span>HackKU 2022 - No Theme Track 2nd Place Winner</span>
+                    <br />
+                    <br />
+                    Mapsy makes it easier to view the current status of road conditions through CCTV cameras
+                  </>
+                }
+                badges={
+                  <Techs>
+                    <Typescript />
+                    <ReactBadge />
+                  </Techs>
+                }
+              />
+            </Projects>
           </Section>
         </SectionContainer>
       </Content>
