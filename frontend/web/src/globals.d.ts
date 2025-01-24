@@ -5,3 +5,7 @@ declare module '*.svg?react' {
 }
 
 declare module '@fontsource/*';
+
+declare module 'react-dom/server.browser' {
+  export * from 'react-dom/server';
+}

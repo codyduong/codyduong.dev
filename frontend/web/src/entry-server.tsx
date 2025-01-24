@@ -2,7 +2,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import App from 'packages/app';
 import { HeadValue } from 'packages/app/contexts/HeadContext';
 import { StrictMode } from 'react';
-import { renderToPipeableStream, RenderToPipeableStreamOptions } from 'react-dom/server';
+import { renderToReadableStream, type RenderToReadableStreamOptions } from 'react-dom/server.browser';
 import { StaticRouter } from 'react-router-dom';
 import { type ServerStyleSheet } from 'styled-components';
 import { type ChunkCollector, ChunkCollectorContext } from 'vite-preload';
@@ -13,11 +13,11 @@ export function render(
   emotionCache: EmotionCache,
   urlString: string,
   headValue: HeadValue,
-  options?: RenderToPipeableStreamOptions,
+  options?: RenderToReadableStreamOptions,
 ) {
   const url = new URL(urlString, 'https://codyduong.dev');
 
-  return renderToPipeableStream(
+  return renderToReadableStream(
     sheet.collectStyles(
       <StrictMode>
         <CacheProvider value={emotionCache}>

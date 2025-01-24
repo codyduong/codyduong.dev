@@ -64,5 +64,5 @@
     "vite": "^6.0.5",
     "vite-plugin-svgr": "^4.3.0"
   },
-  "packageManager": "bun@1.1.42"
+  "packageManager": "bun@1.2.0"
 }

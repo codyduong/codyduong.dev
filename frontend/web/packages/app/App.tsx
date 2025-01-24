@@ -8,6 +8,7 @@ import { Route, Routes, useLocation } from 'react-router';
 import { ScrollProvider } from './contexts/ScrollContext';
 import { QueryProvider } from './contexts/UrlSearchParamsContext';
 import { HeadProvider, HeadValue } from './contexts/HeadContext';
+import TheatreProvider from 'packages/components/3D/TheatreContext';
 
 const Home = React.lazy(() => import('packages/pages/Home/Home'));
 

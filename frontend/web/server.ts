@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import fs from 'node:fs/promises';
 import express from 'express';
-import { Transform } from 'node:stream';
 import { ServerStyleSheet } from 'styled-components';
 import { createChunkCollector } from 'vite-preload';
 import type { render as tr } from './src/entry-server.tsx';
@@ -9,6 +8,29 @@ import type { render as tr } from './src/entry-server.tsx';
 import crypto from 'node:crypto';
 import createCache from '@emotion/cache';
 import type { HeadValue } from './packages/app/contexts/HeadContext';
+import { PassThrough } from 'node:stream';
+
+function toNodeStream(webStream) {
+  const passThrough = new PassThrough();
+  const reader = webStream.getReader();
+
+  (async function read() {
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          passThrough.end();
+          return;
+        }
+        passThrough.write(value);
+      }
+    } catch (err) {
+      passThrough.destroy(err);
+    }
+  })();
+
+  return passThrough;
+}
 
 // Constants
 const isProduction = process.env.NODE_ENV === 'production';
@@ -109,80 +131,95 @@ const renderApp = async (req: express.Request, res: express.Response) => {
     },
   };
 
-  const { pipe, abort } = render(sheet, collector, emotionCache, url, headValue, {
-    nonce,
-    onShellError() {
-      res.status(500);
-      res.set({ 'Content-Type': 'text/html' });
-      res.send('<h1>Something went wrong</h1>');
-    },
-    onAllReady() {
-      const title = headValue.title;
-      const description = headValue.description;
-      if (headValue.title === '') {
-        res.status(404);
-      } else {
-        res.status(didError ? 500 : 200);
-      }
+  const abortController = new AbortController();
+  const { signal } = abortController;
+  const abortTimeout = setTimeout(() => {
+    abortController.abort(); // Trigger the abort signal
+  }, ABORT_DELAY);
 
-      // https://ogp.me/
-      head = head.replace(
-        '<!--app-meta-->',
-        `<title>${title}</title>
+  let stream;
+  try {
+    stream = await render(sheet, collector, emotionCache, url, headValue, {
+      nonce,
+      onError(error) {
+        didError = true;
+        console.error(error);
+      },
+    });
+  } catch (error) {
+    // This is analogous to onShellError
+    console.error('Shell error:', error);
+    res.status(500).send('<h1>Something went wrong (shell error)</h1>');
+    return;
+  }
+
+  try {
+    await stream.allReady;
+  } catch (error) {
+    if (signal.aborted) {
+      console.error('Rendering aborted due to timeout.');
+      res.status(503).send('<h1>Request timed out</h1>');
+      return;
+    } else {
+      console.error('Error during rendering:', error);
+      res.status(500).send('<h1>Something went wrong during rendering</h1>');
+      return;
+    }
+  } finally {
+    clearTimeout(abortTimeout); // Clear the timeout after rendering is ready
+  }
+
+  const title = headValue.title;
+  const description = headValue.description;
+  if (headValue.title.startsWith('Not Found')) {
+    res.status(404);
+  } else {
+    res.status(didError ? 500 : 200);
+  }
+
+  // https://ogp.me/
+  head = head.replace(
+    '<!--app-meta-->',
+    `<title>${title}</title>
   <meta property="description" content="${description}" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="${title.replace(/\s*\|\s*Cody Duong$/, '')}" />
   <meta property="og:site_name" content="Cody Duong" />
   <meta property="og:description" content="${description}" />
         `,
-      );
+  );
 
-      res.set({ 'Content-Type': 'text/html' });
-      res.append('link', collector.getLinkHeaders());
+  res.set({ 'Content-Type': 'text/html' });
+  res.append('link', collector.getLinkHeaders());
 
-      let styleTags;
-      try {
-        styleTags = sheet.getStyleTags();
-      } catch (error) {
-        console.log(error);
-      } finally {
-        sheet.seal();
-      }
+  let styleTags;
+  try {
+    styleTags = sheet.getStyleTags();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    sheet.seal();
+  }
 
-      head = head
-        .replace('<!--style-tags-->', `<!--style-tags-->${styleTags}`)
-        .replaceAll('<style', `<style nonce="${nonce}"`)
-        .replaceAll('<script', `<script nonce="${nonce}"`)
-        // Inject <link rel=modulepreload> and <link rel=stylesheet> in the head.
-        // Without this the CSS for any lazy component would be loaded after the
-        // app has and cause a Flash of Unstyled Content (FOUC).
-        .replace('</head>', `${collector.getTags()}\n</head>`);
+  head = head
+    .replace('<!--style-tags-->', `<!--style-tags-->${styleTags}`)
+    .replaceAll('<style', `<style nonce="${nonce}"`)
+    .replaceAll('<script', `<script nonce="${nonce}"`)
+    // Inject <link rel=modulepreload> and <link rel=stylesheet> in the head.
+    // Without this the CSS for any lazy component would be loaded after the
+    // app has and cause a Flash of Unstyled Content (FOUC).
+    .replace('</head>', `${collector.getTags()}\n</head>`);
 
-      res.write(head);
-      // console.log(head);
+  res.write(head);
+  // console.log(head);
 
-      const transformStream = new Transform({
-        transform(chunk, encoding, callback) {
-          res.write(chunk, encoding);
-          callback();
-        },
-      });
-
-      transformStream.on('finish', () => {
-        res.end(rest);
-      });
-
-      pipe(transformStream);
-    },
-    onError(error) {
-      didError = true;
-      console.error(error);
-    },
+  const nodeStream = toNodeStream(stream);
+  nodeStream.on('end', () => {
+    // once finished, write the closing part of your HTML
+    res.end(rest);
   });
 
-  setTimeout(() => {
-    abort();
-  }, ABORT_DELAY);
+  nodeStream.pipe(res, { end: false });
 };
 
 // Serve HTML
