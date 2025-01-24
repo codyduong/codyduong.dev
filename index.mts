@@ -134,6 +134,10 @@ const service = new gcp.cloudrunv2.Service("web", {
     ],
     maxInstanceRequestConcurrency: concurrency,
     timeout: "60s",
+    scaling: {
+      minInstanceCount: 0,
+      maxInstanceCount: 5,
+    }
   },
 });
 
