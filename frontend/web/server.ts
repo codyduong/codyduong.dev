@@ -38,30 +38,27 @@ const port = process.env.PORT || 5173;
 const base = process.env.BASE || '/';
 const ABORT_DELAY = 10000;
 
-// Cached production assets
-const templateHtml = isProduction ? await fs.readFile('./dist/client/index.html', 'utf-8') : '';
-const manifest = isProduction ? JSON.parse(await fs.readFile('./dist/client/.vite/manifest.json', 'utf-8')) : undefined;
-
 // Create http server
 const app = express();
 
-// Add Vite or respective production middlewares
-/** @type {import('vite').ViteDevServer | undefined} */
-let vite;
-if (!isProduction) {
-  const { createServer } = await import('vite');
-  vite = await createServer({
-    server: { middlewareMode: true },
-    appType: 'custom',
-    base,
-  });
-  app.use(vite.middlewares);
-} else {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const compression = (await import('compression')).default as any;
-  const sirv = (await import('sirv')).default;
-  app.use(compression());
-  app.use(base, sirv('./dist/client', { extensions: [] }));
+async function initializeMiddlewares() {
+  /** @type {import('vite').ViteDevServer | undefined} */
+  let vite;
+  if (!isProduction) {
+    const { createServer } = await import('vite');
+    vite = await createServer({
+      server: { middlewareMode: true },
+      appType: 'custom',
+      base,
+    });
+    app.use(vite.middlewares);
+  } else {
+    const compression = (await import('compression')).default;
+    const sirv = (await import('sirv')).default;
+    app.use(compression());
+    app.use(base, sirv('./dist/client', { extensions: [] }));
+  }
+  return vite;
 }
 
 /**
@@ -69,7 +66,8 @@ if (!isProduction) {
  * @param {import('express').Response} res
  * @returns {void}
  */
-const renderApp = async (req: express.Request, res: express.Response) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const renderApp = async (req: express.Request, res: express.Response, vite: any) => {
   const url = req.originalUrl.replace(base, '');
 
   /** @type {string} */
@@ -82,7 +80,7 @@ const renderApp = async (req: express.Request, res: express.Response) => {
     const mod = await vite.ssrLoadModule('/src/entry-server.tsx');
     render = mod.render;
   } else {
-    template = templateHtml;
+    template = await fs.readFile('./dist/client/index.html', 'utf-8');
     const mod = await import('./dist/server/entry-server.js');
     // @ts-ignore
     render = mod.render;
@@ -97,7 +95,7 @@ const renderApp = async (req: express.Request, res: express.Response) => {
   const emotionCache = createCache({ key: 'css', nonce });
   const sheet = new ServerStyleSheet();
   const collector = createChunkCollector({
-    manifest,
+    manifest: JSON.parse(await fs.readFile('./dist/client/.vite/manifest.json', 'utf-8')),
     entry: 'index.html',
     preloadAssets: true,
     preloadFonts: true,
@@ -222,18 +220,20 @@ const renderApp = async (req: express.Request, res: express.Response) => {
   nodeStream.pipe(res, { end: false });
 };
 
-// Serve HTML
-app.use('*', async (req, res) => {
-  try {
-    await renderApp(req, res);
-  } catch (e) {
-    vite?.ssrFixStacktrace(e);
-    console.log(e, e.stack);
-    res.status(500).end(e.stack);
-  }
-});
+initializeMiddlewares().then((vite) => {
+  // Serve HTML
+  app.use('*', async (req, res) => {
+    try {
+      await renderApp(req, res, vite);
+    } catch (e) {
+      vite?.ssrFixStacktrace(e);
+      console.log(e, e.stack);
+      res.status(500).end(e.stack);
+    }
+  });
 
-// Start http server
-app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+  // Start http server
+  app.listen(port, () => {
+    console.log(`Server started at http://localhost:${port}`);
+  });
 });
