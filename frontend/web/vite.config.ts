@@ -2,13 +2,22 @@
 // during build step
 
 import { defineConfig, type PluginOption } from 'vite';
-import react from '@vitejs/plugin-react-swc';
+// import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
 import million from 'million/compiler';
 
 export const plugins = [
-  react({ plugins: [['@swc/plugin-styled-components', {}]] }),
+  // swc
+  // react({ plugins: [['@swc/plugin-styled-components', {}]], }),
+  react({
+    babel: {
+      plugins: ['babel-plugin-styled-components', 'babel-plugin-react-compiler'],
+      babelrc: false,
+      configFile: false,
+    },
+  }),
   svgr({
     svgrOptions: {
       icon: true,

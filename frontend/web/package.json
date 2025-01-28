@@ -52,6 +52,8 @@
     "@types/three": "^0.171.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitejs/plugin-react-swc": "^3.7.2",
+    "babel-plugin-react-compiler": "^19.0.0-beta-27714ef-20250124",
+    "babel-plugin-styled-components": "^2.1.4",
     "cross-env": "^7.0.3",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",

@@ -2,6 +2,7 @@ import { Link as L, LinkProps } from 'react-router-dom';
 import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
+import { memo } from 'react';
 
 const LBase = css`
   text-decoration: none;
@@ -17,32 +18,34 @@ const L2 = styled(L)`
   ${commoncss.focus}
 `;
 
-const L2Wrapper = ({
-  onClick,
-  onKeyPress,
-  ...rest
-}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
-  const { pageRef } = useScroll();
+const L2Wrapper = memo(
+  ({
+    onClick,
+    onKeyPress,
+    ...rest
+  }: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
+    const { pageRef } = useScroll();
 
-  const scrollPageToTop = (): void => {
-    if (pageRef && pageRef.current) {
-      pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
+    const scrollPageToTop = (): void => {
+      if (pageRef && pageRef.current) {
+        pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
 
-  const onClickHandler: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
-    onClick?.(e);
-    scrollPageToTop();
-  };
-  const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
-    onKeyPress?.(e);
-    if (e.key === 'Enter') {
+    const onClickHandler: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+      onClick?.(e);
       scrollPageToTop();
-    }
-  };
+    };
+    const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
+      onKeyPress?.(e);
+      if (e.key === 'Enter') {
+        scrollPageToTop();
+      }
+    };
 
-  return <L2 onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
-};
+    return <L2 onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
+  },
+);
 
 const StyledLinkCSS = css`
   ${LBase}
@@ -61,32 +64,34 @@ const StyledLinkBase = styled(L)`
   ${StyledLinkCSS}
 `;
 
-const StyledLinkWrapper = ({
-  onClick,
-  onKeyPress,
-  ...rest
-}: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
-  const { pageRef } = useScroll();
+const StyledLinkWrapper = memo(
+  ({
+    onClick,
+    onKeyPress,
+    ...rest
+  }: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
+    const { pageRef } = useScroll();
 
-  const scrollPageToTop = (): void => {
-    if (pageRef && pageRef.current) {
-      pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
+    const scrollPageToTop = (): void => {
+      if (pageRef && pageRef.current) {
+        pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
 
-  const onClickHandler: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
-    onClick?.(e);
-    scrollPageToTop();
-  };
-  const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
-    onKeyPress?.(e);
-    if (e.key === 'Enter') {
+    const onClickHandler: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+      onClick?.(e);
       scrollPageToTop();
-    }
-  };
+    };
+    const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
+      onKeyPress?.(e);
+      if (e.key === 'Enter') {
+        scrollPageToTop();
+      }
+    };
 
-  return <StyledLinkBase onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
-};
+    return <StyledLinkBase onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
+  },
+);
 
 export const StyledLink = Object.assign(StyledLinkWrapper, {
   css: StyledLinkCSS,
