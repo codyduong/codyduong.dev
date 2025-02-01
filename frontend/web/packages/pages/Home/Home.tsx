@@ -137,6 +137,10 @@ const Techs = styled.ul`
   gap: 0.75rem;
 `;
 
+const Techs2 = styled(Techs)`
+  margin: 0;
+`;
+
 const Age = styled(T.Span3)`
   font-family: monospace, monospace;
 `;
@@ -325,6 +329,7 @@ const Home = (): React.JSX.Element => {
             <br></br>
             <Projects>
               <Project
+                to={'/projects/hitokage'}
                 title={
                   <>
                     hitokage{' '}
@@ -335,26 +340,21 @@ const Home = (): React.JSX.Element => {
                 }
                 desc="hitokage is a configurable status bar for Windows implemented in Rust using the relm4 GUI library."
                 badges={
-                  <Techs>
+                  <Techs2>
                     <Rust />
-                  </Techs>
+                  </Techs2>
                 }
               />
               <Project
+                to={'/projects/mapsy'}
+                thumbnail="/mapsy.jpg"
                 title={<>mapsy</>}
-                desc={
-                  <>
-                    <span>HackKU 2022 - No Theme Track 2nd Place Winner</span>
-                    <br />
-                    <br />
-                    Mapsy makes it easier to view the current status of road conditions through CCTV cameras
-                  </>
-                }
+                desc={'Mapsy makes it easier to view the current status of road conditions through CCTV cameras.'}
                 badges={
-                  <Techs>
+                  <Techs2>
                     <Typescript />
                     <ReactBadge />
-                  </Techs>
+                  </Techs2>
                 }
               />
             </Projects>

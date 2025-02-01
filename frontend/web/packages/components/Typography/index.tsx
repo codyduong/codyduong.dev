@@ -230,7 +230,7 @@ export const Span = {
   Span3: calculateSpan(P3css),
   Span4: calculateSpan(P4css),
 } as const;
-export const Typography = {
+const T = {
   Heading,
   ...Heading,
   Paragraph,
@@ -238,4 +238,5 @@ export const Typography = {
   Span,
   ...Span,
 } as const;
-export default Typography;
+export const Typography = T;
+export default T;

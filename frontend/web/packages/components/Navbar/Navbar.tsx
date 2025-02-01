@@ -1,4 +1,4 @@
-import { Paragraph, Typography } from 'packages/components/Typography';
+import T from 'packages/components/Typography';
 import styled, { css } from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -91,17 +91,17 @@ const NavInner = styled.div`
 `;
 
 const NavLink = styled(A.Link)`
-  ${Typography.Paragraph.P4.css}
+  ${T.P4.css}
   color: ${(props) => props.theme.color.text[100]};
 `;
 
 const NavDiv = styled.span`
-  ${Typography.Paragraph.P4.css}
+  ${T.P4.css}
   color: ${(props) => props.theme.color.text[100]};
 `;
 
 const Name = styled(NavLink)`
-  ${Typography.Paragraph.P2.bold.css}
+  ${T.P2.bold.css}
   color: ${(props) => props.theme.color.text[100]};
   text-align: center;
   padding: 0.25em 0.5em 0em;
@@ -131,7 +131,7 @@ const NavButtonBase = styled.button`
 
 const HamburgerButton = styled(NavButtonBase)`
   label {
-    ${Typography.Paragraph.P3.css}
+    ${T.Paragraph.P3.css}
     color: ${({ theme }) => theme.color.text[100]};
     margin: 0px;
     margin-top: 0.25em;
@@ -239,7 +239,7 @@ const HamburgerItem = styled(NavbarListItem)`
 
 const Banner = styled.div`
   width: 100%;
-  ${Paragraph.P2.bold.css};
+  ${T.P2.bold.css};
   background-color: ${(props) => props.theme.color.destructive[300]};
   transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0s;
   box-sizing: border-box;
@@ -270,14 +270,14 @@ const BannerButtonWrapper = styled.div`
 `;
 
 const BannerButton = styled.button`
-  ${Paragraph.P2.bold.css};
+  ${T.P2.bold.css};
   margin: 0.5rem 0 0.25rem;
   color: ${(props) => props.theme.color.text[100]};
   cursor: help;
 `;
 
 const BannerInfo = styled.p`
-  ${Typography.P3.css};
+  ${T.P3.css};
   color: ${(props) => props.theme.color.text[100]};
   text-align: center;
 `;
@@ -320,8 +320,8 @@ const Navbar = (): React.JSX.Element => {
   let mounted = false;
   useEffect(() => {
     if (navInnerRef.current)
-      observe([navInnerRef.current], (entry) => {
-        console.log(entry.contentBoxSize);
+      observe([navInnerRef.current], (_entry) => {
+        // console.log(entry.contentBoxSize);
       });
 
     setTimeout(() => {
@@ -411,6 +411,7 @@ const Navbar = (): React.JSX.Element => {
               }}
               translate="no"
               lang="en"
+              viewTransition
             >
               codyduong
             </Name>

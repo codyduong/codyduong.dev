@@ -8,9 +8,11 @@ import { Route, Routes, useLocation } from 'react-router';
 import { ScrollProvider } from './contexts/ScrollContext';
 import { QueryProvider } from './contexts/UrlSearchParamsContext';
 import { HeadProvider, HeadValue } from './contexts/HeadContext';
-import TheatreProvider from 'packages/components/3D/TheatreContext';
+import { TransitionImgProvider } from 'packages/components/TransitionImg';
 
 const Home = React.lazy(() => import('packages/pages/Home/Home'));
+
+const Projects = React.lazy(() => import('packages/pages/Projects'));
 
 const Work = React.lazy(() => import('packages/pages/Work'));
 
@@ -42,21 +44,23 @@ export default function App({ serverQuery, headValue }: AppProps) {
         <AccessibilityProvider>
           <QueryProvider query={serverQuery && serverQuery.keys.length > 0 ? serverQuery : browserQuery}>
             <ScrollProvider>
-              <Bypass />
-              <Suspense>
-                <Page hasFooter>
-                  <Routes>
-                    <Route path="" element={<Home />} />
-                    <Route path="/" element={<Home />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
-                    <Route path="/playground" element={<Construction3D />} />
-                    <Route path="/projects" element={<Construction3D />} />
-                    <Route path="/work/*" element={<Work />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Page>
-              </Suspense>
+              <TransitionImgProvider>
+                <Bypass />
+                <Suspense>
+                  <Page hasFooter>
+                    <Routes>
+                      <Route path="" element={<Home />} />
+                      <Route path="/" element={<Home />} />
+                      <Route path="/home" element={<Home />} />
+                      <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
+                      <Route path="/playground" element={<Construction3D />} />
+                      <Route path="/projects/*" element={<Projects />} />
+                      <Route path="/work/*" element={<Work />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Page>
+                </Suspense>
+              </TransitionImgProvider>
             </ScrollProvider>
           </QueryProvider>
         </AccessibilityProvider>

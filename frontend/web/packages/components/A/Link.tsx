@@ -1,8 +1,10 @@
-import { Link as L, LinkProps } from 'react-router-dom';
+import { Link as L, LinkProps, useNavigate } from 'react-router-dom';
 import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 import { memo } from 'react';
+import { flushSync } from 'react-dom';
+import { useTransitionImg } from '../TransitionImg';
 
 const LBase = css`
   text-decoration: none;
@@ -18,34 +20,57 @@ const L2 = styled(L)`
   ${commoncss.focus}
 `;
 
-const L2Wrapper = memo(
-  ({
-    onClick,
-    onKeyPress,
-    ...rest
-  }: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
-    const { pageRef } = useScroll();
+type LinkPropsAdjusted = Omit<LinkProps & React.RefAttributes<HTMLAnchorElement> & { to: string }, 'viewTransition'> & {
+  viewTransition?: true | (() => void);
+};
 
-    const scrollPageToTop = (): void => {
-      if (pageRef && pageRef.current) {
-        pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    };
+const cv = (viewTransition: true | (() => void)) => {
+  if (typeof viewTransition === 'boolean') {
+    return;
+  }
+  viewTransition();
+};
 
-    const onClickHandler: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
-      onClick?.(e);
+const L2Wrapper = memo(({ onClick, onKeyDown, viewTransition, to, ...rest }: LinkPropsAdjusted): React.JSX.Element => {
+  const { pageRef } = useScroll();
+  const navigate = useNavigate();
+  const { setTransitioning } = useTransitionImg();
+
+  const scrollPageToTop = (): void => {
+    if (pageRef && pageRef.current) {
+      pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const onClickHandler: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    if (viewTransition && document.startViewTransition) {
+      e.preventDefault();
+      document.startViewTransition(() => {
+        cv(viewTransition);
+        setTransitioning(true);
+        navigate(to);
+      });
+    }
+    onClick?.(e);
+    scrollPageToTop();
+  };
+  const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
+    if (viewTransition && document.startViewTransition) {
+      e.preventDefault();
+      document.startViewTransition(() => {
+        cv(viewTransition);
+        setTransitioning(true);
+        navigate(to);
+      });
+    }
+    onKeyDown?.(e);
+    if (e.key === 'Enter') {
       scrollPageToTop();
-    };
-    const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
-      onKeyPress?.(e);
-      if (e.key === 'Enter') {
-        scrollPageToTop();
-      }
-    };
+    }
+  };
 
-    return <L2 onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
-  },
-);
+  return <L2 onClick={onClickHandler} onKeyDown={onKeyPressHandler} to={to} {...rest} />;
+});
 
 const StyledLinkCSS = css`
   ${LBase}
@@ -65,12 +90,10 @@ const StyledLinkBase = styled(L)`
 `;
 
 const StyledLinkWrapper = memo(
-  ({
-    onClick,
-    onKeyPress,
-    ...rest
-  }: Omit<LinkProps & React.RefAttributes<HTMLAnchorElement>, 'ref'>): React.JSX.Element => {
+  ({ onClick, onKeyDown, viewTransition, to, ...rest }: LinkPropsAdjusted): React.JSX.Element => {
     const { pageRef } = useScroll();
+    const navigate = useNavigate();
+    const { setTransitioning } = useTransitionImg();
 
     const scrollPageToTop = (): void => {
       if (pageRef && pageRef.current) {
@@ -79,17 +102,33 @@ const StyledLinkWrapper = memo(
     };
 
     const onClickHandler: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+      if (viewTransition) {
+        e.preventDefault();
+        document.startViewTransition(() => {
+          cv(viewTransition);
+          setTransitioning(true);
+          navigate(to);
+        });
+      }
       onClick?.(e);
       scrollPageToTop();
     };
     const onKeyPressHandler: React.KeyboardEventHandler<HTMLAnchorElement> = (e) => {
-      onKeyPress?.(e);
+      if (viewTransition) {
+        e.preventDefault();
+        document.startViewTransition(() => {
+          cv(viewTransition);
+          setTransitioning(true);
+          navigate(to);
+        });
+      }
+      onKeyDown?.(e);
       if (e.key === 'Enter') {
         scrollPageToTop();
       }
     };
 
-    return <StyledLinkBase onClick={onClickHandler} onKeyPress={onKeyPressHandler} {...rest} />;
+    return <StyledLinkBase onClick={onClickHandler} onKeyDown={onKeyPressHandler} to={to} {...rest} />;
   },
 );
 
