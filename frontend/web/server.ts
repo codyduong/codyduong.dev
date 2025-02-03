@@ -127,6 +127,10 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
     updateDescription: (description: string) => {
       headValue.description = description;
     },
+    favicon: '/favicon.ico',
+    updateFavicon: (favicon: string) => {
+      headValue.favicon = favicon;
+    },
   };
 
   const abortController = new AbortController();
@@ -169,6 +173,7 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
 
   const title = headValue.title;
   const description = headValue.description;
+  const favicon = headValue.favicon;
   if (headValue.title.startsWith('Not Found')) {
     res.status(404);
   } else {
@@ -179,6 +184,7 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
   head = head.replace(
     '<!--app-meta-->',
     `<title>${title}</title>
+  <link rel="icon" type="image/svg+xml" href="${favicon}" />
   <meta property="description" content="${description}" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="${title.replace(/\s*\|\s*Cody Duong$/, '')}" />

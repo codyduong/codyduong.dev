@@ -10,7 +10,7 @@ const ProjectLink = styled(Link)`
   height: 20rem;
   border: 1px solid ${({ theme }) => theme.color.surface[300]};
   border-radius: 1rem;
-  flex: 1 0 39ch;
+  flex: 1 1 39ch;
   overflow: hidden;
   display: flex;
   flex-flow: column nowrap;
@@ -29,22 +29,22 @@ const Thumbnail = styled.figure`
   display: flex;
   flex-flow: column nowrap;
   @media screen and (min-width: ${breakpoints.lg}) and (max-width: ${breakpoints.xl}) {
-    flex: 1 0 12rem;
+    flex: 1 1 12rem;
   }
   @media screen and (min-width: ${breakpoints.xl}) and (max-width: 1369px) {
-    flex: 1 0 14rem;
+    flex: 1 1 14rem;
   }
 `;
 
 const ThumbnailImg = styled.img`
-  flex: 1 0 10rem;
+  flex: 1 1 10rem;
   height: 10rem;
   @media screen and (min-width: ${breakpoints.lg}) and (max-width: ${breakpoints.xl}) {
-    flex: 1 0 12rem;
+    flex: 1 1 12rem;
     height: 12rem;
   }
   @media screen and (min-width: ${breakpoints.xl}) and (max-width: 1369px) {
-    flex: 1 0 14rem;
+    flex: 1 1 14rem;
     height: 14rem;
   }
   object-fit: cover;

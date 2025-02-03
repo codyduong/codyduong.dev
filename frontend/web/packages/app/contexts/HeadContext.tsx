@@ -5,6 +5,8 @@ export type HeadValue = {
   updateTitle: (title: string) => void;
   description: string;
   updateDescription: (description: string) => void;
+  favicon: string;
+  updateFavicon: (favicon: string) => void;
 };
 
 const defaultValue = {
@@ -12,6 +14,8 @@ const defaultValue = {
   updateTitle: () => {},
   description: '',
   updateDescription: () => {},
+  favicon: '',
+  updateFavicon: () => {},
 } as const satisfies HeadValue;
 
 const HeadContext = createContext<HeadValue>(defaultValue);
@@ -25,6 +29,7 @@ export const HeadProvider = ({
 }): React.JSX.Element => {
   const [t, setT] = useState(value.title);
   const [d, setD] = useState(value.description);
+  const [f, setF] = useState(value.favicon);
 
   const updateTitle = useCallback(
     (title: string) => {
@@ -42,6 +47,14 @@ export const HeadProvider = ({
     [value],
   );
 
+  const updateFavicon = useCallback(
+    (favicon: string) => {
+      value.updateFavicon(favicon);
+      setF(favicon);
+    },
+    [value],
+  );
+
   return (
     <HeadContext
       value={{
@@ -49,6 +62,8 @@ export const HeadProvider = ({
         updateTitle,
         description: d,
         updateDescription,
+        favicon: f,
+        updateFavicon,
       }}
     >
       {children}

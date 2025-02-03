@@ -9,6 +9,7 @@ import { ScrollProvider } from './contexts/ScrollContext';
 import { QueryProvider } from './contexts/UrlSearchParamsContext';
 import { HeadProvider, HeadValue } from './contexts/HeadContext';
 import { TransitionImgProvider } from 'packages/components/TransitionImg';
+import Valentines from 'packages/pages/Valentines';
 
 const Home = React.lazy(() => import('packages/pages/Home/Home'));
 
@@ -47,18 +48,26 @@ export default function App({ serverQuery, headValue }: AppProps) {
               <TransitionImgProvider>
                 <Bypass />
                 <Suspense>
-                  <Page hasFooter>
-                    <Routes>
-                      <Route path="" element={<Home />} />
-                      <Route path="/" element={<Home />} />
-                      <Route path="/home" element={<Home />} />
-                      <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
-                      <Route path="/playground" element={<Construction3D />} />
-                      <Route path="/projects/*" element={<Projects />} />
-                      <Route path="/work/*" element={<Work />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Page>
+                  <Routes>
+                    <Route path="valentines" element={<Valentines />} />
+                    <Route
+                      path="*"
+                      element={
+                        <Page hasFooter>
+                          <Routes>
+                            <Route path="" element={<Home />} />
+                            <Route path="/" element={<Home />} />
+                            <Route path="/home" element={<Home />} />
+                            <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
+                            <Route path="/playground" element={<Construction3D />} />
+                            <Route path="/projects/*" element={<Projects />} />
+                            <Route path="/work/*" element={<Work />} />
+                            <Route path="*" element={<NotFound />} />
+                          </Routes>
+                        </Page>
+                      }
+                    />
+                  </Routes>
                 </Suspense>
               </TransitionImgProvider>
             </ScrollProvider>

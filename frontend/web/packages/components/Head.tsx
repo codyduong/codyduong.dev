@@ -3,17 +3,20 @@ import { useHead } from 'packages/app/contexts/HeadContext';
 interface HeadProps {
   title: string;
   description?: string;
+  override?: boolean;
+  favicon?: string;
 }
 
 const Head = (props: HeadProps): null => {
-  const { title, description = "Cody Duong's personal website" } = props;
-  const newTitle = title === '' ? 'Not Found | Cody Duong' : title + ' | Cody Duong';
+  const { title, description = "Cody Duong's personal website", override = false, favicon } = props;
+  const newTitle = title === '' ? 'Not Found | Cody Duong' : title + (override ? '' : ' | Cody Duong');
 
-  const { updateTitle, updateDescription } = useHead();
+  const { updateTitle, updateDescription, updateFavicon } = useHead();
 
   if (import.meta.env.SSR) {
     updateTitle(newTitle);
     updateDescription(description);
+    if (favicon) updateFavicon(favicon);
   }
 
   if (!import.meta.env.SSR) {
