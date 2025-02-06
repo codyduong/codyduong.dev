@@ -210,8 +210,8 @@ const Home = (): React.JSX.Element => {
               View fun interactive demos at my <Link.Styled to="/playground">playground</Link.Styled>.
             </T.P3>
             <T.P3>
-              My primary focuses are in frontend web development have been in data vizualizations (especially 3D and
-              geospatial vizualizations). I am a huge advocate for web accessibility and have done{' '}
+              My primary focuses are in frontend web development have been in data visualizations (especially 3D and
+              geospatial visualizations). I am a huge advocate for web accessibility and have done{' '}
               <abbr title="accessibility" translate="no" lang="en">
                 a11y
               </abbr>{' '}
