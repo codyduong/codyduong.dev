@@ -417,7 +417,7 @@ const Navbar = (): React.JSX.Element => {
             </Name>
             <NavbarListCenter>
               <NavLink
-                to="playground"
+                to="/playground"
                 onClick={() => {
                   setOpen(false);
                 }}
@@ -425,7 +425,7 @@ const Navbar = (): React.JSX.Element => {
                 playground
               </NavLink>
               <NavLink
-                to="projects"
+                to="/projects"
                 onClick={() => {
                   setOpen(false);
                 }}
@@ -434,7 +434,7 @@ const Navbar = (): React.JSX.Element => {
               </NavLink>
               <NavDiv aria-hidden>|</NavDiv>
               <NavLink
-                to="work"
+                to="/work"
                 onClick={() => {
                   setOpen(false);
                 }}
