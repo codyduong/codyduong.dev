@@ -43,13 +43,14 @@ const LinksWrapper = styled.div`
   margin-bottom: 100px;
 `;
 
-const LinksLink = styled(A)`
+const LinksLink = styled(A)<{ hoverbg?: string }>`
   text-decoration: none;
   text-align: center;
   display: flex;
   align-items: center;
   gap: 1rem;
   cursor: pointer;
+  background-color: ${(props) => props.hoverbg ?? undefined};
 
   svg {
     width: 2rem;
@@ -76,6 +77,7 @@ export const LINKS = [
     to: 'https://github.com/codyduong',
     icon: GitHubIcon,
     hoverColor: '#333333',
+    hoverbg: '#ffffff',
   },
   {
     label: 'cody-duong',
@@ -115,6 +117,7 @@ const GenerateLinks = (): React.ReactNode => {
         href={L.to}
         target={'_blank'}
         hoverColor={typeof L.hoverColor === 'function' ? L.hoverColor(theme) : L.hoverColor}
+        hoverbg={(L as unknown as Record<string, string>).hoverbg}
       >
         <L.icon aria-label={`${L['aria-label']}`} />
         <span>{L.label}</span>

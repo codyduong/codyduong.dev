@@ -12,6 +12,7 @@ import PythonSvg from './python.svg?react';
 import MySQLSvg from './mysql-icon.svg?react';
 import NodeJSSvg from './Nodejs.svg?react';
 import RustSvg from './Rust.svg?react';
+// import ReactNativeSvg from './reactnative.svg?react';
 
 const Badge = styled.li`
   list-style-type: none;
@@ -37,6 +38,13 @@ export const ReactBadge = memo(() => (
   <Badge translate="no" lang="en">
     <ReactSvg aria-hidden />
     React
+  </Badge>
+));
+
+export const ReactNative = memo(() => (
+  <Badge translate="no" lang="en">
+    <ReactSvg aria-hidden />
+    React Native
   </Badge>
 ));
 

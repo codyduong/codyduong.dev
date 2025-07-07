@@ -50,7 +50,7 @@ const LinksWrapper = styled.ul`
   flex-grow: 1;
 `;
 
-const LinkSVG = styled(A)<{ hovercolor: string }>`
+const LinkSVG = styled(A)<{ hovercolor: string; hoverbg?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,6 +65,7 @@ const LinkSVG = styled(A)<{ hovercolor: string }>`
   }
 
   &:hover {
+    background-color: ${(props) => props.hoverbg};
     svg {
       fill: ${(props) => props.hovercolor};
     }
@@ -136,6 +137,7 @@ const Footer = (): React.JSX.Element => {
                 <LinkSVG
                   aria-label={`${L['aria-label']}`}
                   hovercolor={typeof L.hoverColor === 'function' ? L.hoverColor(theme) : L.hoverColor}
+                  hoverbg={(L as unknown as Record<string, string>).hoverbg}
                   href={L.to}
                 >
                   <L.icon aria-label={`${L['aria-label']}`} />

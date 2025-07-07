@@ -44,7 +44,7 @@ const BypassDiv = styled.div`
  * WCAG 2.4.1
  * A mechanism is available to bypass blocks of content that are repeated on multiple Web pages.
  */
-const Bypass = (): React.JSX.Element | null => {
+const Bypass = (): React.JSX.Element => {
   const { pageRef: mainContent } = useScroll();
 
   const focus = useCallback(() => {

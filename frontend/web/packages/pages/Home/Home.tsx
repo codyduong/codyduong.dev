@@ -21,6 +21,7 @@ import {
   NodeJS,
   ReactBadge,
   Rust,
+  ReactNative,
 } from 'packages/components/Badges';
 import Project from 'packages/components/Project';
 
@@ -109,7 +110,8 @@ const Ol = styled.ol`
       position: absolute;
       top: 0px;
       left: -24px;
-      border: solid ${({ theme }) => theme.color.surface[300]} 1px;
+      border: 0;
+      /* border: solid ${({ theme }) => theme.color.surface[300]} 1px; */
       border-radius: 50%;
       width: 48px;
       height: 48px;
@@ -210,8 +212,7 @@ const Home = (): React.JSX.Element => {
               View fun interactive demos at my <Link.Styled to="/playground">playground</Link.Styled>.
             </T.P3>
             <T.P3>
-              My primary focuses are in frontend web development have been in data visualizations (especially 3D and
-              geospatial visualizations). I am a huge advocate for web accessibility and have done{' '}
+              My primary focus is in frontend web development. I am a huge advocate for web accessibility and have done{' '}
               <abbr title="accessibility" translate="no" lang="en">
                 a11y
               </abbr>{' '}
@@ -219,8 +220,7 @@ const Home = (): React.JSX.Element => {
               <abbr title="internationalization" translate="no" lang="en">
                 i18n
               </abbr>{' '}
-              work. I can do backend work as needed, and could spin up microservices and intepret API docs, but prefer
-              not to.
+              work.
             </T.P3>
             <T.P3>
               I am an active contributor to the{' '}
@@ -262,13 +262,36 @@ const Home = (): React.JSX.Element => {
                 </Link.Styled>
               </li> */}
             </ul>
+            <T.P3>Outside of my professional and OSS work, I'm an avid cyclist and develop games in my free-time.</T.P3>
           </Section>
           <Section>
             <T.Heading.H2>Work</T.Heading.H2>
             <Ol>
               <li>
-                <Link to="/work/quest-analytics" aria-labelledby="quest-analytics">
-                  <img src="/quest.jpg" width="56" alt="Quest Analytics Logo" />
+                <Link to="/work/caesars-entertainment" aria-labelledby="caesars-entertainment">
+                  <img src="/caesars_entertainment.jpg" width="50" alt="Caesars Entertainment Inc Logo" />
+                </Link>
+                <Subtitle>
+                  <time dateTime="2025-07">July 2025</time> - Present
+                </Subtitle>
+                <T.H3 id="quest-analytics" translate="no">
+                  Caesars Entertainment
+                </T.H3>
+                <Subtitle>React Native Analyst</Subtitle>
+                <Techs aria-label="Technologies">
+                  <Typescript />
+                  <ReactNative />
+                  <CSharp />
+                  <DotNet />
+                </Techs>
+              </li>
+              <li>
+                <Link
+                  to="/work/quest-analytics"
+                  aria-labelledby="quest-analytics"
+                  style={{ borderBottomRightRadius: '8px', clipPath: 'inset(0px 0px 3px 0 round 0px)' }}
+                >
+                  <img src="/quest.jpg" width="80" alt="Quest Analytics Logo" />
                 </Link>
                 <Subtitle>
                   <time dateTime="2023-06">Jun 2023</time> - <time dateTime="2024-12">Dec 2024</time>
@@ -295,7 +318,7 @@ const Home = (): React.JSX.Element => {
                 <T.H3 id="agi" translate="no" lang="en">
                   AGI Digital
                 </T.H3>
-                <Subtitle>Software Engineering Intern</Subtitle>
+                <Subtitle>Engineering Intern</Subtitle>
                 <Techs aria-label="Technologies">
                   <Typescript />
                   <React />

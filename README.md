@@ -2,7 +2,7 @@
 
 This is my monorepo for codyduong.dev
 
-## Technical Details:
+## Technical Details
 
 * frontend/web
   * [Vite](https://vite.dev/) SSR w/ [React](https://react.dev/) and [Million.js](https://github.com/aidenybai/million)
@@ -18,6 +18,15 @@ This is my monorepo for codyduong.dev
   * google cloud - artifactregistry (docker)
     * google cloud - cloudrun
     * google iam
+
+## Deployment
+
+```sh
+cd frontend/web
+docker build -t web Dockerfile .
+cd ../..
+pulumi up --logtostderr -v=9
+```
 
 <!--
 
