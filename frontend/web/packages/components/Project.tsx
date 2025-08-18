@@ -146,7 +146,7 @@ const Project = (props: ProjectProps): React.JSX.Element => {
         </Thumbnail>
       )}
       <Inset>
-        <T.H4>{title}</T.H4>
+        <T.H4 as="h3">{title}</T.H4>
         <Desc>
           {desc}
           {/* <Link.Styled to="/projects" aria-label={`Read more about ${title}`}></Link.Styled> */}

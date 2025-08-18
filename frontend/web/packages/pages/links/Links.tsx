@@ -94,9 +94,9 @@ export const LINKS = [
     hoverColor: '#f48024',
   },
   {
-    label: 'cody.qd@gmail.com',
+    label: 'contact@codyduong.dev',
     'aria-label': 'email',
-    to: 'mailto:cody.qd@gmail.com',
+    to: 'mailto:contact@codyduong.dev',
     icon: EmailIcon,
     hoverColor: (theme: Theme) => theme.color.base[300],
   },

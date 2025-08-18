@@ -299,7 +299,7 @@ const Home = (): React.JSX.Element => {
                   to="/work/caesars-entertainment"
                   aria-labelledby="caesars-entertainment"
                 >
-                  <img src="/caesars_entertainment.jpg" width="50" alt="Caesars Entertainment Inc. Logo" />
+                  <img src="/caesars_entertainment-200.jpg" width="50" alt="Caesars Entertainment Inc. Logo" />
                 </Link>
                 <T.H3 id="caesars-entertainment" translate="no">
                   <Link to="/work/caesars-entertainment">Caesars Entertainment</Link>
@@ -324,7 +324,7 @@ const Home = (): React.JSX.Element => {
                   aria-labelledby="quest-analytics"
                   style={{ borderBottomRightRadius: '8px', clipPath: 'inset(0px 0px 3px 0 round 0px)' }}
                 >
-                  <img src="/quest.jpg" width="80" alt="Quest Analytics Logo" />
+                  <img src="/quest-200.jpg" width="80" alt="Quest Analytics Logo" />
                 </Link>
                 <T.H3 id="quest-analytics" translate="no">
                   <Link to="/work/quest-analytics">Quest Analytics</Link>
@@ -343,7 +343,7 @@ const Home = (): React.JSX.Element => {
               </li>
               <li>
                 <Link tabIndex={-1} aria-hidden className="aimg" to="/work/agi" aria-labelledby="agi">
-                  <img src="/agi.jpg" width="56" alt="AGI Digital Logo" />
+                  <img src="/agi-200.jpg" width="56" alt="AGI Digital Logo" />
                 </Link>
                 <T.H3 id="agi" translate="no" lang="en">
                   <Link to="/work/agi">AGI Digital</Link>
@@ -389,7 +389,7 @@ const Home = (): React.JSX.Element => {
             <Ol>
               <li>
                 <Link tabIndex={-1} aria-hidden className="aimg" to="https://www.ku.edu/" aria-labelledby="ku">
-                  <img src="/KULogo.jpg" width="50" alt="University of Kansas Logo" />
+                  <img src="/KULogo-100.jpg" width="50" alt="University of Kansas Logo" />
                 </Link>
                 <T.H3 id="ku" translate="no">
                   <Link to="https://www.ku.edu/">University of Kansas</Link>
@@ -411,7 +411,7 @@ const Home = (): React.JSX.Element => {
             <Projects>
               <Project
                 to={'https://codyduong.github.io/hitokage/'}
-                thumbnail={'/hitokage.png'}
+                thumbnail={'/hitokage.webp'}
                 alt={'Hitokage documentation website'}
                 title={
                   <>
@@ -432,7 +432,7 @@ const Home = (): React.JSX.Element => {
               />
               <Project
                 to={'https://devpost.com/software/mapsy'}
-                thumbnail={'/mapsy.jpg'}
+                thumbnail={'/mapsy.webp'}
                 alt={'Mapsy website'}
                 title={<>mapsy</>}
                 bannerText={

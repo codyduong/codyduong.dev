@@ -67,6 +67,7 @@ const Scene = styled.div`
   height: 100%;
   width: 100%;
   z-index: -50;
+  background-color: #FF9898;
 `;
 
 const Valentines = (): JSX.Element => {

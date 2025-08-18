@@ -7,3 +7,6 @@ config:
   codyduongweb:memory: 512Mi
   gcp:region: us-central1
   gcp:project: "codyduongweb"
+  codyduongweb:billingAccount: "015E81-198438-B10BE2"
+  codyduongweb:appId: "1:1088691113730:web:ec1162cb794f3c626b3c1b"
+  codyduongweb:siteId: "codyduongweb"

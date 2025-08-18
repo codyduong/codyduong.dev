@@ -1,12 +1,10 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
-import * as random from "@pulumi/random";
 import * as fs from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
 import * as command from "@pulumi/command";
-import { fileURLToPath } from "node:url";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -16,43 +14,42 @@ const containerPort = config.requireNumber("containerPort");
 const cpu = config.requireNumber("cpu");
 const memory = config.require("memory");
 const concurrency = config.requireNumber("concurrency");
+const billingAccount = config.require("billingAccount");
+const appId = config.require("appId");
+const siteId = config.require("siteId");
 
 // Import the provider's configuration settings.
 const gcpConfig = new pulumi.Config("gcp");
 const location = gcpConfig.require("region");
 const project = gcpConfig.require("project");
 
-// Generate a unique Artifact Registry repository ID
-const uniqueString = new random.RandomString("unique-string", {
-  length: 4,
-  lower: true,
-  upper: false,
-  numeric: true,
-  special: false,
-});
-let repoId = uniqueString.result.apply((result) => "repo-" + result);
+const gcpProject = new gcp.organizations.Project("default", {
+  projectId: project,
+  name: project,
+  billingAccount,
+  labels: {
+    firebase: "enabled",
+  },
+  autoCreateNetwork: true,
+  deletionPolicy: "PREVENT",
+}, {protect: true})
+const firebaseProject = new gcp.firebase.Project("default", {
+  project: gcpProject.projectId
+}, {protect: true})
 
 // Create an Artifact Registry repository
 const repository =
-  (await gcp.artifactregistry
-    .getRepository({
-      location,
-      repositoryId: "docker",
-    })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      console.log(`Failed to find repository with error:\n${err}\ncreating...`);
-      return undefined;
-    })) ??
-  new gcp.artifactregistry.Repository("docker", {
+  new gcp.artifactregistry.Repository("default", {
     project,
     description: undefined,
-    format: "Docker",
+    cleanupPolicyDryRun: true,
+    format: "DOCKER",
     location: location,
     repositoryId: "docker",
-  });
+    dockerConfig: {
+      immutableTags: false,
+    }
+  }, {protect: true});
 
 // Form the repository URL
 let repoUrl = pulumi.concat(location, "-docker.pkg.dev/", project, "/", repository.repositoryId);
@@ -188,30 +185,98 @@ function hashDirectories(dirs: readonly string[] | string[]): string {
 
 const directoryHash: string = hashDirectories(directories);
 
-const deploy = new command.local.Command(
-  `Firebase Deploy: ${directoryHash}`,
-  {
-    create: pulumi.runtime.isDryRun()
-      ? pulumi.interpolate`echo "[Preview] Skipping firebase deploy for hash: ${directoryHash}"`
-      : pulumi.interpolate`firebase deploy --project ${project} --only hosting --message "${directoryHash}"`,
-    environment: {
-      // FIREBASE_AUTH_TOKEN: firebaseToken,
-      GOOGLE_APPLICATION_CREDENTIALS: path.resolve(
-        fileURLToPath(import.meta.url),
-        "/application_default_credentials.json",
-      ),
-    },
-    dir: appPath,
-    triggers: [image],
-  },
-  {
-    dependsOn: [image, service, invoker],
-  },
-);
+/**
+ * https://firebase.google.com/docs/hosting/manage-hosting-resources
+ */
 
-// Deploy the new hosting configuration
-// const hostingRelease = new gcp.firebase.HostingRelease(`version-${directoryHash}`, {
-//   siteId: site.name,
-//   versionName: hostingConfig.name,
-//   type: "DEPLOY",
-// });
+// const versionBuild = new command.local.Command(
+//   `Website Build: ${directoryHash}`,
+//   {
+//     create: pulumi.runtime.excessiveDebugOutput
+//       ? pulumi.interpolate`bun run build:client -d`
+//       : pulumi.interpolate`bun run build:client`,
+//     dir: appPath,
+//     triggers: [image],
+//   },
+// )
+const site = new gcp.firebase.HostingSite("default", {
+  project,
+  appId,
+  siteId,
+}, {protect: true})
+const hostingVersion = new gcp.firebase.HostingVersion("default", {
+  siteId,
+  config: {
+    // public: "./frontend/web/dist/client",
+    // ignore: [
+    //   "firebase.json",
+    //   "**/.*",
+    //   "**/node_modules/**",
+    //   "**/index.html"
+    // ],
+    rewrites: 
+      [
+        {
+          glob: "**",
+          run: {
+            serviceId: service.name,
+            region: service.location,
+          }
+        }
+      ]
+  },
+}, {dependsOn: [site]})
+const customDomain1 = new gcp.firebase.HostingCustomDomain("codyduong.com", {
+  certPreference: "GROUPED",
+  project,
+  siteId,
+  customDomain: "codyduong.com",
+  redirectTarget: "codyduong.dev",
+}, {protect: true, dependsOn: site})
+const customDomain2 = new gcp.firebase.HostingCustomDomain("www.codyduong.com", {
+  certPreference: "GROUPED",
+  project,
+  siteId,
+  customDomain: "www.codyduong.com",
+  redirectTarget: "codyduong.dev",
+}, {protect: true, dependsOn: site})
+const customDomain3 = new gcp.firebase.HostingCustomDomain("codyduong.dev", {
+  certPreference: "GROUPED",
+  project,
+  siteId,
+  customDomain: "codyduong.dev",
+}, {protect: true, dependsOn: site})
+const customDomain4 = new gcp.firebase.HostingCustomDomain("www.codyduong.dev", {
+  certPreference: "GROUPED",
+  project,
+  siteId,
+  customDomain: "www.codyduong.dev",
+  redirectTarget: "codyduong.dev",
+}, {protect: true, dependsOn: site})
+const hostingRelease = new gcp.firebase.HostingRelease("default", {
+  siteId,
+  versionName: hostingVersion.name,
+  message: directoryHash,
+}, {dependsOn: [image, hostingVersion, customDomain1, customDomain2, customDomain3, customDomain4]})
+
+
+// const deploy = new command.local.Command(
+//   `Firebase Deploy: ${directoryHash}`,
+//   {
+//     create: pulumi.runtime.isDryRun()
+//       ? pulumi.interpolate`echo "[Preview] Skipping firebase deploy for hash: ${directoryHash}"`
+//       : pulumi.interpolate`firebase deploy --project ${project} --only hosting --message "${directoryHash}"`,
+//     environment: {
+//       // FIREBASE_AUTH_TOKEN: firebaseToken,
+//       GOOGLE_APPLICATION_CREDENTIALS: path.resolve(
+//         fileURLToPath(import.meta.url),
+//         "/application_default_credentials.json",
+//       ),
+//     },
+//     dir: appPath,
+//     triggers: [image],
+//   },
+//   {
+//     dependsOn: [image, service, invoker],
+//   },
+// );
