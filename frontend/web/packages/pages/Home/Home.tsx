@@ -22,6 +22,7 @@ import {
   ReactBadge,
   Rust,
   ReactNative,
+  Jest,
 } from 'packages/components/Badges';
 import Project from 'packages/components/Project';
 
@@ -101,12 +102,17 @@ const Ol = styled.ol`
   padding-top: 12px;
   padding-left: 1rem;
   margin-left: 0.5rem;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0;
   & > li {
     position: relative;
     list-style-type: none;
     padding: 0 0 2rem 2.5rem;
     border-left: solid ${({ theme }) => theme.color.surface[300]} 1px;
-    & > a {
+    flex-grow: 1;
+    flex-shrink: 1;
+    .aimg {
       position: absolute;
       top: 0px;
       left: -24px;
@@ -127,8 +133,15 @@ const Ol = styled.ol`
 `;
 
 const Subtitle = styled(T.Span3)`
-  color: ${({ theme }) => theme.color.text[400]};
+  /* color: ${({ theme }) => theme.color.text[300]}; */ //fails contrast
+  color: #606060;
   display: block;
+`;
+
+const JobTitle = styled(T.H4)`
+  ${T.H6.css}
+  font-weight: 400;
+  line-height: 1.5rem;
 `;
 
 const Techs = styled.ul`
@@ -171,6 +184,8 @@ const getAge = () => {
 const Home = (): React.JSX.Element => {
   const ageRef = useRef<HTMLSpanElement>(null);
 
+  // const [relativeScaling, setRelativeScaling] = useState(false);
+
   useEffect(() => {
     if (!import.meta.env.SSR) {
       const timer = setInterval(() => {
@@ -203,14 +218,22 @@ const Home = (): React.JSX.Element => {
             </T.P2>
             <T.P3>
               a{' '}
-              <Age ref={ageRef} role="timer" aria-atomic translate="no" lang="en" suppressHydrationWarning>
+              <Age
+                ref={ageRef}
+                role="timer"
+                aria-live="off"
+                aria-atomic
+                translate="no"
+                lang="en"
+                suppressHydrationWarning
+              >
                 {getAge()}
               </Age>{' '}
               year-old software developer from Kansas.
             </T.P3>
-            <T.P3>
+            {/* <T.P3>
               View fun interactive demos at my <Link.Styled to="/playground">playground</Link.Styled>.
-            </T.P3>
+            </T.P3> */}
             <T.P3>
               My primary focus is in frontend web development. I am a huge advocate for web accessibility and have done{' '}
               <abbr title="accessibility" translate="no" lang="en">
@@ -265,19 +288,26 @@ const Home = (): React.JSX.Element => {
             <T.P3>Outside of my professional and OSS work, I'm an avid cyclist and develop games in my free-time.</T.P3>
           </Section>
           <Section>
-            <T.Heading.H2>Work</T.Heading.H2>
+            <T.Heading.H2 id="work">Work</T.Heading.H2>
+            {/* <Switch label={'Relative Scaling'} checked={relativeScaling} setChecked={setRelativeScaling} /> */}
             <Ol>
               <li>
-                <Link to="/work/caesars-entertainment" aria-labelledby="caesars-entertainment">
-                  <img src="/caesars_entertainment.jpg" width="50" alt="Caesars Entertainment Inc Logo" />
+                <Link
+                  tabIndex={-1}
+                  aria-hidden
+                  className="aimg"
+                  to="/work/caesars-entertainment"
+                  aria-labelledby="caesars-entertainment"
+                >
+                  <img src="/caesars_entertainment.jpg" width="50" alt="Caesars Entertainment Inc. Logo" />
                 </Link>
+                <T.H3 id="caesars-entertainment" translate="no">
+                  <Link to="/work/caesars-entertainment">Caesars Entertainment</Link>
+                </T.H3>
+                <JobTitle>React Native Analyst</JobTitle>
                 <Subtitle>
                   <time dateTime="2025-07">July 2025</time> - Present
                 </Subtitle>
-                <T.H3 id="quest-analytics" translate="no">
-                  Caesars Entertainment
-                </T.H3>
-                <Subtitle>React Native Analyst</Subtitle>
                 <Techs aria-label="Technologies">
                   <Typescript />
                   <ReactNative />
@@ -287,19 +317,22 @@ const Home = (): React.JSX.Element => {
               </li>
               <li>
                 <Link
+                  tabIndex={-1}
+                  aria-hidden
+                  className="aimg"
                   to="/work/quest-analytics"
                   aria-labelledby="quest-analytics"
                   style={{ borderBottomRightRadius: '8px', clipPath: 'inset(0px 0px 3px 0 round 0px)' }}
                 >
                   <img src="/quest.jpg" width="80" alt="Quest Analytics Logo" />
                 </Link>
+                <T.H3 id="quest-analytics" translate="no">
+                  <Link to="/work/quest-analytics">Quest Analytics</Link>
+                </T.H3>
+                <JobTitle>Software Engineering Intern</JobTitle>
                 <Subtitle>
                   <time dateTime="2023-06">Jun 2023</time> - <time dateTime="2024-12">Dec 2024</time>
                 </Subtitle>
-                <T.H3 id="quest-analytics" translate="no">
-                  Quest Analytics
-                </T.H3>
-                <Subtitle>Software Engineering Intern</Subtitle>
                 <Techs aria-label="Technologies">
                   <Typescript />
                   <React />
@@ -309,25 +342,29 @@ const Home = (): React.JSX.Element => {
                 </Techs>
               </li>
               <li>
-                <Link to="/work/agi" aria-labelledby="agi">
+                <Link tabIndex={-1} aria-hidden className="aimg" to="/work/agi" aria-labelledby="agi">
                   <img src="/agi.jpg" width="56" alt="AGI Digital Logo" />
                 </Link>
-                <Subtitle>
-                  <time dateTime="2021-05">May 2021</time> - <time dateTime="2023-06">Jun 2023</time>
-                </Subtitle>
                 <T.H3 id="agi" translate="no" lang="en">
-                  AGI Digital
+                  <Link to="/work/agi">AGI Digital</Link>
                 </T.H3>
-                <Subtitle>Engineering Intern</Subtitle>
+                <JobTitle>Engineering Intern</JobTitle>
+                <Subtitle>
+                  <time dateTime="2022-05">May 2022</time> - <time dateTime="2023-06">Jun 2023</time>
+                </Subtitle>
+                <br></br>
+                <JobTitle>Engineering Intern</JobTitle>
+                <Subtitle>
+                  <time dateTime="2021-05">May 2021</time> - <time dateTime="2021-08">August 2021</time>
+                </Subtitle>
                 <Techs aria-label="Technologies">
                   <Typescript />
                   <React />
                   <Cypress />
-                  {/* <Jest /> */}
+                  <Jest />
                   <NodeJS />
                   <Php />
                   <Python />
-                  {/* <Badge>Django</Badge> */}
                   <MySQL />
                 </Techs>
               </li>
@@ -348,11 +385,34 @@ const Home = (): React.JSX.Element => {
             </Ol>
           </Section>
           <Section>
-            <T.Heading.H2>Projects</T.Heading.H2>
+            <T.Heading.H2>Education</T.Heading.H2>
+            <Ol>
+              <li>
+                <Link tabIndex={-1} aria-hidden className="aimg" to="https://www.ku.edu/" aria-labelledby="ku">
+                  <img src="/KULogo.jpg" width="50" alt="University of Kansas Logo" />
+                </Link>
+                <T.H3 id="ku" translate="no">
+                  <Link to="https://www.ku.edu/">University of Kansas</Link>
+                </T.H3>
+                <JobTitle>
+                  <Link to="/education/ku">
+                    <abbr title={"Bachelor's of Science"}>B.Sc.</abbr> in Computer Science
+                  </Link>
+                </JobTitle>
+                <Subtitle>
+                  <time dateTime="2021-08">August 2021</time> - <time dateTime="2025-05">May 2025</time>
+                </Subtitle>
+              </li>
+            </Ol>
+          </Section>
+          <Section>
+            <T.Heading.H2 id="projects">Projects</T.Heading.H2>
             <br></br>
             <Projects>
               <Project
-                to={'/projects/hitokage'}
+                to={'https://codyduong.github.io/hitokage/'}
+                thumbnail={'/hitokage.png'}
+                alt={'Hitokage documentation website'}
                 title={
                   <>
                     hitokage{' '}
@@ -361,7 +421,9 @@ const Home = (): React.JSX.Element => {
                     </span>{' '}
                   </>
                 }
-                desc="hitokage is a configurable status bar for Windows implemented in Rust using the relm4 GUI library."
+                desc={
+                  'hitokage is a configurable status bar for Windows implemented in Rust using the relm4 GUI library.'
+                }
                 badges={
                   <Techs2>
                     <Rust />
@@ -369,9 +431,15 @@ const Home = (): React.JSX.Element => {
                 }
               />
               <Project
-                to={'/projects/mapsy'}
-                thumbnail="/mapsy.jpg"
+                to={'https://devpost.com/software/mapsy'}
+                thumbnail={'/mapsy.jpg'}
+                alt={'Mapsy website'}
                 title={<>mapsy</>}
+                bannerText={
+                  <>
+                    HackKU 2021<br></br>Runner-Up
+                  </>
+                }
                 desc={'Mapsy makes it easier to view the current status of road conditions through CCTV cameras.'}
                 badges={
                   <Techs2>

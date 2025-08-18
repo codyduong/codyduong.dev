@@ -63,9 +63,9 @@ const NavbarMenuComponent = styled.menu`
   }
 
   &.close {
-    & > ${MenuItem} {
+    /* & > ${MenuItem} {
       box-shadow: inset 100vw 0 5rem 0 ${({ theme }) => theme.color.surface[400]};
-    }
+    } */
   }
 
   & {
@@ -151,6 +151,7 @@ type StyledLinkComponentProps = Parameters<typeof StyledLink>[0] & {
 const StyledLinkComponent = (props: StyledLinkComponentProps): React.JSX.Element => {
   const { to, children, className, open, setOpen, ...rest } = props;
   const location = useLocation().pathname.split('/');
+  // @ts-expect-error: wha
   const toString = (typeof to == 'string' ? to : to.pathname) ?? '';
 
   const cn = classNames(className, 'navbar-link', {

@@ -416,7 +416,7 @@ const Navbar = (): React.JSX.Element => {
               codyduong
             </Name>
             <NavbarListCenter>
-              <NavLink
+              {/* <NavLink
                 to="/playground"
                 onClick={() => {
                   setOpen(false);
@@ -432,6 +432,14 @@ const Navbar = (): React.JSX.Element => {
               >
                 projects
               </NavLink>
+              <NavLink
+                to="/blog"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                blog
+              </NavLink>
               <NavDiv aria-hidden>|</NavDiv>
               <NavLink
                 to="/work"
@@ -440,7 +448,7 @@ const Navbar = (): React.JSX.Element => {
                 }}
               >
                 work
-              </NavLink>
+              </NavLink> */}
             </NavbarListCenter>
             <NavbarListRight>
               {/* <NavbarListItem>
@@ -469,7 +477,7 @@ const Navbar = (): React.JSX.Element => {
                   <VisibilityOutlinedIcon />
                 </NavButtonBase>
               </NavbarListItem>
-              <HamburgerItem>
+              {/* <HamburgerItem>
                 <HamburgerButton
                   ref={menuButton}
                   id="nav-hamburger-button"
@@ -480,14 +488,14 @@ const Navbar = (): React.JSX.Element => {
                   aria-haspopup="menu"
                   aria-controls="nav-hamburger-list"
                 >
-                  {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
+                  {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> 
                   <MenuIcon className={hamburgerClassname('close')} aria-labelledby="nav-hamburger-button" />
                   <MenuOpenIcon className={hamburgerClassname('open')} aria-labelledby="nav-hamburger-button" />
                 </HamburgerButton>
-              </HamburgerItem>
+              </HamburgerItem> */}
             </NavbarListRight>
           </NavInner>
-          <NavbarMenu open={open} setOpen={setOpen} menuButton={menuButton} />
+          {/* <NavbarMenu open={open} setOpen={setOpen} menuButton={menuButton} /> */}
           <TrapFocus
             tabIndex={open ? 0 : -1}
             onFocus={() => {
@@ -496,7 +504,7 @@ const Navbar = (): React.JSX.Element => {
           />
         </Nav>
         <AccessibleSettingsModal open={accessibility} setOpen={setAccessibility} />
-        <Banner
+        {/* <Banner
           ref={bannerRef}
           className={bannerClassname}
           aria-hidden={!disableInteractionAnimations && (scrolledPastThreshold || open)}
@@ -522,7 +530,7 @@ const Navbar = (): React.JSX.Element => {
               - Cody
             </span>
           </BannerInfo>
-        </Banner>
+        </Banner> */}
       </Header>
       {/* reserve space for header */}
       {/* <PsuedoBanner

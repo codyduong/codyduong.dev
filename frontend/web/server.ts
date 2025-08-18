@@ -61,6 +61,8 @@ async function initializeMiddlewares() {
   return vite;
 }
 
+const isRedirect = (status: number) => [301, 308, 302, 303, 307, 300, 304].includes(status);
+
 /**
  * @param {import('express').Request} req
  * @param {import('express').Response} res
@@ -131,6 +133,14 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
     updateFavicon: (favicon: string) => {
       headValue.favicon = favicon;
     },
+    status: undefined,
+    updateStatus: (status: number) => {
+      headValue.status = status;
+    },
+    redirect: '/',
+    updateRedirect: (uri: string) => {
+      headValue.redirect = uri;
+    },
   };
 
   const abortController = new AbortController();
@@ -174,10 +184,16 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
   const title = headValue.title;
   const description = headValue.description;
   const favicon = headValue.favicon;
+  const status = headValue.status;
   if (headValue.title.startsWith('Not Found')) {
-    res.status(404);
+    res.status(status ?? 404);
   } else {
-    res.status(didError ? 500 : 200);
+    res.status(status ?? (didError ? 500 : 200));
+  }
+  if (status && isRedirect(status)) {
+    res.set('location', headValue.redirect);
+    // send immediately
+    res.send();
   }
 
   // https://ogp.me/

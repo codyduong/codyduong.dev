@@ -23,7 +23,7 @@ This is my monorepo for codyduong.dev
 
 ```sh
 cd frontend/web
-docker build -t web Dockerfile .
+docker build -t web .
 cd ../..
 pulumi up --logtostderr -v=9
 ```

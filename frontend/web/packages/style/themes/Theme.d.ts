@@ -7,11 +7,29 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     readonly color: {
       readonly text: {
+        /**
+         * @default '#ffffff'
+         */
         readonly 100: string;
+        /**
+         * @default '#bababa'
+         */
         readonly 200: string;
+        /**
+         * @default '#808080'
+         */
         readonly 300: string;
+        /**
+         * @default '#404040'
+         */
         readonly 400: string;
+        /**
+         * @default '#1b1b1b'
+         */
         readonly 500: string;
+        /**
+         * @default '#0a0a0a'
+         */
         readonly 600: string;
       };
       readonly surface: {

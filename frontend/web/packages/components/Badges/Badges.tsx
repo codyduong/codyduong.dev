@@ -5,7 +5,7 @@ import ReactSvg from './React.svg?react';
 import CSharpSvg from './CSharp.svg?react';
 import DotNetSvg from './dotnet.svg?react';
 import TransactSqlSvg from './icons8-microsoft-sql-server-48.svg?react';
-// import JestSvg from './Jest.svg?react';
+import JestSvg from './Jest.svg?react';
 import CypressSvg from './cypress.svg?react';
 import PhpSvg from './php.svg?react';
 import PythonSvg from './python.svg?react';
@@ -15,16 +15,20 @@ import RustSvg from './Rust.svg?react';
 // import ReactNativeSvg from './reactnative.svg?react';
 
 const Badge = styled.li`
+  box-sizing: border-box;
   list-style-type: none;
   display: flex;
   align-items: center;
   gap: 0.25rem;
   width: fit-content;
-  height: 1rem;
-  padding: 0.25rem 0.6rem;
+  height: 1.25rem;
+  padding: 0rem 0.5rem;
   border-radius: 1rem;
   border: solid ${({ theme }) => theme.color.surface[300]} 1px;
   font-size: calc(${(props) => props.theme.spacing.rem[87.5]});
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Typescript = memo(() => (
@@ -69,12 +73,12 @@ export const TSql = memo(() => (
   </Badge>
 ));
 
-// export const Jest = memo(() => (
-//   <Badge>
-//     <JestSvg aria-hidden />
-//     Jest
-//   </Badge>
-// ));
+export const Jest = memo(() => (
+  <Badge>
+    <JestSvg aria-hidden />
+    Jest
+  </Badge>
+));
 
 export const Cypress = memo(() => (
   <Badge translate="no" lang="en">

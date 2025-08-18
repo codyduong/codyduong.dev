@@ -95,10 +95,16 @@ const image = new dockerbuild.Image(
 );
 
 // Create a Cloud Run service definition.
+// # https://cloud.google.com/run/docs/reference/yaml/v1
 const service = new gcp.cloudrunv2.Service("web", {
   location,
   name: "web",
   template: {
+    annotations: {
+      "run.googleapis.com/startup-cpu-boost": 'false',
+      "run.googleapis.com/cpu-throttling": 'true',
+    },
+    sessionAffinity: true,
     containers: [
       {
         image: image.ref,
@@ -137,7 +143,7 @@ const service = new gcp.cloudrunv2.Service("web", {
     scaling: {
       minInstanceCount: 0,
       maxInstanceCount: 5,
-    }
+    },
   },
 });
 

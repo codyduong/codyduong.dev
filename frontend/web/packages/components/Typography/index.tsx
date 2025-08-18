@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 const HeadingCss = css`
   font-family: 'Overpass';
   /* font-style: italic; */
-  font-weight: 800;
+  font-weight: 600;
   margin: 0 0;
   color: ${(props) => props.theme.color.text[500]};
 

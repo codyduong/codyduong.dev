@@ -148,13 +148,13 @@ const Footer = (): React.JSX.Element => {
           <FooterGroupWrapper>
             <div>
               <FooterGroup>
-                <FooterHeader aria-description="Quick navigation links">Navigate</FooterHeader>
+                {/* <FooterHeader aria-description="Quick navigation links">Navigate</FooterHeader>
                 <ul>
                   <FooterLink to="/">Home</FooterLink>
                   <FooterLink to="/playground">Playground</FooterLink>
                   <FooterLink to="/projects">Projects</FooterLink>
                   <FooterLink to="/work">Work</FooterLink>
-                </ul>
+                </ul> */}
               </FooterGroup>
             </div>
             <div>
