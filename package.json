@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@pulumi/command": "^1.0.1",
-        "@pulumi/docker-build": "^0.0.6",
+        "@pulumi/docker": "^4.8.0",
         "@pulumi/gcp": "^8.40.0",
         "@pulumi/pulumi": "^3.113.0",
         "@pulumi/random": "^4.0.0"

@@ -442,6 +442,14 @@
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 
+"@pulumi/docker@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@pulumi/docker/-/docker-4.8.0.tgz#a32659b99eea378a873a9d3e11a481c842a3b01e"
+  integrity sha512-R1jDAokbz71VbljF6TJ4yNA4Tp1Gd+ISgIQmrcsUf/gNCP1hoA7putyTIta5q0zzy83aPeeeySYwx54iOfHrvQ==
+  dependencies:
+    "@pulumi/pulumi" "^3.142.0"
+    semver "^5.4.0"
+
 "@pulumi/gcp@^8.40.0":
   version "8.40.0"
   resolved "https://registry.yarnpkg.com/@pulumi/gcp/-/gcp-8.40.0.tgz#37b0cc7922c7a44988620fc2d652f53e76bee7d0"
@@ -1879,6 +1887,11 @@ retry@^0.12.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
+
+semver@^5.4.0:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.2.tgz#48d55db737c3287cd4835e17fa13feace1c41ef8"
+  integrity sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==
 
 semver@^7.1.1, semver@^7.3.5, semver@^7.3.7, semver@^7.5.2, semver@^7.5.3:
   version "7.6.3"

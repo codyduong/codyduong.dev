@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
+import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
-import * as dockerbuild from "@pulumi/docker-build";
 import * as random from "@pulumi/random";
 import * as fs from "fs";
 import * as path from "path";
@@ -61,31 +61,17 @@ const tagName = pulumi.concat(repoUrl, "/", imageName, ":latest");
 // Create a container image for the service.
 // Before running `pulumi up`, configure Docker for authentication to Artifact Registry
 // as described here: https://cloud.google.com/artifact-registry/docs/docker/authentication
-const image = new dockerbuild.Image(
+const image = new docker.Image(
   "web",
   {
-    tags: [tagName],
-    context: {
-      location: appPath,
-    },
-    // Cloud Run currently requires x86_64 images
-    // https://cloud.google.com/run/docs/container-contract#languages
-    platforms: ["linux/amd64"],
-    // cacheTo: [
-    //   {
-    //     registry: {
-    //       ref: tagName,
-    //     },
-    //   },
-    // ],
-    // cacheFrom: [
-    //   {
-    //     registry: {
-    //       ref: tagName,
-    //     },
-    //   },
-    // ],
-    push: true,
+    imageName: tagName,
+    build: {
+      builderVersion: "BuilderBuildKit",
+      context: appPath,
+      dockerfile: `${appPath}\\Dockerfile`,
+      // https://cloud.google.com/run/docs/container-contract#languages
+      platform: "linux/amd64",
+    }
   },
   {
     customTimeouts: {
@@ -107,7 +93,7 @@ const service = new gcp.cloudrunv2.Service("web", {
     sessionAffinity: true,
     containers: [
       {
-        image: image.ref,
+        image: image.imageName,
         resources: {
           limits: {
             memory,
