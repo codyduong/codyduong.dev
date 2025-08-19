@@ -24,7 +24,8 @@ const KUDiploma = React.lazy(() => import('packages/pages/Education/KU'));
 
 const WebAccessibilityStatement = React.lazy(() => import('packages/pages/WebAccessibilityStatement'));
 
-// const Construction3D = React.lazy(() => import('packages/components/3D/Construction3D'));
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Construction3D = React.lazy(() => import('packages/components/3D/Construction3D'));
 
 const NotFound = React.lazy(() => import('packages/pages/404'));
 
