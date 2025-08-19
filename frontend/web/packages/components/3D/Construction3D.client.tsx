@@ -8,7 +8,7 @@ import { OrbitControls } from '@react-three/drei';
 import { Physics, usePlane, useCompoundBody, CompoundBodyProps } from '@react-three/cannon';
 import { A11yAnnouncer, A11ySection } from '@react-three/a11y';
 import { MTLLoader, OBJLoader } from 'three/examples/jsm/Addons.js';
-import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
+import { useSearchParams } from 'react-router-dom';
 
 const Plane = ({ e }: { e: typeof editable }): React.JSX.Element => {
   const [rotation, position]: [[number, number, number], [number, number, number]] = [
@@ -52,7 +52,7 @@ const Cone = ({ cone, shapes, primitiveProps }: ConeProps): React.JSX.Element =>
 };
 
 const Construction3DClient = memo((): React.JSX.Element => {
-  const query = useUrlSearchParams();
+  const [query] = useSearchParams();
   const theatre = query.has('theatrejs');
 
   const coneMaterial = useLoader(MTLLoader, '/3d/cone/materials.mtl');

@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { Detailed, Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Physics, usePlane } from '@react-three/cannon';
-import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
+import { useSearchParams } from 'react-router-dom';
 
 // adapted from the r3f bananas
 
@@ -72,6 +72,8 @@ const Heart = memo(({ index, z, speed, e }: any) => {
       {/* <mesh geometry={nodesB.banana_high.geometry} material={materialsB.skin} material-emissive="#ff9f00" scale={0.5} /> */}
       <e.mesh
         theatreKey={`heart_${index}`}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         geometry={nodes['Heart_Full'].geometry}
         material={materials.red}
         scale={100}
@@ -87,7 +89,7 @@ interface HeartSceneProps {
 }
 
 const HeartScene = ({ count }: HeartSceneProps): React.JSX.Element => {
-  const query = useUrlSearchParams();
+  const [query] = useSearchParams();
   const theatre = query.has('theatrejs');
   const depth = 80;
   const speed = 1;

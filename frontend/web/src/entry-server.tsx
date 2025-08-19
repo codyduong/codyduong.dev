@@ -15,15 +15,13 @@ export function render(
   headValue: HeadValue,
   options?: RenderToReadableStreamOptions,
 ) {
-  const url = new URL(urlString, 'https://codyduong.dev');
-
   return renderToReadableStream(
     sheet.collectStyles(
       <StrictMode>
         <CacheProvider value={emotionCache}>
           <ChunkCollectorContext collector={collector}>
             <StaticRouter location={`/${urlString}`}>
-              <App serverQuery={url.searchParams} headValue={headValue} />
+              <App headValue={headValue} />
             </StaticRouter>
           </ChunkCollectorContext>
         </CacheProvider>

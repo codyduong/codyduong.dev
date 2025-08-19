@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import { Debug } from '@react-three/cannon';
 import type { ThreeElements } from '@react-three/fiber';
 import { DebugProvider } from '@react-three/cannon/dist/debug-provider';
-import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
 import { getProject } from '@theatre/core';
 import { SheetProvider } from '@theatre/r3f';
+import { useSearchParams } from 'react-router-dom';
 
 /**
  * Mock editable for production
@@ -38,7 +38,7 @@ const editableMock: {
  * show it only if thearejs is in the query params
  */
 let initialized = false;
-async function showStudioOnQuery(query: ReturnType<typeof useUrlSearchParams>): Promise<void> {
+async function showStudioOnQuery(query: URLSearchParams): Promise<void> {
   if (process.env.NODE_ENV === 'development') {
     const { default: studio } = await import('@theatre/studio');
 
@@ -55,7 +55,7 @@ async function showStudioOnQuery(query: ReturnType<typeof useUrlSearchParams>): 
 }
 
 export function RunOnThreeDev<T extends () => R, R>(toRun: T): R | null {
-  return useUrlSearchParams().has('3D_DEBUG') ? toRun() : null;
+  return useSearchParams()[0].has('3D_DEBUG') ? toRun() : null;
 }
 
 export function RenderOnThreeDev({
@@ -64,7 +64,7 @@ export function RenderOnThreeDev({
 }: { children?: React.ReactNode } & {
   DebugComponent: (...args: Parameters<typeof DebugProvider>) => React.JSX.Element;
 }): React.JSX.Element {
-  return useUrlSearchParams().get('3D_DEBUG') ? <DebugComponent {...rest} /> : <>{rest.children}</>;
+  return useSearchParams()[0].get('3D_DEBUG') ? <DebugComponent {...rest} /> : <>{rest.children}</>;
 }
 
 export function PhysicsDebug(props: Parameters<typeof DebugProvider>[0]): React.JSX.Element {
@@ -82,7 +82,7 @@ export const Theatre = ({
   sheetArgs,
   render,
 }: TheatreProps): React.JSX.Element | null => {
-  const query = useUrlSearchParams();
+  const [query] = useSearchParams();
   useEffect(() => {
     showStudioOnQuery(query);
   }, [query]);

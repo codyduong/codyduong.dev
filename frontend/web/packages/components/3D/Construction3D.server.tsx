@@ -1,8 +1,8 @@
 import { Typography } from 'packages/components/Typography';
 import styled from 'styled-components';
-import { useUrlSearchParams } from 'packages/app/contexts/UrlSearchParamsContext';
 import { ClientOnly } from '../ClientOnly';
 import Head from '../Head';
+import { useSearchParams } from 'react-router-dom';
 
 const CanvasSection = styled.section`
   position: static;
@@ -36,7 +36,7 @@ const UnderConstructionSection = styled.section`
 `;
 
 export default function Construction3DServer(): React.JSX.Element {
-  const query = useUrlSearchParams();
+  const [query] = useSearchParams();
   const theatre = query.has('theatrejs');
 
   return (

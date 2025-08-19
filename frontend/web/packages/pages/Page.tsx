@@ -2,7 +2,7 @@ import Navbar from 'packages/components/Navbar';
 import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
-import { Suspense, useCallback, useEffect } from 'react';
+import React, { Suspense, use, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const PageDiv = styled.div`
@@ -36,6 +36,10 @@ const PageContent = styled.main`
     padding: 1rem 7.5rem;
   } */
 `;
+
+function Fallback(): React.JSX.Element {
+  throw new Error('you have an unhandled suspense buddy');
+}
 
 interface PageProps {
   children: React.ReactNode | null;
@@ -75,8 +79,8 @@ export default function Page({ children, hasFooter = false }: PageProps): React.
   return (
     <PageDiv tabIndex={-1}>
       <Navbar />
-      <PageContent ref={pageRef} tabIndex={-1}>
-        <Suspense>
+      <PageContent ref={pageRef} tabIndex={-1} id="page-content">
+        <Suspense fallback={<Fallback />}>
           {children}
           {hasFooter && <Footer />}
         </Suspense>

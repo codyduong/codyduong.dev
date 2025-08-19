@@ -41,7 +41,7 @@ export default defineConfig({
     ...plugins,
     // million.vite({
     //   auto: true,
-    //   server: false,
+    //   server: true,
     // }),
   ],
   build: {
