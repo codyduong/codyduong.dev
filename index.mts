@@ -1,12 +1,10 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as docker from "@pulumi/docker";
 import * as docker_build from "@pulumi/docker-build";
 import * as gcp from "@pulumi/gcp";
-import * as fs from "fs";
 import * as path from "path";
-import * as crypto from "crypto";
 import * as command from "@pulumi/command";
 import { fileURLToPath } from "url";
+import { version } from './frontend/web/package.json'
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -184,44 +182,22 @@ const invoker = new gcp.cloudrun.IamMember("invoker", {
 //   },
 // });
 
-const directories = [appPath] as const;
-
-function hashDirectories(dirs: readonly string[] | string[]): string {
-  const hash = crypto.createHash("sha256");
-
-  for (const dir of dirs) {
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-      const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
-
-      if (stat.isFile()) {
-        const content = fs.readFileSync(filePath);
-        hash.update(content);
-      } else if (stat.isDirectory()) {
-        hash.update(hashDirectories([filePath]));
-      }
-    }
-  }
-
-  return hash.digest("hex");
-}
-
-const directoryHash: string = hashDirectories(directories);
-
 /**
  * https://firebase.google.com/docs/hosting/manage-hosting-resources
  */
 
+const now = new Date();
+const timestamp = now.toISOString().replace(/[-:.]/g, "");
+const versionIdentifer = `${version}-${timestamp}`
+
 const versionBuild = new command.local.Command(
-  `Website Build: ${directoryHash}`,
+  `Website Build: ${versionIdentifer}`,
   {
     create: pulumi.runtime.excessiveDebugOutput
       ? pulumi.interpolate`bun run build:client -d`
       : pulumi.interpolate`bun run build:client`,
     dir: appPath,
     triggers: [image],
-    
   },
 )
 // const cpCmd = `cp -r ${appPath}/dist/client ./public`
@@ -293,11 +269,11 @@ const customDomain4 = new gcp.firebase.HostingCustomDomain("www.codyduong.dev", 
 //   message: directoryHash,
 // }, {dependsOn: [image, hostingVersion, customDomain1, customDomain2, customDomain3, customDomain4]})
 const deploy = new command.local.Command(
-  `Firebase Deploy: ${directoryHash}`,
+  `Firebase Deploy: ${versionIdentifer}`,
   {
     create: pulumi.runtime.isDryRun()
-      ? pulumi.interpolate`echo "[Preview] Skipping firebase deploy for hash: ${directoryHash}"`
-      : pulumi.interpolate`firebase deploy --project ${project} --only hosting --message "${directoryHash}"`,
+      ? pulumi.interpolate`echo "[Preview] Skipping firebase deploy for hash: ${versionIdentifer}"`
+      : pulumi.interpolate`firebase deploy --project ${project} --only hosting --message "${versionIdentifer}"`,
     environment: {
       // FIREBASE_AUTH_TOKEN: firebaseToken,
       GOOGLE_APPLICATION_CREDENTIALS: path.resolve(
