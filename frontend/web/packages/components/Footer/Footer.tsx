@@ -157,14 +157,14 @@ const Footer = (): React.JSX.Element => {
                 </ul> */}
               </FooterGroup>
             </div>
-            <div>
+            {/* <div>
               <FooterGroup>
                 <FooterHeader aria-description="Important">Links</FooterHeader>
                 <ul>
                   <FooterLink to="/web-accessibility-statement">Accessibility Statement</FooterLink>
                 </ul>
               </FooterGroup>
-            </div>
+            </div> */}
           </FooterGroupWrapper>
         </FooterWrapper>
       </FooterTop>

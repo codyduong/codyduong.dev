@@ -67,7 +67,7 @@ export const DEFAULT = {
       200: '',
       300: '',
       400: '',
-      500: '',
+      500: '#d7bc32',
     },
     destructive: {
       100: '#eea3a3',

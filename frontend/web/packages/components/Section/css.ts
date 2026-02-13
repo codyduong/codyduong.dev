@@ -3,8 +3,8 @@ import { css } from 'styled-components';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const cssWidth: any = css<{ maxWidth?: string | false }>`
-  max-width: ${({ maxWidth }) =>
-    typeof maxWidth === 'undefined' ? '600px' : typeof maxWidth === 'string' ? maxWidth : 'unset'};
+  /* max-width: ${({ maxWidth }) =>
+    typeof maxWidth === 'undefined' ? '600px' : typeof maxWidth === 'string' ? maxWidth : 'unset'}; */
 
   ${() =>
     commoncss.animation({
@@ -29,6 +29,11 @@ export const cssWidth: any = css<{ maxWidth?: string | false }>`
         }
       `,
     })}
+
+  max-width: 80ch;
+  @media only screen and (min-width: ${breakpoints.md}) {
+    max-width: min(60vw, 80ch);
+  }
 `;
 
 export const Css = css`

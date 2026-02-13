@@ -2,7 +2,7 @@ import Navbar from 'packages/components/Navbar';
 import Footer from 'packages/components/Footer';
 import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
-import React, { Suspense, use, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { Suspense, useCallback, useEffect } from 'react';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 
 const PageDiv = styled.div`

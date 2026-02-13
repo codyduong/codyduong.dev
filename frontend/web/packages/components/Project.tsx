@@ -91,7 +91,7 @@ const Banner = styled.span`
   text-align: center;
   transform-origin: center;
   /* transform: rotate(-45deg); */
-  background-color: ${({ theme }) => theme.color.base[400]};
+  background-color: ${({ theme }) => theme.color.warning[500]};
   box-shadow: 0px 1px 4px ${({ theme }) => theme.color.surface[400]};
   border-radius: 0 0 1rem 0;
 `;

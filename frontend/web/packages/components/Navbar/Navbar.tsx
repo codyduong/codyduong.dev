@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import T from 'packages/components/Typography';
 import styled, { css } from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -415,7 +416,7 @@ const Navbar = (): React.JSX.Element => {
             >
               codyduong
             </Name>
-            <NavbarListCenter>
+            <NavbarListCenter aria-hidden>
               {/* <NavLink
                 to="/playground"
                 onClick={() => {
@@ -450,7 +451,7 @@ const Navbar = (): React.JSX.Element => {
                 work
               </NavLink> */}
             </NavbarListCenter>
-            <NavbarListRight>
+            <NavbarListRight aria-hidden>
               {/* <NavbarListItem>
             <SettingsButton
               id="nav-settings-button"
@@ -458,13 +459,13 @@ const Navbar = (): React.JSX.Element => {
                 setSettings(!settings);
               }}
               aria-label={`${settings ? 'Close' : 'Open'} Settings`}
-              aria-haspopup="dialog"
+            aria-haspopup="dialog"
               aria-controls="modal-settings"
             >
               <SettingsIcon />
             </SettingsButton>
           </NavbarListItem> */}
-              <NavbarListItem>
+              {/* <NavbarListItem>
                 <NavButtonBase
                   id="nav-accessibility-button"
                   onClick={() => {
@@ -476,7 +477,7 @@ const Navbar = (): React.JSX.Element => {
                 >
                   <VisibilityOutlinedIcon />
                 </NavButtonBase>
-              </NavbarListItem>
+              </NavbarListItem> */}
               {/* <HamburgerItem>
                 <HamburgerButton
                   ref={menuButton}
@@ -503,7 +504,7 @@ const Navbar = (): React.JSX.Element => {
             }}
           />
         </Nav>
-        <AccessibleSettingsModal open={accessibility} setOpen={setAccessibility} />
+        {/* <AccessibleSettingsModal open={accessibility} setOpen={setAccessibility} /> */}
         {/* <Banner
           ref={bannerRef}
           className={bannerClassname}

@@ -235,15 +235,16 @@ const Home = (): React.JSX.Element => {
               View fun interactive demos at my <Link.Styled to="/playground">playground</Link.Styled>.
             </T.P3> */}
             <T.P3>
-              My primary focus is in frontend web development. I am a huge advocate for web accessibility and have done{' '}
-              <abbr title="accessibility" translate="no" lang="en">
-                a11y
-              </abbr>{' '}
-              and{' '}
+              I craft experiences on all platforms, from web to native devices (iOS, Android or desktop). I have worked
+              in agriculture, healthcare, and hospitality technology spaces.
+            </T.P3>
+            <T.P3>
+              My personal interests in the software engineering space include software correctness/validation, type
+              systems (in particular TypeScript's type system), accessibility, and{' '}
               <abbr title="internationalization" translate="no" lang="en">
                 i18n
-              </abbr>{' '}
-              work.
+              </abbr>
+              .
             </T.P3>
             <T.P3>
               I am an active contributor to the{' '}
@@ -285,7 +286,9 @@ const Home = (): React.JSX.Element => {
                 </Link.Styled>
               </li> */}
             </ul>
-            <T.P3>Outside of my professional and OSS work, I'm an avid cyclist and develop games in my free-time.</T.P3>
+            <T.P3>
+              Outside of my professional and OSS work, I'm an avid cyclist and develop video games in my free-time.
+            </T.P3>
           </Section>
           <Section>
             <T.Heading.H2 id="work">Work</T.Heading.H2>
@@ -296,13 +299,15 @@ const Home = (): React.JSX.Element => {
                   tabIndex={-1}
                   aria-hidden
                   className="aimg"
-                  to="/work/caesars-entertainment"
+                  to="https://www.caesars.com/"
                   aria-labelledby="caesars-entertainment"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   <img src="/caesars_entertainment-200.jpg" width="50" alt="Caesars Entertainment Inc. Logo" />
                 </Link>
                 <T.H3 id="caesars-entertainment" translate="no">
-                  <Link to="/work/caesars-entertainment">Caesars Entertainment</Link>
+                  <Link to="https://www.caesars.com/">Caesars Entertainment</Link>
                 </T.H3>
                 <JobTitle>React Native Analyst</JobTitle>
                 <Subtitle>
@@ -311,8 +316,7 @@ const Home = (): React.JSX.Element => {
                 <Techs aria-label="Technologies">
                   <Typescript />
                   <ReactNative />
-                  <CSharp />
-                  <DotNet />
+                  <NodeJS />
                 </Techs>
               </li>
               <li>
@@ -320,16 +324,18 @@ const Home = (): React.JSX.Element => {
                   tabIndex={-1}
                   aria-hidden
                   className="aimg"
-                  to="/work/quest-analytics"
+                  to="https://questanalytics.com/"
                   aria-labelledby="quest-analytics"
                   style={{ borderBottomRightRadius: '8px', clipPath: 'inset(0px 0px 3px 0 round 0px)' }}
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   <img src="/quest-200.jpg" width="80" alt="Quest Analytics Logo" />
                 </Link>
                 <T.H3 id="quest-analytics" translate="no">
-                  <Link to="/work/quest-analytics">Quest Analytics</Link>
+                  <Link to="https://questanalytics.com/">Quest Analytics</Link>
                 </T.H3>
-                <JobTitle>Software Engineering Intern</JobTitle>
+                <JobTitle>Fullstack Software Engineer</JobTitle>
                 <Subtitle>
                   <time dateTime="2023-06">Jun 2023</time> - <time dateTime="2024-12">Dec 2024</time>
                 </Subtitle>
@@ -342,13 +348,27 @@ const Home = (): React.JSX.Element => {
                 </Techs>
               </li>
               <li>
-                <Link tabIndex={-1} aria-hidden className="aimg" to="/work/agi" aria-labelledby="agi">
+                <Link
+                  tabIndex={-1}
+                  aria-hidden
+                  className="aimg"
+                  to="https://www.aggrowth.com/en-us/farm-brands-overview/Bin-Monitoring/binmanager"
+                  aria-labelledby="agi"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img src="/agi-200.jpg" width="56" alt="AGI Digital Logo" />
                 </Link>
                 <T.H3 id="agi" translate="no" lang="en">
-                  <Link to="/work/agi">AGI Digital</Link>
+                  <Link to="https://www.aggrowth.com/en-us/farm-brands-overview/Bin-Monitoring/binmanager">
+                    AGI Digital
+                  </Link>
                 </T.H3>
-                <JobTitle>Engineering Intern</JobTitle>
+                <JobTitle>Engineer</JobTitle>
+                <Subtitle>
+                  <time dateTime="2022-05">May 2022</time> - <time dateTime="2021-05">May 2021</time>
+                </Subtitle>
+                {/* <JobTitle>Engineering Intern</JobTitle>
                 <Subtitle>
                   <time dateTime="2022-05">May 2022</time> - <time dateTime="2023-06">Jun 2023</time>
                 </Subtitle>
@@ -356,7 +376,7 @@ const Home = (): React.JSX.Element => {
                 <JobTitle>Engineering Intern</JobTitle>
                 <Subtitle>
                   <time dateTime="2021-05">May 2021</time> - <time dateTime="2021-08">August 2021</time>
-                </Subtitle>
+                </Subtitle> */}
                 <Techs aria-label="Technologies">
                   <Typescript />
                   <React />
@@ -364,7 +384,7 @@ const Home = (): React.JSX.Element => {
                   <Jest />
                   <NodeJS />
                   <Php />
-                  <Python />
+                  {/* <Python /> */}
                   <MySQL />
                 </Techs>
               </li>
@@ -395,7 +415,7 @@ const Home = (): React.JSX.Element => {
                   <Link to="https://www.ku.edu/">University of Kansas</Link>
                 </T.H3>
                 <JobTitle>
-                  <Link to="/education/ku">
+                  <Link to="https://www.ku.edu/">
                     <abbr title={"Bachelor's of Science"}>B.Sc.</abbr> in Computer Science
                   </Link>
                 </JobTitle>
