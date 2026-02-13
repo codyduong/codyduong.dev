@@ -616,10 +616,10 @@
     "@pulumi/pulumi" "^3.142.0"
     semver "^5.4.0"
 
-"@pulumi/gcp@^8.40.0":
-  version "8.40.0"
-  resolved "https://registry.yarnpkg.com/@pulumi/gcp/-/gcp-8.40.0.tgz#37b0cc7922c7a44988620fc2d652f53e76bee7d0"
-  integrity sha512-R/jdHmRlHRvQ8Tt/2wSdagec6qFXsQnKpyXrrv8D79bbIBzyXDF9NOdnUz6u1NOXwbh12ObouF2Yt1t70WchHg==
+"@pulumi/gcp@^9.11.0":
+  version "9.11.0"
+  resolved "https://registry.yarnpkg.com/@pulumi/gcp/-/gcp-9.11.0.tgz#c496151754beda7a7a751e7b771390b1f415e5bb"
+  integrity sha512-PMjKbpeKTeNIAzZf8nCF2MPlUinMtGfRUaG2E6ktAgiP7CNApebQ1+ThifExCYwJ3Uer9j7FA0ukd2x9yFoSmA==
   dependencies:
     "@npmcli/package-json" "^6.2.0"
     "@pulumi/pulumi" "^3.142.0"

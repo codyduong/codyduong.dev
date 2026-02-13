@@ -4,7 +4,7 @@ import * as gcp from "@pulumi/gcp";
 import * as path from "path";
 import * as command from "@pulumi/command";
 import { fileURLToPath } from "url";
-import { version } from './frontend/web/package.json'
+import pkg from './frontend/web/package.json' with { type: 'json' };
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -188,6 +188,7 @@ const invoker = new gcp.cloudrun.IamMember("invoker", {
 
 const now = new Date();
 const timestamp = now.toISOString().replace(/[-:.]/g, "");
+const version = pkg.version;
 const versionIdentifer = `${version}-${timestamp}`
 
 const versionBuild = new command.local.Command(
@@ -263,11 +264,13 @@ const customDomain4 = new gcp.firebase.HostingCustomDomain("www.codyduong.dev", 
   customDomain: "www.codyduong.dev",
   redirectTarget: "codyduong.dev",
 }, {protect: true, dependsOn: site})
+
 // const hostingRelease = new gcp.firebase.HostingRelease("default", {
 //   siteId,
 //   versionName: hostingVersion.name,
 //   message: directoryHash,
 // }, {dependsOn: [image, hostingVersion, customDomain1, customDomain2, customDomain3, customDomain4]})
+
 const deploy = new command.local.Command(
   `Firebase Deploy: ${versionIdentifer}`,
   {

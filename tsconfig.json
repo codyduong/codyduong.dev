@@ -12,6 +12,7 @@
         "noImplicitReturns": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
     },
     "files": [
         "index.mts"
