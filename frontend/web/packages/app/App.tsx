@@ -48,7 +48,7 @@ export default function App({ headValue }: AppProps) {
                 <Bypass />
                 <Suspense>
                   <Routes>
-                    <Route path="valentines" element={<Valentines />} />
+                    {/* <Route path="valentines" element={<Valentines />} /> */}
                     <Route
                       path="*"
                       element={
