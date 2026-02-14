@@ -201,7 +201,7 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
     '<!--app-meta-->',
     `<title>${title}</title>
   <link rel="icon" type="image/svg+xml" href="${favicon}" />
-  <meta property="description" content="${description}" />
+  <meta name="description" content="${description}" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="${title.replace(/\s*\|\s*Cody Duong$/, '')}" />
   <meta property="og:site_name" content="Cody Duong" />
