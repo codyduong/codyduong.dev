@@ -33,6 +33,7 @@ const gcpProject = new gcp.organizations.Project("default", {
   autoCreateNetwork: true,
   deletionPolicy: "PREVENT",
 }, {protect: true})
+
 const firebaseProject = new gcp.firebase.Project("default", {
   project: gcpProject.projectId
 }, {protect: true})
@@ -50,9 +51,6 @@ const repository =
       immutableTags: false,
     }
   }, {protect: true});
-
-const today = new Date()
-const todayString = `${today.getUTCFullYear()}-${today.getUTCMonth()}-${today.getUTCDate()}`
 
 // Form the repository URL
 let repoUrl = pulumi.concat(location, "-docker.pkg.dev/", project, "/", repository.repositoryId);
@@ -201,6 +199,7 @@ const versionBuild = new command.local.Command(
     triggers: [image],
   },
 )
+
 // const cpCmd = `cp -r ${appPath}/dist/client ./public`
 // const cpBuild = new command.local.Command(
 //   cpCmd,
@@ -210,11 +209,13 @@ const versionBuild = new command.local.Command(
 //     triggers: [versionBuild]
 //   }
 // )
+
 const site = new gcp.firebase.HostingSite("default", {
   project,
   appId,
   siteId,
 }, {protect: true})
+
 // const hostingVersion = new gcp.firebase.HostingVersion("default", {
 //   siteId,
 //   config: {
@@ -236,7 +237,8 @@ const site = new gcp.firebase.HostingSite("default", {
 //         }
 //       ]
 //   },
-// }, {dependsOn: [site, cpBuild]})
+// }, {dependsOn: [site]})
+
 const customDomain1 = new gcp.firebase.HostingCustomDomain("codyduong.com", {
   certPreference: "GROUPED",
   project,
@@ -265,11 +267,24 @@ const customDomain4 = new gcp.firebase.HostingCustomDomain("www.codyduong.dev", 
   redirectTarget: "codyduong.dev",
 }, {protect: true, dependsOn: site})
 
-// const hostingRelease = new gcp.firebase.HostingRelease("default", {
+// const hostingRelease = new gcp.firebase.HostingRelease(
+//   "default",
+//   {
 //   siteId,
 //   versionName: hostingVersion.name,
-//   message: directoryHash,
-// }, {dependsOn: [image, hostingVersion, customDomain1, customDomain2, customDomain3, customDomain4]})
+//   message: versionIdentifer,
+//   },
+//   {
+//     dependsOn: [
+//       image,
+//       hostingVersion,
+//       customDomain1,
+//       customDomain2,
+//       customDomain3,
+//       customDomain4
+//     ]
+//   }
+// )
 
 const deploy = new command.local.Command(
   `Firebase Deploy: ${versionIdentifer}`,
