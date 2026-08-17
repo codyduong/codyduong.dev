@@ -24,7 +24,22 @@ run = "bun dev"
 alias = ["build"]
 dir = "./frontend/web"
 depends = ["web:install"]
-run = "docker build -t web . --platform linux/amd64"
+sources = [
+  "Dockerfile",
+  "package.json",
+  "bun.lock",
+  "server.ts",
+  "index.html",
+  "vite.config.ts",
+  "vite.server.config.ts",
+  "tsconfig*.json",
+  "src/**/*",
+  "public/**/*",
+  "packages/**/*",
+  "scripts/**/*",
+]
+outputs = [".docker-build-metadata.json"]
+run = "docker buildx build --builder codyduongweb --platform linux/amd64 -t web --load --metadata-file .docker-build-metadata.json ."
 
 [tasks."web:deploy"]
 alias = "deploy"

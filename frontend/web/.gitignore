@@ -25,3 +25,5 @@ dist-ssr
 
 .firebase/*
 .million/*
+
+.docker-build-metadata.json

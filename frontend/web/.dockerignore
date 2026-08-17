@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+.git
+.million
+.firebase
+*.local
+*.log
+.vscode
+.idea

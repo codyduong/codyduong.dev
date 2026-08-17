@@ -75,6 +75,9 @@ const image = new docker_build.Image(
             // https://cloud.google.com/run/docs/container-contract#languages
       "linux/amd64"
     ],
+    builder: {
+      name: "codyduongweb",
+    },
     cacheFrom: [{
         registry: {
           ref: tagBase
@@ -82,13 +85,11 @@ const image = new docker_build.Image(
       }],
     cacheTo: [{
       registry: {
-        ref: tagBase
+        ref: tagBase,
+        mode: "max",
       }
     }],
     buildOnPreview: true,
-    buildArgs: {
-      "BUILDKIT_INLINE_CACHE": "1"
-    }
   },
   {
     customTimeouts: {
