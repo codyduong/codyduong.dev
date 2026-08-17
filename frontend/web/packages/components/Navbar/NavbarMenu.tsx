@@ -155,7 +155,7 @@ const StyledLinkComponent = (props: StyledLinkComponentProps): React.JSX.Element
   const toString = (typeof to == 'string' ? to : to.pathname) ?? '';
 
   const cn = classNames(className, 'navbar-link', {
-    ['navbar-link-open']: (location[1] || 'home') === toString.slice(1, toString.length - 1),
+    ['navbar-link-open']: (location[1] ?? '') === toString.slice(1, toString.length),
   });
 
   return (
@@ -224,6 +224,8 @@ const NavbarMenu = ({ open, setOpen, menuButton }: HamburgerProps): React.JSX.El
     ['close']: !open,
     ['open']: open,
   });
+  const { pathname } = useLocation();
+  const currentlyAt = pathname.split('/')[0] ?? 'home';
 
   return (
     <NavbarMenuComponent
@@ -233,18 +235,28 @@ const NavbarMenu = ({ open, setOpen, menuButton }: HamburgerProps): React.JSX.El
       aria-labelledby="nav-hamburger-button"
       aria-expanded={open}
     >
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/">
+      <StyledLinkComponent
+        open={open}
+        setOpen={setOpen}
+        to="/"
+        aria-current={currentlyAt === 'home' ? 'page' : undefined}
+      >
         home
       </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/playground">
-        playground
+      <StyledLinkComponent
+        open={open}
+        setOpen={setOpen}
+        to="/sandbox"
+        aria-current={currentlyAt === 'sandbox' ? 'page' : undefined}
+      >
+        sandbox
       </StyledLinkComponent>
-      <StyledLinkComponent open={open} setOpen={setOpen} to="/projects">
+      {/* <StyledLinkComponent open={open} setOpen={setOpen} to="/projects">
         projects
       </StyledLinkComponent>
       <StyledLinkComponent open={open} setOpen={setOpen} to="/work">
         work
-      </StyledLinkComponent>
+      </StyledLinkComponent> */}
       <CloseItemLi role="menuitem">
         <CloseIconWrapper
           tabIndex={open ? undefined : -1}

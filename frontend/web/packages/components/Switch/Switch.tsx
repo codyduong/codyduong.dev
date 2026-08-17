@@ -106,7 +106,7 @@ const Switch = ({
     <SwitchWrapper
       {...buttonProps}
       role="switch"
-      aria-checked={checked}
+      aria-checked={checked || false}
       onClick={() => {
         setChecked(!checked);
       }}

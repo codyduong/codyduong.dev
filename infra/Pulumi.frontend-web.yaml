@@ -1,6 +1,6 @@
 config:
   codyduongweb:imageName: web
-  codyduongweb:appPath: frontend/web
+  codyduongweb:appPath: ../frontend/web
   codyduongweb:concurrency: "50"
   codyduongweb:containerPort: "5137"
   codyduongweb:cpu: "1"

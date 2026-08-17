@@ -47,7 +47,7 @@ export default function Redirect({ title, status = 307, redirect = '/' }: Redire
       <Section>
         <T.H1>{title}</T.H1>
         <T.P2>
-          This page is not available at the moment. Redirecting in{' '}
+          This page is not available. Redirecting in{' '}
           <span role="timer" aria-live="polite" aria-atomic>
             {countdown}
           </span>

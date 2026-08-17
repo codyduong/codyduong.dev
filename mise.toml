@@ -1,0 +1,43 @@
+[settings]
+windows_default_inline_shell_args = "pwsh -NoProfile -Command"
+experimental = true
+
+[tools]
+docker-cli = "latest"
+
+[hooks]
+postinstall = ["mise web:install"]
+
+[tasks."web:install"]
+dir = "./frontend/web"
+sources = ["package.json"]
+outputs = ["bun.lock"]
+run = "bun install"
+
+[tasks."web:run"]
+alias = ["web:dev", "dev"]
+dir = "./frontend/web"
+depends = ["web:install"]
+run = "bun dev"
+
+[tasks."web:build:docker"]
+alias = ["build"]
+dir = "./frontend/web"
+depends = ["web:install"]
+run = "docker build -t web . --platform linux/amd64"
+
+[tasks."web:deploy"]
+alias = "deploy"
+dir = "./infra"
+depends = "web:build:docker"
+usage = '''
+flag "-p --preview" help="Runs pulumi preview"
+'''
+run = '''
+{% if usage.preview %}
+  pulumi preview --logtostderr -v=9
+{% endif %}
+{% if not usage.preview %}
+  pulumi up --logtostderr -v=9
+{% endif %}
+'''

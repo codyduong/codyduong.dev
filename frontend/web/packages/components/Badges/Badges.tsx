@@ -13,6 +13,7 @@ import MySQLSvg from './mysql-icon.svg?react';
 import NodeJSSvg from './Nodejs.svg?react';
 import RustSvg from './Rust.svg?react';
 // import ReactNativeSvg from './reactnative.svg?react';
+import LuaSvg from './Lua.svg?react';
 
 const Badge = styled.li`
   box-sizing: border-box;
@@ -119,5 +120,12 @@ export const Rust = memo(() => (
   <Badge translate="no" lang="en">
     <RustSvg aria-hidden viewBox="0 0 106 106" />
     Rust
+  </Badge>
+));
+
+export const Lua = memo(() => (
+  <Badge translate="no" lang="en">
+    <LuaSvg aria-hidden />
+    Lua
   </Badge>
 ));

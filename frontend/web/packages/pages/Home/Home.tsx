@@ -5,7 +5,7 @@ import Content from 'packages/components/Content';
 import A, { Link } from 'packages/components/A';
 import { commoncss } from 'packages/style';
 import Head from 'packages/components/Head';
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Temporal } from '@js-temporal/polyfill';
 import {
@@ -15,16 +15,20 @@ import {
   TSql,
   Cypress,
   Php,
-  Python,
+  // Python,
   MySQL,
-  ReactBadge as React,
   NodeJS,
   ReactBadge,
   Rust,
   ReactNative,
   Jest,
+  Lua,
 } from 'packages/components/Badges';
 import Project from 'packages/components/Project';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { Tooltip } from '@mui/material';
+import { useThemeBase } from 'packages/style/themes';
+import utils from 'packages/components/utils';
 
 const SectionContainer = styled.div`
   display: flex;
@@ -139,8 +143,8 @@ const Subtitle = styled(T.Span3)`
 `;
 
 const JobTitle = styled(T.H4)`
-  ${T.H6.css}
-  font-weight: 400;
+  ${T.H5.css}
+  font-weight: 500;
   line-height: 1.5rem;
 `;
 
@@ -167,6 +171,14 @@ const Projects = styled.div`
   width: 100%;
 `;
 
+// const IPALink = styled(Link)`
+//   ${T.P3.css}
+//   color: ${({ theme }) => theme.color.base[400]};
+//   &:visited {
+//     color: #7808ac;
+//   }
+// `;
+
 const Birthday = Temporal.Instant.from('2003-01-09T00:00-06:00');
 const decimalPlaces = 10;
 
@@ -183,6 +195,23 @@ const getAge = () => {
 
 const Home = (): React.JSX.Element => {
   const ageRef = useRef<HTMLSpanElement>(null);
+  const [theme] = useThemeBase();
+  const [agiTooltipVisible, setAgiTooltipVisible] = useState<boolean | 'focused'>(false);
+  const skipAgiTooltip = useRef(false);
+  const beforeAGIRef = useRef<HTMLAnchorElement>(null);
+  const agiInnerRef = useRef<HTMLAnchorElement>(null);
+  const nextAGIRef = useRef<HTMLElement>(null);
+  const agiTooltipId = useId();
+  const agiTooltipInnerId = useId();
+
+  useEffect(() => {
+    if (agiTooltipVisible === 'focused') {
+      const tryGoInto = agiInnerRef.current && utils.attemptFocus(agiInnerRef.current);
+      if (!tryGoInto && nextAGIRef.current) {
+        utils.attemptFocus(nextAGIRef.current);
+      }
+    }
+  }, [agiTooltipVisible]);
 
   // const [relativeScaling, setRelativeScaling] = useState(false);
 
@@ -201,21 +230,37 @@ const Home = (): React.JSX.Element => {
 
   return (
     <>
-      <Head title={'Home'} />
+      <Head title={'Home'} statusCode={200} />
       <Content>
         {/* <Construction3D /> */}
         <SectionContainer>
           <Section>
             <H1Hiya>hiya 👋</H1Hiya>
-            <T.P2>
+            <T.P3>
               I'm{' '}
               <span translate="no">
                 Cody{' '}
-                <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="juʊŋg" lang="vi">
+                <span data-ssml-phoneme-alphabet="ipa" data-ssml-phoneme-ph="jɯ̄ɤŋ" lang="vi">
                   Duong
                 </span>
+                {/*{' '}<span style={{ fontSize: '1rem' }}>
+                  (IPA:
+                  <IPALink
+                    lang="vi-Latn-fonipa"
+                    to="https://en.wikipedia.org/wiki/Help:IPA/Vietnamese"
+                    title="wiki/Help:IPA/Vietnamese"
+                    rel="noreferrer"
+                  >
+                    <span role="presentation">/</span>
+                    <span title="'y' in you">j</span>
+                    <span title="'ee' in beer">ɯ̄</span>
+                    <span title="'ng' in sing">ŋ</span>
+                    <span role="presentation">/</span>
+                  </IPALink>
+                  )
+                </span>*/}
               </span>
-            </T.P2>
+            </T.P3>
             <T.P3>
               a{' '}
               <Age
@@ -235,8 +280,8 @@ const Home = (): React.JSX.Element => {
               View fun interactive demos at my <Link.Styled to="/playground">playground</Link.Styled>.
             </T.P3> */}
             <T.P3>
-              I craft experiences on all platforms, from web to native devices (iOS, Android or desktop). I have worked
-              in agriculture, healthcare, and hospitality technology spaces.
+              I craft experiences on all platforms, from web to native devices. I have worked in agriculture,
+              healthcare, and hospitality technology spaces.
             </T.P3>
             <T.P3>
               My personal interests in the software engineering space include software correctness/validation, type
@@ -246,15 +291,15 @@ const Home = (): React.JSX.Element => {
               </abbr>
               .
             </T.P3>
-            <T.P3>
+            {/* <T.P3>
               I am an active contributor to the{' '}
               <abbr title="Open Source Software" translate="no" lang="en">
                 OSS
               </abbr>{' '}
               community. I am the primary maintainer for:
-            </T.P3>
-            <ul>
-              <li>
+            </T.P3> */}
+            {/* <ul> */}
+            {/* <li>
                 <Link.Styled
                   to="https://codyduong.github.io/hitokage/"
                   target="_blank"
@@ -278,14 +323,14 @@ const Home = (): React.JSX.Element => {
                 >
                   powershell-alias-tips <OpenInNewIcon titleAccess="Open in new window" />
                 </Link.Styled>
-              </li>
-              {/* https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA8 */}
-              {/* <li>
+              </li> */}
+            {/* https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA8 */}
+            {/* <li>
                 <Link.Styled to="/projects" aria-label="Read more about other projects I maintain">
                   ...and more
                 </Link.Styled>
               </li> */}
-            </ul>
+            {/* </ul> */}
             <T.P3>
               Outside of my professional and OSS work, I'm an avid cyclist and develop video games in my free-time.
             </T.P3>
@@ -341,7 +386,7 @@ const Home = (): React.JSX.Element => {
                 </Subtitle>
                 <Techs aria-label="Technologies">
                   <Typescript />
-                  <React />
+                  <ReactBadge />
                   <CSharp />
                   <DotNet />
                   <TSql />
@@ -359,14 +404,100 @@ const Home = (): React.JSX.Element => {
                 >
                   <img src="/agi-200.jpg" width="56" alt="AGI Digital Logo" />
                 </Link>
-                <T.H3 id="agi" translate="no" lang="en">
-                  <Link to="https://www.aggrowth.com/en-us/farm-brands-overview/Bin-Monitoring/binmanager">
-                    AGI Digital
-                  </Link>
-                </T.H3>
+                <span>
+                  <T.H3 id="agi" translate="no" lang="en" style={{ display: 'inline-block' }}>
+                    <Link
+                      ref={beforeAGIRef}
+                      to="https://www.aggrowth.com/en-us/farm-brands-overview/Bin-Monitoring/binmanager"
+                      rel="noreferrer"
+                    >
+                      AGI Digital
+                    </Link>
+                  </T.H3>
+                  <Tooltip
+                    open
+                    arrow
+                    slotProps={{
+                      popper: {
+                        id: agiTooltipId,
+                        'aria-labelledby': agiTooltipInnerId,
+                        sx: {
+                          pointerEvents: agiTooltipVisible ? 'auto' : 'none',
+                        },
+                      },
+                      tooltip: {
+                        sx: {
+                          padding: theme.spacing.rem[50],
+                          visibility: agiTooltipVisible ? 'visible' : 'hidden',
+                        },
+                      },
+                    }}
+                    onMouseEnter={() => {
+                      setAgiTooltipVisible(true);
+                    }}
+                    onFocus={() => {
+                      setAgiTooltipVisible(true);
+                    }}
+                    onOpen={() => {
+                      setAgiTooltipVisible(true);
+                      skipAgiTooltip.current = true;
+                    }}
+                    onClose={() => {
+                      setAgiTooltipVisible(false);
+                    }}
+                    title={
+                      <div style={{ margin: 0 }}>
+                        <div
+                          tabIndex={0}
+                          onFocus={() => {
+                            const _tryLeave = beforeAGIRef.current && utils.attemptFocus(beforeAGIRef.current);
+                          }}
+                          style={{ outline: 'none' }}
+                        />
+                        <T.P4 style={{ display: 'inline-block', margin: 0 }} id={agiTooltipInnerId}>
+                          Formerly{' '}
+                          <Link
+                            to="https://web.archive.org/web/20220524172717/https://www.agisuretrack.com"
+                            ref={agiInnerRef}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            AGI SureTrack
+                          </Link>
+                        </T.P4>
+                        <OpenInNewIcon style={{ height: theme.spacing.rem[100] }} titleAccess="Open in new window" />
+                        <div
+                          tabIndex={0}
+                          onFocus={() => {
+                            const _tryLeave = nextAGIRef.current && utils.focusFirstDescendant(nextAGIRef.current);
+                            setAgiTooltipVisible(false);
+                          }}
+                          style={{ outline: 'none' }}
+                        />
+                      </div>
+                    }
+                  >
+                    <HelpOutlineIcon style={{ height: theme.spacing.rem[100] }} />
+                  </Tooltip>
+                  <div
+                    style={{ outline: 'none' }}
+                    tabIndex={0}
+                    onFocus={() => {
+                      if (skipAgiTooltip.current) {
+                        const s = nextAGIRef.current && utils.focusFirstDescendant(nextAGIRef.current);
+                        if (s) {
+                          skipAgiTooltip.current = false;
+                        }
+                        return;
+                      }
+
+                      setAgiTooltipVisible('focused');
+                    }}
+                  />
+                </span>
                 <JobTitle>Engineer</JobTitle>
                 <Subtitle>
-                  <time dateTime="2022-05">May 2022</time> - <time dateTime="2021-05">May 2021</time>
+                  <time dateTime="2022-05">May 2021</time> - <time dateTime="2023-06">Jun 2023</time>
                 </Subtitle>
                 {/* <JobTitle>Engineering Intern</JobTitle>
                 <Subtitle>
@@ -379,7 +510,7 @@ const Home = (): React.JSX.Element => {
                 </Subtitle> */}
                 <Techs aria-label="Technologies">
                   <Typescript />
-                  <React />
+                  <ReactBadge />
                   <Cypress />
                   <Jest />
                   <NodeJS />
@@ -404,18 +535,27 @@ const Home = (): React.JSX.Element => {
               </li> */}
             </Ol>
           </Section>
-          <Section>
+          <Section ref={nextAGIRef}>
             <T.Heading.H2>Education</T.Heading.H2>
             <Ol>
               <li>
-                <Link tabIndex={-1} aria-hidden className="aimg" to="https://www.ku.edu/" aria-labelledby="ku">
+                <Link
+                  tabIndex={-1}
+                  aria-hidden
+                  className="aimg"
+                  to="https://www.ku.edu/"
+                  aria-labelledby="ku"
+                  rel="noreferrer"
+                >
                   <img src="/KULogo-100.jpg" width="50" alt="University of Kansas Logo" />
                 </Link>
                 <T.H3 id="ku" translate="no">
-                  <Link to="https://www.ku.edu/">University of Kansas</Link>
+                  <Link to="https://www.ku.edu/" rel="noreferrer">
+                    University of Kansas
+                  </Link>
                 </T.H3>
                 <JobTitle>
-                  <Link to="https://www.ku.edu/">
+                  <Link to="https://eecs.ku.edu/" rel="noreferrer">
                     <abbr title={"Bachelor's of Science"}>B.Sc.</abbr> in Computer Science
                   </Link>
                 </JobTitle>
@@ -445,8 +585,9 @@ const Home = (): React.JSX.Element => {
                   'hitokage is a configurable status bar for Windows implemented in Rust using the relm4 GUI library.'
                 }
                 badges={
-                  <Techs2>
+                  <Techs2 aria-label="Technologies">
                     <Rust />
+                    <Lua />
                   </Techs2>
                 }
               />
@@ -462,7 +603,7 @@ const Home = (): React.JSX.Element => {
                 }
                 desc={'Mapsy makes it easier to view the current status of road conditions through CCTV cameras.'}
                 badges={
-                  <Techs2>
+                  <Techs2 aria-label="Technologies">
                     <Typescript />
                     <ReactBadge />
                   </Techs2>

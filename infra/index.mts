@@ -4,7 +4,7 @@ import * as gcp from "@pulumi/gcp";
 import * as path from "path";
 import * as command from "@pulumi/command";
 import { fileURLToPath } from "url";
-import pkg from './frontend/web/package.json' with { type: 'json' };
+import pkg from '../frontend/web/package.json' with { type: 'json' };
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -116,6 +116,7 @@ const service = new gcp.cloudrunv2.Service("web", {
             memory,
             cpu: cpu.toString(),
           },
+          cpuIdle: true,
         },
         ports: {
           containerPort,

@@ -9,14 +9,15 @@ import classnames from 'classnames';
 import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
 import { useLocation } from 'react-router-dom';
-// import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { breakpoints, commoncss } from 'packages/style';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import SettingsAccessibility from '@mui/icons-material/SettingsAccessibility';
 import { cssWidth } from 'packages/components/Section';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 import { useAccessibility } from 'packages/app/contexts/AccessibilityContext';
 import { AccessibleSettingsModal } from './Modals';
 import useResizeObserver from 'packages/hooks/useResizeObserver';
+import classNames from 'classnames';
 // import { AccessibleSettingsModal } from './Modals';
 
 const TrapFocus = styled.div`
@@ -80,13 +81,20 @@ const Nav = styled.nav`
 `;
 
 const NavInner = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-between; */
+  display: grid;
+  grid-template-columns: 1fr min-content 1fr;
+
   align-items: center;
   background-color: inherit;
   box-sizing: border-box;
   flex-grow: 1;
+
+  @media screen and (max-width: ${breakpoints.lg}) {
+    grid-template-columns: 1fr 1fr;
+  }
 
   ${cssWidth}
 `;
@@ -210,12 +218,18 @@ const HamburgerButton = styled(NavButtonBase)`
   }
 `;
 
+const NavbarLeft = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
 const NavbarListCenter = styled.ul`
   all: unset;
   display: flex;
   flex-flow: row nowrap;
-  gap: 32px;
+  gap: ${(props) => props.theme.spacing.rem[200]};
   justify-content: space-around;
+  align-items: center;
   @media screen and (max-width: ${breakpoints.lg}) {
     display: none;
   }
@@ -224,6 +238,7 @@ const NavbarListCenter = styled.ul`
 const NavbarListRight = styled.ul`
   all: unset;
   display: flex;
+  justify-content: flex-end;
   flex-flow: row nowrap;
   gap: 4px;
 `;
@@ -241,14 +256,14 @@ const HamburgerItem = styled(NavbarListItem)`
 const Banner = styled.div`
   width: 100%;
   ${T.P2.bold.css};
-  background-color: ${(props) => props.theme.color.destructive[300]};
+  background-color: ${(props) => props.theme.color.warning[200]};
   transition: all 225ms cubic-bezier(0.4, 0, 0.2, 1) 0s;
   box-sizing: border-box;
   max-height: 3rem;
   overflow: hidden;
 
   &.open {
-    max-height: 10rem;
+    max-height: 6rem;
   }
 
   ${() =>
@@ -264,6 +279,24 @@ const Banner = styled.div`
     })}
 `;
 
+const NavLinkWrapper = styled.li`
+  display: flex;
+  height: ${(props) => props.theme.spacing.rem[300]};
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-width: ${(props) => props.theme.spacing.rem[250]};
+  & .at::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+    height: ${(props) => props.theme.spacing.rem[100]};
+    bottom: 0;
+    left: -${(props) => props.theme.spacing.rem[100]};
+    width: calc(100% + ${(props) => props.theme.spacing.rem[200]});
+  }
+`;
+
 const BannerButtonWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -273,13 +306,13 @@ const BannerButtonWrapper = styled.div`
 const BannerButton = styled.button`
   ${T.P2.bold.css};
   margin: 0.5rem 0 0.25rem;
-  color: ${(props) => props.theme.color.text[100]};
+  color: ${(props) => props.theme.color.text[500]};
   cursor: help;
 `;
 
 const BannerInfo = styled.p`
   ${T.P3.css};
-  color: ${(props) => props.theme.color.text[100]};
+  color: ${(props) => props.theme.color.text[500]};
   text-align: center;
 `;
 
@@ -289,7 +322,7 @@ const BannerInfo = styled.p`
 
 const Navbar = (): React.JSX.Element => {
   const [open, setOpen] = useState(false);
-  const [settings, _setSettings] = useState(false);
+  const [settings, setSettings] = useState(false);
   const [accessibility, setAccessibility] = useState(false);
   const [initial, setInitial] = useState(true);
   const [focusWithin, setFocusWithin] = useState(false);
@@ -336,9 +369,7 @@ const Navbar = (): React.JSX.Element => {
 
   const location = useLocation();
   const pathnameFormatted = location.pathname.split('/')[1];
-  const _currentlyAt = ['home', 'work', 'posts', 'contact', 'links'].includes(pathnameFormatted)
-    ? pathnameFormatted
-    : 'home';
+  const currentlyAt = ['', 'home', 'sandbox'].includes(pathnameFormatted) ? pathnameFormatted || 'home' : undefined;
 
   const scrolledPastThreshold = top > 25;
   const bannerClassname = classnames('banner', {
@@ -405,27 +436,49 @@ const Navbar = (): React.JSX.Element => {
             }}
           />
           <NavInner ref={navInnerRef}>
-            <Name
-              to="/"
-              onClick={() => {
-                setOpen(false);
-              }}
-              translate="no"
-              lang="en"
-              viewTransition
-            >
-              codyduong
-            </Name>
-            <NavbarListCenter aria-hidden>
-              {/* <NavLink
-                to="/playground"
+            <NavbarLeft>
+              <Name
+                to="/"
                 onClick={() => {
                   setOpen(false);
                 }}
+                translate="no"
+                lang="en"
+                viewTransition
               >
-                playground
-              </NavLink>
-              <NavLink
+                codyduong
+              </Name>
+            </NavbarLeft>
+            <NavbarListCenter>
+              <NavLinkWrapper>
+                <NavLink
+                  aria-current={currentlyAt === 'home' ? 'page' : undefined}
+                  className={classNames({
+                    ['at']: currentlyAt === 'home',
+                  })}
+                  to="/"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  home
+                </NavLink>
+              </NavLinkWrapper>
+              <NavLinkWrapper>
+                <NavLink
+                  aria-current={currentlyAt === 'sandbox' ? 'page' : undefined}
+                  className={classNames({
+                    ['at']: currentlyAt === 'sandbox',
+                  })}
+                  to="/sandbox"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  sandbox
+                </NavLink>
+              </NavLinkWrapper>
+              {/* <NavLink
                 to="/projects"
                 onClick={() => {
                   setOpen(false);
@@ -451,20 +504,7 @@ const Navbar = (): React.JSX.Element => {
                 work
               </NavLink> */}
             </NavbarListCenter>
-            <NavbarListRight aria-hidden>
-              {/* <NavbarListItem>
-            <SettingsButton
-              id="nav-settings-button"
-              onClick={() => {
-                setSettings(!settings);
-              }}
-              aria-label={`${settings ? 'Close' : 'Open'} Settings`}
-            aria-haspopup="dialog"
-              aria-controls="modal-settings"
-            >
-              <SettingsIcon />
-            </SettingsButton>
-          </NavbarListItem> */}
+            <NavbarListRight>
               {/* <NavbarListItem>
                 <NavButtonBase
                   id="nav-accessibility-button"
@@ -475,10 +515,10 @@ const Navbar = (): React.JSX.Element => {
                   aria-haspopup="dialog"
                   aria-controls="modal-accessibility-settings"
                 >
-                  <VisibilityOutlinedIcon />
+                  <SettingsAccessibility />
                 </NavButtonBase>
               </NavbarListItem> */}
-              {/* <HamburgerItem>
+              <HamburgerItem>
                 <HamburgerButton
                   ref={menuButton}
                   id="nav-hamburger-button"
@@ -489,14 +529,14 @@ const Navbar = (): React.JSX.Element => {
                   aria-haspopup="menu"
                   aria-controls="nav-hamburger-list"
                 >
-                  {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> 
+                  {/* <label htmlFor="nav-hamburger">{currentlyAt}</label> */}
                   <MenuIcon className={hamburgerClassname('close')} aria-labelledby="nav-hamburger-button" />
                   <MenuOpenIcon className={hamburgerClassname('open')} aria-labelledby="nav-hamburger-button" />
                 </HamburgerButton>
-              </HamburgerItem> */}
+              </HamburgerItem>
             </NavbarListRight>
           </NavInner>
-          {/* <NavbarMenu open={open} setOpen={setOpen} menuButton={menuButton} /> */}
+          <NavbarMenu open={open} setOpen={setOpen} menuButton={menuButton} />
           <TrapFocus
             tabIndex={open ? 0 : -1}
             onFocus={() => {
@@ -505,33 +545,32 @@ const Navbar = (): React.JSX.Element => {
           />
         </Nav>
         {/* <AccessibleSettingsModal open={accessibility} setOpen={setAccessibility} /> */}
-        {/* <Banner
-          ref={bannerRef}
-          className={bannerClassname}
-          aria-hidden={!disableInteractionAnimations && (scrolledPastThreshold || open)}
-        >
-          <BannerButtonWrapper>
-            <BannerButton
-              id="banner-button"
-              aria-expanded={bannerOpen}
-              aria-controls="banner-description"
-              onClick={() => {
-                setBannerOpen((prev) => !prev);
-              }}
-            >
-              🚧 Under Renovation 🚧
-            </BannerButton>
-          </BannerButtonWrapper>
-          <BannerInfo id="banner-description" aria-labelledby="banner-button">
-            <q>
-              My website is currently undergoing renovations. As such links or pages may be broken. Thanks for your
-              understanding
-            </q>{' '}
-            <span translate="no" lang="en">
-              - Cody
-            </span>
-          </BannerInfo>
-        </Banner> */}
+        {currentlyAt === 'sandbox' && (
+          <Banner
+            ref={bannerRef}
+            className={bannerClassname}
+            aria-hidden={!disableInteractionAnimations && (scrolledPastThreshold || open)}
+          >
+            <BannerButtonWrapper>
+              <BannerButton
+                id="banner-button"
+                aria-expanded={bannerOpen}
+                aria-controls="banner-description"
+                onClick={() => {
+                  setBannerOpen((prev) => !prev);
+                }}
+              >
+                🚧 Under Construction 🚧
+              </BannerButton>
+            </BannerButtonWrapper>
+            <BannerInfo id="banner-description" aria-labelledby="banner-button">
+              <q>This page is currently undergoing construction. Thanks for your understanding</q>{' '}
+              <span translate="no" lang="en">
+                - Cody
+              </span>
+            </BannerInfo>
+          </Banner>
+        )}
       </Header>
       {/* reserve space for header */}
       {/* <PsuedoBanner

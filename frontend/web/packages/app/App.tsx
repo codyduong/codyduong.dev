@@ -11,11 +11,12 @@ import { TransitionImgProvider } from 'packages/components/TransitionImg';
 import ErrorFallback from './ErrorFallback';
 import { ErrorBoundary } from 'react-error-boundary';
 import Redirect from 'packages/components/Redirect';
-import Valentines from 'packages/pages/Valentines';
 import Home from 'packages/pages/Home';
-import KUDiploma from 'packages/pages/Education/KU';
+// import KUDiploma from 'packages/pages/Education/KU';
 import WebAccessibilityStatement from 'packages/pages/WebAccessibilityStatement';
 import NotFound from 'packages/pages/404';
+import AIUsageStatement from 'packages/pages/AIUsageStatement';
+import Sandbox from 'packages/pages/Sandbox';
 // import lazyWithPreload from 'packages/components/lazyWithPreload';
 
 // While this pattern is useful in larger apps, loading pages like this with SSR is jarring
@@ -35,7 +36,6 @@ interface AppProps {
 }
 
 export default function App({ headValue }: AppProps) {
-  const [_count, _setCount] = useState(0);
   const [theme, _setTheme] = useThemeBase();
 
   return (
@@ -48,28 +48,21 @@ export default function App({ headValue }: AppProps) {
                 <Bypass />
                 <Suspense>
                   <Routes>
-                    {/* <Route path="valentines" element={<Valentines />} /> */}
                     <Route
                       path="*"
                       element={
                         <Page hasFooter>
                           <Routes>
-                            <Route
-                              path=""
-                              element={<Home />}
-                              // hmm
-                              // lazy={async () => {
-                              //   const Component = await Home.preload();
-                              //   return { element: <Component /> };
-                              // }}
-                            />
+                            <Route path="" element={<Home />} />
                             <Route path="/" element={<Home />} />
-                            <Route path="/home" element={<Home />} />
-                            <Route path="/education/ku" element={<KUDiploma />} />
+                            <Route path="/home" element={<Redirect title="Home" />} />
+                            {/* <Route path="/education/ku" element={<KUDiploma />} /> */}
                             <Route path="/web-accessibility-statement" element={<WebAccessibilityStatement />} />
-                            <Route path="/playground" element={<Redirect title={'Playground'} />} />
-                            <Route path="/projects/*" element={<Redirect title={'Projects'} />} />
-                            <Route path="/work/*" element={<Redirect title={'Work'} />} />
+                            <Route path="/ai-usage-statement" element={<AIUsageStatement />} />
+                            <Route path="/sandbox/*" element={<Sandbox />} />
+                            <Route path="/playground" element={<Redirect title="Playground" redirect="/sandbox" />} />
+                            <Route path="/projects/*" element={<Redirect title="Projects" />} />
+                            <Route path="/work/*" element={<Redirect title="Work" />} />
                             <Route path="*" element={<NotFound />} />
                           </Routes>
                         </Page>

@@ -41,10 +41,10 @@ svg {
   transition: all 0.225s ease-in-out;
 }
 .modal-scroll-lock {
-  overflow: hidden
+  overflow: hidden;
 }
 div.modal-scroll-lock {
-  overflow: hidden
+  overflow: hidden;
 }
 /* ul {
   all: unset;

@@ -15,6 +15,6 @@
         "allowSyntheticDefaultImports": true,
     },
     "files": [
-        "index.mts"
+        "infra/index.mts"
     ]
 }

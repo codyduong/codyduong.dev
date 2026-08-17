@@ -1,12 +1,7 @@
 {
   "hosting": {
     "public": "./dist/client",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-      "**/index.html"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "**/index.html"],
     "headers": [
       {
         "source": "**",

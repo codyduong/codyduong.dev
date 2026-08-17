@@ -2,7 +2,19 @@ import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 
 const HeadingCss = css`
-  font-family: 'Overpass';
+  font-family:
+    'Overpass',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
   /* font-style: italic; */
   font-weight: 600;
   margin: 0 0;
@@ -14,7 +26,7 @@ const HeadingCss = css`
 `;
 const H1css = css`
   ${HeadingCss}
-  font-size: ${(props) => props.theme.spacing.rem[200]};
+  font-size: ${(props) => props.theme.spacing.rem(200)};
 `;
 export const H1 = Object.assign(
   styled.h1`
@@ -26,7 +38,7 @@ export const H1 = Object.assign(
 );
 export const H2css = css`
   ${HeadingCss}
-  font-size: ${(props) => props.theme.spacing.rem[150]};
+  font-size: ${(props) => props.theme.spacing.rem(166)};
 `;
 export const H2 = Object.assign(
   styled.h2`
@@ -99,7 +111,19 @@ interface PCommonProps {
 }
 
 const PCss = css<PCommonProps>`
-  font-family: 'Overpass';
+  font-family:
+    'Overpass',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
   font-weight: 500;
   font-style: normal;
   /* color: ${(props) => props.theme.color.text[400]}; */
@@ -220,6 +244,41 @@ const calculateSpan = (pn: ReturnType<typeof css>) => {
   );
 };
 
+const calculateDiv = (pn: ReturnType<typeof css>) => {
+  return Object.assign(
+    styled.div`
+      ${pn}
+    `,
+    {
+      css: pn,
+      italic: Object.assign(
+        styled.div`
+          ${pn}
+          ${ItalicCss}
+        `,
+        {
+          css: css`
+            ${pn}
+            ${ItalicCss}
+          `,
+        },
+      ),
+      bold: Object.assign(
+        styled.div`
+          ${pn}
+          ${BoldCss}
+        `,
+        {
+          css: css`
+            ${pn}
+            ${BoldCss}
+          `,
+        },
+      ),
+    },
+  );
+};
+
 export const Paragraph = {
   P2: calculateP(P2css),
   P3: calculateP(P3css),
@@ -230,6 +289,12 @@ export const Span = {
   Span3: calculateSpan(P3css),
   Span4: calculateSpan(P4css),
 } as const;
+export const Div = {
+  Div2: calculateDiv(P2css),
+  Div3: calculateDiv(P3css),
+  Div4: calculateDiv(P4css),
+};
+
 const T = {
   Heading,
   ...Heading,
@@ -237,6 +302,8 @@ const T = {
   ...Paragraph,
   Span,
   ...Span,
+  Div,
+  ...Div,
 } as const;
 export const Typography = T;
 export default T;

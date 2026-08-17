@@ -48,6 +48,10 @@ declare module 'styled-components' {
         readonly 400: string;
         readonly 500: string;
       };
+      readonly link: {
+        readonly 400: string;
+        readonly 500: string;
+      };
       readonly bottom: {
         readonly 100: string;
         readonly 200: string;

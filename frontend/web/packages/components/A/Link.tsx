@@ -3,7 +3,6 @@ import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
 import { memo } from 'react';
-import { flushSync } from 'react-dom';
 import { useTransitionImg } from '../TransitionImg';
 
 const LBase = css`
@@ -74,15 +73,16 @@ const L2Wrapper = memo(({ onClick, onKeyDown, viewTransition, to, ...rest }: Lin
 
 const StyledLinkCSS = css`
   ${LBase}
-  color: ${({ theme }) => theme.color.base[400]};
+  color: ${({ theme }) => theme.color.link[400]};
   ${commoncss.focus}
   &:hover {
-    color: ${({ theme }) => theme.color.base[300]};
+    color: ${({ theme }) => theme.color.link[500]};
     text-decoration: underline;
   }
   && svg {
     font-size: inherit;
   }
+  text-decoration: underline dotted;
 `;
 
 const StyledLinkBase = styled(L)`

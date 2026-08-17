@@ -7,7 +7,7 @@ import type { render as tr } from './src/entry-server.tsx';
 // import { setTimeout as setTimeoutPromise } from 'node:timers/promises';
 import crypto from 'node:crypto';
 import createCache from '@emotion/cache';
-import type { HeadValue } from './packages/app/contexts/HeadContext';
+import type { HeadValue, HeadCallbacks } from './packages/app/contexts/HeadContext';
 import { PassThrough } from 'node:stream';
 
 function toNodeStream(webStream) {
@@ -62,6 +62,9 @@ async function initializeMiddlewares() {
 }
 
 const isRedirect = (status: number) => [301, 308, 302, 303, 307, 300, 304].includes(status);
+
+const SCANNER_PATH_PATTERN =
+  /^\/(wp-admin|wp-login\.php|wp-content|wp-includes|wp-json|wordpress|xmlrpc\.php|phpmyadmin|pma|administrator|admin\.php|config\.php|setup-config\.php|\.env|\.git|\.aws|\.ssh)(\/|$)/i;
 
 /**
  * @param {import('express').Request} req
@@ -119,7 +122,7 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
 
   let didError = false;
 
-  const headValue: HeadValue = {
+  const headValue: HeadValue & HeadCallbacks = {
     title: 'Not Found | Cody Duong',
     updateTitle: (title: string) => {
       // console.log('updating title ', title);
@@ -134,7 +137,7 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
       headValue.favicon = favicon;
     },
     status: undefined,
-    updateStatus: (status: number) => {
+    updateStatus: (status: number | undefined) => {
       headValue.status = status;
     },
     redirect: '/',
@@ -194,6 +197,7 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
     res.set('location', headValue.redirect);
     // send immediately
     res.send();
+    return;
   }
 
   // https://ogp.me/
@@ -245,6 +249,10 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
 initializeMiddlewares().then((vite) => {
   // Serve HTML
   app.use('*', async (req, res) => {
+    if (SCANNER_PATH_PATTERN.test(req.path)) {
+      res.status(404).end();
+      return;
+    }
     try {
       await renderApp(req, res, vite);
     } catch (e) {

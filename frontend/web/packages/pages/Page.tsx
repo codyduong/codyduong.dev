@@ -4,6 +4,7 @@ import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 import React, { Suspense, useCallback, useEffect } from 'react';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
+import { useLocation } from 'react-router-dom';
 
 const PageDiv = styled.div`
   width: 100vw;
@@ -49,6 +50,8 @@ interface PageProps {
 export default function Page({ children, hasFooter = false }: PageProps): React.JSX.Element {
   const { setTop, setPageDirection, setScrollHeight, pageRef } = useScroll();
 
+  const { pathname } = useLocation();
+
   const handleScroll = useCallback(
     (e: HTMLElementEventMap['scroll']): void => {
       // @ts-expect-error: yada
@@ -79,7 +82,12 @@ export default function Page({ children, hasFooter = false }: PageProps): React.
   return (
     <PageDiv tabIndex={-1}>
       <Navbar />
-      <PageContent ref={pageRef} tabIndex={-1} id="page-content">
+      <PageContent
+        ref={pageRef}
+        tabIndex={-1}
+        id="page-content"
+        style={{ paddingTop: pathname.slice(1).split('/')[0] === 'sandbox' ? '8rem' : undefined }}
+      >
         <Suspense fallback={<Fallback />}>
           {children}
           {hasFooter && <Footer />}

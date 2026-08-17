@@ -146,31 +146,32 @@ const Footer = (): React.JSX.Element => {
             ))}
           </LinksWrapper>
           <FooterGroupWrapper>
-            <div>
+            {/* <div>
               <FooterGroup>
-                {/* <FooterHeader aria-description="Quick navigation links">Navigate</FooterHeader>
+                <FooterHeader aria-description="Quick navigation links">Navigate</FooterHeader>
                 <ul>
                   <FooterLink to="/">Home</FooterLink>
                   <FooterLink to="/playground">Playground</FooterLink>
                   <FooterLink to="/projects">Projects</FooterLink>
                   <FooterLink to="/work">Work</FooterLink>
-                </ul> */}
-              </FooterGroup>
-            </div>
-            {/* <div>
-              <FooterGroup>
-                <FooterHeader aria-description="Important">Links</FooterHeader>
-                <ul>
-                  <FooterLink to="/web-accessibility-statement">Accessibility Statement</FooterLink>
                 </ul>
               </FooterGroup>
             </div> */}
+            <div>
+              <FooterGroup>
+                <FooterHeader aria-description="Important">Important Links</FooterHeader>
+                <ul>
+                  <FooterLink to="/ai-usage-statement">AI Usage Statement</FooterLink>
+                  <FooterLink to="/web-accessibility-statement">Accessibility Statement</FooterLink>
+                </ul>
+              </FooterGroup>
+            </div>
           </FooterGroupWrapper>
         </FooterWrapper>
       </FooterTop>
       <Copyright>
         <CopyrightText>
-          <span aria-label="Copyright ©">©</span>2025
+          <span aria-label="Copyright ©">©</span>2026
           <span aria-hidden>
             {'    '}|{'    '}
           </span>

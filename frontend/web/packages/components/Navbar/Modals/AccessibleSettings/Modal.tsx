@@ -43,7 +43,7 @@ const NavbarAccessibleSettingsModal = ({ open, setOpen }: NavbarSettingsModalPro
       containerProps={{
         id: 'modal-accessibility-settings',
       }}
-      size="large"
+      size="auto"
     >
       <Modal.Header exitLabel="Close Accessibility Options">Accessibility Options</Modal.Header>
       <Modal.Content gap>

@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('../node_modules/@fontsource/overpass/files/overpass-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 600;
+  font-display: fallback;
+  src: url('../node_modules/@fontsource/overpass/files/overpass-latin-600-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url('../node_modules/@fontsource/sora/files/sora-latin-400-normal.woff2') format('woff2');
+}
