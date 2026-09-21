@@ -24,6 +24,13 @@ const TrapFocus = styled.div`
   position: absolute;
 `;
 
+const StickyNav = styled.div`
+  position: sticky;
+  top: 0;
+  height: 0;
+  z-index: 1000;
+`;
+
 const Header = styled.header`
   display: flex;
   flex-flow: row wrap;
@@ -416,7 +423,7 @@ const Navbar = (): React.JSX.Element => {
   // }, [refHeader, bannerRef, open, top, updateBufferHeight]);
 
   return (
-    <>
+    <StickyNav>
       <Header
         className={navClassname}
         ref={refHeader}
@@ -577,13 +584,7 @@ const Navbar = (): React.JSX.Element => {
           </Banner>
         )}
       </Header>
-      {/* reserve space for header */}
-      {/* <PsuedoBanner
-        aria-hidden
-        className={bannerClassname}
-        ref={psuedoHeader}
-      ></PsuedoBanner> */}
-    </>
+    </StickyNav>
   );
 };
 

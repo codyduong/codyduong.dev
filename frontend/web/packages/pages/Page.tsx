@@ -22,9 +22,8 @@ const PageContent = styled.main`
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding-top: ${(props) => props.theme.spacing.rem(600)};
 
-  /* 
+  /*
   @media only screen and (min-width: ${breakpoints.md}) {
     padding: 1rem 2.5rem;
   }
@@ -36,6 +35,10 @@ const PageContent = styled.main`
   @media only screen and (min-width: ${breakpoints.xxl}) {
     padding: 1rem 7.5rem;
   } */
+`;
+
+const PageInner = styled.div`
+  padding-top: ${(props) => props.theme.spacing.rem(600)};
 `;
 
 function Fallback(): React.JSX.Element {
@@ -81,17 +84,14 @@ export default function Page({ children, hasFooter = false }: PageProps): React.
 
   return (
     <PageDiv tabIndex={-1}>
-      <Navbar />
-      <PageContent
-        ref={pageRef}
-        tabIndex={-1}
-        id="page-content"
-        style={{ paddingTop: pathname.slice(1).split('/')[0] === 'sandbox' ? '8rem' : undefined }}
-      >
-        <Suspense fallback={<Fallback />}>
-          {children}
-          {hasFooter && <Footer />}
-        </Suspense>
+      <PageContent ref={pageRef} tabIndex={-1} id="page-content">
+        <Navbar />
+        <PageInner style={{ paddingTop: pathname.slice(1).split('/')[0] === 'sandbox' ? '8rem' : undefined }}>
+          <Suspense fallback={<Fallback />}>
+            {children}
+            {hasFooter && <Footer />}
+          </Suspense>
+        </PageInner>
       </PageContent>
     </PageDiv>
   );
