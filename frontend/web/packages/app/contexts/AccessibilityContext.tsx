@@ -165,6 +165,12 @@ export const AccessibilityProvider = ({ children }: { children: React.ReactNode 
     setDisableInteractionAnimationsState(acCookie?.prefersReducedMotion ?? undefined);
   }, [acCookie]);
 
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.toggleAttribute('data-reduce-motion', disableInteractionAnimations === true);
+    }
+  }, [disableInteractionAnimations]);
+
   return (
     <AccessibilityContext
       value={{

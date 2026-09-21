@@ -62,3 +62,81 @@ figure {
 .mapsyimage2 {
   view-transition-name: mapsy-image2;
 }
+
+/* lg = 992px */
+@media (min-width: 993px) {
+  #page-content {
+    view-transition-name: page-content;
+  }
+  header {
+    view-transition-name: navbar;
+  }
+  .nav-underline {
+    view-transition-name: nav-underline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-content,
+  header,
+  .nav-underline {
+    view-transition-name: none;
+  }
+}
+html[data-reduce-motion] :is(#page-content, header, .nav-underline) {
+  view-transition-name: none;
+}
+
+::view-transition-old(page-content),
+::view-transition-new(page-content) {
+  animation: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root),
+::view-transition-old(navbar),
+::view-transition-new(navbar) {
+  animation: none;
+}
+
+::view-transition-group(nav-underline) {
+  animation-duration: 260ms;
+}
+
+@keyframes vt-slide-out-left {
+  to {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-in-right {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-out-right {
+  to {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+@keyframes vt-slide-in-left {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+html[data-vt-nav='forward']::view-transition-old(page-content) {
+  animation: vt-slide-out-left 260ms ease both;
+}
+html[data-vt-nav='forward']::view-transition-new(page-content) {
+  animation: vt-slide-in-right 260ms ease both;
+}
+html[data-vt-nav='back']::view-transition-old(page-content) {
+  animation: vt-slide-out-right 260ms ease both;
+}
+html[data-vt-nav='back']::view-transition-new(page-content) {
+  animation: vt-slide-in-left 260ms ease both;
+}

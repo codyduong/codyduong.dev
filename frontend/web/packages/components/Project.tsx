@@ -138,7 +138,7 @@ const Project = (props: ProjectProps): React.JSX.Element => {
   }, [imgRef, top]);
 
   return (
-    <ProjectLink to={to} viewTransition={() => {}}>
+    <ProjectLink to={to} viewTransition>
       {bannerText && <Banner>{bannerText}</Banner>}
       {thumbnail && (
         <Thumbnail className={'thumbnail'}>

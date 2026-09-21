@@ -1,8 +1,8 @@
 'use client';
 
-import { useErrorBoundary } from 'react-error-boundary';
+import { FallbackProps, useErrorBoundary } from 'react-error-boundary';
 
-export default function ErrorFallback({ error }) {
+export default function ErrorFallback({ error }: FallbackProps) {
   const { resetBoundary } = useErrorBoundary();
 
   return (

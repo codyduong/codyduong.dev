@@ -152,9 +152,21 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
     abortController.abort(); // Trigger the abort signal
   }, ABORT_DELAY);
 
+  // react-router-dom needs an absolute URL
+  const origin = `${req.protocol}://${req.get('host') ?? 'localhost'}`;
+  const requestHeaders = new Headers();
+  for (const [k, v] of Object.entries(req.headers)) {
+    if (typeof v === 'string') requestHeaders.set(k, v);
+    else if (Array.isArray(v)) requestHeaders.set(k, v.join(', '));
+  }
+  const request = new Request(new URL(req.originalUrl, origin), {
+    method: req.method,
+    headers: requestHeaders,
+  });
+
   let stream;
   try {
-    stream = await render(sheet, collector, emotionCache, url, headValue, {
+    stream = await render(sheet, collector, emotionCache, request, headValue, {
       nonce,
       onError(error) {
         didError = true;

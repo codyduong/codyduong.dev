@@ -286,15 +286,16 @@ const NavLinkWrapper = styled.li`
   align-items: center;
   position: relative;
   min-width: ${(props) => props.theme.spacing.rem[250]};
-  & .at::after {
-    content: '';
-    position: absolute;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
-    height: ${(props) => props.theme.spacing.rem[100]};
-    bottom: 0;
-    left: -${(props) => props.theme.spacing.rem[100]};
-    width: calc(100% + ${(props) => props.theme.spacing.rem[200]});
-  }
+`;
+
+const NavUnderline = styled.span.attrs({ className: 'nav-underline', 'aria-hidden': true })`
+  position: absolute;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+  height: ${(props) => props.theme.spacing.rem[100]};
+  bottom: 0;
+  left: -${(props) => props.theme.spacing.rem[100]};
+  width: calc(100% + ${(props) => props.theme.spacing.rem[200]});
 `;
 
 const BannerButtonWrapper = styled.div`
@@ -439,12 +440,12 @@ const Navbar = (): React.JSX.Element => {
             <NavbarLeft>
               <Name
                 to="/"
+                viewTransition
                 onClick={() => {
                   setOpen(false);
                 }}
                 translate="no"
                 lang="en"
-                viewTransition
               >
                 codyduong
               </Name>
@@ -457,12 +458,14 @@ const Navbar = (): React.JSX.Element => {
                     ['at']: currentlyAt === 'home',
                   })}
                   to="/"
+                  viewTransition
                   onClick={() => {
                     setOpen(false);
                   }}
                 >
                   home
                 </NavLink>
+                {currentlyAt === 'home' && <NavUnderline />}
               </NavLinkWrapper>
               <NavLinkWrapper>
                 <NavLink
@@ -471,12 +474,14 @@ const Navbar = (): React.JSX.Element => {
                     ['at']: currentlyAt === 'sandbox',
                   })}
                   to="/sandbox"
+                  viewTransition
                   onClick={() => {
                     setOpen(false);
                   }}
                 >
                   sandbox
                 </NavLink>
+                {currentlyAt === 'sandbox' && <NavUnderline />}
               </NavLinkWrapper>
               {/* <NavLink
                 to="/projects"
