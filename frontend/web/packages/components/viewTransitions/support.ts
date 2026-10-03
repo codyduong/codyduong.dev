@@ -9,7 +9,7 @@ export const getNavDirection = (from: string, to: string): 'forward' | 'back' | 
   const order = NAV_ORDER as readonly string[];
   const fromIdx = order.indexOf(firstSegment(from));
   const toIdx = order.indexOf(firstSegment(to));
-  if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) {
+  if (fromIdx === toIdx) {
     return null;
   }
   return toIdx > fromIdx ? 'forward' : 'back';
