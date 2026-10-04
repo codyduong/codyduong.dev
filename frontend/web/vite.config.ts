@@ -6,7 +6,6 @@ import { defineConfig, type PluginOption } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
-// import million from 'million/compiler';
 
 export const plugins = [
   // swc
@@ -37,13 +36,7 @@ export const plugins = [
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    ...plugins,
-    // million.vite({
-    //   auto: true,
-    //   server: true,
-    // }),
-  ],
+  plugins: [...plugins],
   build: {
     manifest: true,
     rollupOptions: {

@@ -24,6 +24,5 @@ dist-ssr
 *.sw?
 
 .firebase/*
-.million/*
 
 .docker-build-metadata.json
