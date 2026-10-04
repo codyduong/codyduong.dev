@@ -8,7 +8,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import classnames from 'classnames';
 import utils from 'packages/components/utils';
 import NavbarMenu from './NavbarMenu';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { breakpoints, commoncss } from 'packages/style';
 import SettingsAccessibility from '@mui/icons-material/SettingsAccessibility';

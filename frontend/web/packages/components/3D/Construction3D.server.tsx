@@ -2,7 +2,7 @@ import { Typography } from 'packages/components/Typography';
 import styled from 'styled-components';
 import { ClientOnly } from '../ClientOnly';
 import Head from '../Head';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 const CanvasSection = styled.section`
   position: static;

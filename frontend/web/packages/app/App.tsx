@@ -6,7 +6,6 @@ import Page from 'packages/pages/Page';
 import { Outlet } from 'react-router';
 import { ScrollProvider } from './contexts/ScrollContext';
 import { HeadProvider, HeadValue } from './contexts/HeadContext';
-import { TransitionImgProvider } from 'packages/components/TransitionImg';
 import ErrorFallback from './ErrorFallback';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNavDirection, ViewTransitionStyles } from 'packages/components/viewTransitions';
@@ -27,12 +26,10 @@ export default function App({ headValue }: AppProps) {
         <HeadProvider value={headValue}>
           <AccessibilityProvider>
             <ScrollProvider>
-              <TransitionImgProvider>
-                <Bypass />
-                <Page hasFooter>
-                  <Outlet />
-                </Page>
-              </TransitionImgProvider>
+              <Bypass />
+              <Page hasFooter>
+                <Outlet />
+              </Page>
             </ScrollProvider>
           </AccessibilityProvider>
         </HeadProvider>

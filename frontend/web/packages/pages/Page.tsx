@@ -4,7 +4,7 @@ import { breakpoints } from 'packages/style';
 import styled from 'styled-components';
 import React, { Suspense, useCallback, useEffect } from 'react';
 import { useScroll } from 'packages/app/contexts/ScrollContext';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 const PageDiv = styled.div`
   width: 100vw;
@@ -40,10 +40,6 @@ const PageContent = styled.main`
 const PageInner = styled.div`
   padding-top: ${(props) => props.theme.spacing.rem(600)};
 `;
-
-function Fallback(): React.JSX.Element {
-  throw new Error('you have an unhandled suspense buddy');
-}
 
 interface PageProps {
   children: React.ReactNode | null;
@@ -87,10 +83,8 @@ export default function Page({ children, hasFooter = false }: PageProps): React.
       <PageContent ref={pageRef} tabIndex={-1} id="page-content">
         <Navbar />
         <PageInner style={{ paddingTop: pathname.slice(1).split('/')[0] === 'sandbox' ? '8rem' : undefined }}>
-          <Suspense fallback={<Fallback />}>
-            {children}
-            {hasFooter && <Footer />}
-          </Suspense>
+          {children}
+          {hasFooter && <Footer />}
         </PageInner>
       </PageContent>
     </PageDiv>

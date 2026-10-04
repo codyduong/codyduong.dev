@@ -8,7 +8,7 @@ import { OrbitControls } from '@react-three/drei';
 import { Physics, usePlane, useCompoundBody, CompoundBodyProps } from '@react-three/cannon';
 import { A11yAnnouncer, A11ySection } from '@react-three/a11y';
 import { MTLLoader, OBJLoader } from 'three/examples/jsm/Addons.js';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 const Plane = ({ e }: { e: typeof editable }): React.JSX.Element => {
   const [rotation, position]: [[number, number, number], [number, number, number]] = [

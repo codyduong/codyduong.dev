@@ -4,7 +4,7 @@ import Section from './Section';
 import T from './Typography';
 import React, { useEffect, useState } from 'react';
 import { Link } from './A';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 interface RedirectProps {
   title: string;

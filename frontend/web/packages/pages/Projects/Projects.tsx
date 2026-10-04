@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router';
 
 const Construction3D = React.lazy(() => import('packages/components/3D/Construction3D'));
 

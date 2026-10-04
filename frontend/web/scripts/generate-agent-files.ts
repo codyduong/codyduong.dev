@@ -1,22 +1,9 @@
-/**
- * @author Cody Duong <cody.qd@gmail.com>
- * @license MIT
- * @file Post-build generator for agent-facing discovery files: `sitemap.xml` and
- *       `llms.txt`. Fully static — no app boot, no SSR render. It parses
- *       `packages/app/routes.tsx` (TypeScript AST) for the route tree, drops layout
- *       routes / redirects / the 404 catch-all, and reads each surviving page's
- *       `<Head title=… description=…>` straight from source so metadata has a single
- *       source of truth. Sitemap `lastmod` is the git author date of each page's source.
- *
- *       Writes into `dist/client`, so run after `build:client` (see package.json
- *       `build`, and infra/index.mts for the Firebase hosting build).
- */
 import fs from 'node:fs/promises';
 import { existsSync, statSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
-import ts from 'typescript';
+import ts from 'typescript-compiler-api';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CLIENT_DIR = path.join(ROOT, 'dist', 'client');

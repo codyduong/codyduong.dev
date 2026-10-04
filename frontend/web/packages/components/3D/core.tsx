@@ -5,7 +5,7 @@ import type { ThreeElements } from '@react-three/fiber';
 import { DebugProvider } from '@react-three/cannon/dist/debug-provider';
 import { getProject } from '@theatre/core';
 import { SheetProvider } from '@theatre/r3f';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 /**
  * Mock editable for production

@@ -1,21 +1,17 @@
-// this needs to be a plain vite.config.ts since there is some automagic within vite
-// during build step
-
 import { defineConfig, type PluginOption } from 'vite';
-// import react from '@vitejs/plugin-react-swc';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
+import babel from '@rolldown/plugin-babel';
 
 export const plugins = [
-  // swc
-  // react({ plugins: [['@swc/plugin-styled-components', {}]], }),
   react({
-    babel: {
-      plugins: ['babel-plugin-styled-components', 'babel-plugin-react-compiler'],
-      babelrc: false,
-      configFile: false,
+    compiler: {
+      logDiagnostics: true,
     },
+  }),
+  babel({
+    plugins: ['babel-plugin-styled-components'],
   }),
   svgr({
     svgrOptions: {
@@ -36,30 +32,41 @@ export const plugins = [
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [...plugins],
+  plugins,
   build: {
     manifest: true,
     rollupOptions: {
       watch: {
-        chokidar: { useFsEvents: true },
+        watcher: { usePolling: false },
       },
       output: {
         dir: './dist/client',
-        manualChunks: {
-          react: ['react'],
-          theatre: ['@theatre/core', '@theatre/r3f'],
-          three: ['three'],
-          'r3f/fiber': ['@react-three/fiber'],
-          'r3f/drei': ['@react-three/drei'],
-          'r3f/cannon': ['@react-three/cannon'],
-          'r3f/a11y': ['@react-three/a11y'],
+        codeSplitting: {
+          groups: [
+            {
+              name: 'react',
+              test: /node_modules[\\/]react/,
+            },
+            {
+              name: 'theatre',
+              test: /node_modules[\\/]@theatre[\\/](core|r3f)/,
+            },
+            {
+              name: 'three',
+              test: /node_modules[\\/]three/,
+            },
+            {
+              name: 'r3f',
+              test: /node_modules[\\/]@react-three[\\/](fiber|drei|cannon|a11y)/,
+            },
+          ],
         },
       },
     },
   },
   resolve: {
     alias: {
-      packages: path.resolve(__dirname, './packages'),
+      packages: path.resolve(import.meta.dirname, './packages'),
       '@fontsource': '/node_modules/@fontsource',
     },
   },

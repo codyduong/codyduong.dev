@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import type { editable } from '@theatre/r3f';
 import { Detailed, Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Physics, usePlane } from '@react-three/cannon';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 // adapted from the r3f bananas
 

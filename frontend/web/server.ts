@@ -9,8 +9,10 @@ import crypto from 'node:crypto';
 import createCache from '@emotion/cache';
 import type { HeadValue, HeadCallbacks } from './packages/app/contexts/HeadContext';
 import { PassThrough } from 'node:stream';
+import { ReactDOMServerReadableStream } from 'react-dom/server';
+import cookiesMiddleware from 'universal-cookie-express';
 
-function toNodeStream(webStream) {
+function toNodeStream(webStream: ReactDOMServerReadableStream) {
   const passThrough = new PassThrough();
   const reader = webStream.getReader();
 
@@ -25,7 +27,9 @@ function toNodeStream(webStream) {
         passThrough.write(value);
       }
     } catch (err) {
-      passThrough.destroy(err);
+      if (err instanceof Error) {
+        passThrough.destroy(err);
+      }
     }
   })();
 
@@ -168,10 +172,11 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
   try {
     stream = await render(sheet, collector, emotionCache, request, headValue, {
       nonce,
-      onError(error) {
+      onError(error: unknown) {
         didError = true;
         console.error(error);
       },
+      cookies: (req as unknown as { universalCookies: unknown }).universalCookies,
     });
   } catch (error) {
     // This is analogous to onShellError
@@ -260,7 +265,7 @@ const renderApp = async (req: express.Request, res: express.Response, vite: any)
 
 initializeMiddlewares().then((vite) => {
   // Serve HTML
-  app.use('*', async (req, res) => {
+  app.use(cookiesMiddleware()).use('/{*splat}', async (req, res) => {
     if (SCANNER_PATH_PATTERN.test(req.path)) {
       res.status(404).end();
       return;
@@ -268,9 +273,12 @@ initializeMiddlewares().then((vite) => {
     try {
       await renderApp(req, res, vite);
     } catch (e) {
-      vite?.ssrFixStacktrace(e);
-      console.log(e, e.stack);
-      res.status(500).end(e.stack);
+      if (e instanceof Error) {
+        vite?.ssrFixStacktrace(e);
+        console.error(e);
+        res.status(500).end(e.stack);
+      }
+      res.status(500).end();
     }
   });
 

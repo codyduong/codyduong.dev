@@ -1,4 +1,4 @@
-import { Link as L, LinkProps, useLocation, useResolvedPath } from 'react-router-dom';
+import { Link as L, LinkProps, useLocation, useResolvedPath } from 'react-router';
 import { commoncss } from 'packages/style';
 import styled, { css } from 'styled-components';
 import { useScroll } from 'packages/app/contexts/ScrollContext';

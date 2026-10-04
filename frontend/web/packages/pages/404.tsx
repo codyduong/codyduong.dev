@@ -3,7 +3,7 @@ import Content from 'packages/components/Content';
 import Section from 'packages/components/Section';
 import { Link } from 'packages/components/A';
 import Head from 'packages/components/Head';
-import { matchPath, useLocation } from 'react-router-dom';
+import { matchPath, useLocation } from 'react-router';
 
 // const Section = styled.section`
 //   display: flex;

@@ -2,7 +2,8 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { createAppRoutes } from 'packages/app';
 import { HeadValue } from 'packages/app/contexts/HeadContext';
 import { StrictMode } from 'react';
-import { renderToReadableStream, type RenderToReadableStreamOptions } from 'react-dom/server.browser';
+import { Cookies, CookiesProvider } from 'react-cookie';
+import { renderToReadableStream, type RenderToReadableStreamOptions } from 'react-dom/server';
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router';
 import { type ServerStyleSheet } from 'styled-components';
 import { type ChunkCollector, ChunkCollectorContext } from 'vite-preload';
@@ -13,7 +14,7 @@ export async function render(
   emotionCache: EmotionCache,
   request: Request,
   headValue: HeadValue,
-  options?: RenderToReadableStreamOptions & { nonce?: string },
+  options: RenderToReadableStreamOptions & { nonce?: string; cookies: Cookies },
 ) {
   const routes = createAppRoutes(headValue);
   const { query, dataRoutes } = createStaticHandler(routes);
@@ -30,7 +31,9 @@ export async function render(
       <StrictMode>
         <CacheProvider value={emotionCache}>
           <ChunkCollectorContext collector={collector}>
-            <StaticRouterProvider router={router} context={context} nonce={options?.nonce} />
+            <CookiesProvider cookies={options.cookies}>
+              <StaticRouterProvider router={router} context={context} nonce={options.nonce} />
+            </CookiesProvider>
           </ChunkCollectorContext>
         </CacheProvider>
       </StrictMode>,

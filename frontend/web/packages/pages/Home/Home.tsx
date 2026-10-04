@@ -25,7 +25,7 @@ import {
   Lua,
 } from 'packages/components/Badges';
 import Project from 'packages/components/Project';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutlineOutlined';
 import { Tooltip } from '@mui/material';
 import { useThemeBase } from 'packages/style/themes';
 import utils from 'packages/components/utils';

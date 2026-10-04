@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Paragraph } from 'packages/components/Typography';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import styled, { css } from 'styled-components';
 import A from 'packages/components/A';
 import color from 'color';
