@@ -195,8 +195,8 @@ const versionBuild = new command.local.Command(
   `Website Build: ${versionIdentifer}`,
   {
     create: pulumi.runtime.excessiveDebugOutput
-      ? pulumi.interpolate`bun run build:client -d`
-      : pulumi.interpolate`bun run build:client`,
+      ? pulumi.interpolate`bun run build:client -d && bun run build:agent-files`
+      : pulumi.interpolate`bun run build:client && bun run build:agent-files`,
     dir: appPath,
     triggers: [image],
   },

@@ -7,8 +7,9 @@
     "dev:old": "vite",
     "dev": "bun --watch server.ts",
     "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build",
+    "build:client": "vite build && npm run build:agent-files",
     "build:server": "vite build --config vite.server.config.ts",
+    "build:agent-files": "bun scripts/generate-agent-files.ts",
     "lint": "eslint .",
     "lint:changed": "bun scripts/lint.mjs",
     "preview": "cross-env NODE_ENV=production bun server.ts"
