@@ -6,7 +6,7 @@ import Head from 'packages/components/Head';
 const Sandbox = (): React.JSX.Element => {
   return (
     <>
-      <Head title="Web Accessibility Statement" />
+      <Head title="Sandbox" />
       <Content>
         <Section>
           <T.H1>Under Construction</T.H1>
