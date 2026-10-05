@@ -4,12 +4,11 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 COPY . .
 RUN bun run build
-RUN bun build --compile --target=bun-linux-x64-modern --minify --bytecode --sourcemap ./server.ts --outfile /app/server --packages external --env "disable"
+RUN bun build --compile --target=bun-linux-x64-modern --minify --bytecode --sourcemap ./server.ts --outfile /app/server --external vite --env "disable"
 
 FROM debian:bullseye-slim
 WORKDIR /app
 COPY --from=build /app/package.json /app/bun.lock /app/server ./
-COPY --from=build  /app/node_modules ./node_modules
 COPY --from=build  /app/dist ./dist
 
 ENV NODE_ENV=production
